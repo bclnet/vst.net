@@ -42,3 +42,8 @@ http://dotnetdebug.net/2005/07/07/marshalreleasecomobject-and-cpu-spinning/
 - Decide if the API is to be naked (PreserveSig) with all the TResults (as int's) and out/ref parameters? 
     Or that we remove these - the COM wrapper interop can handle that.
 - No bools in structs!
+
+
+https://stackoverflow.com/questions/2187425/how-do-i-use-a-com-dll-with-loadlibrary-in-c
+https://steinbergmedia.github.io/vst3_dev_portal/pages/Technical+Documentation/API+Documentation/Index.html
+https://steinbergmedia.github.io/vst3_doc/

@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net5.0-windows</TargetFramework>
+    <UseWindowsForms>true</UseWindowsForms>
+    <Version>2.0.0</Version>
+    <Authors>Marc Jacobi</Authors>
+    <Company>Jacobi Software</Company>
+    <Product>VST.NET Samples</Product>
+    <Platforms>x64;x86</Platforms>
+    <Description>A very simplistic Host that demonstrates the usage of the host interop objects.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\Code\x64\Debug\Ijwhost.dll" Link="Ijwhost.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Jacobi.Vst3.Core">
+      <HintPath>..\..\Code\x64\Debug\Jacobi.Vst3.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Jacobi.Vst3.Interop">
+      <HintPath>..\..\Code\x64\Debug\Jacobi.Vst3.Interop.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

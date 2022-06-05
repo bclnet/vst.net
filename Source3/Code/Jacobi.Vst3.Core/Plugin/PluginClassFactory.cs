@@ -13,7 +13,7 @@ namespace Jacobi.Vst3.Plugin
     {
         private readonly List<ClassRegistration> _registrations = new List<ClassRegistration>();
 
-        public const string AudioModuleClassCategory = "Audio Module Class";
+        public const string AudioModuleClassCategory = "Audio Module Class"; //: kVstAudioEffectClass
         public const string ComponentControllerClassCategory = "Component Controller Class";
         public const string TestClassCategory = "Test Class";
 
