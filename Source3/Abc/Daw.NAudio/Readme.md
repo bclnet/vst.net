@@ -1,0 +1,11 @@
+﻿The biggest change is that NAudio is now a collection of smaller libraries. This is because a lot of NAudio contains platform specific interop wrappers that are not applicable to all users.
+
+NAudio.Core is a .NET Standard package which includes all of the cross-platform parts of NAudio. All of the interfaces, lots of helpers plus things like WaveFileReader and WaveFileWriter are in here
+NAudio.MIDI contains the MIDI events, which can be used cross platform, and also the WinMM MIDI interop which is Windows specific.
+NAudio.WinMM contains all of the Windows audio API support for the long-standing WinMM APIs. Most notably the WaveInEvent and WaveOutEvent classes which are still often the best choice for audio recording and playback on Windows, plus other old Windows API support such as ACM (codecs) and the mixer.
+NAudio.WASAPI contains all the interop for the newer Windows audio APIs including WASAPI, DMO (DirectX Media Objects) and MediaFoundation
+NAudio.WinForms contains anything with a WinForms dependency. This includes the original WaveIn and WaveOut classes which use Windows messages for callbacks. Note that it is totally fine to use these in a WPF application. However, this package is probably not needed in most cases
+NAudio.Asio contains the interop for ASIO
+NAudio.Uap contains all the support for the UAP platform, with a new minimum version of 17763 (Windows 10 version 1809). To be honest, most of this is still experimental and I'm tempted to drop it. It was really just a proof of concept I made a few years back and is a pain to maintain.
+NAudio this still exists as a top-level package that references all of the sub-packages, hopefully making it easy for people who don't want to know or care about what is where. There are a couple of classes that had to go at this layer, which are AudioFileReader since that combines readers from several different sub-assemblies, and Mp3FileReader which by default uses ACM. However a new Mp3FileReaderBase can be used if you want to provide a different MP3 frame decoder (e.g. NLayer)
+NAudio.Extras - contains some useful helper classes from the demo applications. This is also a potential good place for contributors to add some of their own helper classes that aren't a good fit for the core libraries.
