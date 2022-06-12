@@ -1,5 +1,4 @@
-﻿using Daw.Core;
-using System.Linq;
+﻿using System.Linq;
 
 namespace Daw.Vst
 {

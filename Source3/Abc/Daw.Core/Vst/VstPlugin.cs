@@ -1,5 +1,4 @@
-﻿using Daw.Core;
-using Jacobi.Vst.Core;
+﻿using Jacobi.Vst.Core;
 using Jacobi.Vst.Host.Interop;
 using System;
 using System.Collections.Generic;

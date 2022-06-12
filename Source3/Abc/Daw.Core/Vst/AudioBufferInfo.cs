@@ -2,7 +2,7 @@
 using Jacobi.Vst.Host.Interop;
 using System;
 
-namespace Daw.Core
+namespace Daw.Vst
 {
     public unsafe class AudioBufferInfo : IDisposable
     {
@@ -22,7 +22,7 @@ namespace Daw.Core
             bufferEnumerator.MoveNext();
             for (var i = 0; i < count; i++)
             {
-                Buffers[i] = (VstAudioBuffer)bufferEnumerator.Current;
+                Buffers[i] = bufferEnumerator.Current;
                 Raw[i] = ((IDirectBufferAccess32)Buffers[i]).Buffer;
                 bufferEnumerator.MoveNext();
             }
