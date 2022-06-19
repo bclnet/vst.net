@@ -34,7 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InspectorApp", "..\Samples\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Validator", "..\Samples\VST-Hosting\Validator\Validator.csproj", "{65B374D8-BD3D-4CF4-9399-554CF0B30B6E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacobi.Vst3.Test", "Jacobi.Vst3.Test\Jacobi.Vst3.Test.csproj", "{88D0DB6A-6274-4533-8567-30FCEC7BDB22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacobi.Vst3.TestSuite", "Jacobi.Vst3.Test\Jacobi.Vst3.TestSuite.csproj", "{88D0DB6A-6274-4533-8567-30FCEC7BDB22}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

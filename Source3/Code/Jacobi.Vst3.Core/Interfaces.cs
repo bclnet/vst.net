@@ -24,6 +24,7 @@
         public const string IEditController = "DCD7BBE3-7742-448D-A874-AACC979C759E";
         public const string IEditController2 = "7F4EFE59-F320-4967-AC27-A3AEAFB63038";
         public const string IParameterChanges = "A4779663-0BB6-4A56-B443-84A8466FEB9D";
+        public const string IParameterFunctionName = "6D21E1DC-9119-9D4B-A2A0-2FEF6C1AE55C";
         public const string IParamValueQueue = "01263A18-ED07-4F6F-98C9-D3564686F9BA";
         public const string IEventList = "3A2C4214-3463-49FE-B2C4-F397B9695A44";
         public const string IMidiMapping = "DF0FF9F7-49B7-4669-B63A-B7327ADBF5E5";

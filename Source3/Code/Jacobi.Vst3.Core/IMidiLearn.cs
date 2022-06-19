@@ -11,6 +11,6 @@ namespace Jacobi.Vst3.Core
         Int32 OnLiveMIDIControllerInput(
             [MarshalAs(UnmanagedType.I4), In] Int32 busIndex,
             [MarshalAs(UnmanagedType.I2), In] Int16 channel,
-            [MarshalAs(UnmanagedType.I2), In] Int16 midiControllerNumber);
+            [MarshalAs(UnmanagedType.I2), In] ControllerNumbers midiControllerNumber);
     }
 }

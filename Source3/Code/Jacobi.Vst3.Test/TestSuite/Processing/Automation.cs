@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Jacobi.Vst3.Test.Processing
+namespace Jacobi.Vst3.TestSuite
 {
     public class AutomationTest : ProcessTest, IParameterChanges
     {

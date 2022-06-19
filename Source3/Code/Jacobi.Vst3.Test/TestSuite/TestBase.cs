@@ -4,7 +4,7 @@ using Jacobi.Vst3.Host;
 using System;
 using System.Runtime.InteropServices;
 
-namespace Jacobi.Vst3.Test
+namespace Jacobi.Vst3.TestSuite
 {
     public class TestingPluginContext
     {

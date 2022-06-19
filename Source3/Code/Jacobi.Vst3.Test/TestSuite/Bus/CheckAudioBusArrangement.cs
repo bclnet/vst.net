@@ -3,7 +3,7 @@ using Jacobi.Vst3.Core.Test;
 using Jacobi.Vst3.Host;
 using Jacobi.Vst3.Plugin;
 
-namespace Jacobi.Vst3.Test.Bus
+namespace Jacobi.Vst3.TestSuite
 {
     public class CheckAudioBusArrangementTest : TestBase
     {

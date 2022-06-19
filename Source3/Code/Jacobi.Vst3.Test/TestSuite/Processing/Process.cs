@@ -4,7 +4,7 @@ using Jacobi.Vst3.Host;
 using System;
 using System.Runtime.InteropServices;
 
-namespace Jacobi.Vst3.Test.Processing
+namespace Jacobi.Vst3.TestSuite
 {
     public unsafe class ProcessTest : TestEnh
     {

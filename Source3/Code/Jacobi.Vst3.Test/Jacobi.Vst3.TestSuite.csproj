@@ -33,8 +33,4 @@
     <ProjectReference Include="..\Jacobi.Vst3.Core\Jacobi.Vst3.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="TestSuite\General\" />
-  </ItemGroup>
-
 </Project>

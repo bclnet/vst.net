@@ -3,7 +3,7 @@ using Jacobi.Vst3.Core.Test;
 using Jacobi.Vst3.Host;
 using System;
 
-namespace Jacobi.Vst3.Test.Bus
+namespace Jacobi.Vst3.TestSuite
 {
     public class BusConsistencyTest : TestBase
     {

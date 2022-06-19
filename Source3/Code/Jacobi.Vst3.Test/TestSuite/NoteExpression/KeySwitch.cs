@@ -2,7 +2,7 @@
 using Jacobi.Vst3.Core.Test;
 using Jacobi.Vst3.Host;
 
-namespace Jacobi.Vst3.Test.NoteExpression
+namespace Jacobi.Vst3.TestSuite
 {
     public class KeyswitchTest : TestBase
     {

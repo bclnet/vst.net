@@ -3,7 +3,7 @@ using Jacobi.Vst3.Core.Test;
 using Jacobi.Vst3.Host;
 using System.Text;
 
-namespace Jacobi.Vst3.Test.Unit
+namespace Jacobi.Vst3.TestSuite
 {
     public class ProgramInfoTest : TestBase
     {
