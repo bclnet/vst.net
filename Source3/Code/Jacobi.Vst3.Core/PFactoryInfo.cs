@@ -10,35 +10,14 @@ namespace Jacobi.Vst3.Core
     {
         public static readonly int Size = Marshal.SizeOf<PFactoryInfo>();
 
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeVendor)]
-        public String Vendor;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeVendor)] public String Vendor;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeUrl)] public String Url;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeEmail)] public String Email;
+        [MarshalAs(UnmanagedType.I4)] public FactoryFlags Flags;
 
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeUrl)]
-        public String Url;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeEmail)]
-        public String Email;
-
-        [MarshalAs(UnmanagedType.I4)]
-        public FactoryFlags Flags;
-
-        public void SafeSetVendor(string value)
-        {
-            Guard.ThrowIfTooLong("Vendor", value, 0, Constants.MaxSizeVendor);
-            Vendor = value;
-        }
-
-        public void SafeSetEmail(string value)
-        {
-            Guard.ThrowIfTooLong("Email", value, 0, Constants.MaxSizeEmail);
-            Email = value;
-        }
-
-        public void SafeSetUrl(string value)
-        {
-            Guard.ThrowIfTooLong("Url", value, 0, Constants.MaxSizeUrl);
-            Url = value;
-        }
+        public void SafeSetVendor(string vendor) { Guard.ThrowIfTooLong(nameof(vendor), vendor, 0, Constants.MaxSizeVendor); Vendor = vendor; }
+        public void SafeSetEmail(string email) { Guard.ThrowIfTooLong(nameof(email), email, 0, Constants.MaxSizeEmail); Email = email; }
+        public void SafeSetUrl(string url) { Guard.ThrowIfTooLong(nameof(url), url, 0, Constants.MaxSizeUrl); Url = url; }
 
         [Flags]
         public enum FactoryFlags

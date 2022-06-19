@@ -3,9 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core.Test
 {
-    [ComImport]
-    [Guid(Interfaces.ITestW)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid(Interfaces.ITestW), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface ITest
     {
         [PreserveSig]

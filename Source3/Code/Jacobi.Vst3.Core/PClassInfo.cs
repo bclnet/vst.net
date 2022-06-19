@@ -9,20 +9,12 @@ namespace Jacobi.Vst3.Core
     public struct PClassInfo
     {
         public static readonly int Size = Marshal.SizeOf<PClassInfo>();
-
         public const int ClassCardinalityManyInstances = 0x7FFFFFFF;
 
-        [MarshalAs(UnmanagedType.Struct)]
-        public Guid ClassId;
-
-        [MarshalAs(UnmanagedType.I4)]
-        public Int32 Cardinality;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeCategory)]
-        public String Category;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeName)]
-        public String Name;
+        [MarshalAs(UnmanagedType.Struct)] public Guid ClassId;
+        [MarshalAs(UnmanagedType.I4)] public Int32 Cardinality;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeCategory)] public String Category;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeName)] public String Name;
     }
 
     [NativeCppClass]
@@ -30,37 +22,20 @@ namespace Jacobi.Vst3.Core
     public struct PClassInfo2
     {
         public static readonly int Size = Marshal.SizeOf<PClassInfo2>();
-
         public const int ClassCardinalityManyInstances = 0x7FFFFFFF;
 
-        [MarshalAs(UnmanagedType.Struct)]
-        public Guid ClassId;
-
-        [MarshalAs(UnmanagedType.I4)]
-        public Int32 Cardinality;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeCategory)]
-        public String Category;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeName)]
-        public String Name;
+        [MarshalAs(UnmanagedType.Struct)] public Guid ClassId;
+        [MarshalAs(UnmanagedType.I4)] public Int32 Cardinality;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeCategory)] public String Category;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeName)] public String Name;
 
         // --------------------------------------------------------------------
 
-        [MarshalAs(UnmanagedType.U4)]
-        public ComponentClassFlags ClassFlags;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeSubCategories)]
-        public String SubCategories;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeVendor)]
-        public String Vendor;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeVersion)]
-        public String Version;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeVersion)]
-        public String SdkVersion;
+        [MarshalAs(UnmanagedType.U4)] public ComponentClassFlags ClassFlags;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeSubCategories)] public String SubCategories;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeVendor)] public String Vendor;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeVersion)] public String Version;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeVersion)] public String SdkVersion;
     }
 
     public enum ComponentClassFlags
@@ -75,35 +50,20 @@ namespace Jacobi.Vst3.Core
     public struct PClassInfoW
     {
         public static readonly int Size = Marshal.SizeOf<PClassInfoW>();
-
         public const int ClassCardinalityManyInstances = 0x7FFFFFFF;
 
-        [MarshalAs(UnmanagedType.Struct)]
-        public Guid ClassId;
-
-        [MarshalAs(UnmanagedType.I4)]
-        public Int32 Cardinality;
-
+        [MarshalAs(UnmanagedType.Struct)] public Guid ClassId;
+        [MarshalAs(UnmanagedType.I4)] public Int32 Cardinality;
         public AnsiCategory Category;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeName)]
-        public String Name;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeName)] public String Name;
 
         // --------------------------------------------------------------------
 
-        [MarshalAs(UnmanagedType.U4)]
-        public ComponentClassFlags ClassFlags;
-
+        [MarshalAs(UnmanagedType.U4)] public ComponentClassFlags ClassFlags;
         public AnsiSubCategories SubCategories;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeVendor)]
-        public String Vendor;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeVersion)]
-        public String Version;
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeVersion)]
-        public String SdkVersion;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeVendor)] public String Vendor;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeVersion)] public String Version;
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeVersion)] public String SdkVersion;
 
         //---------------------------------------------------------------------
         // need extra structs to solve mixed Ansi/Unicode strings
@@ -112,18 +72,14 @@ namespace Jacobi.Vst3.Core
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = Platform.StructurePack)]
         public struct AnsiCategory
         {
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeCategory)]
-            public String Value;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeCategory)] public String Value;
         }
 
         [NativeCppClass]
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = Platform.StructurePack)]
         public struct AnsiSubCategories
         {
-            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeSubCategories)]
-            public String Value;
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeSubCategories)] public String Value;
         }
     }
 }
-
-

@@ -3,9 +3,7 @@
 namespace Jacobi.Vst3.Core
 {
     // passed as context to IPluginBase::Initialize
-    [ComImport]
-    [Guid(Interfaces.IVst3ToVst2Wrapper)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid(Interfaces.IVst3ToVst2Wrapper), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IVst3ToVst2Wrapper
     {
     }

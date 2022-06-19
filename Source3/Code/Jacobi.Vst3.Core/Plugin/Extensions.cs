@@ -13,8 +13,7 @@ namespace Jacobi.Vst3.Core.Plugin
         {
             var valueInfo = new ParameterValueInfo(precision: 0);
             valueInfo.ParameterInfo.UnitId = unitId;
-            valueInfo.ParameterInfo.Flags =
-                ParameterInfo.ParameterFlags.IsProgramChange | ParameterInfo.ParameterFlags.CanAutomate | ParameterInfo.ParameterFlags.IsList;
+            valueInfo.ParameterInfo.Flags = ParameterInfo.ParameterFlags.IsProgramChange | ParameterInfo.ParameterFlags.CanAutomate | ParameterInfo.ParameterFlags.IsList;
 
             var listParam = new ListParameter<string>(valueInfo);
             listParam.Values.AddRange(programs.Select(p => p.Name));

@@ -6,8 +6,7 @@ namespace Jacobi.Vst3.Plugin
 {
     public class Parameter : ObservableObject
     {
-        protected Parameter()
-        { }
+        protected Parameter() { }
 
         public Parameter(ParameterValueInfo paramValueInfo)
         {
@@ -18,24 +17,18 @@ namespace Jacobi.Vst3.Plugin
 
         public ParameterValueInfo ValueInfo { get; protected set; }
 
-        public uint Id
-        {
-            get { return ValueInfo.ParameterInfo.ParamId; }
-        }
+        public uint Id => ValueInfo.ParameterInfo.Id;
 
         public bool IsReadOnly { get; set; }
 
-        public bool ResetToDefaultValue()
-        {
-            return SetValue(ValueInfo.ParameterInfo.DefaultNormalizedValue, null, true);
-        }
+        public bool ResetToDefaultValue() => SetValue(ValueInfo.ParameterInfo.DefaultNormalizedValue, null, true);
 
         protected bool SetValue(double? normValue, double? plainValue, bool notify)
         {
             if (IsReadOnly) return false;
 
-            bool normChanged = false;
-            bool plainChanged = false;
+            var normChanged = false;
+            var plainChanged = false;
 
             if (normValue.HasValue)
             {
@@ -49,15 +42,8 @@ namespace Jacobi.Vst3.Plugin
                 plainChanged = SetPlainValue(plainValue.Value);
             }
 
-            if (normChanged && notify)
-            {
-                OnPropertyChanged(nameof(NormalizedValue));
-            }
-
-            if (plainChanged && notify)
-            {
-                OnPropertyChanged(nameof(PlainValue));
-            }
+            if (normChanged && notify) OnPropertyChanged(nameof(NormalizedValue));
+            if (plainChanged && notify) OnPropertyChanged(nameof(PlainValue));
 
             return normChanged || plainChanged;
         }
@@ -66,8 +52,8 @@ namespace Jacobi.Vst3.Plugin
 
         public double NormalizedValue
         {
-            get { return _normalizedValue; }
-            set { SetValue(value, null, true); }
+            get => _normalizedValue;
+            set => SetValue(value, null, true);
         }
 
         private bool SetNormalizedValue(double value)
@@ -87,8 +73,8 @@ namespace Jacobi.Vst3.Plugin
 
         public double PlainValue
         {
-            get { return _plainValue; }
-            set { SetValue(null, value, true); }
+            get => _plainValue;
+            set => SetValue(null, value, true);
         }
 
         private bool SetPlainValue(double value)
@@ -127,23 +113,13 @@ namespace Jacobi.Vst3.Plugin
         public virtual string ToString(double normValue)
         {
             if (ValueInfo.ParameterInfo.StepCount == 1)
-            {
-                if (normValue >= 0.5)
-                {
-                    return "On";
-                }
-                else
-                {
-                    return "Off";
-                }
-            }
+                return normValue >= 0.5 ? "On" : "Off";
 
             var value = ToPlain(normValue);
 
             if (ValueInfo.Precision > 0)
             {
-                string format = new string('#', ValueInfo.Precision);
-
+                var format = new string('#', ValueInfo.Precision);
                 return value.ToString("0." + format);
             }
 
@@ -151,8 +127,6 @@ namespace Jacobi.Vst3.Plugin
         }
 
         public virtual bool TryParse(string displayValue, out double normValue)
-        {
-            return Double.TryParse(displayValue, out normValue);
-        }
+            => Double.TryParse(displayValue, out normValue);
     }
 }

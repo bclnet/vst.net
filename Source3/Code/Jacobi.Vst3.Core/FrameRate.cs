@@ -6,11 +6,8 @@ namespace Jacobi.Vst3.Core
     [StructLayout(LayoutKind.Sequential, CharSet = Platform.CharacterSet, Pack = Platform.StructurePack)]
     public struct FrameRate
     {
-        [MarshalAs(UnmanagedType.U4)]
-        public UInt32 framesPerSecond;		// frame rate
-
-        [MarshalAs(UnmanagedType.U4)]
-        public FrameRateFlags flags;    	// flags #FrameRateFlags
+        [MarshalAs(UnmanagedType.U4)] public UInt32 framesPerSecond;	// frame rate
+        [MarshalAs(UnmanagedType.U4)] public FrameRateFlags flags;    	// flags #FrameRateFlags
 
         public enum FrameRateFlags
         {

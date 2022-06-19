@@ -8,16 +8,9 @@ namespace Jacobi.Vst3.Core
     {
         public static readonly int Size = Marshal.SizeOf<ViewRect>();
 
-        [MarshalAs(UnmanagedType.I4)]
-        public Int32 Left;
-
-        [MarshalAs(UnmanagedType.I4)]
-        public Int32 Top;
-
-        [MarshalAs(UnmanagedType.I4)]
-        public Int32 Right;
-
-        [MarshalAs(UnmanagedType.I4)]
-        public Int32 Bottom;
+        [MarshalAs(UnmanagedType.I4)] public Int32 Left;
+        [MarshalAs(UnmanagedType.I4)] public Int32 Top;
+        [MarshalAs(UnmanagedType.I4)] public Int32 Right;
+        [MarshalAs(UnmanagedType.I4)] public Int32 Bottom;
     }
 }

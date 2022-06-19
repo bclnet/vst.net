@@ -3,9 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
-    [ComImport]
-    [Guid(Interfaces.IProgramListData)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid(Interfaces.IProgramListData), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IProgramListData
     {
         [PreserveSig]

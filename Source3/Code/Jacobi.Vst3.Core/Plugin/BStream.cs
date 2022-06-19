@@ -41,25 +41,13 @@ namespace Jacobi.Vst3.Plugin
         public IBStream BaseStream { get; private set; }
         public ISizeableStream SizeableStream { get; private set; }
 
-        public override bool CanRead
-        {
-            get { return (_mode & StreamAccessMode.Read) > 0; }
-        }
+        public override bool CanRead => (_mode & StreamAccessMode.Read) > 0;
 
-        public override bool CanSeek
-        {
-            get { return true; }
-        }
+        public override bool CanSeek => true;
 
-        public override bool CanWrite
-        {
-            get { return (_mode & StreamAccessMode.Write) > 0; }
-        }
+        public override bool CanWrite => (_mode & StreamAccessMode.Write) > 0;
 
-        public override void Flush()
-        {
-            // no-op
-        }
+        public override void Flush() { } // no-op
 
         public override long Length
         {
@@ -67,7 +55,7 @@ namespace Jacobi.Vst3.Plugin
             {
                 if (SizeableStream != null)
                 {
-                    long size = 0;
+                    var size = 0L;
                     TResult.ThrowIfFailed(SizeableStream.GetStreamSize(ref size));
                     return size;
                 }
@@ -80,31 +68,16 @@ namespace Jacobi.Vst3.Plugin
         {
             get
             {
-                long pos = 0;
-
-                if (TResult.Succeeded(BaseStream.Tell(ref pos)))
-                {
-                    return pos;
-                }
-
-                return -1;
+                var pos = 0L;
+                return TResult.Succeeded(BaseStream.Tell(ref pos)) ? pos : -1;
             }
-            set
-            {
-                Seek(value, SeekOrigin.Begin);
-            }
+            set => Seek(value, SeekOrigin.Begin);
         }
 
         public override long Seek(long offset, SeekOrigin origin)
         {
-            long pos = 0;
-
-            if (TResult.Succeeded(BaseStream.Seek(offset, SeekOriginSeekMode(origin), ref pos)))
-            {
-                return pos;
-            }
-
-            return -1;
+            var pos = 0L;
+            return TResult.Succeeded(BaseStream.Seek(offset, SeekOriginSeekMode(origin), ref pos)) ? pos : -1;
         }
 
         public override void SetLength(long value)
@@ -119,18 +92,16 @@ namespace Jacobi.Vst3.Plugin
 
         public override int Read(byte[] buffer, int offset, int count)
         {
-            IntPtr unmanaged = GetUnmanagedBuffer(ref count);
+            var unmanaged = GetUnmanagedBuffer(ref count);
 
             try
             {
-                int readBytes = 0;
+                var readBytes = 0;
 
                 if (TResult.Succeeded(BaseStream.Read(unmanaged, count, ref readBytes)))
                 {
-                    for (int i = 0; i < readBytes; i++)
-                    {
+                    for (var i = 0; i < readBytes; i++)
                         buffer[offset + i] = Marshal.ReadByte(unmanaged, i);
-                    }
 
                     return readBytes;
                 }
@@ -145,17 +116,15 @@ namespace Jacobi.Vst3.Plugin
 
         public override void Write(byte[] buffer, int offset, int count)
         {
-            IntPtr unmanaged = GetUnmanagedBuffer(ref count);
+            var unmanaged = GetUnmanagedBuffer(ref count);
 
             try
             {
-                for (int i = 0; i < count; i++)
-                {
+                for (var i = 0; i < count; i++)
                     Marshal.WriteByte(unmanaged, i, buffer[offset + i]);
-                }
 
-                int writtenBytes = 0;
-                int result = BaseStream.Write(unmanaged, count, ref writtenBytes);
+                var writtenBytes = 0;
+                var result = BaseStream.Write(unmanaged, count, ref writtenBytes);
                 TResult.ThrowIfFailed(result);
             }
             finally
@@ -169,9 +138,7 @@ namespace Jacobi.Vst3.Plugin
             if (_unmanagedBuffer != IntPtr.Zero)
             {
                 if (size > _unmanagedBufferSize)
-                {
                     size = _unmanagedBufferSize;
-                }
 
                 return _unmanagedBuffer;
             }
@@ -182,21 +149,17 @@ namespace Jacobi.Vst3.Plugin
         private void ReleaseUnmanagedBuffer(IntPtr mem)
         {
             if (_unmanagedBuffer == IntPtr.Zero)
-            {
                 Marshal.FreeHGlobal(mem);
-            }
         }
 
         private StreamSeekMode SeekOriginSeekMode(SeekOrigin seekOrigin)
-        {
-            return seekOrigin switch
+            => seekOrigin switch
             {
                 SeekOrigin.Begin => StreamSeekMode.SeekSet,
                 SeekOrigin.Current => StreamSeekMode.SeekCur,
                 SeekOrigin.End => StreamSeekMode.SeekEnd,
                 _ => StreamSeekMode.SeekSet,
             };
-        }
 
         protected override void Dispose(bool disposing)
         {

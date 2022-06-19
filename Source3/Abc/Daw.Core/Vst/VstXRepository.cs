@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Daw.Core;
+using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Host;
 using Jacobi.Vst3.Plugin;
 
@@ -54,7 +55,7 @@ namespace Daw.Vst
             if (module == null) { Console.WriteLine($"Could not create Module for file: {path}\nError: {error}"); return; }
             var factory = module.Factory;
             foreach (var info in factory.ClassInfos)
-                if (info.Category == PluginClassFactory.AudioModuleClassCategory) option.Classes.Add(info);
+                if (info.Category == Constants.kVstAudioEffectClass) option.Classes.Add(info);
         }
     }
 }

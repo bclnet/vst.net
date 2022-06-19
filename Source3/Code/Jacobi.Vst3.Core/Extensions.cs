@@ -10,24 +10,16 @@ namespace Jacobi.Vst3.Core
         //
 
         public static IParameterChanges GetInputParameterChanges(this ref ProcessData processData)
-        {
-            return processData.InputParameterChanges.Cast<IParameterChanges>();
-        }
+            => processData.InputParameterChanges.Cast<IParameterChanges>();
 
         public static IParameterChanges GetOutputParameterChanges(this ref ProcessData processData)
-        {
-            return processData.OutputParameterChanges.Cast<IParameterChanges>();
-        }
+            => processData.OutputParameterChanges.Cast<IParameterChanges>();
 
         public static IEventList GetInputEvents(this ref ProcessData processData)
-        {
-            return processData.InputEvents.Cast<IEventList>();
-        }
+            => processData.InputEvents.Cast<IEventList>();
 
         public static IEventList GetOutputEvents(this ref ProcessData processData)
-        {
-            return processData.OutputEvents.Cast<IEventList>();
-        }
+            => processData.OutputEvents.Cast<IEventList>();
 
         public static bool TryGetProcessContext(this ref ProcessData processData, ref ProcessContext processContext)
         {
@@ -71,19 +63,18 @@ namespace Jacobi.Vst3.Core
             return unknown as T;
         }
 
+        public static IntPtr CastT<T>(this T unknown) where T : class
+        {
+            if (unknown == null) return IntPtr.Zero;
+            return Marshal.GetIUnknownForObject(unknown);
+        }
+
+
         public static T Crop<T>(this T value, T min, T max)
             where T : IComparable<T>
         {
-            if (value.CompareTo(max) > 0)
-            {
-                value = max;
-            }
-
-            if (value.CompareTo(min) < 0)
-            {
-                value = min;
-            }
-
+            if (value.CompareTo(max) > 0) value = max;
+            if (value.CompareTo(min) < 0) value = min;
             return value;
         }
     }

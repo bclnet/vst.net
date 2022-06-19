@@ -20,7 +20,6 @@ namespace Jacobi.Vst3.Plugin
         protected override string GetKeyForItem(Bus item)
         {
             if (item == null) return null;
-
             return item.Name;
         }
 
@@ -39,9 +38,7 @@ namespace Jacobi.Vst3.Plugin
         private void ThrowIfNotOfMediaType(Bus item)
         {
             if (item != null && item.MediaType != MediaType)
-            {
                 throw new ArgumentException("The MediaType for the item does not match the collection.", nameof(item));
-            }
         }
     }
 }

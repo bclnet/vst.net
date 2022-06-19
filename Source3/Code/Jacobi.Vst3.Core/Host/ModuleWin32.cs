@@ -12,7 +12,13 @@ namespace Jacobi.Vst3.Host
 {
     public class ModuleWin32 : Module
     {
-        static readonly string ArchitectureString = Environment.Is64BitOperatingSystem ? "x86_64-win" : "x86-win";
+        //static readonly string ArchitectureString = Environment.Is64BitOperatingSystem ? "x86_64-win" : "x86-win";
+#if X86
+        static readonly string ArchitectureString = "x86-win";
+#endif
+#if X64
+        static readonly string ArchitectureString = "x86_64-win";
+#endif
 
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)] public static extern IntPtr LoadLibrary([MarshalAs(UnmanagedType.LPStr)] string lpFileName);
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)] public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
@@ -80,8 +86,11 @@ namespace Jacobi.Vst3.Host
         static bool CheckVST3Package(string p, out string result)
         {
             var path = _Path.Combine(p, "Contents", ArchitectureString, _Path.GetFileName(p));
-            var file = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
-            if (file != null) { file.Close(); result = path; return true; }
+            if (File.Exists(path))
+            {
+                var file = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
+                if (file != null) { file.Close(); result = path; return true; }
+            }
             result = default;
             return false;
         }

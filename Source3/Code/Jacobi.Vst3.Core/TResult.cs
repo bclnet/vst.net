@@ -21,32 +21,10 @@ namespace Jacobi.Vst3.Core
         public const Int32 E_OutOfMemory = -2147024882;
         public const Int32 E_Abort = -2147467260;
 
-        public static bool Succeeded(int result)
-        {
-            return result >= 0;
-        }
-
-        public static bool Failed(int result)
-        {
-            return result < 0;
-        }
-
-        public static bool IsTrue(int result)
-        {
-            return result == S_True;
-        }
-
-        public static bool IsFalse(int result)
-        {
-            return result == S_False;
-        }
-
-        public static void ThrowIfFailed(int result)
-        {
-            if (Failed(result))
-            {
-                throw new VstException(result);
-            }
-        }
+        public static bool Succeeded(int result) => result >= 0;
+        public static bool Failed(int result) => result < 0;
+        public static bool IsTrue(int result) => result == S_True;
+        public static bool IsFalse(int result) => result == S_False;
+        public static void ThrowIfFailed(int result) { if (Failed(result)) throw new VstException(result); }
     }
 }

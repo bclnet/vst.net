@@ -36,10 +36,7 @@ namespace Jacobi.Vst3.Plugin
         {
             get
             {
-                if (_children == null)
-                {
-                    Children = new UnitCollection();
-                }
+                if (_children == null) Children = new UnitCollection();
 
                 return _children;
             }
@@ -47,10 +44,7 @@ namespace Jacobi.Vst3.Plugin
             {
                 _children = value;
 
-                if (_children != null)
-                {
-                    _children.Parent = this;
-                }
+                if (_children != null) _children.Parent = this;
             }
         }
 
@@ -60,7 +54,6 @@ namespace Jacobi.Vst3.Plugin
     public class RootUnit : Unit
     {
         public RootUnit(string name, ProgramList programList)
-            : base(UnitInfo.RootUnitId, name, null, programList)
-        { }
+            : base(UnitInfo.RootUnitId, name, null, programList) { }
     }
 }

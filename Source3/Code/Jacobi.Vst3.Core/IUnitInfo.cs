@@ -4,9 +4,7 @@ using System.Text;
 
 namespace Jacobi.Vst3.Core
 {
-    [ComImport]
-    [Guid(Interfaces.IUnitInfo)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid(Interfaces.IUnitInfo), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IUnitInfo
     {
         [PreserveSig]

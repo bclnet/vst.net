@@ -9,13 +9,11 @@ namespace Jacobi.Vst3.Plugin
         private readonly BStream _stream;
 
         public VstStreamWriter(IBStream stream)
-        {
-            _stream = new BStream(stream, StreamAccessMode.Write);
-        }
+            => _stream = new BStream(stream, StreamAccessMode.Write);
 
         public VstStreamWriter(BStream stream)
         {
-            if (!stream.CanWrite) { throw new ArgumentException("Cannot write to stream.", nameof(stream)); }
+            if (!stream.CanWrite) throw new ArgumentException("Cannot write to stream.", nameof(stream));
 
             _stream = stream;
         }
@@ -33,13 +31,9 @@ namespace Jacobi.Vst3.Plugin
         }
 
         public virtual void WritePrograms(ProgramList programs)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
 
         public virtual void WriteUnits(UnitCollection units)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
     }
 }

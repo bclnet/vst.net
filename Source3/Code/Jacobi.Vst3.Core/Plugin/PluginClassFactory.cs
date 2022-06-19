@@ -13,19 +13,17 @@ namespace Jacobi.Vst3.Plugin
     {
         private readonly List<ClassRegistration> _registrations = new List<ClassRegistration>();
 
-        public const string AudioModuleClassCategory = "Audio Module Class"; //: kVstAudioEffectClass
+        public const string AudioModuleClassCategory = "Audio Module Class";
         public const string ComponentControllerClassCategory = "Component Controller Class";
         public const string TestClassCategory = "Test Class";
 
         public static readonly Version Vst3SdkVersion = new Version(3, 6, 14);
 
         public PluginClassFactory(string vendor, string email, string url)
-            : this(vendor, email, url, PFactoryInfo.FactoryFlags.NoFlags)
-        { }
+            : this(vendor, email, url, PFactoryInfo.FactoryFlags.NoFlags) { }
 
         public PluginClassFactory(string vendor, string email, string url, PFactoryInfo.FactoryFlags flags)
-            : this(vendor, email, url, flags, Vst3SdkVersion)
-        { }
+            : this(vendor, email, url, flags, Vst3SdkVersion) { }
 
         public PluginClassFactory(string vendor, string email, string url, PFactoryInfo.FactoryFlags flags, Version sdkVersion)
         {
@@ -82,44 +80,28 @@ namespace Jacobi.Vst3.Plugin
         public bool Unregister(Type classType)
         {
             foreach (var reg in _registrations)
-            {
                 if (reg.ClassType.FullName == classType.FullName)
                 {
                     _registrations.Remove(reg);
                     return true;
                 }
-            }
 
             return false;
         }
 
         public ClassRegistration Find(Guid classId)
-        {
-            return (from reg in _registrations
-                    where reg.ClassTypeId == classId
-                    select reg).FirstOrDefault();
-        }
+            => (from reg in _registrations
+                where reg.ClassTypeId == classId
+                select reg).FirstOrDefault();
 
         protected virtual object CreateObjectInstance(ClassRegistration registration)
         {
-            object instance = null;
-
-            if (registration.CreatorCallback != null)
-            {
-                instance = registration.CreatorCallback(ServiceContainer, registration.ClassType);
-            }
-            else
-            {
-                instance = Activator.CreateInstance(registration.ClassType);
-            }
+            object instance = registration.CreatorCallback != null
+                ? registration.CreatorCallback(ServiceContainer, registration.ClassType)
+                : Activator.CreateInstance(registration.ClassType);
 
             // link-up service container hierarchy
-            var site = instance as IServiceContainerSite;
-
-            if (site != null && site.ServiceContainer != null)
-            {
-                site.ServiceContainer.ParentContainer = ServiceContainer;
-            }
+            if (instance is IServiceContainerSite site && site.ServiceContainer != null) site.ServiceContainer.ParentContainer = ServiceContainer;
 
             return instance;
         }
@@ -127,26 +109,10 @@ namespace Jacobi.Vst3.Plugin
         protected virtual void EnrichRegistration(ClassRegistration registration)
         {
             // internals
-
-            if (registration.ClassTypeId == Guid.Empty)
-            {
-                registration.ClassTypeId = registration.ClassType.GUID;
-            }
-
-            if (String.IsNullOrEmpty(registration.DisplayName))
-            {
-                registration.DisplayName = registration.ClassType.GetDisplayName();
-            }
-
-            if (String.IsNullOrEmpty(registration.Vendor))
-            {
-                registration.Vendor = Vendor;
-            }
-
-            if (registration.Version == null)
-            {
-                registration.Version = DefaultVersion;
-            }
+            if (registration.ClassTypeId == Guid.Empty) registration.ClassTypeId = registration.ClassType.GUID;
+            if (String.IsNullOrEmpty(registration.DisplayName)) registration.DisplayName = registration.ClassType.GetDisplayName();
+            if (String.IsNullOrEmpty(registration.Vendor)) registration.Vendor = Vendor;
+            if (registration.Version == null) registration.Version = DefaultVersion;
         }
 
         #region IPluginFactory Members
@@ -162,16 +128,11 @@ namespace Jacobi.Vst3.Plugin
         }
 
         public virtual int CountClasses()
-        {
-            return _registrations.Count;
-        }
+            => _registrations.Count;
 
         public virtual int GetClassInfo(int index, ref PClassInfo info)
         {
-            if (!IsValidRegIndex(index))
-            {
-                return TResult.E_InvalidArg;
-            }
+            if (!IsValidRegIndex(index)) return TResult.E_InvalidArg;
 
             var reg = _registrations[index];
 
@@ -191,10 +152,7 @@ namespace Jacobi.Vst3.Plugin
         public virtual int CreateInstance(ref Guid classId, ref Guid interfaceId, ref IntPtr instance)
         {
             // seems not every host is programmed defensively...
-            //if (instance != IntPtr.Zero)
-            //{
-            //    return TResult.E_Pointer;
-            //}
+            //if (instance != IntPtr.Zero) return TResult.E_Pointer;
 
             var reg = Find(classId);
 
@@ -223,10 +181,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int GetClassInfo2(int index, ref PClassInfo2 info)
         {
-            if (!IsValidRegIndex(index))
-            {
-                return TResult.E_InvalidArg;
-            }
+            if (!IsValidRegIndex(index)) return TResult.E_InvalidArg;
 
             var reg = _registrations[index];
 
@@ -254,10 +209,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int GetClassInfoUnicode(int index, ref PClassInfoW info)
         {
-            if (!IsValidRegIndex(index))
-            {
-                return TResult.E_InvalidArg;
-            }
+            if (!IsValidRegIndex(index)) return TResult.E_InvalidArg;
 
             var reg = _registrations[index];
 
@@ -298,41 +250,21 @@ namespace Jacobi.Vst3.Plugin
         protected virtual void Dispose(bool disposeAll)
         {
             _registrations.Clear();
-
-            if (ServiceContainer != null)
-            {
-                ServiceContainer.Dispose();
-            }
+            ServiceContainer?.Dispose();
         }
 
         #endregion
 
-        private bool IsValidRegIndex(int index)
+        private bool IsValidRegIndex(int index) => index >= 0 && index < _registrations.Count;
+
+        private static string FormatSdkVersionString(Version sdkVersion) => "VST " + sdkVersion.ToString();
+
+        private static string ObjectClassToCategory(ClassRegistration.ObjectClasses objClass) => objClass switch
         {
-            return (index >= 0 && index < _registrations.Count);
-        }
-
-        private static string FormatSdkVersionString(Version sdkVersion)
-        {
-            return "VST " + sdkVersion.ToString();
-        }
-
-        private static string ObjectClassToCategory(ClassRegistration.ObjectClasses objClass)
-        {
-            switch (objClass)
-            {
-                case ClassRegistration.ObjectClasses.AudioModuleClass:
-                    return AudioModuleClassCategory;
-
-                case ClassRegistration.ObjectClasses.ComponentControllerClass:
-                    return ComponentControllerClassCategory;
-
-                case ClassRegistration.ObjectClasses.TestClass:
-                    return TestClassCategory;
-
-                default:
-                    throw new InvalidEnumArgumentException("objClass", (int)objClass, typeof(ClassRegistration.ObjectClasses));
-            }
-        }
+            ClassRegistration.ObjectClasses.AudioModuleClass => AudioModuleClassCategory,
+            ClassRegistration.ObjectClasses.ComponentControllerClass => ComponentControllerClassCategory,
+            ClassRegistration.ObjectClasses.TestClass => TestClassCategory,
+            _ => throw new InvalidEnumArgumentException("objClass", (int)objClass, typeof(ClassRegistration.ObjectClasses)),
+        };
     }
 }

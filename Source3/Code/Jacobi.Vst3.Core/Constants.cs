@@ -21,6 +21,11 @@
         public const string EditorViewType = "editor";
 
         // IUnitHandler.NotifyProgramListChange
-        public const int AllProgramInvalid = -1;		// all program information is invalid
+        public const int AllProgramInvalid = -1;        // all program information is invalid
+
+        public const string kVstAudioEffectClass = "Audio Module Class";
+        //public const string ComponentControllerClassCategory = "Component Controller Class";
+        public const string kTestClass = "Test Class";
+        public const string kPluginCompatibilityClass = "Plugin";
     }
 }

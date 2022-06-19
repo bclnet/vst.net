@@ -7,21 +7,13 @@ namespace Jacobi.Vst3.Plugin
 {
     public class EnumParameter : Parameter
     {
-        protected EnumParameter()
-        { }
-
+        protected EnumParameter() { }
         public EnumParameter(Type enumType)
-            : base(new EnumParameterValueInfo(enumType))
-        { }
-
+            : base(new EnumParameterValueInfo(enumType)) { }
         public EnumParameter(EnumParameterValueInfo valueInfo)
-            : base(valueInfo)
-        { }
+            : base(valueInfo) { }
 
-        public new EnumParameterValueInfo ValueInfo
-        {
-            get { return (EnumParameterValueInfo)base.ValueInfo; }
-        }
+        public new EnumParameterValueInfo ValueInfo => (EnumParameterValueInfo)base.ValueInfo;
 
         public override string ToString(double normValue)
         {
@@ -55,22 +47,19 @@ namespace Jacobi.Vst3.Plugin
 
     public class EnumParameterValueInfo : ParameterValueInfo
     {
-        protected EnumParameterValueInfo()
-        { }
+        protected EnumParameterValueInfo() { }
 
         public EnumParameterValueInfo(Type enumType)
         {
-            if (!enumType.IsEnum) throw new ArgumentException("Specified type is not an enum: " + enumType.FullName, "enumType");
+            if (!enumType.IsEnum) throw new ArgumentException($"Specified type is not an enum: {enumType.FullName}", nameof(enumType));
 
             Enumerations = new Dictionary<string, int>();
 
             var values = Enum.GetValues(enumType);
             var names = Enum.GetNames(enumType);
 
-            for (int i = 0; i < values.Length; i++)
-            {
+            for (var i = 0; i < values.Length; i++)
                 Enumerations.Add(names[i], (int)values.GetValue(i));
-            }
 
             MinValue = (from int value in values select value).Min();
             MaxValue = (from int value in values select value).Max();

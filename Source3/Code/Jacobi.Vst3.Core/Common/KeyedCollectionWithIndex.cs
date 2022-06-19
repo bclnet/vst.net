@@ -7,7 +7,6 @@ namespace Jacobi.Vst3.Common
         public ItemT GetAt(int index)
         {
             var baseThis = (Collection<ItemT>)this;
-
             return baseThis[index];
         }
     }

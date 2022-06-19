@@ -8,11 +8,8 @@ namespace Jacobi.Vst3.Core
     {
         public static readonly int Size = Marshal.SizeOf<Chord>();
 
-        [MarshalAs(UnmanagedType.U1)]
-        public Byte KeyNote;		// key note in chord
-
-        [MarshalAs(UnmanagedType.U1)]
-        public Byte RootNote;		// lowest note in chord
+        [MarshalAs(UnmanagedType.U1)] public Byte KeyNote;		// key note in chord
+        [MarshalAs(UnmanagedType.U1)] public Byte RootNote;		// lowest note in chord
 
         /** Bitmask of a chord.
             1st bit set: minor second; 2nd bit set: major second, and so on. \n
@@ -22,8 +19,7 @@ namespace Jacobi.Vst3.Core
             - XXXX 0000 0100 0100 (= 0x0044) -> minor chord\n
             - XXXX 0010 0100 0100 (= 0x0244) -> minor chord with minor seventh  */
 
-        [MarshalAs(UnmanagedType.I2)]
-        public Int16 ChordMask;
+        [MarshalAs(UnmanagedType.I2)] public Int16 ChordMask;
 
         public enum Masks
         {

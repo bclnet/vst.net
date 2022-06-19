@@ -28,21 +28,13 @@ namespace Jacobi.Vst3.Plugin
         {
             get
             {
-                if (_categories == null)
-                {
-                    _categories = new CategoryCollection();
-                }
-
+                if (_categories == null) _categories = new CategoryCollection();
                 return _categories;
             }
 
             set
             {
-                if (_categories != null)
-                {
-                    throw new InvalidOperationException("Categories is already initialized.");
-                }
-
+                if (_categories != null) throw new InvalidOperationException("Categories is already initialized.");
                 _categories = value;
             }
         }

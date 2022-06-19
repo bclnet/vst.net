@@ -5,12 +5,10 @@ namespace Jacobi.Vst3.Plugin
     public class AudioBus : Bus
     {
         public AudioBus(string name, SpeakerArrangement speakerArr)
-            : this(name, speakerArr, BusTypes.Main, BusInfo.BusFlags.DefaultActive)
-        { }
+            : this(name, speakerArr, BusTypes.Main, BusInfo.BusFlags.DefaultActive) { }
 
         public AudioBus(string name, SpeakerArrangement speakerArr, BusTypes busType)
-            : this(name, speakerArr, busType, BusInfo.BusFlags.DefaultActive)
-        { }
+            : this(name, speakerArr, busType, BusInfo.BusFlags.DefaultActive) { }
 
         public AudioBus(string name, SpeakerArrangement speakerArr, BusTypes busType, BusInfo.BusFlags flags)
             : base(name, busType, flags)

@@ -3,9 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
-    [ComImport]
-    [Guid(Interfaces.IEditControllerHostEditing)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid(Interfaces.IEditControllerHostEditing), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IEditControllerHostEditing
     {
         Int32 BeginEditFromHost(

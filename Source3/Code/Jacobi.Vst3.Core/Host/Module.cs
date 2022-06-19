@@ -149,6 +149,8 @@ namespace Jacobi.Vst3.Host
         }
 
         public T CreateInstance<T>(Guid classID) => throw new NotImplementedException();
+
+        public IPluginFactory Get() => _factory;
     }
 
     public abstract class Module : IDisposable

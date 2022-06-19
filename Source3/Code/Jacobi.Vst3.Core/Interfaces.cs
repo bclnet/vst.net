@@ -33,6 +33,7 @@
         public const string IUnitData = "6C389611-D391-455D-B870-B83394A0EFDD";
         public const string IDependent = "F52B7AAE-DE72-416d-8AF1-8ACE9DD7BD5E";
         public const string INoteExpressionController = "B7F8F859-4123-4872-9116-95814F3721A3";
+        public const string INoteExpressionPhysicalUIMapping = "B03078FF-94D2-4AC8-90CC-D303D4133324";
         public const string IKeyswitchController = "1F2F76D3-BFFB-4B96-B995-27A55EBCCEF4";
         public const string IXmlRepresentationController = "A81A0471-48C3-4DC4-AC30-C9E13C8393D5";
         public const string IAutomationState = "B4E8287F-1BB3-46AA-83A4-666768937BAB";

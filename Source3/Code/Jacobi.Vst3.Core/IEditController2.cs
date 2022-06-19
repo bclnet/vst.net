@@ -3,9 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
-    [ComImport]
-    [Guid(Interfaces.IEditController2)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid(Interfaces.IEditController2), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IEditController2
     {
         [PreserveSig]

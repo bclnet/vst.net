@@ -43,22 +43,14 @@ namespace Jacobi.Vst3.Plugin
         public const string Stereo = "Stereo";			// used for Stereo only Plug-in [optional]
         public const string Surround = "Surround";		// used for Surround only Plug-in [optional]
 
-        public CategoryCollection()
-        { }
-
+        public CategoryCollection() { }
         public CategoryCollection(string parse)
         {
             var cats = parse.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
-
-            foreach (var cat in cats)
-            {
-                Add(cat);
-            }
+            foreach (var cat in cats) Add(cat);
         }
 
         public override string ToString()
-        {
-            return String.Join("|", this.ToArray());
-        }
+            => String.Join("|", this.ToArray());
     }
 }

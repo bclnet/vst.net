@@ -3,9 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
-    [ComImport]
-    [Guid(Interfaces.IAutomationState)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid(Interfaces.IAutomationState), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IAutomationState
     {
         [PreserveSig]
@@ -21,5 +19,5 @@ namespace Jacobi.Vst3.Core
         WriteState = 1 << 1,   // Write state
 
         ReadWriteState = ReadState | WriteState, // Read and Write enable
-    };
+    }
 }

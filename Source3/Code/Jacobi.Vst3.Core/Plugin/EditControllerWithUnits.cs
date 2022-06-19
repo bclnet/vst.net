@@ -20,17 +20,10 @@ namespace Jacobi.Vst3.Plugin
         {
             get
             {
-                if (_programLists == null)
-                {
-                    _programLists = new ProgramListCollection();
-                }
-
+                if (_programLists == null) _programLists = new ProgramListCollection();
                 return _programLists;
             }
-            protected set
-            {
-                _programLists = value;
-            }
+            protected set => _programLists = value;
         }
 
         public IUnitHandler UnitHandler { get; private set; }
@@ -41,31 +34,21 @@ namespace Jacobi.Vst3.Plugin
         {
             get
             {
-                if (_units == null)
-                {
-                    _units = new UnitCollection();
-                }
+                if (_units == null) _units = new UnitCollection();
 
                 return _units;
             }
-            protected set
-            {
-                _units = value;
-            }
+            protected set => _units = value;
         }
 
         private Unit _rootUnit;
         public Unit RootUnit
         {
-            get { return _rootUnit; }
+            get => _rootUnit;
             protected set
             {
                 if (value != null && value.Info.Id != UnitInfo.RootUnitId)
-                {
-                    throw new ArgumentException(
-                        $"The Id of the RootUnit must be {UnitInfo.RootUnitId}.", nameof(value));
-                }
-
+                    throw new ArgumentException($"The Id of the RootUnit must be {UnitInfo.RootUnitId}.", nameof(value));
                 _rootUnit = value;
             }
         }
@@ -73,18 +56,14 @@ namespace Jacobi.Vst3.Plugin
         private Unit _selectedUnit;
         public Unit SelectedUnit
         {
-            get { return _selectedUnit; }
+            get => _selectedUnit;
             set
             {
                 if (_selectedUnit != value)
                 {
                     _selectedUnit = value;
                     OnPropertyChanged(nameof(SelectedUnit));
-
-                    if (UnitHandler != null)
-                    {
-                        UnitHandler.NotifyUnitSelection(_selectedUnit != null ? _selectedUnit.Info.Id : 0);
-                    }
+                    UnitHandler?.NotifyUnitSelection(_selectedUnit != null ? _selectedUnit.Info.Id : 0);
                 }
             }
         }
@@ -92,9 +71,7 @@ namespace Jacobi.Vst3.Plugin
         #region IUnitInfo members
 
         public virtual int GetUnitCount()
-        {
-            return Units.Count;
-        }
+            => Units.Count;
 
         public virtual int GetUnitInfo(int unitIndex, ref UnitInfo info)
         {
@@ -114,9 +91,7 @@ namespace Jacobi.Vst3.Plugin
         }
 
         public virtual int GetProgramListCount()
-        {
-            return ProgramLists.Count;
-        }
+            => ProgramLists.Count;
 
         public virtual int GetProgramListInfo(int listIndex, ref ProgramListInfo info)
         {
@@ -218,14 +193,7 @@ namespace Jacobi.Vst3.Plugin
         }
 
         public virtual int GetSelectedUnit()
-        {
-            if (SelectedUnit != null)
-            {
-                return SelectedUnit.Info.Id;
-            }
-
-            return 0;
-        }
+            => SelectedUnit != null ? SelectedUnit.Info.Id : 0;
 
         public virtual int SelectUnit(int unitId)
         {
@@ -240,14 +208,10 @@ namespace Jacobi.Vst3.Plugin
         }
 
         public virtual int GetUnitByBus(MediaTypes type, BusDirections dir, int busIndex, int channel, ref int unitId)
-        {
-            return TResult.E_NotImplemented;
-        }
+            => TResult.E_NotImplemented;
 
         public virtual int SetUnitProgramData(int listOrUnitId, int programIndex, IBStream data)
-        {
-            return TResult.E_NotImplemented;
-        }
+            => TResult.E_NotImplemented;
 
         #endregion
 

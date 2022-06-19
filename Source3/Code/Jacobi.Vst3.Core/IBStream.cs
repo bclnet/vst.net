@@ -3,9 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
-    [ComImport]
-    [Guid(Interfaces.IBStream)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid(Interfaces.IBStream), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IBStream
     {
         [PreserveSig]
@@ -40,5 +38,5 @@ namespace Jacobi.Vst3.Core
         SeekSet = 0, // set absolute seek position
         SeekCur,     // set seek position relative to current position
         SeekEnd      // set seek position relative to stream end
-    };
+    }
 }

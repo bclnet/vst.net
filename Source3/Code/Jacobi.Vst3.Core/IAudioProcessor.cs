@@ -3,9 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
-    [ComImport]
-    [Guid(Interfaces.IAudioProcessor)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid(Interfaces.IAudioProcessor), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IAudioProcessor
     {
         [PreserveSig]

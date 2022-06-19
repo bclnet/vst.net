@@ -8,14 +8,11 @@ namespace Jacobi.Vst3.Plugin
     {
         private IConnectionPoint _peer;
 
-        protected ConnectionPoint()
-        {
-            ServiceContainer = new ServiceContainer();
-        }
+        protected ConnectionPoint() { }
 
         #region IServiceContainerSite Members
 
-        public ServiceContainer ServiceContainer { get; protected set; }
+        public ServiceContainer ServiceContainer { get; protected set; } = new ServiceContainer();
 
         #endregion
 
@@ -49,14 +46,8 @@ namespace Jacobi.Vst3.Plugin
         {
             System.Diagnostics.Trace.WriteLine("IConnectionPoint.Connect");
 
-            if (other == null)
-            {
-                return TResult.E_InvalidArg;
-            }
-            if (_peer != null)
-            {
-                return TResult.S_False;
-            }
+            if (other == null) return TResult.E_InvalidArg;
+            if (_peer != null) return TResult.S_False;
 
             _peer = other;
 
@@ -79,12 +70,9 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int Notify(IMessage message)
         {
-            if (message == null)
-            {
-                return TResult.E_InvalidArg;
-            }
+            if (message == null) return TResult.E_InvalidArg;
 
-            System.Diagnostics.Trace.WriteLine("IConnectionPoint.Notify " + message.GetMessageID());
+            System.Diagnostics.Trace.WriteLine($"IConnectionPoint.Notify {message.GetMessageID()}");
 
             return OnMessageReceived(new MessageEventArgs(message)) ? TResult.S_OK : TResult.S_False;
         }
@@ -94,7 +82,7 @@ namespace Jacobi.Vst3.Plugin
         // use funcBeforeSend to populate message.
         protected virtual bool SendMessage(Action<IMessage> funcBeforeSend)
         {
-            Guard.ThrowIfNull("funcBeforeSend", funcBeforeSend);
+            Guard.ThrowIfNull(nameof(funcBeforeSend), funcBeforeSend);
 
             if (_peer == null) return false;
 

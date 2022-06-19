@@ -19,30 +19,18 @@ namespace Jacobi.Vst3.Core.Common
         }
 
         public void Dispose()
-        {
-            _context.Resolving -= LoadContext_ResolvingAssembly;
-        }
+            => _context.Resolving -= LoadContext_ResolvingAssembly;
 
         public Assembly LoadPlugin(string pluginName)
-        {
-            return LoadAssembly($"{pluginName}.dll");
-        }
+            => LoadAssembly($"{pluginName}.dll");
 
         public Assembly LoadAssembly(string fileName)
         {
             var filePath = Path.Combine(_basePath, fileName);
-
-            if (File.Exists(filePath))
-            {
-                return _context.LoadFromAssemblyPath(filePath);
-            }
-
-            return null;
+            return File.Exists(filePath) ? _context.LoadFromAssemblyPath(filePath) : null;
         }
 
         private Assembly LoadContext_ResolvingAssembly(AssemblyLoadContext assemblyLoadContext, AssemblyName assemblyName)
-        {
-            return LoadAssembly($"{assemblyName.Name}.dll");
-        }
+            => LoadAssembly($"{assemblyName.Name}.dll");
     }
 }

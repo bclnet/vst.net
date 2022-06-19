@@ -8,16 +8,9 @@ namespace Jacobi.Vst3.Core
     {
         public static readonly int Size = Marshal.SizeOf<ProcessSetup>();
 
-        [MarshalAs(UnmanagedType.I4)]
-        public ProcessModes ProcessMode;			// \ref ProcessModes
-
-        [MarshalAs(UnmanagedType.I4)]
-        public SymbolicSampleSizes SymbolicSampleSize;	// \ref SymbolicSampleSizes
-
-        [MarshalAs(UnmanagedType.I4)]
-        public Int32 MaxSamplesPerBlock;	// maximum number of samples per audio block
-
-        [MarshalAs(UnmanagedType.R8)]
-        public Double SampleRate;		// sample rate
+        [MarshalAs(UnmanagedType.I4)] public ProcessModes ProcessMode;		// \ref ProcessModes
+        [MarshalAs(UnmanagedType.I4)] public SymbolicSampleSizes SymbolicSampleSize; // \ref SymbolicSampleSizes
+        [MarshalAs(UnmanagedType.I4)] public Int32 MaxSamplesPerBlock;	    // maximum number of samples per audio block
+        [MarshalAs(UnmanagedType.R8)] public Double SampleRate;		        // sample rate
     }
 }

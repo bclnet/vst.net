@@ -122,6 +122,5 @@
         public const string WorldEthnicNorthAmerica = "World/Ethnic|North America";
         public const string WorldEthnicSouthAmerica = "World/Ethnic|South America";
         public const string WorldEthnicAustralia = "World/Ethnic|Australia";
-
     }
 }

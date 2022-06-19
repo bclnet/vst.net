@@ -5,12 +5,10 @@ namespace Jacobi.Vst3.Plugin
     public class EventBus : Bus
     {
         public EventBus(string name, int channelCount)
-            : this(name, channelCount, BusTypes.Main, BusInfo.BusFlags.DefaultActive)
-        { }
+            : this(name, channelCount, BusTypes.Main, BusInfo.BusFlags.DefaultActive) { }
 
         public EventBus(string name, int channelCount, BusTypes busType)
-            : this(name, channelCount, busType, BusInfo.BusFlags.DefaultActive)
-        { }
+            : this(name, channelCount, busType, BusInfo.BusFlags.DefaultActive) { }
 
         public EventBus(string name, int channelCount, BusTypes busType, BusInfo.BusFlags flags)
             : base(name, busType, flags)

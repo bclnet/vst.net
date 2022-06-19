@@ -5,12 +5,9 @@ namespace Jacobi.Vst3.Plugin
 {
     public abstract class EditController : ConnectionPoint, IEditController, IEditController2
     {
-        protected EditController()
-        {
-            Parameters = new ParameterCollection();
-        }
+        protected EditController() { }
 
-        public ParameterCollection Parameters { get; private set; }
+        public ParameterCollection Parameters { get; private set; } = new ParameterCollection();
 
         public IComponentHandler ComponentHandler { get; private set; }
 
@@ -73,7 +70,7 @@ namespace Jacobi.Vst3.Plugin
 
                 info.DefaultNormalizedValue = param.ValueInfo.ParameterInfo.DefaultNormalizedValue;
                 info.Flags = param.ValueInfo.ParameterInfo.Flags;
-                info.ParamId = param.ValueInfo.ParameterInfo.ParamId;
+                info.Id = param.ValueInfo.ParameterInfo.Id;
                 info.ShortTitle = param.ValueInfo.ParameterInfo.ShortTitle;
                 info.StepCount = param.ValueInfo.ParameterInfo.StepCount;
                 info.Title = param.ValueInfo.ParameterInfo.Title;

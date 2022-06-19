@@ -4,10 +4,7 @@ namespace Jacobi.Vst3.Plugin
 {
     public class ParameterValueInfo
     {
-        protected ParameterValueInfo()
-        {
-        }
-
+        protected ParameterValueInfo() { }
         public ParameterValueInfo(int precision = 4)
         {
             MinValue = 0.0;
@@ -16,11 +13,8 @@ namespace Jacobi.Vst3.Plugin
         }
 
         public ParameterInfo ParameterInfo;
-
         public double MinValue { get; set; }
-
         public double MaxValue { get; set; }
-
         public int Precision { get; set; }
     }
 }

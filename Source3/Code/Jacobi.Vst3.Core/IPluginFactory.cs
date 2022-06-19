@@ -12,9 +12,7 @@ namespace Jacobi.Vst3.Core
     /// to get information about the classes exported by the Plug-in and a 
     /// mechanism to create instances of these classes (that usually define the IPluginBase interface).
     /// </summary>
-    [ComImport]
-    [Guid(Interfaces.IPluginFactory)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid(Interfaces.IPluginFactory), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IPluginFactory
     {
         [PreserveSig]
@@ -40,9 +38,7 @@ namespace Jacobi.Vst3.Core
             [MarshalAs(UnmanagedType.SysInt, IidParameterIndex = 1), In, Out] ref IntPtr instance);
     }
 
-    [ComImport]
-    [Guid(Interfaces.IPluginFactory2)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid(Interfaces.IPluginFactory2), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IPluginFactory2
     {
 
@@ -77,12 +73,9 @@ namespace Jacobi.Vst3.Core
         Int32 GetClassInfo2(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
             [MarshalAs(UnmanagedType.Struct)] ref PClassInfo2 info);
-
     }
 
-    [ComImport]
-    [Guid(Interfaces.IPluginFactory3)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid(Interfaces.IPluginFactory3), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IPluginFactory3
     {
         [PreserveSig]

@@ -3,9 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
-    [ComImport]
-    [Guid(Interfaces.INoteExpressionController)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid(Interfaces.INoteExpressionController), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface INoteExpressionController
     {
         [PreserveSig]
@@ -13,7 +11,6 @@ namespace Jacobi.Vst3.Core
         Int32 GetNoteExpressionCount(
             [MarshalAs(UnmanagedType.I4), In] Int32 busIndex,
             [MarshalAs(UnmanagedType.I2), In] Int16 channel);
-
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
@@ -23,7 +20,6 @@ namespace Jacobi.Vst3.Core
             [MarshalAs(UnmanagedType.I4), In] Int32 noteExpressionIndex,
             [MarshalAs(UnmanagedType.Struct), In, Out] ref NoteExpressionTypeInfo info);
 
-
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetNoteExpressionStringByValue(
@@ -32,7 +28,6 @@ namespace Jacobi.Vst3.Core
             [MarshalAs(UnmanagedType.U4), In] UInt32 noteExpressionTypeId,
             [MarshalAs(UnmanagedType.R8), In] Double valueNormalized,
             [MarshalAs(UnmanagedType.LPWStr), In, Out] ref String str);
-
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]

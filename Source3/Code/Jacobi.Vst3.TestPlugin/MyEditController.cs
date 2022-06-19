@@ -28,7 +28,7 @@ namespace Jacobi.Vst3.TestPlugin
 
             valueInfo.ParameterInfo.DefaultNormalizedValue = 0.45;
             valueInfo.ParameterInfo.Flags = ParameterInfo.ParameterFlags.CanAutomate;
-            valueInfo.ParameterInfo.ParamId = paramId;
+            valueInfo.ParameterInfo.Id = paramId;
             valueInfo.ParameterInfo.ShortTitle = "Gain";
             valueInfo.ParameterInfo.StepCount = 0;
             valueInfo.ParameterInfo.Title = "Gain";

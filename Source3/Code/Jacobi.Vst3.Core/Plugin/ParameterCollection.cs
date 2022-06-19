@@ -8,7 +8,6 @@ namespace Jacobi.Vst3.Plugin
         protected override uint GetKeyForItem(Parameter item)
         {
             if (item == null) return 0;
-
             return item.Id;
         }
     }

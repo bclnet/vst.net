@@ -8,9 +8,7 @@ namespace Jacobi.Vst3.Plugin
         public ByPassParameter(ParameterValueInfo valueInfo)
         {
             if ((valueInfo.ParameterInfo.Flags & ParameterInfo.ParameterFlags.IsBypass) == 0)
-            {
                 throw new ArgumentException($"The passed in ParameterValueInfo is not for a ByPass parameter.", nameof(valueInfo));
-            }
 
             ValueInfo = valueInfo;
         }
@@ -20,9 +18,8 @@ namespace Jacobi.Vst3.Plugin
             var valueInfo = new ParameterValueInfo();
 
             valueInfo.ParameterInfo.DefaultNormalizedValue = 0;
-            valueInfo.ParameterInfo.Flags =
-                ParameterInfo.ParameterFlags.IsBypass | ParameterInfo.ParameterFlags.CanAutomate;
-            valueInfo.ParameterInfo.ParamId = paramId;
+            valueInfo.ParameterInfo.Flags = ParameterInfo.ParameterFlags.IsBypass | ParameterInfo.ParameterFlags.CanAutomate;
+            valueInfo.ParameterInfo.Id = paramId;
             valueInfo.ParameterInfo.ShortTitle = "Bypass";
             valueInfo.ParameterInfo.StepCount = 0;
             valueInfo.ParameterInfo.Title = "Bypass";

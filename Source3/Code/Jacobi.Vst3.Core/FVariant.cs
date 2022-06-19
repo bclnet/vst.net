@@ -8,28 +8,12 @@ namespace Jacobi.Vst3.Core
     {
         public static readonly int Size = Marshal.SizeOf<FVariant>();
 
-        [FieldOffset(FieldOffset_Type)]
-        public VariantType Type;
-
-        [FieldOffset(FieldOffset_Union)]
-        [MarshalAs(UnmanagedType.I8)]
-        public Int64 IntValue;
-
-        [FieldOffset(FieldOffset_Union)]
-        [MarshalAs(UnmanagedType.R8)]
-        public Double floatValue;
-
-        [FieldOffset(FieldOffset_Union)]
-        [MarshalAs(UnmanagedType.LPStr)]
-        public String string8;
-
-        [FieldOffset(FieldOffset_Union)]
-        [MarshalAs(UnmanagedType.LPWStr)]
-        public String string16;
-
-        [FieldOffset(FieldOffset_Union)]
-        [MarshalAs(UnmanagedType.IUnknown)]
-        public Object Obj;
+        [FieldOffset(FieldOffset_Type)] public VariantType Type;
+        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.I8)] public Int64 IntValue;
+        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.R8)] public Double floatValue;
+        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.LPStr)] public String string8;
+        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.LPWStr)] public String string16;
+        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.IUnknown)] public Object Obj;
 
         public enum VariantType
         {
@@ -50,5 +34,6 @@ namespace Jacobi.Vst3.Core
         internal const int FieldOffset_Type = 0;
         internal const int FieldOffset_Union = 8;
 #endif
+
     }
 }

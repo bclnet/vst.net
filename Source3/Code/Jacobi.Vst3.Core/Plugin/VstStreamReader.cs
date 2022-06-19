@@ -9,13 +9,11 @@ namespace Jacobi.Vst3.Plugin
         private readonly BStream _stream;
 
         public VstStreamReader(IBStream stream)
-        {
-            _stream = new BStream(stream, StreamAccessMode.Read);
-        }
+            => _stream = new BStream(stream, StreamAccessMode.Read);
 
         public VstStreamReader(BStream stream)
         {
-            if (!stream.CanRead) { throw new ArgumentException("Cannot read from stream.", nameof(stream)); }
+            if (!stream.CanRead) throw new ArgumentException("Cannot read from stream.", nameof(stream));
 
             _stream = stream;
         }
@@ -25,26 +23,19 @@ namespace Jacobi.Vst3.Plugin
             var reader = new BinaryReader(_stream);
             var count = reader.ReadInt32();
 
-            for (int i = 0; i < count; i++)
+            for (var i = 0; i < count; i++)
             {
                 var id = reader.ReadUInt32();
                 var value = reader.ReadDouble();
 
-                if (parameters.Contains(id))
-                {
-                    parameters[id].PlainValue = value;
-                }
+                if (parameters.Contains(id)) parameters[id].PlainValue = value;
             }
         }
 
         public virtual void ReadPrograms(ProgramList programs)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
 
         public virtual void ReadUnits(UnitCollection units)
-        {
-            throw new NotImplementedException();
-        }
+            => throw new NotImplementedException();
     }
 }

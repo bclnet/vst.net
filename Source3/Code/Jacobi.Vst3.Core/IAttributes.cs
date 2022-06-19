@@ -3,9 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
-    [ComImport]
-    [Guid(Interfaces.IAttributes)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid(Interfaces.IAttributes), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IAttributes
     {
         [PreserveSig]
@@ -67,10 +65,7 @@ namespace Jacobi.Vst3.Core
             [MarshalAs(UnmanagedType.LPStr), In] String attrID);
     }
 
-
-    [ComImport]
-    [Guid(Interfaces.IAttributes2)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid(Interfaces.IAttributes2), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IAttributes2
     {
         [PreserveSig]

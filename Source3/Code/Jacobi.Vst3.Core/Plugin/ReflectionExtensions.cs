@@ -22,9 +22,7 @@ namespace Jacobi.Vst3.Plugin
         }
 
         public static Version GetAssemblyVersion(this Assembly assembly)
-        {
-            return assembly.GetName().Version;
-        }
+            => assembly.GetName().Version;
 
         public static string GetDisplayName(this Type classType)
         {

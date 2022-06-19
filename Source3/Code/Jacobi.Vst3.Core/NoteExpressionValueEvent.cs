@@ -8,17 +8,12 @@ namespace Jacobi.Vst3.Core
     {
         public static readonly int Size = Marshal.SizeOf<NoteExpressionValueEvent>();
 
-        [MarshalAs(UnmanagedType.U4)]
-        public UInt32 TypeId;		// see \ref NoteExpressionTypeID
-
-        [MarshalAs(UnmanagedType.I4)]
-        public Int32 NoteId;						// associated note identifier to apply the change	
-
-        [MarshalAs(UnmanagedType.R8)]
-        public Double Value;			// normalized value [0.0, 1.0].
+        [MarshalAs(UnmanagedType.U4)] public UInt32 TypeId;		    // see \ref NoteExpressionTypeID
+        [MarshalAs(UnmanagedType.I4)] public Int32 NoteId;			// associated note identifier to apply the change	
+        [MarshalAs(UnmanagedType.R8)] public Double Value;			// normalized value [0.0, 1.0].
     }
 
-    public enum NoteExpressionTypeIDs
+    public enum NoteExpressionTypeIDs : uint
     {
         VolumeTypeID = 0,		// Volume, plain range [0 = -oo , 0.25 = 0dB, 0.5 = +6dB, 1 = +12dB]: plain = 20 * log (4 * norm)
         PanTypeID,				// Panning (L-R), plain range [0 = left, 0.5 = center, 1 = right]
@@ -28,9 +23,12 @@ namespace Jacobi.Vst3.Core
         VibratoTypeID,			// Vibrato
         ExpressionTypeID,		// Expression
         BrightnessTypeID,		// Brightness
-        TextTypeID,			    // TODO:
+        TextTypeID,			    // See NoteExpressionTextEvent
         PhonemeTypeID,			// TODO:
 
-        CustomStart = 100000	// custom note change type ids must start from here
-    };
+        CustomStart = 100000,	// start of custom note expression type ids
+        CustomEnd = 200000,	    // end of custom note expression type ids
+
+        InvalidTypeID = 0xffffffff // indicates an invalid note expression type
+    }
 }

@@ -24,7 +24,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int SetIoMode(IoModes mode)
         {
-            System.Diagnostics.Trace.WriteLine("IComponent.SetIoMode(" + mode + ")");
+            System.Diagnostics.Trace.WriteLine($"IComponent.SetIoMode({mode})");
 
             return TResult.E_NotImplemented;
         }
@@ -32,30 +32,22 @@ namespace Jacobi.Vst3.Plugin
         // retval NOT a TResult
         public virtual int GetBusCount(MediaTypes type, BusDirections dir)
         {
-            System.Diagnostics.Trace.WriteLine("IComponent.GetBusCount(" + type + ", " + dir + ")");
+            System.Diagnostics.Trace.WriteLine($"IComponent.GetBusCount({type}, {dir})");
 
             var busses = GetBusCollection(type, dir);
 
-            if (busses != null)
-            {
-                return busses.Count;
-            }
-
-            return 0;
+            return busses != null ? busses.Count : 0;
         }
 
         public virtual int GetBusInfo(MediaTypes type, BusDirections dir, int index, ref BusInfo bus)
         {
-            System.Diagnostics.Trace.WriteLine("IComponent.GetBusInfo(" + type + ", " + dir + ", " + index + ")");
+            System.Diagnostics.Trace.WriteLine($"IComponent.GetBusInfo({type}, {dir}, {index})");
 
             var busses = GetBusCollection(type, dir);
 
             if (busses != null)
             {
-                if (index < 0 || index >= busses.Count)
-                {
-                    return TResult.E_InvalidArg;
-                }
+                if (index < 0 || index >= busses.Count) return TResult.E_InvalidArg;
 
                 busses[index].GetInfo(ref bus);
 
@@ -74,16 +66,13 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int ActivateBus(MediaTypes type, BusDirections dir, int index, bool state)
         {
-            System.Diagnostics.Trace.WriteLine("IComponent.ActivateBus(" + type + ", " + dir + ", " + index + ", " + state + ")");
+            System.Diagnostics.Trace.WriteLine($"IComponent.ActivateBus({type}, {dir}, {index}, {state})");
 
             var busses = GetBusCollection(type, dir);
 
             if (busses != null)
             {
-                if (index < 0 || index >= busses.Count)
-                {
-                    return TResult.E_InvalidArg;
-                }
+                if (index < 0 || index >= busses.Count) return TResult.E_InvalidArg;
 
                 busses[index].IsActive = state;
 
@@ -95,7 +84,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int SetActive(bool state)
         {
-            System.Diagnostics.Trace.WriteLine("IComponent.SetActive(" + state + ")");
+            System.Diagnostics.Trace.WriteLine($"IComponent.SetActive({state})");
 
             IsActive = state;
 

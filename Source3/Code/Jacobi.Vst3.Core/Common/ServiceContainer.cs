@@ -6,38 +6,29 @@ namespace Jacobi.Vst3.Common
 {
     public sealed class ServiceContainer : IServiceProvider, IDisposable
     {
-        private readonly Dictionary<Type, ServiceRegistration> _registrations =
-            new Dictionary<Type, ServiceRegistration>();
+        private readonly Dictionary<Type, ServiceRegistration> _registrations = new();
 
         public object Unknown { get; set; }
 
         public ServiceContainer ParentContainer { get; set; }
 
         public bool Register<T>(Scope scope = Scope.Singleton)
-        {
-            return Register(typeof(T), scope);
-        }
+            => Register(typeof(T), scope);
 
         public bool Register<T>(T instance, Scope scope = Scope.Singleton)
-        {
-            return Register(typeof(T), instance, scope);
-        }
+            => Register(typeof(T), instance, scope);
 
         public bool Register<T>(ObjectCreatorCallback callback, Scope scope = Scope.Singleton)
-        {
-            return Register(typeof(T), callback, scope);
-        }
+            => Register(typeof(T), callback, scope);
 
         public bool Register(Type svcType, Scope scope = Scope.Singleton)
         {
-            Guard.ThrowIfNull("svcType", svcType);
+            Guard.ThrowIfNull(nameof(svcType), svcType);
 
             if (FindRegistration(svcType) == null)
             {
                 var svcReg = CreateServiceRegistration(svcType, null, null, scope);
-
                 _registrations.Add(svcType, svcReg);
-
                 return true;
             }
 
@@ -46,23 +37,17 @@ namespace Jacobi.Vst3.Common
 
         public bool Register(Type svcType, object instance, Scope scope = Scope.Singleton)
         {
-            Guard.ThrowIfNull("svcType", svcType);
-            Guard.ThrowIfNull("instance", instance);
+            Guard.ThrowIfNull(nameof(svcType), svcType);
+            Guard.ThrowIfNull(nameof(instance), instance);
             if (!svcType.IsInstanceOfType(instance))
-            {
-                throw new ArgumentException("The instance does not implement the specified service type: " + svcType.FullName, "instance");
-            }
-            if (scope != Scope.Singleton && !(instance is ICloneable) && !(instance is Jacobi.Vst3.Core.ICloneable))
-            {
-                throw new ArgumentException("The instance needs to implement IClonable if to use with a PerCall scope.", "instance");
-            }
+                throw new ArgumentException("The instance does not implement the specified service type: " + svcType.FullName, nameof(instance));
+            if (scope != Scope.Singleton && instance is not ICloneable && instance is not Core.ICloneable)
+                throw new ArgumentException("The instance needs to implement IClonable if to use with a PerCall scope.", nameof(instance));
 
             if (FindRegistration(svcType) == null)
             {
                 var svcReg = CreateServiceRegistration(svcType, instance, null, scope);
-
                 _registrations.Add(svcType, svcReg);
-
                 return true;
             }
 
@@ -71,15 +56,13 @@ namespace Jacobi.Vst3.Common
 
         public bool Register(Type svcType, ObjectCreatorCallback callback, Scope scope = Scope.Singleton)
         {
-            Guard.ThrowIfNull("svcType", svcType);
-            Guard.ThrowIfNull("callback", callback);
+            Guard.ThrowIfNull(nameof(svcType), svcType);
+            Guard.ThrowIfNull(nameof(callback), callback);
 
             if (FindRegistration(svcType) == null)
             {
                 var svcReg = CreateServiceRegistration(svcType, null, callback, scope);
-
                 _registrations.Add(svcType, svcReg);
-
                 return true;
             }
 
@@ -87,23 +70,15 @@ namespace Jacobi.Vst3.Common
         }
 
         public T GetService<T>()
-        {
-            return (T)GetService(typeof(T));
-        }
+            => (T)GetService(typeof(T));
 
         public T TryGetService<T>()
-        {
-            return (T)TryGetService(typeof(T));
-        }
+            => (T)TryGetService(typeof(T));
 
         public object TryGetService(Type serviceType)
         {
             var svcReg = FindRegistration(serviceType);
-
-            if (svcReg != null)
-            {
-                return GetInstance(svcReg);
-            }
+            if (svcReg != null) return GetInstance(svcReg);
 
             if (serviceType.IsInterface && Unknown != null)
             {
@@ -111,10 +86,7 @@ namespace Jacobi.Vst3.Common
                 return Marshal.GetObjectForIUnknown(intf);
             }
 
-            if (ParentContainer != null)
-            {
-                return ParentContainer.GetService(serviceType);
-            }
+            if (ParentContainer != null) return ParentContainer.GetService(serviceType);
 
             return null;
         }
@@ -139,15 +111,9 @@ namespace Jacobi.Vst3.Common
         #endregion
 
         private ServiceRegistration FindRegistration(Type svcType)
-        {
-
-            if (_registrations.TryGetValue(svcType, out ServiceRegistration svcReg))
-            {
-                return svcReg;
-            }
-
-            return null;
-        }
+            => _registrations.TryGetValue(svcType, out ServiceRegistration svcReg)
+                ? svcReg
+                : null;
 
         private object GetInstance(ServiceRegistration svcReg)
         {
@@ -155,68 +121,40 @@ namespace Jacobi.Vst3.Common
 
             if (svcReg.Instance == null)
             {
-                if (svcReg.Callback != null)
-                {
-                    instance = svcReg.Callback(this, svcReg.ServiceType);
-                }
-                else
-                {
-                    instance = Activator.CreateInstance(svcReg.ServiceType);
-                }
-
-                if (svcReg.Scope == Scope.Singleton)
-                {
-                    svcReg.Instance = instance;
-                }
+                instance = svcReg.Callback != null
+                    ? svcReg.Callback(this, svcReg.ServiceType)
+                    : Activator.CreateInstance(svcReg.ServiceType);
+                if (svcReg.Scope == Scope.Singleton) svcReg.Instance = instance;
             }
             else // Instance != null
             {
                 if (svcReg.Scope == Scope.PerCall)
                 {
                     var comCloneable = svcReg.Instance as Core.ICloneable;
-
-                    if (svcReg.Instance is ICloneable cloneable)
-                    {
-                        instance = cloneable.Clone();
-                    }
-                    else if (comCloneable != null)
-                    {
-                        instance = comCloneable.Clone();
-                    }
-                    else
-                    {
-                        throw new InvalidOperationException("Cannot clone Service instance for PerCall service request.");
-                        //instance = svcReg.Instance;
-                    }
+                    instance = svcReg.Instance is ICloneable cloneable ? cloneable.Clone()
+                        : comCloneable != null ? comCloneable.Clone()
+                        : throw new InvalidOperationException("Cannot clone Service instance for PerCall service request."); //instance = svcReg.Instance;
                 }
-                else
-                {
-                    instance = svcReg.Instance;
-                }
+                else instance = svcReg.Instance;
             }
 
             return instance;
         }
 
         private ServiceRegistration CreateServiceRegistration(Type svcType, object instance, ObjectCreatorCallback callback, Scope scope)
-        {
-            return new ServiceRegistration()
+            => new ServiceRegistration()
             {
                 ServiceType = svcType,
                 Instance = instance,
                 Callback = callback,
                 Scope = scope,
             };
-        }
 
         #region IDisposable Members
 
         public void Dispose()
         {
-            foreach (var svcReg in _registrations.Values)
-            {
-                svcReg.Dispose();
-            }
+            foreach (var svcReg in _registrations.Values) svcReg.Dispose();
 
             _registrations.Clear();
 
@@ -247,10 +185,7 @@ namespace Jacobi.Vst3.Common
 
             public void Dispose()
             {
-                if (Instance is IDisposable disposable)
-                {
-                    disposable.Dispose();
-                }
+                if (Instance is IDisposable disposable) disposable.Dispose();
             }
         }
     }

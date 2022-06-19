@@ -3,9 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
-    [ComImport]
-    [Guid(Interfaces.IEventList)]
-    [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
+    [ComImport, Guid(Interfaces.IEventList), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IEventList
     {
         [PreserveSig]
@@ -22,6 +20,5 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 AddEvent(
             [MarshalAs(UnmanagedType.Struct), In] ref Event e);
-
     }
 }
