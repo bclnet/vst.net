@@ -4,6 +4,9 @@ using Jacobi.Vst3.Host;
 
 namespace Jacobi.Vst3.TestSuite
 {
+    /// <summary>
+    /// Test Keyswitch.
+    /// </summary>
     public class KeyswitchTest : TestBase
     {
         public override string Name => "Keyswitch";

@@ -5,6 +5,9 @@ using System;
 
 namespace Jacobi.Vst3.TestSuite
 {
+    /// <summary>
+    /// Test Bus Invalid Index.
+    /// </summary>
     public class BusInvalidIndexTest : TestBase
     {
         public override string Name => "Bus Invalid Index";
@@ -47,7 +50,8 @@ namespace Jacobi.Vst3.TestSuite
                 }
             }
 
-            if (numInvalidDesc > 0) testResult.AddErrorMessage($"The component returned {numInvalidDesc} buses queried with an invalid index!");
+            if (numInvalidDesc > 0)
+                testResult.AddErrorMessage($"The component returned {numInvalidDesc} buses queried with an invalid index!");
             return !failed;
         }
     }

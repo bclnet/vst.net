@@ -1,11 +1,13 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Core.Test;
 using Jacobi.Vst3.Host;
-using System;
 using System.Collections.Generic;
 
 namespace Jacobi.Vst3.TestSuite
 {
+    /// <summary>
+    /// Test Parameter Function Name.
+    /// </summary>
     public class ParameterFunctionNameTest : TestBase
     {
         public override string Name => "Parameter Function Name";
@@ -29,7 +31,6 @@ namespace Jacobi.Vst3.TestSuite
                 testResult.AddMessage("No IParameterFunctionName support");
                 return true;
             }
-
 
             testResult.AddMessage("IParameterFunctionName supported.");
 

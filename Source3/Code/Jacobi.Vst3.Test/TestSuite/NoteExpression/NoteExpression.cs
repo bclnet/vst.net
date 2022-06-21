@@ -4,6 +4,9 @@ using Jacobi.Vst3.Host;
 
 namespace Jacobi.Vst3.TestSuite
 {
+    /// <summary>
+    /// Test Note Expression.
+    /// </summary>
     public unsafe class NoteExpressionTest : TestBase
     {
         public override string Name => "Note Expression";

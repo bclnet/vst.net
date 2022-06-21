@@ -4,6 +4,9 @@ using Jacobi.Vst3.Host;
 
 namespace Jacobi.Vst3.TestSuite
 {
+    /// <summary>
+    /// Test Bus Activation.
+    /// </summary>
     public class BusActivationTest : TestBase
     {
         public override string Name => "Bus Activation";

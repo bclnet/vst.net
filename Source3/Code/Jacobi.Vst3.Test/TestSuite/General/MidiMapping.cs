@@ -1,11 +1,13 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Core.Test;
 using Jacobi.Vst3.Host;
-using System;
 using System.Collections.Generic;
 
 namespace Jacobi.Vst3.TestSuite
 {
+    /// <summary>
+    /// Test MIDI Mapping.
+    /// </summary>
     public class MidiMappingTest : TestBase
     {
         public override string Name => "MIDI Mapping";

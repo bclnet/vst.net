@@ -1,10 +1,12 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Core.Test;
 using Jacobi.Vst3.Host;
-using System;
 
 namespace Jacobi.Vst3.TestSuite
 {
+    /// <summary>
+    /// Test SideChain Arrangement.
+    /// </summary>
     public class SideChainArrangementTest : TestBase
     {
         public override string Name => "SideChain Arrangement";
@@ -19,8 +21,7 @@ namespace Jacobi.Vst3.TestSuite
 
             var failed = false;
 
-            if (vstPlug is not IAudioProcessor audioEffect)
-                return failed;
+            if (vstPlug is not IAudioProcessor audioEffect) return failed;
 
             // get the side chain arrangements
             // set Main/first Input and output to Mono
@@ -77,13 +78,11 @@ namespace Jacobi.Vst3.TestSuite
                 {
                     SpeakerArrangement tmp = new();
                     if (audioEffect.GetBusArrangement(BusDirections.Output, busIndex, ref tmp) != TResult.S_True)
-                    {
                         if (tmp != outputArrArray[busIndex])
                         {
                             testResult.AddErrorMessage($"Output {busIndex}: setBusArrangements was returning kResultTrue but getBusArrangement returns different arrangement!");
                             failed = true;
                         }
-                    }
                 }
             }
 

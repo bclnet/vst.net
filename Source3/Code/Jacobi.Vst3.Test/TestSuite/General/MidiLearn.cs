@@ -1,10 +1,12 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Core.Test;
 using Jacobi.Vst3.Host;
-using System;
 
 namespace Jacobi.Vst3.TestSuite
 {
+    /// <summary>
+    /// Test MIDI Learn.
+    /// </summary>
     public class MidiLearnTest : TestBase
     {
         public override string Name => "MIDI Learn";
@@ -29,8 +31,10 @@ namespace Jacobi.Vst3.TestSuite
                 return true;
             }
 
-            if (midiLearn.OnLiveMIDIControllerInput(0, 0, ControllerNumbers.CtrlPan) != TResult.S_True) testResult.AddMessage("onLiveMIDIControllerInput do not return kResultTrue!");
-            if (midiLearn.OnLiveMIDIControllerInput(0, 0, ControllerNumbers.CtrlVibratoDelay) != TResult.S_True) testResult.AddMessage("onLiveMIDIControllerInput do not return kResultTrue!");
+            if (midiLearn.OnLiveMIDIControllerInput(0, 0, ControllerNumbers.CtrlPan) != TResult.S_True)
+                testResult.AddMessage("onLiveMIDIControllerInput do not return kResultTrue!");
+            if (midiLearn.OnLiveMIDIControllerInput(0, 0, ControllerNumbers.CtrlVibratoDelay) != TResult.S_True)
+                testResult.AddMessage("onLiveMIDIControllerInput do not return kResultTrue!");
 
             return true;
         }

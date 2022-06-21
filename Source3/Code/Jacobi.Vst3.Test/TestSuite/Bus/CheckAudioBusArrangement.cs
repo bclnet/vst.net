@@ -5,6 +5,9 @@ using Jacobi.Vst3.Plugin;
 
 namespace Jacobi.Vst3.TestSuite
 {
+    /// <summary>
+    /// Test Check Audio Bus Arrangement.
+    /// </summary>
     public class CheckAudioBusArrangementTest : TestBase
     {
         public override string Name => "Check Audio Bus Arrangement";
@@ -22,7 +25,6 @@ namespace Jacobi.Vst3.TestSuite
             var arrangementMismatchs = 0;
 
             if (vstPlug is IAudioProcessor audioEffect)
-            {
                 for (var i = 0; i < numInputs + numOutputs; ++i)
                 {
                     var dir = i < numInputs ? BusDirections.Input : BusDirections.Output;
@@ -55,7 +57,6 @@ namespace Jacobi.Vst3.TestSuite
                         return false;
                     }
                 }
-            }
             return arrangementMismatchs == 0;
         }
     }

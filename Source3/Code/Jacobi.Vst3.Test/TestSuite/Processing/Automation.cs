@@ -7,6 +7,9 @@ using System.Linq;
 
 namespace Jacobi.Vst3.TestSuite
 {
+    /// <summary>
+    /// Test Automation.
+    /// </summary>
     public class AutomationTest : ProcessTest, IParameterChanges
     {
         protected uint bypassId = ParameterInfo.NoParamId;
@@ -142,7 +145,9 @@ namespace Jacobi.Vst3.TestSuite
             => IntPtr.Zero;
     }
 
-    // Test Parameters Flush (no Buffer).
+    /// <summary>
+    /// Test Parameters Flush (no Buffer).
+    /// </summary>
     public class FlushParamTest : AutomationTest
     {
         public override string Name => "Process Test";
@@ -179,7 +184,6 @@ namespace Jacobi.Vst3.TestSuite
             if (result != TResult.S_OK)
             {
                 testResult.AddErrorMessage("The component failed to process without audio buffers!");
-
                 audioEffect.SetProcessing(false);
                 return false;
             }
@@ -191,7 +195,9 @@ namespace Jacobi.Vst3.TestSuite
         }
     }
 
-    // Test Parameters Flush 2 (no Buffer).
+    /// <summary>
+    /// Test Parameters Flush 2 (no Buffer).
+    /// </summary>
     public unsafe class FlushParamTest2 : FlushParamTest
     {
         protected int numInputs;
@@ -227,7 +233,9 @@ namespace Jacobi.Vst3.TestSuite
         }
     }
 
-    // Test Parameters Flush 3 (no Buffer, no parameter change).
+    /// <summary>
+    /// Test Parameters Flush 3 (no Buffer, no parameter change).
+    /// </summary>
     public class FlushParamTest3 : FlushParamTest2
     {
         public override string Name => "Parameters Flush 2 (no Buffer, no parameter change)";

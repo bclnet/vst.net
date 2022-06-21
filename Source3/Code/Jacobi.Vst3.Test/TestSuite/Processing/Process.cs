@@ -6,6 +6,9 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.TestSuite
 {
+    /// <summary>
+    /// Test Process Test.
+    /// </summary>
     public unsafe class ProcessTest : TestEnh
     {
         protected HostProcessData processData;

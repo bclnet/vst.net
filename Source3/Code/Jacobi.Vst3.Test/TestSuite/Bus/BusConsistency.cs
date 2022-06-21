@@ -5,6 +5,9 @@ using System;
 
 namespace Jacobi.Vst3.TestSuite
 {
+    /// <summary>
+    /// Test Bus Consistency.
+    /// </summary>
     public class BusConsistencyTest : TestBase
     {
         public override string Name => "Bus Consistency";
@@ -60,7 +63,8 @@ namespace Jacobi.Vst3.TestSuite
                     }
                 }
 
-            if (numFalseDescQueries > 0) testResult.AddErrorMessage($"The component returned {numFalseDescQueries} inconsistent buses! (getBusInfo () returns sometime different info for the same bus!");
+            if (numFalseDescQueries > 0)
+                testResult.AddErrorMessage($"The component returned {numFalseDescQueries} inconsistent buses! (getBusInfo () returns sometime different info for the same bus!");
             return !failed;
         }
     }

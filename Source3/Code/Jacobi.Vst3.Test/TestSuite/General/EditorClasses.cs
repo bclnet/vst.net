@@ -5,6 +5,9 @@ using System;
 
 namespace Jacobi.Vst3.TestSuite
 {
+    /// <summary>
+    /// Test Scan Editor Classes.
+    /// </summary>
     public class EditorClassesTest : TestBase
     {
         public override string Name => "Scan Editor Classes";

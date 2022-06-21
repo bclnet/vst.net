@@ -4,6 +4,7 @@
     {
         // base interfaces
         public const string IPluginBase = "22888DDB-156E-45AE-8358-B34808190625";
+        public const string IPluginCompatibility = "4AFD4B6A-35D7-C240-A5C3-1414FB7D15E6";
         public const string IPluginFactory = "7A4D811C-5211-4A1F-AED9-D2EE0B43BF9F";
         public const string IPluginFactory2 = "0007B650-F24B-4C0B-A464-EDB9F00B2ABB";
         public const string IPluginFactory3 = "4555A2AB-C123-4E57-9B12-291036878931";
