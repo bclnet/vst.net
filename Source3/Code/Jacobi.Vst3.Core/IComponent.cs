@@ -69,4 +69,9 @@ namespace Jacobi.Vst3.Core
         Int32 GetState(
             [MarshalAs(UnmanagedType.Interface), In] IBStream state);
     }
+
+    static partial class Interfaces
+    {
+        public const string IComponent = "E831FF31-F2D5-4301-928E-BBEE25697802";
+    }
 }

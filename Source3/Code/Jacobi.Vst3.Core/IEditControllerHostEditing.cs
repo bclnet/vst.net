@@ -12,4 +12,9 @@ namespace Jacobi.Vst3.Core
         Int32 EndEditFromHost(
             [MarshalAs(UnmanagedType.U4), In] UInt32 paramID);
     }
+
+    internal static partial class Interfaces
+    {
+        public const string IEditControllerHostEditing = "C1271208-7059-4098-B9DD-34B36BB0195E";
+    }
 }

@@ -23,4 +23,9 @@ namespace Jacobi.Vst3.Core
         Int32 GetCompatibilityJSON(
             [MarshalAs(UnmanagedType.Struct), In] IBStream stream);
     }
+
+    static partial class Interfaces
+    {
+        public const string IPluginCompatibility = "4AFD4B6A-35D7-C240-A5C3-1414FB7D15E6";
+    }
 }

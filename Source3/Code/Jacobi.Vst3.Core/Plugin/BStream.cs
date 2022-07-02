@@ -21,8 +21,7 @@ namespace Jacobi.Vst3.Plugin
         private IntPtr _unmanagedBuffer;
 
         public BStream(IBStream streamToWrap, StreamAccessMode mode)
-            : this(streamToWrap, mode, 0)
-        { }
+            : this(streamToWrap, mode, 0) { }
 
         public BStream(IBStream streamToWrap, StreamAccessMode mode, int unmanagedBufferSize)
         {
@@ -66,11 +65,7 @@ namespace Jacobi.Vst3.Plugin
 
         public override long Position
         {
-            get
-            {
-                var pos = 0L;
-                return TResult.Succeeded(BaseStream.Tell(ref pos)) ? pos : -1;
-            }
+            get { var pos = 0L; return TResult.Succeeded(BaseStream.Tell(ref pos)) ? pos : -1; }
             set => Seek(value, SeekOrigin.Begin);
         }
 
@@ -82,11 +77,7 @@ namespace Jacobi.Vst3.Plugin
 
         public override void SetLength(long value)
         {
-            if (SizeableStream != null)
-            {
-                TResult.ThrowIfFailed(SizeableStream.SetStreamSize(value));
-                return;
-            }
+            if (SizeableStream != null) { TResult.ThrowIfFailed(SizeableStream.SetStreamSize(value)); return; }
             throw new NotSupportedException();
         }
 
@@ -137,8 +128,7 @@ namespace Jacobi.Vst3.Plugin
         {
             if (_unmanagedBuffer != IntPtr.Zero)
             {
-                if (size > _unmanagedBufferSize)
-                    size = _unmanagedBufferSize;
+                if (size > _unmanagedBufferSize) size = _unmanagedBufferSize;
 
                 return _unmanagedBuffer;
             }
@@ -148,8 +138,7 @@ namespace Jacobi.Vst3.Plugin
 
         private void ReleaseUnmanagedBuffer(IntPtr mem)
         {
-            if (_unmanagedBuffer == IntPtr.Zero)
-                Marshal.FreeHGlobal(mem);
+            if (_unmanagedBuffer == IntPtr.Zero) Marshal.FreeHGlobal(mem);
         }
 
         private StreamSeekMode SeekOriginSeekMode(SeekOrigin seekOrigin)

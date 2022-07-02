@@ -3,6 +3,21 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
+    /// <summary>
+    /// KeyswitchTypeIDs describes the type of a key switch
+    /// </summary>
+    public enum KeyswitchTypeIDs
+    {
+        NoteOnKeyswitchTypeID = 0,              // press before noteOn is played
+        OnTheFlyKeyswitchTypeID,                // press while noteOn is played
+        OnReleaseKeyswitchTypeID,               // press before entering release
+        KeyRangeTypeID                          // key should be maintained pressed for playing
+    }
+
+    /// <summary>
+    /// KeyswitchInfo is the structure describing a key switch
+    /// This structure is used by the method \ref IKeyswitchController::getKeyswitchInfo.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = Platform.CharacterSet, Pack = Platform.StructurePack)]
     public struct KeyswitchInfo
     {
@@ -16,15 +31,7 @@ namespace Jacobi.Vst3.Core
         [MarshalAs(UnmanagedType.I4)] public Int32 KeyRemapped;						// optional remapped key switch (default -1), the Plug-in could provide one remapped key for a key switch (allowing better location on the keyboard of the key switches)
         [MarshalAs(UnmanagedType.I4)] public Int32 UnitId;							// id of unit this key switch belongs to (see \ref vst3UnitsIntro), -1 means no unit used.
         [MarshalAs(UnmanagedType.I4)] public KeyswitchFlags Flags;					// not yet used (set to 0)
-
-        public enum KeyswitchTypeIDs
-        {
-            NoteOnKeyswitchTypeID = 0,				// press before noteOn is played
-            OnTheFlyKeyswitchTypeID,				// press while noteOn is played
-            OnReleaseKeyswitchTypeID,				// press before entering release
-            KeyRangeTypeID							// key should be maintained pressed for playing
-        }
-
+  
         public enum KeyswitchFlags
         {
             None = 0

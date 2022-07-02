@@ -3,6 +3,10 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
+    /// <summary>
+    /// Note Expression Text event. Used in Event (union)
+    /// A Expression event affects one single playing note. \sa INoteExpressionController
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = Platform.CharacterSet, Pack = Platform.StructurePack)]
     public struct NoteExpressionTextEvent
     {

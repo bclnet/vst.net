@@ -49,4 +49,9 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.U4)]
         UInt32 GetTailSamples();
     }
+
+    static partial class Interfaces
+    {
+        public const string IAudioProcessor = "42043F99-B7DA-453C-A569-E79D9AAEC33D";
+    }
 }

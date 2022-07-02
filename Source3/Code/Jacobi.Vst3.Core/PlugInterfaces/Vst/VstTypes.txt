@@ -1,0 +1,23 @@
+﻿// General
+MediaType -> MediaTypes.cs
+BusDirection -> BusDirections.cs
+BusType -> BusTypes.cs
+IoMode -> IoModes.cs
+UnitID -> ??
+ParamValue -> ??
+ParamID -> ??
+ProgramListID -> ??
+CtrlNumber -> ??
+TQuarterNotes -> Double
+TSamples -> Int64
+ColorSpec -> ??
+kNoParamId -> ParameterInfo.cs
+
+// Audio Types
+Sample32 -> HARDCODED
+Sample64 -> HARDCODED
+SampleRate -> HARDCODED
+
+// Speaker Arrangements Types
+SpeakerArrangement -> SpeakerArrangement.cs
+Speaker -> Speaker.cs

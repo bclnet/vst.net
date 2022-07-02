@@ -15,4 +15,9 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 Terminate();
     }
+
+    static partial class Interfaces
+    {
+        public const string IPluginBase = "22888DDB-156E-45AE-8358-B34808190625";
+    }
 }

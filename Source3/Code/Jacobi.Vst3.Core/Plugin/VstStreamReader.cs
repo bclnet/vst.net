@@ -32,10 +32,8 @@ namespace Jacobi.Vst3.Plugin
             }
         }
 
-        public virtual void ReadPrograms(ProgramList programs)
-            => throw new NotImplementedException();
+        public virtual void ReadPrograms(ProgramList programs) => throw new NotImplementedException();
 
-        public virtual void ReadUnits(UnitCollection units)
-            => throw new NotImplementedException();
+        public virtual void ReadUnits(UnitCollection units) => throw new NotImplementedException();
     }
 }

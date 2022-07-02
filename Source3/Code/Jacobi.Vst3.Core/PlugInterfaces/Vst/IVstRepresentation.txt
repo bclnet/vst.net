@@ -1,0 +1,11 @@
+﻿RepresentationInfo -> RepresentationInfo.cs
+IXmlRepresentationController -> IXmlRepresentationController.cs
+TAG -> VST-Remote-1.1.xsd
+ATTR -> VST-Remote-1.1.xsd
+GENERIC -> VST-Remote-1.1.xsd
+LayerType -> VST-Remote-1.1.xsd
+CurveType -> VST-Remote-1.1.xsd
+Attributes -> VST-Remote-1.1.xsd
+AttributesFunction -> VST-Remote-1.1.xsd
+AttributesStyle -> VST-Remote-1.1.xsd
+AttributesFlags -> VST-Remote-1.1.xsd

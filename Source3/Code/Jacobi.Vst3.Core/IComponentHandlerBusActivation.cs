@@ -14,4 +14,9 @@ namespace Jacobi.Vst3.Core
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
             [MarshalAs(UnmanagedType.I4), In] Boolean state);
     }
+
+    static partial class Interfaces
+    {
+        public const string IComponentHandlerBusActivation = "067D02C1-5B4E-274D-A92D-90FD6EAF7240";
+    }
 }

@@ -1,5 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using System;
+using System.Diagnostics;
 
 namespace Jacobi.Vst3.Plugin
 {
@@ -15,7 +16,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int GetControllerClassId(ref Guid controllerClassId)
         {
-            System.Diagnostics.Trace.WriteLine("IComponent.GetControllerClassId");
+            Trace.WriteLine("IComponent.GetControllerClassId");
 
             controllerClassId = ControlledClassId;
 
@@ -24,7 +25,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int SetIoMode(IoModes mode)
         {
-            System.Diagnostics.Trace.WriteLine($"IComponent.SetIoMode({mode})");
+            Trace.WriteLine($"IComponent.SetIoMode({mode})");
 
             return TResult.E_NotImplemented;
         }
@@ -32,7 +33,7 @@ namespace Jacobi.Vst3.Plugin
         // retval NOT a TResult
         public virtual int GetBusCount(MediaTypes type, BusDirections dir)
         {
-            System.Diagnostics.Trace.WriteLine($"IComponent.GetBusCount({type}, {dir})");
+            Trace.WriteLine($"IComponent.GetBusCount({type}, {dir})");
 
             var busses = GetBusCollection(type, dir);
 
@@ -41,7 +42,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int GetBusInfo(MediaTypes type, BusDirections dir, int index, ref BusInfo bus)
         {
-            System.Diagnostics.Trace.WriteLine($"IComponent.GetBusInfo({type}, {dir}, {index})");
+            Trace.WriteLine($"IComponent.GetBusInfo({type}, {dir}, {index})");
 
             var busses = GetBusCollection(type, dir);
 
@@ -59,14 +60,14 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int GetRoutingInfo(ref RoutingInfo inInfo, ref RoutingInfo outInfo)
         {
-            System.Diagnostics.Trace.WriteLine("IComponent.GetRoutingInfo");
+            Trace.WriteLine("IComponent.GetRoutingInfo");
 
             return TResult.E_NotImplemented;
         }
 
         public virtual int ActivateBus(MediaTypes type, BusDirections dir, int index, bool state)
         {
-            System.Diagnostics.Trace.WriteLine($"IComponent.ActivateBus({type}, {dir}, {index}, {state})");
+            Trace.WriteLine($"IComponent.ActivateBus({type}, {dir}, {index}, {state})");
 
             var busses = GetBusCollection(type, dir);
 
@@ -84,7 +85,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int SetActive(bool state)
         {
-            System.Diagnostics.Trace.WriteLine($"IComponent.SetActive({state})");
+            Trace.WriteLine($"IComponent.SetActive({state})");
 
             IsActive = state;
 
@@ -93,14 +94,14 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int SetState(IBStream state)
         {
-            System.Diagnostics.Trace.WriteLine("IComponent.SetState");
+            Trace.WriteLine("IComponent.SetState");
 
             return TResult.E_NotImplemented;
         }
 
         public virtual int GetState(IBStream state)
         {
-            System.Diagnostics.Trace.WriteLine("IComponent.GetState");
+            Trace.WriteLine("IComponent.GetState");
 
             return TResult.E_NotImplemented;
         }

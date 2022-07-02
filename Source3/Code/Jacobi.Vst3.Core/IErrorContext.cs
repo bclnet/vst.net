@@ -20,4 +20,9 @@ namespace Jacobi.Vst3.Core
         Int32 getErrorMessage(
             [MarshalAs(UnmanagedType.Interface), In] IString message);
     }
+
+    internal static partial class Interfaces
+    {
+        public const string IErrorContext = "12BCD07B-7C69-4336-B7DA-77C3444A0CD0";
+    }
 }

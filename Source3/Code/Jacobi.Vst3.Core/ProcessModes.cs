@@ -2,8 +2,8 @@
 {
     public enum ProcessModes
     {
-        Realtime,
-        Prefetch,
-        Offline
+        Realtime,       // realtime processing
+        Prefetch,       // prefetch processing
+        Offline         // offline processing
     }
 }

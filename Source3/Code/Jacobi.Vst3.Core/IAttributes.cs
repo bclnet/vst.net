@@ -65,6 +65,11 @@ namespace Jacobi.Vst3.Core
             [MarshalAs(UnmanagedType.LPStr), In] String attrID);
     }
 
+    static partial class Interfaces
+    {
+        public const string IAttributes = "FA1E32F9-CA6D-46F5-A982-F956B1191B58";
+    }
+
     [ComImport, Guid(Interfaces.IAttributes2), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IAttributes2
     {
@@ -136,5 +141,10 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.LPStr)]
         String GetAttributeID(
             [MarshalAs(UnmanagedType.I4), In] Int32 index);
+    }
+
+    static partial class Interfaces
+    {
+        public const string IAttributes2 = "1382126A-FECA-4871-97D5-2A45B042AE99";
     }
 }

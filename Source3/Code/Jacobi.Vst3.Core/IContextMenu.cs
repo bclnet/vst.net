@@ -36,6 +36,11 @@ namespace Jacobi.Vst3.Core
             [MarshalAs(UnmanagedType.I4), In] Int32 y);
     }
 
+    static partial class Interfaces
+    {
+        public const string IContextMenu = "2E93C863-0C9C-4588-97DB-ECF5AD17817D";
+    }
+
     [StructLayout(LayoutKind.Sequential, CharSet = Platform.CharacterSet, Pack = Platform.StructurePack)]
     public struct ContextMenuItem
     {

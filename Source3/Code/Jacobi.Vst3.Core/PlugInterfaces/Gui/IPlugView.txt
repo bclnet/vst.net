@@ -1,0 +1,8 @@
+﻿ViewRect -> ViewRect.cs
+kPlatformTypeHWND -> ??
+kPlatformTypeHIView -> ??
+kPlatformTypeNSView -> ??
+kPlatformTypeUIView -> ??
+kPlatformTypeX11EmbedWindowID -> ??
+IPlugView -> IPlugView.cs
+IPlugFrame -> IPlugFrame.cs

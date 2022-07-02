@@ -1,5 +1,8 @@
 ﻿namespace Jacobi.Vst3.Core
 {
+    /// <summary>
+    /// Predefined Musical Style
+    /// </summary>
     public static class MusicalStyle
     {
         public const string AlternativeIndie = "Alternative/Indie";

@@ -1,4 +1,5 @@
 ﻿using Jacobi.Vst3.Core;
+using System.Diagnostics;
 using System.Text;
 
 namespace Jacobi.Vst3.Plugin
@@ -28,14 +29,14 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int SetComponentState(IBStream state)
         {
-            System.Diagnostics.Trace.WriteLine("IEditController.SetComponentState");
+            Trace.WriteLine("IEditController.SetComponentState");
 
             return TResult.E_NotImplemented;
         }
 
         public virtual int SetState(IBStream state)
         {
-            System.Diagnostics.Trace.WriteLine("IEditController.SetState");
+            Trace.WriteLine("IEditController.SetState");
 
             var reader = new VstStreamReader(state);
             reader.ReadParameters(Parameters);
@@ -45,7 +46,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int GetState(IBStream state)
         {
-            System.Diagnostics.Trace.WriteLine("IEditController.GetState");
+            Trace.WriteLine("IEditController.GetState");
 
             var writer = new VstStreamWriter(state);
             writer.WriteParameters(Parameters);
@@ -55,14 +56,14 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int GetParameterCount()
         {
-            System.Diagnostics.Trace.WriteLine("IEditController.GetParameterCount");
+            Trace.WriteLine("IEditController.GetParameterCount");
 
             return Parameters.Count;
         }
 
         public virtual int GetParameterInfo(int paramIndex, ref ParameterInfo info)
         {
-            System.Diagnostics.Trace.WriteLine("IEditController.GetParameterInfo " + paramIndex);
+            Trace.WriteLine($"IEditController.GetParameterInfo {paramIndex}");
 
             if (paramIndex >= 0 && paramIndex < Parameters.Count)
             {
@@ -85,7 +86,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int GetParamStringByValue(uint paramId, double valueNormalized, StringBuilder str)
         {
-            System.Diagnostics.Trace.WriteLine("IEditController.GetParamStringByValue " + paramId + ", " + valueNormalized);
+            Trace.WriteLine($"IEditController.GetParamStringByValue {paramId}, {valueNormalized}");
 
             if (Parameters.Contains(paramId))
             {
@@ -99,7 +100,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int GetParamValueByString(uint paramId, string str, ref double valueNormalized)
         {
-            System.Diagnostics.Trace.WriteLine("IEditController.GetParamValueByString " + paramId + ", " + str);
+            Trace.WriteLine($"IEditController.GetParamValueByString {paramId}, {str}");
 
             if (Parameters.Contains(paramId))
             {
@@ -120,7 +121,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual double NormalizedParamToPlain(uint paramId, double valueNormalized)
         {
-            System.Diagnostics.Trace.WriteLine("IEditController.NormalizedParamToPlain " + paramId + ", " + valueNormalized);
+            Trace.WriteLine($"IEditController.NormalizedParamToPlain {paramId}, {valueNormalized}");
 
             if (Parameters.Contains(paramId))
             {
@@ -134,7 +135,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual double PlainParamToNormalized(uint paramId, double plainValue)
         {
-            System.Diagnostics.Trace.WriteLine("IEditController.PlainParamToNormalized " + paramId + ", " + plainValue);
+            Trace.WriteLine($"IEditController.PlainParamToNormalized {paramId}, {plainValue}");
 
             if (Parameters.Contains(paramId))
             {
@@ -148,7 +149,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual double GetParamNormalized(uint paramId)
         {
-            System.Diagnostics.Trace.WriteLine("IEditController.GetParamNormalized " + paramId);
+            Trace.WriteLine($"IEditController.GetParamNormalized {paramId}");
 
             if (Parameters.Contains(paramId))
             {
@@ -162,7 +163,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int SetParamNormalized(uint paramId, double value)
         {
-            System.Diagnostics.Trace.WriteLine("IEditController.SetParamNormalized " + paramId + ", " + value);
+            Trace.WriteLine($"IEditController.SetParamNormalized {paramId}, {value}");
 
             if (Parameters.Contains(paramId))
             {
@@ -180,11 +181,11 @@ namespace Jacobi.Vst3.Plugin
         {
             if (handler == null)
             {
-                System.Diagnostics.Trace.WriteLine("IEditController.SetComponentHandler [null]");
+                Trace.WriteLine("IEditController.SetComponentHandler [null]");
             }
             else
             {
-                System.Diagnostics.Trace.WriteLine("IEditController.SetComponentHandler [ptr]");
+                Trace.WriteLine("IEditController.SetComponentHandler [ptr]");
             }
 
             ComponentHandler = handler;
@@ -196,7 +197,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual IPlugView CreateView(string name)
         {
-            System.Diagnostics.Trace.WriteLine("IEditController.CreateView " + name);
+            Trace.WriteLine($"IEditController.CreateView {name}");
 
             return null;
         }
@@ -207,21 +208,21 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int SetKnobMode(KnobModes mode)
         {
-            System.Diagnostics.Trace.WriteLine("IEditController2.SetKnobMode " + mode);
+            Trace.WriteLine($"IEditController2.SetKnobMode {mode}");
 
             return TResult.E_NotImplemented;
         }
 
         public virtual int OpenHelp(bool onlyCheck)
         {
-            System.Diagnostics.Trace.WriteLine("IEditController2.OpenHelp");
+            Trace.WriteLine("IEditController2.OpenHelp");
 
             return TResult.E_NotImplemented;
         }
 
         public virtual int OpenAboutBox(bool onlyCheck)
         {
-            System.Diagnostics.Trace.WriteLine("IEditController2.OpenAboutBox");
+            Trace.WriteLine("IEditController2.OpenAboutBox");
 
             return TResult.E_NotImplemented;
         }

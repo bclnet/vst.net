@@ -1,6 +1,7 @@
 ﻿using Jacobi.Vst3.Common;
 using Jacobi.Vst3.Core;
 using System;
+using System.Diagnostics;
 
 namespace Jacobi.Vst3.Plugin
 {
@@ -20,7 +21,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int Initialize(object context)
         {
-            System.Diagnostics.Trace.WriteLine("IPluginBase.Initialize");
+            Trace.WriteLine("IPluginBase.Initialize");
 
             ServiceContainer.Unknown = context;
 
@@ -29,7 +30,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int Terminate()
         {
-            System.Diagnostics.Trace.WriteLine("IPluginBase.Terminate");
+            Trace.WriteLine("IPluginBase.Terminate");
 
             _peer = null;
 
@@ -44,7 +45,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int Connect(IConnectionPoint other)
         {
-            System.Diagnostics.Trace.WriteLine("IConnectionPoint.Connect");
+            Trace.WriteLine("IConnectionPoint.Connect");
 
             if (other == null) return TResult.E_InvalidArg;
             if (_peer != null) return TResult.S_False;
@@ -56,7 +57,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int Disconnect(IConnectionPoint other)
         {
-            System.Diagnostics.Trace.WriteLine("IConnectionPoint.Disconnect");
+            Trace.WriteLine("IConnectionPoint.Disconnect");
 
             if (_peer != null && _peer == other)
             {
@@ -72,7 +73,7 @@ namespace Jacobi.Vst3.Plugin
         {
             if (message == null) return TResult.E_InvalidArg;
 
-            System.Diagnostics.Trace.WriteLine($"IConnectionPoint.Notify {message.GetMessageID()}");
+            Trace.WriteLine($"IConnectionPoint.Notify {message.GetMessageID()}");
 
             return OnMessageReceived(new MessageEventArgs(message)) ? TResult.S_OK : TResult.S_False;
         }
@@ -88,7 +89,7 @@ namespace Jacobi.Vst3.Plugin
 
             var host = ServiceContainer.GetService<IHostApplication>();
             if (host == null) return false;
-            var msg = host.CreateMessage();
+            var msg = host.AllocateMessage();
 
             if (msg != null)
             {

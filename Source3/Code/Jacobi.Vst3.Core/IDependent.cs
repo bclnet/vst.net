@@ -11,6 +11,11 @@ namespace Jacobi.Vst3.Core
             [MarshalAs(UnmanagedType.I4), In] Int32 message);
     }
 
+    internal static partial class Interfaces
+    {
+        public const string IDependent = "F52B7AAE-DE72-416d-8AF1-8ACE9DD7BD5E";
+    }
+
     // IDependent.Update messages
     public enum ChangeMessages
     {

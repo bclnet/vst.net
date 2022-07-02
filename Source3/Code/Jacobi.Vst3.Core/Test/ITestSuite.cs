@@ -23,4 +23,10 @@ namespace Jacobi.Vst3.Core.Test
         Int32 SetEnvironment(
             [MarshalAs(UnmanagedType.Interface), In] ITest environment);
     }
+
+    static partial class Interfaces
+    {
+        public const string ITestSuiteW = "5CA7106F-9878-4AA5-B4D3-0D712F5F1498";
+        public const string ITestSuiteA = "81724C94-E9F6-4F65-ACB1-04E9CC702253";
+    }
 }

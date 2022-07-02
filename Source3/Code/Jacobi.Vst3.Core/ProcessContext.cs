@@ -3,28 +3,44 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
+    /// <summary>
+    /// Audio processing context.
+    /// For each processing block the host provides timing information and musical parameters that can change over time.For a host that supports jumps(like cycle) it is possible to split up a
+    /// processing block into multiple parts in order to provide a correct project time inside of every block, but this behavior is not mandatory. Since the timing will be correct at the beginning of the
+    /// next block again, a host that is dependent on a fixed processing block size can choose to neglect this problem.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = Platform.StructurePack)]
     public struct ProcessContext
     {
         public static readonly int Size = Marshal.SizeOf<ProcessContext>();
 
         [MarshalAs(UnmanagedType.U4)] public UInt32 State;					// a combination of the values from \ref StatesAndFlags
+        
         [MarshalAs(UnmanagedType.R8)] public Double SampleRate;				// current sample rate (always valid)
         [MarshalAs(UnmanagedType.I8)] public Int64 ProjectTimeSamples;	    // project time in samples (always valid)
+        
         [MarshalAs(UnmanagedType.I8)] public Int64 SystemTime;				// system time in nanoseconds (optional)
         [MarshalAs(UnmanagedType.I8)] public Int64 ContinousTimeSamples;	// project time, without loop (optional)
+        
         [MarshalAs(UnmanagedType.R8)] public Double ProjectTimeMusic;	    // musical position in quarter notes (1.0 equals 1 quarter note)
         [MarshalAs(UnmanagedType.R8)] public Double BarPositionMusic;	    // last bar start position, in quarter notes
         [MarshalAs(UnmanagedType.R8)] public Double CycleStartMusic;	    // cycle start in quarter notes
         [MarshalAs(UnmanagedType.R8)] public Double CycleEndMusic;	        // cycle end in quarter notes
+        
         [MarshalAs(UnmanagedType.R8)] public Double Tempo;					// tempo in BPM (Beats Per Minute)
         [MarshalAs(UnmanagedType.I4)] public Int32 TimeSigNumerator;		// time signature numerator (e.g. 3 for 3/4)
         [MarshalAs(UnmanagedType.I4)] public Int32 TimeSigDenominator;		// time signature denominator (e.g. 4 for 3/4)
+        
         [MarshalAs(UnmanagedType.Struct)] public Chord Chord;				// musical info
+        
         [MarshalAs(UnmanagedType.I4)] public Int32 SmpteOffsetSubframes;	// SMPTE (sync) offset in subframes (1/80 of frame)
         [MarshalAs(UnmanagedType.Struct)] public FrameRate FrameRate;		// frame rate
+
         [MarshalAs(UnmanagedType.I4)] public Int32 SamplesToNextClock;		// MIDI Clock Resolution (24 Per Quarter Note), can be negative (nearest)
 
+        /// <summary>
+        /// Transport state & other flags
+        /// </summary>
         public enum StatesAndFlags
         {
             Playing = 1 << 1,		        // currently playing

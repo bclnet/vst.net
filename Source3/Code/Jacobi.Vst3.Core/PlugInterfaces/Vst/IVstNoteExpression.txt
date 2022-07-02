@@ -1,0 +1,12 @@
+﻿NoteExpressionTypeID -> UInt32
+NoteExpressionValue -> Double
+NoteExpressionTypeIDs -> NoteExpressionValueEvent.cs
+NoteExpressionValueDescription -> NoteExpressionValueDescription.cs
+NoteExpressionValueEvent -> NoteExpressionValueEvent.cs
+NoteExpressionTextEvent -> NoteExpressionTextEvent.cs
+NoteExpressionTypeInfo -> NoteExpressionTypeInfo.cs
+INoteExpressionController -> INoteExpressionController.cs
+KeyswitchTypeIDs -> KeyswitchInfo.cs
+KeyswitchTypeID - UInt32
+KeyswitchInfo -> KeyswitchInfo.cs
+IKeyswitchController -> IKeyswitchController.cs

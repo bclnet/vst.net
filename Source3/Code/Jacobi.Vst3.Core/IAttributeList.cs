@@ -58,4 +58,9 @@ namespace Jacobi.Vst3.Core
             [MarshalAs(UnmanagedType.SysInt), In, Out] IntPtr data,
             [MarshalAs(UnmanagedType.U4), In, Out] ref UInt32 size);
     }
+
+    static partial class Interfaces
+    {
+        public const string IAttributeList = "1E5F0AEB-CC7F-4533-A254-401138AD5EE4";
+    }
 }

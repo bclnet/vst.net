@@ -30,10 +30,8 @@ namespace Jacobi.Vst3.Plugin
             }
         }
 
-        public virtual void WritePrograms(ProgramList programs)
-            => throw new NotImplementedException();
+        public virtual void WritePrograms(ProgramList programs) => throw new NotImplementedException();
 
-        public virtual void WriteUnits(UnitCollection units)
-            => throw new NotImplementedException();
+        public virtual void WriteUnits(UnitCollection units) => throw new NotImplementedException();
     }
 }

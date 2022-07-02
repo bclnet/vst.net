@@ -9,7 +9,6 @@ namespace Jacobi.Vst3.Plugin
         public ProgramWithPitchNames(string name)
             : base(name) { }
 
-        public IDictionary<int, string> PitchNames
-            => _pitchNames;
+        public IDictionary<int, string> PitchNames => _pitchNames;
     }
 }

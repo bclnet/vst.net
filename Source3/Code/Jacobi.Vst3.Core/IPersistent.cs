@@ -21,4 +21,9 @@ namespace Jacobi.Vst3.Core
         Int32 LoadAttributes(
             [MarshalAs(UnmanagedType.Interface), In] IAttributes attrs);
     }
+
+    internal static partial class Interfaces
+    {
+        public const string IPersistent = "BA1A4637-3C9F-46D0-A65D-BA0EB85DA829";
+    }
 }

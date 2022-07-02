@@ -1,4 +1,5 @@
 ﻿using Jacobi.Vst3.Core;
+using System.Diagnostics;
 
 namespace Jacobi.Vst3.Plugin
 {
@@ -18,7 +19,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int SetBusArrangements(SpeakerArrangement[] inputs, int numIns, SpeakerArrangement[] outputs, int numOuts)
         {
-            System.Diagnostics.Trace.WriteLine("IAudioProcessor.SetBusArrangements");
+            Trace.WriteLine("IAudioProcessor.SetBusArrangements");
 
             var index = 0;
             var busses = GetBusCollection(MediaTypes.Audio, BusDirections.Input);
@@ -47,7 +48,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int GetBusArrangement(BusDirections dir, int index, ref SpeakerArrangement arr)
         {
-            System.Diagnostics.Trace.WriteLine($"IAudioProcessor.GetBusArrangement({dir}, {index})");
+            Trace.WriteLine($"IAudioProcessor.GetBusArrangement({dir}, {index})");
 
             var busses = GetBusCollection(MediaTypes.Audio, dir);
 
@@ -63,14 +64,14 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual uint GetLatencySamples()
         {
-            System.Diagnostics.Trace.WriteLine("IAudioProcessor.CanProcessSampleSize");
+            Trace.WriteLine("IAudioProcessor.CanProcessSampleSize");
 
             return 0;
         }
 
         public virtual int SetupProcessing(ref ProcessSetup setup)
         {
-            System.Diagnostics.Trace.WriteLine("IAudioProcessor.SetupProcessing");
+            Trace.WriteLine("IAudioProcessor.SetupProcessing");
 
             if (IsActive) return TResult.E_Unexpected;
             if (!TResult.IsTrue(CanProcessSampleSize(setup.SymbolicSampleSize))) return TResult.S_False;
@@ -85,7 +86,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int SetProcessing(bool state)
         {
-            System.Diagnostics.Trace.WriteLine($"IAudioProcessor.SetProcessing({state})");
+            Trace.WriteLine($"IAudioProcessor.SetProcessing({state})");
 
             if (!IsActive)                return TResult.E_Unexpected;
 
@@ -98,7 +99,7 @@ namespace Jacobi.Vst3.Plugin
 
         public uint GetTailSamples()
         {
-            System.Diagnostics.Trace.WriteLine("IAudioProcessor.GetTailSamples");
+            Trace.WriteLine("IAudioProcessor.GetTailSamples");
 
             return Constants.NoTailSamples;
         }

@@ -1,0 +1,2 @@
+﻿IAttributeList -> IAttributeList.cs
+IStreamAttributes -> IStreamAttributes.cs

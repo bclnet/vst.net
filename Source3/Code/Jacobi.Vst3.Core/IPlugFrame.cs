@@ -12,4 +12,9 @@ namespace Jacobi.Vst3.Core
             [MarshalAs(UnmanagedType.Interface), In] IPlugView view,
             [MarshalAs(UnmanagedType.Struct), In] ref ViewRect newSize);
     }
+
+    internal static partial class Interfaces
+    {
+        public const string IPlugFrame = "367FAF01-AFA9-4693-8D4D-A2A0ED0882A3";
+    }
 }

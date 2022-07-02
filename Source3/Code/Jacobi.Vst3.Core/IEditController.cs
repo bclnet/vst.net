@@ -90,4 +90,9 @@ namespace Jacobi.Vst3.Core
         IPlugView CreateView(
             [MarshalAs(UnmanagedType.LPStr), In] String name);
     }
+
+    internal static partial class Interfaces
+    {
+        public const string IEditController = "DCD7BBE3-7742-448D-A874-AACC979C759E";
+    }
 }

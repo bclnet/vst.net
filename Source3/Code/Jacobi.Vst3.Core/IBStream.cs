@@ -33,6 +33,11 @@ namespace Jacobi.Vst3.Core
             [MarshalAs(UnmanagedType.I8), In] ref Int64 pos);
     }
 
+    static partial class Interfaces
+    {
+        public const string IBStream = "C3BF6EA2-3099-4752-9B6B-F9901EE33E9B";
+    }
+
     public enum StreamSeekMode
     {
         SeekSet = 0, // set absolute seek position

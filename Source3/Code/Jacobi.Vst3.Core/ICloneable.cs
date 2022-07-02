@@ -10,4 +10,9 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.IUnknown)]
         Object Clone();
     }
+
+    static partial class Interfaces
+    {
+        public const string ICloneable = "D45406B9-3A2D-4443-9DAD-9BA985A1454B";
+    }
 }

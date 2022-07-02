@@ -30,4 +30,9 @@ namespace Jacobi.Vst3.Core
             [MarshalAs(UnmanagedType.IUnknown), In] Object obj,
             [MarshalAs(UnmanagedType.I4), In] Int32 message);
     }
+
+    static partial class Interfaces
+    {
+        public const string IUpdateHandler = "F5246D56-8654-4d60-B026-AFB57B697B37";
+    }
 }

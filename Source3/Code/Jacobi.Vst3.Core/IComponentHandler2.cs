@@ -24,4 +24,9 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 FinishGroupEdit();
     }
+
+    static partial class Interfaces
+    {
+        public const string IComponentHandler2 = "F040B4B3-A360-45EC-ABCD-C045B4D5A2CC";
+    }
 }

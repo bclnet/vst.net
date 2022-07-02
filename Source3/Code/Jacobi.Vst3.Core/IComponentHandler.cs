@@ -27,4 +27,9 @@ namespace Jacobi.Vst3.Core
         Int32 RestartComponent(
             [MarshalAs(UnmanagedType.I4), In] RestartFlags flags);
     }
+
+    static partial class Interfaces
+    {
+        public const string IComponentHandler = "93A0BEA3-0BD0-45DB-8E89-0B0CC1E46AC6";
+    }
 }

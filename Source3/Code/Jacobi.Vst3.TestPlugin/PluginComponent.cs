@@ -19,8 +19,8 @@ namespace Jacobi.Vst3.TestPlugin
         {
             ControlledClassId = typeof(MyEditController).GUID;
 
-            _audioInputs.Add(new AudioBus("Main Input", SpeakerArrangement.ArrStereo));
-            _audioOutputs.Add(new AudioBus("Main Output", SpeakerArrangement.ArrStereo));
+            _audioInputs.Add(new AudioBus("Main Input", SpeakerArrangement.kStereo));
+            _audioOutputs.Add(new AudioBus("Main Output", SpeakerArrangement.kStereo));
             _eventInputs.Add(new EventBus("Input Events", 1));
             _eventOutputs.Add(new EventBus("Output Events", 1));
         }

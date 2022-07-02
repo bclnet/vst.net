@@ -36,8 +36,7 @@ namespace Jacobi.Vst3.Plugin
 
         private void SetParent(Unit item)
         {
-            if (Parent != null && item != null && item.Parent == null)
-                item.Parent = Parent;
+            if (Parent != null && item != null && item.Parent == null) item.Parent = Parent;
         }
     }
 }

@@ -1,0 +1,3 @@
+﻿PrefetchableSupport -> UInt32
+ePrefetchableSupport -> IPrefetchableSupport.cs
+IPrefetchableSupport -> IPrefetchableSupport.cs

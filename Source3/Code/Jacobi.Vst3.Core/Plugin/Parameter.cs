@@ -127,6 +127,6 @@ namespace Jacobi.Vst3.Plugin
         }
 
         public virtual bool TryParse(string displayValue, out double normValue)
-            => Double.TryParse(displayValue, out normValue);
+            => double.TryParse(displayValue, out normValue);
     }
 }

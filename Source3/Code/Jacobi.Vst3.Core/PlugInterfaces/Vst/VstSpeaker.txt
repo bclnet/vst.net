@@ -1,0 +1,4 @@
+﻿Speaker -> Speaker.cs
+SpeakerArrangement -> SpeakerArrangement.cs
+SpeakerArrangementString -> SpeakerArrangementString.cs
+Functions -> SpeakerExtensions.cs

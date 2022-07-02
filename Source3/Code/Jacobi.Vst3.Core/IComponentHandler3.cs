@@ -12,4 +12,9 @@ namespace Jacobi.Vst3.Core
             [MarshalAs(UnmanagedType.Interface), In] IPlugView plugView,
             [MarshalAs(UnmanagedType.U4), In, Out] ref UInt32 paramID);
     }
+
+    static partial class Interfaces
+    {
+        public const string IComponentHandler3 = "69F11617-D26B-400D-A4B6-B9647B6EBBAB";
+    }
 }

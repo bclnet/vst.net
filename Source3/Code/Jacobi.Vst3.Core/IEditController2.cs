@@ -21,4 +21,9 @@ namespace Jacobi.Vst3.Core
         Int32 OpenAboutBox(
             [MarshalAs(UnmanagedType.U1), In] Boolean onlyCheck);
     }
+
+    internal static partial class Interfaces
+    {
+        public const string IEditController2 = "7F4EFE59-F320-4967-AC27-A3AEAFB63038";
+    }
 }

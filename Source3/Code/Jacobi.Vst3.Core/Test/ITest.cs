@@ -23,4 +23,10 @@ namespace Jacobi.Vst3.Core.Test
         [return: MarshalAs(UnmanagedType.LPWStr)]
         String GetDescription();
     }
+
+    static partial class Interfaces
+    {
+        public const string ITestW = "FE64FC19-9568-4F53-AAA7-8DC87228338E";
+        public const string ITestA = "9E2E608B-64C6-4CF8-8390-59BDA194032D";
+    }
 }

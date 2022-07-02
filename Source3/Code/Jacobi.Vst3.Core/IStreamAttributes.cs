@@ -15,4 +15,9 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.Interface)]
         IAttributeList GetAttributes();
     }
+
+    static partial class Interfaces
+    {
+        public const string IStreamAttributes = "D6CE2FFC-EFAF-4B8C-9E74-F1BB12DA44B4";
+    }
 }

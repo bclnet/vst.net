@@ -1,0 +1,5 @@
+﻿IHostApplication -> IHostApplication.cs
+IVst3ToVst2Wrapper -> IVst3ToVst2Wrapper.cs
+IVst3ToAUWrapper -> IVst3ToAUWrapper.cs
+IVst3ToAAXWrapper -> IVst3ToAAXWrapper.cs
+IVst3WrapperMPESupport -> IVst3WrapperMPESupport.cs

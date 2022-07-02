@@ -31,4 +31,9 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.U1)]
         Boolean IsWideString();
     }
+
+    static partial class Interfaces
+    {
+        public const string IString = "F99DB7A3-0FC1-4821-800B-0CF98E348EDF";
+    }
 }

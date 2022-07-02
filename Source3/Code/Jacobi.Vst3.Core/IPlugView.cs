@@ -8,65 +8,70 @@ namespace Jacobi.Vst3.Core
     {
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 IsPlatformTypeSupported(
-            [MarshalAs(UnmanagedType.LPStr), In] String type);
+        int IsPlatformTypeSupported(
+            [MarshalAs(UnmanagedType.LPStr), In] string type);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Attached(
+        int Attached(
             [MarshalAs(UnmanagedType.SysInt), In] IntPtr parent,
-            [MarshalAs(UnmanagedType.LPStr), In] String type);
+            [MarshalAs(UnmanagedType.LPStr), In] string type);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Removed();
+        int Removed();
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 OnWheel(
-            [MarshalAs(UnmanagedType.R4), In] Single distance);
+        int OnWheel(
+            [MarshalAs(UnmanagedType.R4), In] float distance);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 OnKeyDown(
-            [MarshalAs(UnmanagedType.U2), In] Char key,
-            [MarshalAs(UnmanagedType.I2), In] Int16 keyCode,
-            [MarshalAs(UnmanagedType.I2), In] Int16 modifiers);
+        int OnKeyDown(
+            [MarshalAs(UnmanagedType.U2), In] char key,
+            [MarshalAs(UnmanagedType.I2), In] short keyCode,
+            [MarshalAs(UnmanagedType.I2), In] short modifiers);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 OnKeyUp(
-            [MarshalAs(UnmanagedType.U2), In] Char key,
-            [MarshalAs(UnmanagedType.I2), In] Int16 keyCode,
-            [MarshalAs(UnmanagedType.I2), In] Int16 modifiers);
+        int OnKeyUp(
+            [MarshalAs(UnmanagedType.U2), In] char key,
+            [MarshalAs(UnmanagedType.I2), In] short keyCode,
+            [MarshalAs(UnmanagedType.I2), In] short modifiers);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetSize(
+        int GetSize(
             [MarshalAs(UnmanagedType.Struct), In, Out] ref ViewRect size);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 OnSize(
+        int OnSize(
             [MarshalAs(UnmanagedType.Struct), In] ref ViewRect newSize);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 OnFocus(
-            [MarshalAs(UnmanagedType.U1), In] Boolean state);
+        int OnFocus(
+            [MarshalAs(UnmanagedType.U1), In] bool state);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetFrame(
+        int SetFrame(
             [MarshalAs(UnmanagedType.Interface), In] IPlugFrame frame);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 CanResize();
+        int CanResize();
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 CheckSizeConstraint(
+        int CheckSizeConstraint(
             [MarshalAs(UnmanagedType.Struct), In] ref ViewRect rect);
+    }
+
+    static partial class Interfaces
+    {
+        public const string IPlugView = "5BC32507-D060-49EA-A615-1B522B755B29";
     }
 }

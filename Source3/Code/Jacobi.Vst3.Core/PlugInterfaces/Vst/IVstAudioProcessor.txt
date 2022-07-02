@@ -1,0 +1,12 @@
+﻿PlugType -> Plugin/CategoryCollection.cs
+ComponentFlags -> PClassInfo.cs
+SymbolicSampleSizes -> SymbolicSampleSizes.cs
+ProcessModes -> ProcessModes.cs
+kNoTail -> Constants.cs
+kInfiniteTail -> Constants.cs
+ProcessSetup -> ProcessSetup.cs
+AudioBusBuffers -> AudioBusBuffers.cs
+ProcessData -> ProcessData.cs
+IAudioProcessor -> IAudioProcessor.cs
+IAudioPresentationLatency -> IAudioPresentationLatency.cs
+IProcessContextRequirements -> IProcessContextRequirements.cs

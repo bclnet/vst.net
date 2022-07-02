@@ -1,0 +1,2 @@
+﻿ITestPlugProvider -> ITestPlugProvider.cs
+ITestPlugProvider2 -> ITestPlugProvider.cs

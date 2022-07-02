@@ -1,0 +1,2 @@
+﻿IMessage -> IMessage.cs
+IConnectionPoint -> IConnectionPoint.cs

@@ -8,8 +8,10 @@ namespace Jacobi.Vst3.Plugin
     public class EnumParameter : Parameter
     {
         protected EnumParameter() { }
+
         public EnumParameter(Type enumType)
             : base(new EnumParameterValueInfo(enumType)) { }
+
         public EnumParameter(EnumParameterValueInfo valueInfo)
             : base(valueInfo) { }
 

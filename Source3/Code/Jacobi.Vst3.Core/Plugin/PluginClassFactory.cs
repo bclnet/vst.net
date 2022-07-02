@@ -68,9 +68,9 @@ namespace Jacobi.Vst3.Plugin
         public void Register(ClassRegistration registration)
         {
             if (registration.ClassTypeId == Guid.Empty && registration.ClassType.GUID == Guid.Empty)
-                throw new ArgumentException("The ClassTypeId property is not set and the ClassType (class) does not have a GuidAttribute set.", "ClassType");
-            if (String.IsNullOrEmpty(registration.DisplayName) && registration.ClassType.GetDisplayName() == null)
-                throw new ArgumentException("The DisplayName property is not set and the ClassType (class) does not have a DisplayNameAttribute set.", "ClassType");
+                throw new ArgumentException("The ClassTypeId property is not set and the ClassType (class) does not have a GuidAttribute set.", nameof(registration.ClassType));
+            if (string.IsNullOrEmpty(registration.DisplayName) && registration.ClassType.GetDisplayName() == null)
+                throw new ArgumentException("The DisplayName property is not set and the ClassType (class) does not have a DisplayNameAttribute set.", nameof(registration.ClassType));
 
             EnrichRegistration(registration);
 
@@ -110,8 +110,8 @@ namespace Jacobi.Vst3.Plugin
         {
             // internals
             if (registration.ClassTypeId == Guid.Empty) registration.ClassTypeId = registration.ClassType.GUID;
-            if (String.IsNullOrEmpty(registration.DisplayName)) registration.DisplayName = registration.ClassType.GetDisplayName();
-            if (String.IsNullOrEmpty(registration.Vendor)) registration.Vendor = Vendor;
+            if (string.IsNullOrEmpty(registration.DisplayName)) registration.DisplayName = registration.ClassType.GetDisplayName();
+            if (string.IsNullOrEmpty(registration.Vendor)) registration.Vendor = Vendor;
             if (registration.Version == null) registration.Version = DefaultVersion;
         }
 
@@ -257,14 +257,14 @@ namespace Jacobi.Vst3.Plugin
 
         private bool IsValidRegIndex(int index) => index >= 0 && index < _registrations.Count;
 
-        private static string FormatSdkVersionString(Version sdkVersion) => "VST " + sdkVersion.ToString();
+        private static string FormatSdkVersionString(Version sdkVersion) => $"VST {sdkVersion}";
 
         private static string ObjectClassToCategory(ClassRegistration.ObjectClasses objClass) => objClass switch
         {
             ClassRegistration.ObjectClasses.AudioModuleClass => AudioModuleClassCategory,
             ClassRegistration.ObjectClasses.ComponentControllerClass => ComponentControllerClassCategory,
             ClassRegistration.ObjectClasses.TestClass => TestClassCategory,
-            _ => throw new InvalidEnumArgumentException("objClass", (int)objClass, typeof(ClassRegistration.ObjectClasses)),
+            _ => throw new InvalidEnumArgumentException(nameof(objClass), (int)objClass, typeof(ClassRegistration.ObjectClasses)),
         };
     }
 }

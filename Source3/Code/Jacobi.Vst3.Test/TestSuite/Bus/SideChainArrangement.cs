@@ -58,9 +58,9 @@ namespace Jacobi.Vst3.TestSuite
                 for (var busIndex = 0; busIndex < numOutBusses; busIndex++)
                     if (audioEffect.GetBusArrangement(BusDirections.Output, busIndex, outputArrArray[busIndex]) != TResult.S_True)
                         testResult.AddErrorMessage("IComponent::getBusArrangement (..) failed.");
-                outputArrArray[0] = SpeakerArrangement.ArrMono;
+                outputArrArray[0] = SpeakerArrangement.kMono;
             }
-            inputArrArray[0] = SpeakerArrangement.ArrMono;
+            inputArrArray[0] = SpeakerArrangement.kMono;
 
             if (audioEffect.SetBusArrangements(inputArrArray, numInBusses, outputArrArray, numOutBusses) == TResult.S_True)
             {

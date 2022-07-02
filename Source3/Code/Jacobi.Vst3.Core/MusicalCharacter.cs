@@ -1,5 +1,8 @@
 ﻿namespace Jacobi.Vst3.Core
 {
+    /// <summary>
+    /// Predefined Musical Character
+    /// </summary>
     public static class MusicalCharacter
     {
         public const string Mono = "Mono";

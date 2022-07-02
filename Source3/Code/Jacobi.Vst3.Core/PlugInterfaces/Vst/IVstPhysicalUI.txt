@@ -1,0 +1,5 @@
+﻿PhysicalUITypeID -> UInt32
+PhysicalUITypeIDs -> PhysicalUIMapList.cs
+PhysicalUIMap -> PhysicalUIMapList.cs
+PhysicalUIMapList -> PhysicalUIMapList.cs
+INoteExpressionPhysicalUIMapping -> INoteExpressionPhysicalUIMapping.cs

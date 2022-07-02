@@ -3,6 +3,10 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
+    /// <summary>
+    /// NoteExpressionTypeInfo is the structure describing a note expression supported by the plug-in.
+    /// This structure is used by the method \ref INoteExpressionController::getNoteExpressionInfo.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = Platform.CharacterSet, Pack = Platform.StructurePack)]
     public struct NoteExpressionTypeInfo
     {

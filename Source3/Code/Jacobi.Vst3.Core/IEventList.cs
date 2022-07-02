@@ -21,4 +21,9 @@ namespace Jacobi.Vst3.Core
         Int32 AddEvent(
             [MarshalAs(UnmanagedType.Struct), In] ref Event e);
     }
+
+    internal static partial class Interfaces
+    {
+        public const string IEventList = "3A2C4214-3463-49FE-B2C4-F397B9695A44";
+    }
 }

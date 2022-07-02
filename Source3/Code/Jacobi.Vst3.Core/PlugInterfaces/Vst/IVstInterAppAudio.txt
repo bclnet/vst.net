@@ -1,0 +1,3 @@
+﻿IInterAppAudioHost -> IInterAppAudioHost.cs
+IInterAppAudioConnectionNotification -> IInterAppAudioConnectionNotification.cs
+IInterAppAudioPresetManager -> IInterAppAudioPresetManager.cs

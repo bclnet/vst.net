@@ -88,7 +88,7 @@ namespace Jacobi.Vst3.TestSuite
                                 var msg = $"Programlist {programListIndex,3}->Program {programIndex,3}: \"{programNameUTF8}\"";
 
                                 StringBuilder programInfo = new();
-                                if (iUnitInfo.GetProgramInfo(programListId, programIndex, AttributeIds.Instrument, programInfo) == TResult.S_OK)
+                                if (iUnitInfo.GetProgramInfo(programListId, programIndex, PresetAttributes.Instrument, programInfo) == TResult.S_OK)
                                     msg += $" (instrument = \"{programInfo}\")";
 
                                 testResult.AddMessage(msg);

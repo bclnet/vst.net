@@ -16,4 +16,9 @@ namespace Jacobi.Vst3.Core
         Int32 SetStreamSize(
             [MarshalAs(UnmanagedType.I8), In] Int64 size);
     }
+
+    static partial class Interfaces
+    {
+        public const string ISizeableStream = "04F9549E-E02F-4E6E-87E8-6A8747F4E17F";
+    }
 }

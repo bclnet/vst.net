@@ -38,6 +38,11 @@ namespace Jacobi.Vst3.Core
             [MarshalAs(UnmanagedType.SysInt, IidParameterIndex = 1), In, Out] ref IntPtr instance);
     }
 
+    static partial class Interfaces
+    {
+        public const string IPluginFactory = "7A4D811C-5211-4A1F-AED9-D2EE0B43BF9F";
+    }
+
     [ComImport, Guid(Interfaces.IPluginFactory2), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IPluginFactory2
     {
@@ -73,6 +78,11 @@ namespace Jacobi.Vst3.Core
         Int32 GetClassInfo2(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
             [MarshalAs(UnmanagedType.Struct)] ref PClassInfo2 info);
+    }
+
+    static partial class Interfaces
+    {
+        public const string IPluginFactory2 = "0007B650-F24B-4C0B-A464-EDB9F00B2ABB";
     }
 
     [ComImport, Guid(Interfaces.IPluginFactory3), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
@@ -124,5 +134,10 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 SetHostContext(
             [MarshalAs(UnmanagedType.IUnknown), In] Object context);
+    }
+
+    static partial class Interfaces
+    {
+        public const string IPluginFactory3 = "4555A2AB-C123-4E57-9B12-291036878931";
     }
 }

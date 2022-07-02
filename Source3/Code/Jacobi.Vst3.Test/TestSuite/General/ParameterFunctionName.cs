@@ -71,13 +71,13 @@ namespace Jacobi.Vst3.TestSuite
 
             //var iUnitInfo2 = controller as IUnitInfo;
             var arrayFunctionName = new string[] {
-                FunctionNameTypes.CompGainReduction,
-                FunctionNameTypes.CompGainReductionMax,
-                FunctionNameTypes.CompGainReductionPeakHold,
-                FunctionNameTypes.CompResetGainReductionMax,
-                FunctionNameTypes.LowLatencyMode,
-                FunctionNameTypes.Randomize,
-                FunctionNameTypes.DryWetMix};
+                FunctionNameType.CompGainReduction,
+                FunctionNameType.CompGainReductionMax,
+                FunctionNameType.CompGainReductionPeakHold,
+                FunctionNameType.CompResetGainReductionMax,
+                FunctionNameType.LowLatencyMode,
+                FunctionNameType.Randomize,
+                FunctionNameType.DryWetMix};
             var paramID = 0U;
             foreach (var item in arrayFunctionName)
                 if (iParameterFunctionName.GetParameterIDFromFunctionName(UnitInfo.RootUnitId, item, ref paramID) == TResult.S_True)

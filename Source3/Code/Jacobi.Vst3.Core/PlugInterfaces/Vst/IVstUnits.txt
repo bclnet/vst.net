@@ -1,0 +1,10 @@
+﻿kRootUnitId -> UnitInfo.cs
+kNoParentUnitId -> UnitInfo.cs
+kNoProgramListId -> UnitInfo.cs
+ProgramListInfo -> ProgramListInfo.cs
+kAllProgramInvalid -> ProgramListInfo.cs
+IUnitHandler -> IUnitHandler.cs
+IUnitHandler2 -> IUnitHandler.cs
+IUnitInfo -> IUnitInfo.cs
+IProgramListData -> IProgramListData.cs
+IUnitData -> IUnitData.cs

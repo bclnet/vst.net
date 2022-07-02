@@ -1,5 +1,8 @@
 ﻿namespace Jacobi.Vst3.Core
 {
+    /// <summary>
+    /// Predefined Musical Instrument
+    /// </summary>
     public static class MusicalInstrument
     {
         public const string Accordion = "Accordion";
