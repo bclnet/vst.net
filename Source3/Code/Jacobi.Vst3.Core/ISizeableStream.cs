@@ -3,14 +3,28 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
+    /// <summary>
+    /// Stream with a size.
+    /// [extends IBStream] when stream type supports it (like file and memory stream)
+    /// </summary>
     [ComImport, Guid(Interfaces.ISizeableStream), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface ISizeableStream
     {
+        /// <summary>
+        /// Return the stream size
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetStreamSize(
-            [MarshalAs(UnmanagedType.I8), In, Out] ref Int64 size);
+            [MarshalAs(UnmanagedType.I8), Out] out Int64 size);
 
+        /// <summary>
+        /// Set the steam size. File streams can only be resized if they are write enabled.
+        /// </summary>
+        /// <param name="size"></param>
+        /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 SetStreamSize(

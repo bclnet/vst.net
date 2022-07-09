@@ -1,0 +1,2 @@
+﻿kPluginCompatibilityClass -> Constants.cs
+IPluginCompatibility -> IPluginCompatibility.cs

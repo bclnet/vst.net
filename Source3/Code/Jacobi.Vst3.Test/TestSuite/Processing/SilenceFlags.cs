@@ -1,13 +1,13 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Core.Test;
-using Jacobi.Vst3.Host;
+using System;
 
 namespace Jacobi.Vst3.TestSuite
 {
     /// <summary>
     /// Test Silence Flags.
     /// </summary>
-    public class SilenceFlagsTest : ProcessTest
+    public unsafe class SilenceFlagsTest : ProcessTest
     {
         public override string Name => "Silence Flags";
 
@@ -15,10 +15,38 @@ namespace Jacobi.Vst3.TestSuite
 
         public override bool Run(ITestResult testResult)
         {
-            if (testResult == null || vstPlug == null) return false;
+            if (vstPlug == null || testResult == null || audioEffect == null) return false;
+            if (!CanProcessSampleSize(testResult)) return true;
 
             PrintTestHeader(testResult);
 
+            if (processData._.Inputs != IntPtr.Zero)
+            {
+                audioEffect.SetProcessing(true);
+
+                for (var inputsIndex = 0; inputsIndex < processData._.NumInputs; inputsIndex++)
+                {
+                    var numSilenceFlagsCombinations = (1 << ((AudioBusBuffers*)processData._.Inputs)[inputsIndex].NumChannels) - 1;
+                    for (var flagCombination = 0; flagCombination <= numSilenceFlagsCombinations; flagCombination++)
+                    {
+                        ((AudioBusBuffers*)processData._.Inputs)[inputsIndex].SilenceFlags = (ulong)flagCombination;
+                        var result = audioEffect.Process(processData._);
+                        if (result != TResult.S_OK)
+                        {
+                            testResult.AddErrorMessage("The component failed to process bus {inputsIndex} with silence flag combination {flagCombination}!");
+                            audioEffect.SetProcessing(false);
+                            return false;
+                        }
+                    }
+                }
+            }
+            else if (processData._.NumInputs > 0)
+            {
+                testResult.AddErrorMessage("ProcessData::inputs are 0 but ProcessData::numInputs are nonzero.");
+                return false;
+            }
+
+            audioEffect.SetProcessing(false);
             return true;
         }
     }

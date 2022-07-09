@@ -1,0 +1,2 @@
+﻿IStringResult -> IStringResult.cs
+IString -> IString.cs

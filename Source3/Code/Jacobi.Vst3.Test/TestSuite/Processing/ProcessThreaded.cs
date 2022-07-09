@@ -1,6 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Core.Test;
-using Jacobi.Vst3.Host;
+using System.Threading;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -15,11 +15,31 @@ namespace Jacobi.Vst3.TestSuite
 
         public override bool Run(ITestResult testResult)
         {
-            if (testResult == null || vstPlug == null) return false;
+            const int NUM_ITERATIONS = 9999;
+
+            if (vstPlug == null || testResult == null || audioEffect == null) return false;
+            if (!CanProcessSampleSize(testResult)) return true;
 
             PrintTestHeader(testResult);
 
-            return true;
+            var result = false;
+
+            var processThread = new Thread(() =>
+            {
+                result = true;
+                audioEffect.SetProcessing(true);
+                for (var i = 0; i < NUM_ITERATIONS; i++)
+                {
+                    var tr = audioEffect.Process(processData._);
+                    if (tr != TResult.S_True) { result = false; break; }
+                }
+                audioEffect.SetProcessing(false);
+            });
+            processThread.Start();
+            processThread.Join();
+
+            if (!result) testResult.AddErrorMessage("Processing failed.");
+            return result;
         }
     }
 }

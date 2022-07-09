@@ -1,4 +1,5 @@
-﻿using Jacobi.Vst3.Plugin;
+﻿using Jacobi.Vst3.Core;
+using Jacobi.Vst3.Plugin;
 
 namespace Jacobi.Vst3.TestPlugin
 {
@@ -13,7 +14,7 @@ namespace Jacobi.Vst3.TestPlugin
         private void RegisterClasses()
         {
             var reg = Register(typeof(PluginComponent), ClassRegistration.ObjectClasses.AudioModuleClass);
-            reg.Categories = new CategoryCollection(CategoryCollection.Fx);
+            reg.Categories = new PlugType(PlugType.Fx);
 
             Register(typeof(MyEditController), ClassRegistration.ObjectClasses.ComponentControllerClass);
         }

@@ -206,7 +206,7 @@ namespace Jacobi.Vst3.Plugin
 
         #region IEditController2 Members
 
-        public virtual int SetKnobMode(KnobModes mode)
+        public virtual int SetKnobMode(KnobMode mode)
         {
             Trace.WriteLine($"IEditController2.SetKnobMode {mode}");
 

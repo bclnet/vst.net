@@ -101,7 +101,7 @@ namespace Jacobi.Vst3.Plugin
         {
             Trace.WriteLine("IAudioProcessor.GetTailSamples");
 
-            return Constants.NoTailSamples;
+            return Constants.kNoTail;
         }
 
         #endregion

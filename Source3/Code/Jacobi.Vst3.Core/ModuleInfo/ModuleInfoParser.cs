@@ -169,7 +169,7 @@ namespace Jacobi.Vst3.Core.ModuleInfo
                         else if (elementName == "Cardinality")
                         {
                             if ((parsed & ParseClassesBits.Cardinality) != 0) throw new parse_error("Only one 'Cardinality' key allowed", el);
-                            ci.Cardinality = el.Value.GetInt32();
+                            ci.Cardinality = (PClassInfo.ClassCardinality)el.Value.GetInt32();
                             parsed |= ParseClassesBits.Cardinality;
                         }
                         else if (elementName == "Snapshots")

@@ -3,10 +3,24 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
+    /// <summary>
+    /// Extended plug-in interface IEditController: Vst::IAutomationState
+    /// Hosts can inform the plug-in about its current automation state (Read/Write/Nothing).
+    /// </summary>
     [ComImport, Guid(Interfaces.IAutomationState), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IAutomationState
     {
-        public enum AutomationStates
+        /// <summary>
+        /// Sets the current Automation state.
+        /// </summary>
+        /// <param name="state"></param>
+        /// <returns></returns>
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.Error)]
+        Int32 SetAutomationState(
+            [MarshalAs(UnmanagedType.I4), In] AutomationStates state);
+
+        public enum AutomationStates : int
         {
             NoAutomation = 0,      // Not Read and not Write
             ReadState = 1 << 0,    // Read state
@@ -14,11 +28,6 @@ namespace Jacobi.Vst3.Core
 
             ReadWriteState = ReadState | WriteState, // Read and Write enable
         }
-
-        [PreserveSig]
-        [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetAutomationState(
-            [MarshalAs(UnmanagedType.I4), In] AutomationStates state);
     }
 
     static partial class Interfaces

@@ -19,7 +19,7 @@ namespace Jacobi.Vst3.Core
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetName(
-            [MarshalAs(UnmanagedType.LPWStr, SizeConst = Constants.Fixed128), In] StringBuilder name);
+            [MarshalAs(UnmanagedType.LPWStr, SizeConst = Constants.String128), In] StringBuilder name);
 
         /// <summary>
         /// Creates host object (e.g. Vst::IMessage).

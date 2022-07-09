@@ -1,13 +1,13 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Core.Test;
-using Jacobi.Vst3.Host;
+using System;
 
 namespace Jacobi.Vst3.TestSuite
 {
     /// <summary>
     /// Test Input Overwriting
     /// </summary>
-    public class ProcessInputOverwritingTest : ProcessTest
+    public unsafe class ProcessInputOverwritingTest : ProcessTest
     {
         bool noNeedtoProcess;
 
@@ -21,6 +21,117 @@ namespace Jacobi.Vst3.TestSuite
 
             PrintTestHeader(testResult);
 
+            var ret = base.Run(testResult);
+            return ret;
+        }
+
+        protected override bool PreProcess(ITestResult testResult)
+        {
+            var min = processData._.NumInputs < processData._.NumOutputs ? processData._.NumInputs : processData._.NumOutputs;
+            noNeedtoProcess = true;
+
+            for (var i = 0; i < min; i++)
+            {
+                if (!noNeedtoProcess) break;
+
+                var minChannel = ((AudioBusBuffers*)processData._.Inputs)[i].NumChannels < ((AudioBusBuffers*)processData._.Outputs)[i].NumChannels ? ((AudioBusBuffers*)processData._.Inputs)[i].NumChannels : ((AudioBusBuffers*)processData._.Outputs)[i].NumChannels;
+
+                var ptrIn = (Single**)((AudioBusBuffers*)processData._.Inputs)[i].ChannelBuffers32;
+                var ptrOut = (Single**)((AudioBusBuffers*)processData._.Outputs)[i].ChannelBuffers32;
+                for (var j = 0; j < minChannel; j++)
+                    if (ptrIn[j] != ptrOut[j]) { noNeedtoProcess = false; break; }
+            }
+            if (noNeedtoProcess) return true;
+
+            for (var i = 0; i < processData._.NumInputs; i++)
+            {
+                if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample32)
+                {
+                    var ptr = (Single**)((AudioBusBuffers*)processData._.Inputs)[i].ChannelBuffers32;
+                    if (ptr != null)
+                    {
+                        var inc = 1f / (processData._.NumSamples - 1);
+                        for (var c = 0; c < ((AudioBusBuffers*)processData._.Inputs)[i].NumChannels; c++)
+                        {
+                            var chaBuf = ptr[c];
+                            for (var j = 0; j < processData._.NumSamples; j++)
+                            {
+                                *chaBuf = inc * j;
+                                chaBuf++;
+                            }
+                        }
+                    }
+                }
+                else if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample64)
+                {
+                    var ptr = (Double**)((AudioBusBuffers*)processData._.Inputs)[i].ChannelBuffers64;
+                    if (ptr != null)
+                    {
+                        var inc = 1f / (processData._.NumSamples - 1);
+                        for (var c = 0; c < ((AudioBusBuffers*)processData._.Inputs)[i].NumChannels; c++)
+                        {
+                            var chaBuf = ptr[c];
+                            for (var j = 0; j < processData._.NumSamples; j++)
+                            {
+                                *chaBuf = inc * j;
+                                chaBuf++;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
+        }
+
+        protected override bool PostProcess(ITestResult testResult)
+        {
+            if (noNeedtoProcess) return true;
+
+            for (var i = 0; i < processData._.NumInputs; i++)
+            {
+                if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample32)
+                {
+                    var ptr = (Single**)((AudioBusBuffers*)processData._.Inputs)[i].ChannelBuffers32;
+                    if (ptr != null)
+                    {
+                        var inc = 1f / (processData._.NumSamples - 1);
+                        for (var c = 0; c < ((AudioBusBuffers*)processData._.Inputs)[i].NumChannels; c++)
+                        {
+                            var chaBuf = ptr[c];
+                            for (var j = 0; j < processData._.NumSamples; j++)
+                            {
+                                if (*chaBuf != inc * j)
+                                {
+                                    testResult.AddErrorMessage("IAudioProcessor::process overwrites input buffer (..with kSample32..)!");
+                                    return false;
+                                }
+                                chaBuf++;
+                            }
+                        }
+                    }
+                }
+                else if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample64)
+                {
+                    var ptr = (Double**)((AudioBusBuffers*)processData._.Inputs)[i].ChannelBuffers64;
+                    if (ptr != null)
+                    {
+                        var inc = 1f / (processData._.NumSamples - 1);
+                        for (var c = 0; c < ((AudioBusBuffers*)processData._.Inputs)[i].NumChannels; c++)
+                        {
+                            var chaBuf = ptr[c];
+                            for (var j = 0; j < processData._.NumSamples; j++)
+                            {
+                                if (*chaBuf != inc * j)
+                                {
+                                    testResult.AddErrorMessage("IAudioProcessor::process overwrites input buffer (..with kSample64..)!");
+                                    return false;
+                                }
+                                chaBuf++;
+                            }
+                        }
+                    }
+                }
+            }
             return true;
         }
     }

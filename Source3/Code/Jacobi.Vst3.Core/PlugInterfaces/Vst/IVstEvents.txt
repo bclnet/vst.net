@@ -1,1 +1,10 @@
-﻿
+﻿NoteIDUserRange -> Event.cs
+NoteOnEvent -> NoteOnEvent.cs
+NoteOffEvent -> NoteOffEvent.cs
+DataEvent -> DataEvent.cs
+PolyPressureEvent -> PolyPressureEvent.cs
+ChordEvent -> ChordEvent.cs
+ScaleEvent -> ScaleEvent.cs
+LegacyMIDICCOutEvent -> LegacyMIDICCOutEvent.cs
+Event -> Event.cs
+IEventList -> IEventList.cs

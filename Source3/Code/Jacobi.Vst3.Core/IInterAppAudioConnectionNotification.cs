@@ -15,7 +15,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         void OnInterAppAudioConnectionStateChange(
-            [MarshalAs(UnmanagedType.U4), In] Boolean newState);
+            [MarshalAs(UnmanagedType.U1), In] Boolean newState);
     }
 
     static partial class Interfaces

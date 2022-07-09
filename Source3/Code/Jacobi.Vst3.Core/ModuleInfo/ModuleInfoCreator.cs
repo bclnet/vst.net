@@ -38,7 +38,7 @@ namespace Jacobi.Vst3.Core.ModuleInfo
                 w.WriteEndArray();
             }
             w.WriteNumber("Class Flags", cls.Flags);
-            w.WriteNumber("Cardinality", cls.Cardinality);
+            w.WriteNumber("Cardinality", (int)cls.Cardinality);
             WriteSnapshots(cls.Snapshots, w);
         }
 

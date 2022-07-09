@@ -1,0 +1,6 @@
+﻿VirtualKeyCodes -> VirtualKeyCodes.cs
+VirtualKeyCodeToChar -> ??
+CharToVirtualKeyCode -> ??
+KeyModifier -> KeyModifier.cs
+KeyCode -> ??
+isModifierOnlyKey -> ??

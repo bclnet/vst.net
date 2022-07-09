@@ -12,9 +12,14 @@ namespace Jacobi.Vst3.Core
     {
         public static readonly int Size = Marshal.SizeOf<RepresentationInfo>();
 
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeName)] public String Vendor;	// Vendor name of the associated representation (remote) (eg. "Yamaha").
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeName)] public String Name;		// Representation (remote) Name (eg. "O2").
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeName)] public String Version;	// Version of this "Remote" (eg. "1.0").
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeName)] public String Host;     // Optional: used if the representation is for a given host only (eg. "Nuendo").
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kNameSize)] public String Vendor;	// Vendor name of the associated representation (remote) (eg. "Yamaha").
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kNameSize)] public String Name;		// Representation (remote) Name (eg. "O2").
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kNameSize)] public String Version;	// Version of this "Remote" (eg. "1.0").
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kNameSize)] public String Host;     // Optional: used if the representation is for a given host only (eg. "Nuendo").
+
+        public static class SizeConst
+        {
+            public const int kNameSize = 64;
+        }
     }
 }

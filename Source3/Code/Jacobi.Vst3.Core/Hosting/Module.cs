@@ -28,14 +28,14 @@ namespace Jacobi.Vst3.Host
         public ClassInfo() { }
         public ClassInfo(ref PClassInfo info)
         {
-            data.ClassID = info.ClassId;
+            data.ClassID = info.Cid;
             data.Cardinality = info.Cardinality;
             data.Category = info.Category;
             data.Name = info.Name;
         }
         public ClassInfo(ref PClassInfo2 info)
         {
-            data.ClassID = info.ClassId;
+            data.ClassID = info.Cid;
             data.Cardinality = info.Cardinality;
             data.Category = info.Category;
             data.Name = info.Name;
@@ -47,7 +47,7 @@ namespace Jacobi.Vst3.Host
         }
         public ClassInfo(ref PClassInfoW info)
         {
-            data.ClassID = info.ClassId;
+            data.ClassID = info.Cid;
             data.Cardinality = info.Cardinality;
             data.Category = info.Category.Value;
             data.Name = info.Name;
@@ -59,7 +59,7 @@ namespace Jacobi.Vst3.Host
         }
 
         public Guid ID => data.ClassID;
-        public int Cardinality => data.Cardinality;
+        public PClassInfo.ClassCardinality Cardinality => data.Cardinality;
         public string Category => data.Category;
         public string Name => data.Name;
         public string Vendor => data.Vendor;
@@ -67,19 +67,19 @@ namespace Jacobi.Vst3.Host
         public string SdkVersion => data.SdkVersion;
         public List<string> SubCategories => data.SubCategories;
         public string SubCategoriesString() => SubCategories.Count == 0 ? string.Empty : string.Join('|', SubCategories);
-        public ComponentClassFlags ClassFlags => data.ClassFlags;
+        public ComponentFlags ClassFlags => data.ClassFlags;
 
         internal struct Data
         {
             public Guid ClassID;
-            public int Cardinality;
+            public PClassInfo.ClassCardinality Cardinality;
             public string Category;
             public string Name;
             public string Vendor;
             public string Version;
             public string SdkVersion;
             public List<string> SubCategories;
-            public ComponentClassFlags ClassFlags;
+            public ComponentFlags ClassFlags;
         }
 
         void ParseSubCategories(string str) => data.SubCategories = str.Split("|").ToList();
@@ -93,50 +93,46 @@ namespace Jacobi.Vst3.Host
 
         void SetHostContext([MarshalAs(UnmanagedType.IUnknown), In] object context)
         {
-            if (context is IPluginFactory3 f)
-            {
-                f.SetHostContext(context);
-            }
+            if (context is IPluginFactory3 f) f.SetHostContext(context);
         }
 
+        FactoryInfo _info;
         public FactoryInfo Info
         {
             get
             {
-                var info = new PFactoryInfo();
-                _factory.GetFactoryInfo(ref info);
-                return new FactoryInfo(info);
+                if (_info != null) return _info;
+                _factory.GetFactoryInfo(out var info);
+                return _info = new FactoryInfo(info);
             }
         }
 
+        int _classCount = 0;
         public int ClassCount
         {
             get
             {
+                if (_classCount != 0) return _classCount;
                 var count = _factory.CountClasses();
                 Debug.Assert(count >= 0);
-                return count;
+                return _classCount = count;
             }
         }
 
-        const int kResultTrue = 0;
+        List<ClassInfo> _classInfos;
         public List<ClassInfo> ClassInfos
         {
             get
             {
+                if (_classInfos != null) return _classInfos;
                 var count = ClassCount;
                 var factoryInfo = (FactoryInfo)null;
                 var result = new List<ClassInfo> { Capacity = count };
-                var f3 = _factory as IPluginFactory3;
-                var f2 = _factory as IPluginFactory2;
-                var ci = new PClassInfo();
-                var ci2 = new PClassInfo2();
-                var ci3 = new PClassInfoW();
                 for (var i = 0; i < count; i++)
                 {
-                    if (f3 != null && f3.GetClassInfoUnicode(i, ref ci3) == kResultTrue) result.Add(new ClassInfo(ref ci3));
-                    else if (f2 != null && f2.GetClassInfo2(i, ref ci2) == kResultTrue) result.Add(new ClassInfo(ref ci2));
-                    else if (_factory.GetClassInfo(i, ref ci) == kResultTrue) result.Add(new ClassInfo(ref ci));
+                    if (_factory is IPluginFactory3 f3 && f3.GetClassInfoUnicode(i, out var ci3) == TResult.S_True) result.Add(new ClassInfo(ref ci3));
+                    else if (_factory is IPluginFactory2 f2 && f2.GetClassInfo2(i, out var ci2) == TResult.S_True) result.Add(new ClassInfo(ref ci2));
+                    else if (_factory.GetClassInfo(i, out var ci) == TResult.S_True) result.Add(new ClassInfo(ref ci));
                     var classInfo = result.LastOrDefault();
                     if (classInfo != null && string.IsNullOrEmpty(classInfo.Vendor))
                     {
@@ -144,7 +140,7 @@ namespace Jacobi.Vst3.Host
                         classInfo.data.Vendor = factoryInfo.Vendor;
                     }
                 }
-                return result;
+                return _classInfos = result;
             }
         }
 

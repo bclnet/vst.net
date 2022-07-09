@@ -1,5 +1,8 @@
 ﻿namespace Jacobi.Vst3.Core
 {
+    /// <summary>
+    /// I/O modes 
+    /// </summary>
     public enum IoModes : int
     {
         Simple = 0,		    // 1:1 Input / Output. Only used for Instruments. See \ref vst3IoMode

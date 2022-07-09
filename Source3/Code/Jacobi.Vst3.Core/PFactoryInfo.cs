@@ -5,22 +5,27 @@ using System.Runtime.InteropServices;
 namespace Jacobi.Vst3.Core
 {
     // Note CharSet is not the same as the platform global value.
+    /// <summary>
+    /// Basic Information about the class factory of the plug-in.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = Platform.StructurePack)]
     public struct PFactoryInfo
     {
         public static readonly int Size = Marshal.SizeOf<PFactoryInfo>();
 
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeVendor)] public String Vendor;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeUrl)] public String Url;
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.MaxSizeEmail)] public String Email;
-        [MarshalAs(UnmanagedType.I4)] public FactoryFlags Flags;
+        public const FactoryFlags DefaultFactoryFlags = FactoryFlags.Unicode;	                    // no programs are used in the unit.
 
-        public void SafeSetVendor(string vendor) { Guard.ThrowIfTooLong(nameof(vendor), vendor, 0, Constants.MaxSizeVendor); Vendor = vendor; }
-        public void SafeSetEmail(string email) { Guard.ThrowIfTooLong(nameof(email), email, 0, Constants.MaxSizeEmail); Email = email; }
-        public void SafeSetUrl(string url) { Guard.ThrowIfTooLong(nameof(url), url, 0, Constants.MaxSizeUrl); Url = url; }
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kNameSize)] public String Vendor; // e.g. "Steinberg Media Technologies"
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kURLSize)] public String Url;     // e.g. "http://www.steinberg.de"
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kEmailSize)] public String Email; // e.g. "info@steinberg.de"
+        [MarshalAs(UnmanagedType.I4)] public FactoryFlags Flags;             // (see FactoryFlags above)
+
+        public void SetVendor(string vendor) { Guard.ThrowIfTooLong(nameof(vendor), vendor, 0, SizeConst.kNameSize); Vendor = vendor; }
+        public void SetEmail(string email) { Guard.ThrowIfTooLong(nameof(email), email, 0, SizeConst.kEmailSize); Email = email; }
+        public void SetUrl(string url) { Guard.ThrowIfTooLong(nameof(url), url, 0, SizeConst.kURLSize); Url = url; }
 
         [Flags]
-        public enum FactoryFlags
+        public enum FactoryFlags : int
         {
             /// <summary>Nothing</summary>
             NoFlags = 0,
@@ -43,6 +48,13 @@ namespace Jacobi.Vst3.Core
 
             /// <summary>Components have entirely unicode encoded strings. (True for VST 3 Plug-ins so far)</summary>
             Unicode = 1 << 4
+        }
+
+        public static class SizeConst
+        {
+            public const int kURLSize = 256;
+            public const int kEmailSize = 128;
+            public const int kNameSize = 64;
         }
     }
 }

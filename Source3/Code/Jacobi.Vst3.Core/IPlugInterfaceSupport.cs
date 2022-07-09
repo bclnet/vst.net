@@ -17,7 +17,7 @@ namespace Jacobi.Vst3.Core
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         public Int32 IsPlugInterfaceSupported(
-            [MarshalAs(UnmanagedType.U8), Out] out Guid uid);
+            [MarshalAs(UnmanagedType.U8), In] Guid uid);
     }
 
     static partial class Interfaces

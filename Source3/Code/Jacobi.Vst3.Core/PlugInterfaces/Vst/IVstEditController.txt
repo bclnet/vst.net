@@ -1,1 +1,14 @@
-﻿
+﻿kVstComponentControllerClass -> Constants.cs
+ParameterInfo -> ParameterInfo.cs
+ViewType -> ViewType.cs
+RestartFlags -> RestartFlags.cs
+IComponentHandler -> IComponentHandler.cs
+IComponentHandler2 -> IComponentHandler2.cs
+IComponentHandlerBusActivation -> IComponentHandlerBusActivation.cs
+IProgress -> IProgress.cs
+IEditController -> IEditController.cs
+KnobModes -> KnobMode.cs
+KnobMode -> UInt32
+IEditController2 -> IEditController2.cs
+IMidiMapping -> IMidiMapping.cs
+IEditControllerHostEditing -> IEditControllerHostEditing.cs

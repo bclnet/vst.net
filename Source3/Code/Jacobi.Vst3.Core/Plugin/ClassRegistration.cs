@@ -17,18 +17,18 @@ namespace Jacobi.Vst3.Plugin
         // maps to Category
         public ObjectClasses ObjectClass { get; set; }
 
-        public ComponentClassFlags ClassFlags { get; set; }
+        public ComponentFlags ClassFlags { get; set; }
 
         // DisplayName on ClassType
         public string DisplayName { get; set; }
 
-        private CategoryCollection _categories;
+        private PlugType _categories;
         // maps to subCategories
-        public CategoryCollection Categories
+        public PlugType Categories
         {
             get
             {
-                if (_categories == null) _categories = new CategoryCollection();
+                if (_categories == null) _categories = new PlugType();
                 return _categories;
             }
 

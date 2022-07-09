@@ -1,14 +1,9 @@
 ﻿IInfoListener -> IInfoListener.cs
 ChannelPluginLocation -> ChannelPluginLocation.cs
-ChannelContext
-ChannelPluginLocation
-ColorSpec ->>
-ColorComponent
-GetBlue
-GetGreen
-GetRed
-GetAlpha
-kChannelUIDKey
-kChannelUIDLengthKey
-kChannelNameKey
-kChannelNameLengthKey
+ColorSpec -> UInt32
+ColorComponent -> Byte
+GetBlue -> ColorSpecX.cs
+GetGreen -> ColorSpecX.cs
+GetRed -> ColorSpecX.cs
+GetAlpha -> ColorSpecX.cs
+ChannelContextKey > ChannelContextKey.cs

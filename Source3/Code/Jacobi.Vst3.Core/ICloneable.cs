@@ -3,9 +3,16 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
+    /// <summary>
+    /// Interface allowing an object to be copied.
+    /// </summary>
     [ComImport, Guid(Interfaces.ICloneable), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface ICloneable
     {
+        /// <summary>
+        /// Create exact copy of the object
+        /// </summary>
+        /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.IUnknown)]
         Object Clone();

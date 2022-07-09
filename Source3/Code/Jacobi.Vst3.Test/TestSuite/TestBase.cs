@@ -1,6 +1,5 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Core.Test;
-using Jacobi.Vst3.Host;
 using System;
 using System.Runtime.InteropServices;
 

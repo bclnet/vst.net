@@ -1,0 +1,3 @@
+﻿IPersistent -> IPersistent.cs
+IAttributes -> IAttributes.cs
+IAttributes2 -> IAttributes.cs

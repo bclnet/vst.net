@@ -28,7 +28,7 @@ namespace Jacobi.Vst3.Core.ModuleInfo
 			public string SdkVersion;
 			public List<string> SubCategories;
 			public List<Snapshot> Snapshots;
-			public int Cardinality;
+			public PClassInfo.ClassCardinality Cardinality;
 			public uint Flags;
 		}
 

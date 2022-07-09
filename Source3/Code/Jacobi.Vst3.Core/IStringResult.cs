@@ -3,6 +3,12 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
+    /// <summary>
+    /// Interface to return an ascii string of variable size. 
+    /// In order to manage memory allocation and deallocation properly, 
+    /// this interface is used to transfer a string as result parameter of
+	/// a method requires a string of unknown size. 
+    /// </summary>
     [ComImport, Guid(Interfaces.IStringResult), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IStringResult
     {

@@ -1,8 +1,8 @@
-﻿kDefaultFactoryFlags
-MediaTypes
-BusDirections
-BusTypes
-BusInfo
-IoModes
-RoutingInfo
-IComponent
+﻿kDefaultFactoryFlags -> PFactoryInfo.cs
+MediaTypes -> MediaTypes.cs
+BusDirections -> BusDirections.cs
+BusTypes -> BusTypes.cs
+BusInfo -> BusInfo.cs
+IoModes-> IoModes.cs
+RoutingInfo-> RoutingInfo.cs
+IComponent-> IComponent.cs

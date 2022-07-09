@@ -1,23 +1,25 @@
-﻿// General
-MediaType -> MediaTypes.cs
-BusDirection -> BusDirections.cs
-BusType -> BusTypes.cs
-IoMode -> IoModes.cs
-UnitID -> ??
-ParamValue -> ??
-ParamID -> ??
-ProgramListID -> ??
-CtrlNumber -> ??
+﻿kVstVersionString -> Constants.cs
+
+// General
+MediaType -> Int32 -> MediaTypes.cs
+BusDirection -> Int32 -> BusDirections.cs
+BusType -> Int32 -> BusTypes.cs
+IoMode -> Int32 -> IoModes.cs
+UnitID -> Int32
+ParamValue -> Double
+ParamID -> UInt32
+ProgramListID -> Int32
+CtrlNumber -> Int16 -> ControllerNumbers.cs
 TQuarterNotes -> Double
 TSamples -> Int64
-ColorSpec -> ??
+ColorSpec -> UInt32
 kNoParamId -> ParameterInfo.cs
 
 // Audio Types
-Sample32 -> HARDCODED
-Sample64 -> HARDCODED
-SampleRate -> HARDCODED
+Sample32 -> Single
+Sample64 -> Double
+SampleRate -> Double
 
 // Speaker Arrangements Types
-SpeakerArrangement -> SpeakerArrangement.cs
-Speaker -> Speaker.cs
+SpeakerArrangement -> UInt64 -> SpeakerArrangement.cs
+Speaker -> UInt64 -> Speaker.cs

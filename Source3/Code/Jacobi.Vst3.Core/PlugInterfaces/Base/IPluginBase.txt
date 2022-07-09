@@ -1,0 +1,8 @@
+﻿IPluginBase -> IPluginBase.cs
+PFactoryInfo -> PFactoryInfo.cs
+PClassInfo -> PClassInfo.cs
+IPluginFactory -> IPluginFactory.cs
+PClassInfo2 -> PClassInfo.cs
+IPluginFactory2 -> IPluginFactory.cs
+PClassInfoW -> PClassInfo.cs
+IPluginFactory3 -> IPluginFactory.cs

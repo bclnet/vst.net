@@ -18,6 +18,11 @@ namespace Jacobi.Vst3.Core
     [ComImport, Guid(Interfaces.IPluginCompatibility), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IPluginCompatibility
     {
+        /// <summary>
+        /// get the compatibility stream
+        /// </summary>
+        /// <param name="stream">the stream the plug-in must write the UTF8 encoded JSON5 compatibility string.</param>
+        /// <returns>kResultTrue on success</returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetCompatibilityJSON(

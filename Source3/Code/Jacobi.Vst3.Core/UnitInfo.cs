@@ -20,7 +20,7 @@ namespace Jacobi.Vst3.Core
 
         [MarshalAs(UnmanagedType.I4)] public Int32 Id;						// unit identifier
         [MarshalAs(UnmanagedType.I4)] public Int32 ParentUnitId;			    // identifier of parent unit (kNoParentUnitId: does not apply, this unit is the root)
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.Fixed128)] public String Name;					    // name, optional for the root component, required otherwise
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.String128)] public String Name;					    // name, optional for the root component, required otherwise
         [MarshalAs(UnmanagedType.I4)] public Int32 ProgramListId;	            // id of program list used in unit (kNoProgramListId = no programs used in this unit)
     }
 }

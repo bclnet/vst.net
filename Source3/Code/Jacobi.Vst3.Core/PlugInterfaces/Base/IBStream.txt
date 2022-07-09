@@ -1,0 +1,2 @@
+﻿IBStream -> IBStream.cs
+ISizeableStream -> ISizeableStream.cs

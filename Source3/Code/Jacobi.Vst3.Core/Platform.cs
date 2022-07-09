@@ -15,7 +15,8 @@ namespace Jacobi.Vst3.Core
         public const CharSet CharacterSet = CharSet.Unicode;
         public const CallingConvention DefaultCallingConvention = CallingConvention.StdCall;
 
-        [DllImport("msvcrt.dll", EntryPoint = "memset", CallingConvention = CallingConvention.Cdecl, SetLastError = false)] public static extern IntPtr MemSet(IntPtr dest, int c, IntPtr count);
+        [DllImport("msvcrt.dll", EntryPoint = "memset", CallingConvention = CallingConvention.Cdecl, SetLastError = false)] public static extern IntPtr Memset(IntPtr dest, int c, nint count);
+        [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl, SetLastError = false)] public static extern IntPtr Memcpy(IntPtr dest, IntPtr src, nint count);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Swap<T>(ref int a, ref int b) => (b, a) = (a, b);

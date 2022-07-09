@@ -1,6 +1,9 @@
 ﻿namespace Jacobi.Vst3.Core
 {
-    public enum KnobModes
+    /// <summary>
+    /// Knob Mode
+    /// </summary>
+    public enum KnobMode : uint
     {
         CircularMode = 0,		// Circular with jump to clicked position
         RelativCircularMode,	// Circular without jump to clicked position

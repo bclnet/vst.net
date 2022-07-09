@@ -68,7 +68,7 @@ namespace Jacobi.Vst3.Core
         Int32 GetProgramName(
             [MarshalAs(UnmanagedType.I4), In] Int32 listId,
             [MarshalAs(UnmanagedType.I4), In] Int32 programIndex,
-            [MarshalAs(UnmanagedType.LPWStr, SizeConst = Constants.Fixed128), In, Out] StringBuilder name);
+            [MarshalAs(UnmanagedType.LPWStr, SizeConst = Constants.String128), In, Out] StringBuilder name);
 
         /// <summary>
         /// Gets for a given program list ID, program index and attributeId the associated attribute value.
@@ -84,7 +84,7 @@ namespace Jacobi.Vst3.Core
             [MarshalAs(UnmanagedType.I4), In] Int32 listId,
             [MarshalAs(UnmanagedType.I4), In] Int32 programIndex,
             [MarshalAs(UnmanagedType.LPWStr), In] String attributeId,
-            [MarshalAs(UnmanagedType.LPWStr, SizeConst = Constants.Fixed128), In, Out] StringBuilder attributeValue);
+            [MarshalAs(UnmanagedType.LPWStr, SizeConst = Constants.String128), In, Out] StringBuilder attributeValue);
 
         /// <summary>
         /// Returns kResultTrue if the given program index of a given program list ID supports PitchNames.
@@ -113,7 +113,7 @@ namespace Jacobi.Vst3.Core
             [MarshalAs(UnmanagedType.I4), In] Int32 listId,
             [MarshalAs(UnmanagedType.I4), In] Int32 programIndex,
             [MarshalAs(UnmanagedType.I4), In] Int16 midiPitch,
-            [MarshalAs(UnmanagedType.LPWStr, SizeConst = Constants.Fixed128), In, Out] StringBuilder name);
+            [MarshalAs(UnmanagedType.LPWStr, SizeConst = Constants.String128), In, Out] StringBuilder name);
 
         // units selection --------------------
 

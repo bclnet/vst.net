@@ -1,1 +1,4 @@
-﻿
+﻿IComponentHandler3 -> IComponentHandler3.cs
+IContextMenuTarget -> IContextMenuTarget.cs
+IContextMenuItem -> IContextMenu.cs
+IContextMenu -> IContextMenu.cs

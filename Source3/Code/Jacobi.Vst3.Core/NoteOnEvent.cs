@@ -3,6 +3,10 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
+    /// <summary>
+    /// Note-on event specific data. Used in \ref Event (union)
+    /// Pitch uses the twelve-tone equal temperament tuning (12-TET).
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = Platform.CharacterSet, Pack = Platform.StructurePack)]
     public struct NoteOnEvent
     {

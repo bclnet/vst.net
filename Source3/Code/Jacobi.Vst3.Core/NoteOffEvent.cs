@@ -3,6 +3,9 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
+    /// <summary>
+    /// Note-off event specific data. Used in \ref Event (union)
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, CharSet = Platform.CharacterSet, Pack = Platform.StructurePack)]
     public struct NoteOffEvent
     {

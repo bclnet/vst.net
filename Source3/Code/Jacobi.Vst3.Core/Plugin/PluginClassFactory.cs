@@ -13,17 +13,16 @@ namespace Jacobi.Vst3.Plugin
     {
         private readonly List<ClassRegistration> _registrations = new List<ClassRegistration>();
 
-        public const string AudioModuleClassCategory = "Audio Module Class";
-        public const string ComponentControllerClassCategory = "Component Controller Class";
-        public const string TestClassCategory = "Test Class";
-
-        public static readonly Version Vst3SdkVersion = new Version(3, 6, 14);
+        //public const string AudioModuleClassCategory = "Audio Module Class";
+        //public const string ComponentControllerClassCategory = "Component Controller Class";
+        //public const string TestClassCategory = "Test Class";
+        //public static readonly VstVersion Vst3SdkVersion = new Version(3, 6, 14);
 
         public PluginClassFactory(string vendor, string email, string url)
             : this(vendor, email, url, PFactoryInfo.FactoryFlags.NoFlags) { }
 
         public PluginClassFactory(string vendor, string email, string url, PFactoryInfo.FactoryFlags flags)
-            : this(vendor, email, url, flags, Vst3SdkVersion) { }
+            : this(vendor, email, url, flags, Constants.Vst3SdkVersion) { }
 
         public PluginClassFactory(string vendor, string email, string url, PFactoryInfo.FactoryFlags flags, Version sdkVersion)
         {
@@ -117,8 +116,9 @@ namespace Jacobi.Vst3.Plugin
 
         #region IPluginFactory Members
 
-        public virtual int GetFactoryInfo(ref PFactoryInfo info)
+        public virtual int GetFactoryInfo(out PFactoryInfo info)
         {
+            info = default;
             info.Email = Email;
             info.Flags = Flags;
             info.Url = Url;
@@ -130,12 +130,13 @@ namespace Jacobi.Vst3.Plugin
         public virtual int CountClasses()
             => _registrations.Count;
 
-        public virtual int GetClassInfo(int index, ref PClassInfo info)
+        public virtual int GetClassInfo(int index, out PClassInfo info)
         {
+            info = default;
             if (!IsValidRegIndex(index)) return TResult.E_InvalidArg;
 
             var reg = _registrations[index];
-
+            
             FillClassInfo(ref info, reg);
 
             return TResult.S_OK;
@@ -143,24 +144,22 @@ namespace Jacobi.Vst3.Plugin
 
         protected virtual void FillClassInfo(ref PClassInfo info, ClassRegistration reg)
         {
-            info.Cardinality = PClassInfo.ClassCardinalityManyInstances;
+            info.Cardinality = PClassInfo.ClassCardinality.ManyInstances;
             info.Category = ObjectClassToCategory(reg.ObjectClass);
-            info.ClassId = reg.ClassTypeId;
+            info.Cid = reg.ClassTypeId;
             info.Name = reg.DisplayName;
         }
 
-        public virtual int CreateInstance(ref Guid classId, ref Guid interfaceId, ref IntPtr instance)
+        public virtual int CreateInstance(ref Guid classId, ref Guid interfaceId, out IntPtr instance)
         {
             // seems not every host is programmed defensively...
             //if (instance != IntPtr.Zero) return TResult.E_Pointer;
 
             var reg = Find(classId);
-
             if (reg != null)
             {
-                object obj = CreateObjectInstance(reg);
-                IntPtr unk = Marshal.GetIUnknownForObject(obj);
-
+                var obj = CreateObjectInstance(reg);
+                var unk = Marshal.GetIUnknownForObject(obj);
                 try
                 {
                     return Marshal.QueryInterface(unk, ref interfaceId, out instance);
@@ -179,8 +178,9 @@ namespace Jacobi.Vst3.Plugin
 
         #region IPluginFactory2 Members
 
-        public virtual int GetClassInfo2(int index, ref PClassInfo2 info)
+        public virtual int GetClassInfo2(int index, out PClassInfo2 info)
         {
+            info = default;
             if (!IsValidRegIndex(index)) return TResult.E_InvalidArg;
 
             var reg = _registrations[index];
@@ -192,10 +192,10 @@ namespace Jacobi.Vst3.Plugin
 
         protected virtual void FillClassInfo2(ref PClassInfo2 info, ClassRegistration reg)
         {
-            info.Cardinality = PClassInfo2.ClassCardinalityManyInstances;
+            info.Cardinality = PClassInfo.ClassCardinality.ManyInstances;
             info.Category = ObjectClassToCategory(reg.ObjectClass);
             info.ClassFlags = reg.ClassFlags;
-            info.ClassId = reg.ClassTypeId;
+            info.Cid = reg.ClassTypeId;
             info.Name = reg.DisplayName;
             info.SdkVersion = FormatSdkVersionString(SdkVersion);
             info.SubCategories = reg.Categories.ToString();
@@ -207,8 +207,9 @@ namespace Jacobi.Vst3.Plugin
 
         #region IPluginFactory3 Members
 
-        public virtual int GetClassInfoUnicode(int index, ref PClassInfoW info)
+        public virtual int GetClassInfoUnicode(int index, out PClassInfoW info)
         {
+            info = default;
             if (!IsValidRegIndex(index)) return TResult.E_InvalidArg;
 
             var reg = _registrations[index];
@@ -220,10 +221,10 @@ namespace Jacobi.Vst3.Plugin
 
         protected virtual void FillClassInfoW(ref PClassInfoW info, ClassRegistration reg)
         {
-            info.Cardinality = PClassInfoW.ClassCardinalityManyInstances;
+            info.Cardinality = PClassInfo.ClassCardinality.ManyInstances;
             info.Category.Value = ObjectClassToCategory(reg.ObjectClass);
             info.ClassFlags = reg.ClassFlags;
-            info.ClassId = reg.ClassType.GUID;
+            info.Cid = reg.ClassType.GUID;
             info.Name = reg.DisplayName;
             info.SdkVersion = FormatSdkVersionString(SdkVersion);
             info.SubCategories.Value = reg.Categories.ToString();
@@ -261,9 +262,9 @@ namespace Jacobi.Vst3.Plugin
 
         private static string ObjectClassToCategory(ClassRegistration.ObjectClasses objClass) => objClass switch
         {
-            ClassRegistration.ObjectClasses.AudioModuleClass => AudioModuleClassCategory,
-            ClassRegistration.ObjectClasses.ComponentControllerClass => ComponentControllerClassCategory,
-            ClassRegistration.ObjectClasses.TestClass => TestClassCategory,
+            ClassRegistration.ObjectClasses.AudioModuleClass => Constants.kVstAudioEffectClass,
+            ClassRegistration.ObjectClasses.ComponentControllerClass => Constants.kVstComponentControllerClass,
+            ClassRegistration.ObjectClasses.TestClass => Constants.kTestClass,
             _ => throw new InvalidEnumArgumentException(nameof(objClass), (int)objClass, typeof(ClassRegistration.ObjectClasses)),
         };
     }

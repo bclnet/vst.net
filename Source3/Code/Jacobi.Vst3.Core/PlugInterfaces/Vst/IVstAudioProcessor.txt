@@ -1,5 +1,6 @@
-﻿PlugType -> Plugin/CategoryCollection.cs
-ComponentFlags -> PClassInfo.cs
+﻿kVstAudioEffectClass -> Constants.cs
+PlugType -> PlugType.cs
+ComponentFlags -> ComponentFlags.cs
 SymbolicSampleSizes -> SymbolicSampleSizes.cs
 ProcessModes -> ProcessModes.cs
 kNoTail -> Constants.cs

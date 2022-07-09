@@ -2,9 +2,9 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace Jacobi.Vst3.Plugin
+namespace Jacobi.Vst3.Core
 {
-    public sealed class CategoryCollection : Collection<string>
+    public class PlugType : Collection<string>
     {
         public const string FxAnalyzer = "Fx|Analyzer";	        // Scope, FFT-Display,...
         public const string FxDelay = "Fx|Delay";		        // Delay, Multi-tap Delay, Ping-Pong Delay...
@@ -43,8 +43,8 @@ namespace Jacobi.Vst3.Plugin
         public const string Stereo = "Stereo";			        // used for Stereo only Plug-in [optional]
         public const string Surround = "Surround";		        // used for Surround only Plug-in [optional]
 
-        public CategoryCollection() { }
-        public CategoryCollection(string parse)
+        public PlugType() { }
+        public PlugType(string parse)
         {
             var cats = parse.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
             foreach (var cat in cats) Add(cat);

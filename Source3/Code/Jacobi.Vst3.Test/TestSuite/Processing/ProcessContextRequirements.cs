@@ -1,6 +1,7 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Core.Test;
 using Jacobi.Vst3.Host;
+using Jacobi.Vst3.Utility;
 using System;
 
 namespace Jacobi.Vst3.TestSuite
@@ -43,7 +44,7 @@ namespace Jacobi.Vst3.TestSuite
                 testResult.AddErrorMessage("Internal test Error. Could not find the class info of the plug-in!");
                 return null;
             }
-            return Version.Parse(it.SdkVersion);
+            return VersionX.Parse(it.SdkVersion);
         }
 
         public override bool Run(ITestResult testResult)

@@ -1,9 +1,8 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Core.Test;
 using Jacobi.Vst3.Host;
-using Jacobi.Vst3.Plugin;
-using Jacobi.Vst3.Test;
-using Jacobi.Vst3.Test.Bus;
+using Jacobi.Vst3.TestSuite;
+using Jacobi.Vst3.Utility;
 using System;
 using System.Collections.Generic;
 using System.CommandLine;
@@ -37,7 +36,7 @@ namespace Steinberg.Vst
         }
 
         const string SEPARATOR = "-------------------------------------------------------------\n";
-        public static readonly string VALIDATOR_INFO = $"{PluginClassFactory.Vst3SdkVersion} Plug-in Validator\nProgram by Steinberg (Built on {DateTime.Today})\n";
+        public static readonly string VALIDATOR_INFO = $"{Constants.Vst3SdkVersion} Plug-in Validator\nProgram by Steinberg (Built on {DateTime.Today})\n";
 
         static bool FilterClassCategory(string category, string classCategory)
             => category == classCategory;
@@ -126,7 +125,7 @@ namespace Steinberg.Vst
         }
 
         string[] args;
-        //PlugInterfaceSupport mPlugInterfaceSupport;
+        PlugInterfaceSupport _plugInterfaceSupport;
         int numTestsFailed;
         int numTestsPassed;
         bool addErrorWarningTextToOutput = true;
@@ -139,9 +138,9 @@ namespace Steinberg.Vst
             this.args = args;
             infoStream = Console.Out;
             errorStream = Console.Out;
-            //mPlugInterfaceSupport = new PlugInterfaceSupport();
-            //PluginContextFactory.Instance.SetPluginContext(this.UnknownCast());
-            //TestingPluginContext::set(this.UnknownCast());
+            _plugInterfaceSupport = new PlugInterfaceSupport();
+            PluginContextFactory.Instance.SetPluginContext(this);
+            TestingPluginContext.Set(this);
         }
 
         int QueryInterface(string _iid, object obj)
@@ -216,8 +215,14 @@ namespace Steinberg.Vst
 
         public async Task<int> Run()
         {
+            //args = new[] { "version" };
+            //args = new[] { "list" };
+            //args = new[] { "snapshots" };
+            args = new[] { "selftest" };
+            //args = new[] { "f", "C:\\Program Files\\Common Files\\VST3\\iZotope\\Nectar 3 Elements.vst3" };
+            //args = new[] { "l", "e", "f", "C:\\Program Files\\Common Files\\VST3\\iZotope\\Nectar 3 Elements.vst3" };
             var returnCode = 0;
-            var rootCommand = new RootCommand($"{PluginClassFactory.Vst3SdkVersion} Plug-in Validator")
+            var rootCommand = new RootCommand($"{Constants.Vst3SdkVersion} Plug-in Validator")
             {
                 optVersion,
                 optLocalInstance,
@@ -249,14 +254,13 @@ namespace Steinberg.Vst
             optSelftest.SetHandler(() =>
             {
                 addErrorWarningTextToOutput = false;
-                var testFactoryInstance = (ITestFactory)null; // createTestFactoryInstance(null);
+                var testFactoryInstance = (ITestFactory)Testing.CreateTestFactoryInstance(null);
                 var testFactory = testFactoryInstance;
                 if (testFactory != null)
                 {
                     Console.Write("Running validator selftest:\n\n");
                     var testSuite = new TestSuite(string.Empty);
-                    if (testFactory.CreateTests(null, testSuite) == TResult.S_True)
-                        RunTestSuite(testSuite, null);
+                    if (testFactory.CreateTests(null, testSuite) == TResult.S_True) RunTestSuite(testSuite, null);
                     Console.Write($"Executed {numTestsFailed + numTestsPassed} Tests.\n");
                     Console.Write($"{numTestsFailed} failed test(s).\n");
                     returnCode = numTestsFailed == 0 ? 0 : 1;
@@ -314,13 +318,12 @@ namespace Steinberg.Vst
             Module testModule;
             List<PlugProvider> plugProviders = new();
             Dictionary<string, ITestFactory> testFactories = new();
-            IPluginCompatibility plugCompatibility;
+            IPluginCompatibility plugCompatibility = null; ;
             var testSuite = new TestSuite("Tests");
 
             //---create tests---------------
             infoStream?.Write("* Creating tests...\n\n");
             foreach (var classInfo in factory.ClassInfos)
-            {
                 if (FilterClassCategory(Constants.kVstAudioEffectClass, classInfo.Category))
                 {
                     if (config.testProcessor == null || config.testProcessor == classInfo.ID)
@@ -335,17 +338,16 @@ namespace Steinberg.Vst
                     }
                 }
                 else if (FilterClassCategory(Constants.kTestClass, classInfo.Category))
-                { // gather test factories supplied by the plug-in
+                {   // gather test factories supplied by the plug-in
                     var testFactory = factory.CreateInstance<ITestFactory>(classInfo.ID);
                     if (testFactory != null) testFactories.Add(classInfo.Name, testFactory);
                 }
                 else if (FilterClassCategory(Constants.kPluginCompatibilityClass, classInfo.Category))
                 {
-                    if (plugCompatibility) { errorStream?.Write("Error: Factory contains multiple Plugin Compatibility classes.\n"); ++numTestsFailed; }
+                    if (plugCompatibility != null) { errorStream?.Write("Error: Factory contains multiple Plugin Compatibility classes.\n"); ++numTestsFailed; }
                     plugCompatibility = factory.CreateInstance<IPluginCompatibility>(classInfo.ID);
-                    if (!plugCompatibility) errorStream?.Write("Error: Failed creating IPluginCompatibility instance.\n");
+                    if (plugCompatibility == null) errorStream?.Write("Error: Failed creating IPluginCompatibility instance.\n");
                 }
-            }
 
             // now check testModule if supplied
             if (!string.IsNullOrEmpty(config.customTestComponentPath))
@@ -379,8 +381,8 @@ namespace Steinberg.Vst
 
             RunTestSuite(testSuite, string.IsNullOrEmpty(config.testSuiteName) ? null : config.testSuiteName);
 
-            if (plugCompatibility)
-                if (!CheckPluginCompatibility(module, plugCompatibility, errorStream)) ++numTestsFailed;
+            if (plugCompatibility != null)
+                if (!PlugCompat.CheckPluginCompatibility(module, plugCompatibility, errorStream)) ++numTestsFailed;
 
             if (infoStream != null)
             {
@@ -390,10 +392,10 @@ namespace Steinberg.Vst
             }
         }
 
-        static void CreateTest<T>(ITestSuite parent, ITestPlugProvider plugProvider, params object[] arguments)
+        static void CreateTest<T>(ITestSuite parent, ITestPlugProvider plugProvider, params object[] arguments) where T : TestBase
         {
-            //var test = new T(plugProvider, std::forward<Args>(arguments)...));
-            //parent.AddTest(test.GetName(), test);
+            var test = (T)Activator.CreateInstance(typeof(T), (new object[] { plugProvider }).Concat(arguments).ToArray());
+            parent.AddTest(test.Name, test);
         }
 
         static void CreateSpeakerArrangementTest(ITestSuite parent, ITestPlugProvider plugProvider, SymbolicSampleSizes sampleSize, SpeakerArrangement inSpArr, SpeakerArrangement outSpArr)
@@ -416,11 +418,11 @@ namespace Steinberg.Vst
             {
                 var saArray = new SpeakerArrangement[]
                 {
-                    ArrMono, ArrStereo, ArrStereoSurround,
-                    ArrStereoCenter, ArrStereoSide, ArrStereoCLfe,
-                    Arr30Cine, Arr30Music, Arr31Cine, Arr31Music,
-                    Arr40Cine, Arr40Music, Arr41Cine, Arr41Music,
-                    Arr50
+                    kMono, kStereo, kStereoSurround,
+                    kStereoCenter, kStereoSide, kStereoCLfe,
+                    k30Cine, k30Music, k31Cine, k31Music,
+                    k40Cine, k40Music, k41Cine, k41Music,
+                    k50
                 };
                 foreach (var inArr in saArray)
                     foreach (var outArr in saArray)
@@ -437,8 +439,8 @@ namespace Steinberg.Vst
             }
             else
             {
-                CreateSpeakerArrangementTest(parent, plugProvider, sampleSize, ArrStereo, ArrStereo);
-                CreateSpeakerArrangementTest(parent, plugProvider, sampleSize, ArrMono, ArrMono);
+                CreateSpeakerArrangementTest(parent, plugProvider, sampleSize, kStereo, kStereo);
+                CreateSpeakerArrangementTest(parent, plugProvider, sampleSize, kMono, kMono);
 
                 CreateTest<AutomationTest>(parent, plugProvider, sampleSize, 100, 1, false);
                 CreateTest<AutomationTest>(parent, plugProvider, sampleSize, 100, 1, true);

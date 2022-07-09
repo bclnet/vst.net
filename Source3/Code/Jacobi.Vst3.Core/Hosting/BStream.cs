@@ -1,8 +1,7 @@
-﻿using Jacobi.Vst3.Core;
-using System;
+﻿using System;
 using System.IO;
 
-namespace Jacobi.Vst3.Host
+namespace Jacobi.Vst3.Core
 {
     public class BStream : IBStream
     {
@@ -22,7 +21,7 @@ namespace Jacobi.Vst3.Host
         public int Seek(long pos, StreamSeekMode mode, ref long result)
             => throw new NotImplementedException();
 
-        public int Tell(ref long pos)
+        public int Tell(out long pos)
             => throw new NotImplementedException();
 
         #endregion

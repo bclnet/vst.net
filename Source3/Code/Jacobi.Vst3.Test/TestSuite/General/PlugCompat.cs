@@ -7,9 +7,9 @@ using System.IO;
 namespace Jacobi.Vst3.TestSuite
 {
     /// <summary>
-    /// PlugCompatTest
+    /// PlugCompat
     /// </summary>
-    public class PlugCompatTest
+    public class PlugCompat
     {
         public static bool CheckPluginCompatibility(Module module, IPluginCompatibility compat, TextWriter errorStream)
         {

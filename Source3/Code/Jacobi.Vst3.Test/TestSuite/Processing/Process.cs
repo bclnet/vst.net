@@ -11,7 +11,7 @@ namespace Jacobi.Vst3.TestSuite
     /// </summary>
     public unsafe class ProcessTest : TestEnh
     {
-        protected HostProcessData processData;
+        protected HostProcessData processData = new();
 
         public override string Name => "Process Test";
 
@@ -157,7 +157,7 @@ namespace Jacobi.Vst3.TestSuite
                     {
                         var channelBuffers32 = (Single**)audioBuffers.ChannelBuffers32;
                         channelBuffers32[chIdx] = (Single*)Marshal.AllocHGlobal(sizeof(Single) * processSetup.MaxSamplesPerBlock);
-                        if (channelBuffers32[chIdx] != null) Platform.MemSet((IntPtr)channelBuffers32[chIdx], 0, (IntPtr)(processSetup.MaxSamplesPerBlock * sizeof(Single)));
+                        if (channelBuffers32[chIdx] != null) Platform.Memset((IntPtr)channelBuffers32[chIdx], 0, (IntPtr)(processSetup.MaxSamplesPerBlock * sizeof(Single)));
                         else return false;
                     }
                     else return false;
@@ -168,7 +168,7 @@ namespace Jacobi.Vst3.TestSuite
                     {
                         var channelBuffers64 = (Double**)audioBuffers.ChannelBuffers32;
                         channelBuffers64[chIdx] = (Double*)Marshal.AllocHGlobal(sizeof(Double) * processSetup.MaxSamplesPerBlock);
-                        if (channelBuffers64[chIdx] != null) Platform.MemSet((IntPtr)channelBuffers64[chIdx], 0, (IntPtr)(processSetup.MaxSamplesPerBlock * sizeof(Double)));
+                        if (channelBuffers64[chIdx] != null) Platform.Memset((IntPtr)channelBuffers64[chIdx], 0, (IntPtr)(processSetup.MaxSamplesPerBlock * sizeof(Double)));
                         else return false;
                     }
                     else return false;

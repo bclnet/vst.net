@@ -3,6 +3,12 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
+    /// <summary>
+    /// Any data needed in audio processing.
+	/// The host prepares AudioBusBuffers for each input/output bus,
+    /// regardless of the bus activation state.Bus buffer indices always match
+    /// with bus indices used in IComponent::getBusInfo of media type kAudio.
+    /// </summary>
     [StructLayout(LayoutKind.Sequential, Pack = Platform.StructurePack)]
     public struct ProcessData
     {
@@ -35,6 +41,6 @@ namespace Jacobi.Vst3.Core
         [MarshalAs(UnmanagedType.SysInt)] public IntPtr OutputEvents;
 
         // ProcessContext pointer
-        [MarshalAs(UnmanagedType.SysInt)] public IntPtr ProcessContext;			            // processing context (optional, but most welcome)
+        [MarshalAs(UnmanagedType.SysInt)] public IntPtr ProcessContext;                     // processing context (optional, but most welcome)
     }
 }

@@ -55,7 +55,7 @@ namespace Jacobi.Vst3.Plugin
                 if (SizeableStream != null)
                 {
                     var size = 0L;
-                    TResult.ThrowIfFailed(SizeableStream.GetStreamSize(ref size));
+                    TResult.ThrowIfFailed(SizeableStream.GetStreamSize(out size));
                     return size;
                 }
 
@@ -65,7 +65,7 @@ namespace Jacobi.Vst3.Plugin
 
         public override long Position
         {
-            get { var pos = 0L; return TResult.Succeeded(BaseStream.Tell(ref pos)) ? pos : -1; }
+            get { var pos = 0L; return TResult.Succeeded(BaseStream.Tell(out pos)) ? pos : -1; }
             set => Seek(value, SeekOrigin.Begin);
         }
 

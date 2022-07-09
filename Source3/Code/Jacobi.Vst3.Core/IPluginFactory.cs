@@ -15,27 +15,51 @@ namespace Jacobi.Vst3.Core
     [ComImport, Guid(Interfaces.IPluginFactory), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IPluginFactory
     {
+        /// <summary>
+        /// Fill a PFactoryInfo structure with information about the plug-in vendor.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetFactoryInfo(
-            [MarshalAs(UnmanagedType.Struct), In, Out] ref PFactoryInfo info);
+            [MarshalAs(UnmanagedType.Struct), Out] out PFactoryInfo info);
 
+        /// <summary>
+        /// Returns the number of exported classes by this factory. If you are using the CPluginFactory
+        /// implementation provided by the SDK, it returns the number of classes you registered with
+        /// CPluginFactory::registerClass.
+        /// </summary>
+        /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.I4)]
         Int32 CountClasses();
 
+        /// <summary>
+        /// Fill a PClassInfo structure with information about the class at the specified index.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetClassInfo(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
-            [MarshalAs(UnmanagedType.Struct), In, Out] ref PClassInfo info);
+            [MarshalAs(UnmanagedType.Struct), Out] out PClassInfo info);
 
+        /// <summary>
+        /// Create a new class instance.
+        /// </summary>
+        /// <param name="classId"></param>
+        /// <param name="interfaceId"></param>
+        /// <param name="instance"></param>
+        /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 CreateInstance(
             [In] ref Guid classId,
             [In] ref Guid interfaceId,
-            [MarshalAs(UnmanagedType.SysInt, IidParameterIndex = 1), In, Out] ref IntPtr instance);
+            [MarshalAs(UnmanagedType.SysInt, IidParameterIndex = 1), Out] out IntPtr instance);
     }
 
     static partial class Interfaces
@@ -43,41 +67,47 @@ namespace Jacobi.Vst3.Core
         public const string IPluginFactory = "7A4D811C-5211-4A1F-AED9-D2EE0B43BF9F";
     }
 
+    /// <summary>
+    /// Version 2 of class factory supporting PClassInfo2: IPluginFactory2
+    /// </summary>
     [ComImport, Guid(Interfaces.IPluginFactory2), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IPluginFactory2
+    public interface IPluginFactory2 : IPluginFactory
     {
-
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetFactoryInfo(
-            [MarshalAs(UnmanagedType.Struct)] ref PFactoryInfo info);
+        new Int32 GetFactoryInfo(
+            [MarshalAs(UnmanagedType.Struct), Out] out PFactoryInfo info);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.I4)]
-        Int32 CountClasses();
+        new Int32 CountClasses();
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetClassInfo(
+        new Int32 GetClassInfo(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
-            [MarshalAs(UnmanagedType.Struct)] ref PClassInfo info);
+            [MarshalAs(UnmanagedType.Struct), Out] out PClassInfo info);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 CreateInstance(
+        new Int32 CreateInstance(
             [In] ref Guid classId,
             [In] ref Guid interfaceId,
-            [MarshalAs(UnmanagedType.SysInt, IidParameterIndex = 1), In, Out] ref IntPtr instance);
-
+            [MarshalAs(UnmanagedType.SysInt, IidParameterIndex = 1), Out] out IntPtr instance);
 
         //---------------------------------------------------------------------
 
-
+        /// <summary>
+        /// Returns the class info (version 2) for a given index.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetClassInfo2(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
-            [MarshalAs(UnmanagedType.Struct)] ref PClassInfo2 info);
+            [MarshalAs(UnmanagedType.Struct), Out] out PClassInfo2 info);
     }
 
     static partial class Interfaces
@@ -85,51 +115,61 @@ namespace Jacobi.Vst3.Core
         public const string IPluginFactory2 = "0007B650-F24B-4C0B-A464-EDB9F00B2ABB";
     }
 
+    /// <summary>
+    /// Version 3 of class factory supporting PClassInfoW: IPluginFactory3
+    /// </summary>
     [ComImport, Guid(Interfaces.IPluginFactory3), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
-    public interface IPluginFactory3
+    public interface IPluginFactory3 : IPluginFactory2
     {
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetFactoryInfo(
-            [MarshalAs(UnmanagedType.Struct)] ref PFactoryInfo info);
+        new Int32 GetFactoryInfo(
+            [MarshalAs(UnmanagedType.Struct), Out] out PFactoryInfo info);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.I4)]
-        Int32 CountClasses();
+        new Int32 CountClasses();
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetClassInfo(
+        new Int32 GetClassInfo(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
-            [MarshalAs(UnmanagedType.Struct)] ref PClassInfo info);
+            [MarshalAs(UnmanagedType.Struct), Out] out PClassInfo info);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 CreateInstance(
+        new Int32 CreateInstance(
             [In] ref Guid classId,
             [In] ref Guid interfaceId,
-            [MarshalAs(UnmanagedType.SysInt, IidParameterIndex = 1), In, Out] ref IntPtr instance);
-
+            [MarshalAs(UnmanagedType.SysInt, IidParameterIndex = 1), Out] out IntPtr instance);
 
         //---------------------------------------------------------------------
-
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetClassInfo2(
+        new Int32 GetClassInfo2(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
-            [MarshalAs(UnmanagedType.Struct)] ref PClassInfo2 info);
-
+            [MarshalAs(UnmanagedType.Struct), Out] out PClassInfo2 info);
 
         //---------------------------------------------------------------------
 
-
+        /// <summary>
+        /// Returns the unicode class info for a given index.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name="info"></param>
+        /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetClassInfoUnicode(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
-            [MarshalAs(UnmanagedType.Struct)] ref PClassInfoW info);
+            [MarshalAs(UnmanagedType.Struct), Out] out PClassInfoW info);
 
+        /// <summary>
+        /// Receives information about host
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 SetHostContext(
