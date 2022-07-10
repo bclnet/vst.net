@@ -46,12 +46,12 @@ namespace Jacobi.Vst3.Plugin
             return TResult.S_OK;
         }
 
-        public virtual int GetBusArrangement(BusDirections dir, int index, ref SpeakerArrangement arr)
+        public virtual int GetBusArrangement(BusDirections dir, int index, out SpeakerArrangement arr)
         {
             Trace.WriteLine($"IAudioProcessor.GetBusArrangement({dir}, {index})");
 
+            arr = default;
             var busses = GetBusCollection(MediaTypes.Audio, dir);
-
             if (busses == null) return TResult.E_NotImplemented;
             if (index < 0 || index > busses.Count) return TResult.E_InvalidArg;
 

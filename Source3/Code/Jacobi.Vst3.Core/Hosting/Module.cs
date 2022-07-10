@@ -144,7 +144,14 @@ namespace Jacobi.Vst3.Host
             }
         }
 
-        public T CreateInstance<T>(Guid classID) => throw new NotImplementedException();
+        public T CreateInstance<T>(Guid classID)
+        {
+            var type = typeof(T);
+            var interfaceId = type.GUID;
+            return _factory.CreateInstance(ref classID, ref interfaceId, out var obj) == TResult.S_True
+                ? (T)Marshal.GetTypedObjectForIUnknown(obj, typeof(T))
+                : default;
+        }
 
         public IPluginFactory Get() => _factory;
     }

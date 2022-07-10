@@ -118,7 +118,6 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual int GetFactoryInfo(out PFactoryInfo info)
         {
-            info = default;
             info.Email = Email;
             info.Flags = Flags;
             info.Url = Url;

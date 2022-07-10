@@ -73,7 +73,7 @@ namespace Jacobi.Vst3.Plugin
         public virtual int GetUnitCount()
             => Units.Count;
 
-        public virtual int GetUnitInfo(int unitIndex, ref UnitInfo info)
+        public virtual int GetUnitInfo(int unitIndex, out UnitInfo info)
         {
             if (unitIndex >= 0 && unitIndex < Units.Count)
             {
@@ -86,14 +86,14 @@ namespace Jacobi.Vst3.Plugin
 
                 return TResult.S_OK;
             }
-
+            info = default;
             return TResult.E_InvalidArg;
         }
 
         public virtual int GetProgramListCount()
             => ProgramLists.Count;
 
-        public virtual int GetProgramListInfo(int listIndex, ref ProgramListInfo info)
+        public virtual int GetProgramListInfo(int listIndex, out ProgramListInfo info)
         {
             if (listIndex >= 0 && listIndex < ProgramLists.Count)
             {
@@ -106,6 +106,7 @@ namespace Jacobi.Vst3.Plugin
                 return TResult.S_OK;
             }
 
+            info = default;
             return TResult.E_InvalidArg;
         }
 
@@ -207,8 +208,11 @@ namespace Jacobi.Vst3.Plugin
             return TResult.E_InvalidArg;
         }
 
-        public virtual int GetUnitByBus(MediaTypes type, BusDirections dir, int busIndex, int channel, ref int unitId)
-            => TResult.E_NotImplemented;
+        public virtual int GetUnitByBus(MediaTypes type, BusDirections dir, int busIndex, int channel, out int unitId)
+        {
+            unitId = default;
+            return TResult.E_NotImplemented;
+        }
 
         public virtual int SetUnitProgramData(int listOrUnitId, int programIndex, IBStream data)
             => TResult.E_NotImplemented;

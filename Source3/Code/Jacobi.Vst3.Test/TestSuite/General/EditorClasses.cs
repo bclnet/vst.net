@@ -27,8 +27,7 @@ namespace Jacobi.Vst3.TestSuite
                 return true;
             }
 
-            var controllerClassTUID = Guid.Empty;
-            if (vstPlug.GetControllerClassId(ref controllerClassTUID) != TResult.S_OK)
+            if (vstPlug.GetControllerClassId(out var controllerClassTUID) != TResult.S_OK)
             {
                 testResult.AddMessage("This component does not export an edit controller class ID!!!");
                 return true;

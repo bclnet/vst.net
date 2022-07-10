@@ -21,12 +21,10 @@ namespace Jacobi.Vst3.TestSuite
                 var unitCount = iUnitInfo.GetUnitCount();
                 if (unitCount <= 0) testResult.AddMessage("No units found, while controller implements IUnitInfo !!!");
 
-                UnitInfo unitInfo = new();
-                UnitInfo tmpInfo = new();
                 var rootFound = false;
                 for (var unitIndex = 0; unitIndex < unitCount; unitIndex++)
                 {
-                    if (iUnitInfo.GetUnitInfo(unitIndex, ref unitInfo) == TResult.S_OK)
+                    if (iUnitInfo.GetUnitInfo(unitIndex, out var unitInfo) == TResult.S_OK)
                     {
                         // check parent Id
                         if (unitInfo.ParentUnitId != UnitInfo.NoParentUnitId) //-1: connected to root
@@ -34,7 +32,7 @@ namespace Jacobi.Vst3.TestSuite
                             var noParent = true;
                             for (var i = 0; i < unitCount; ++i)
                             {
-                                if (iUnitInfo.GetUnitInfo(i, ref tmpInfo) == TResult.S_OK)
+                                if (iUnitInfo.GetUnitInfo(i, out var tmpInfo) == TResult.S_OK)
                                     if (unitInfo.ParentUnitId == tmpInfo.Id)
                                     {
                                         noParent = false;

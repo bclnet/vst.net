@@ -61,7 +61,7 @@ namespace Jacobi.Vst3.Plugin
             return Parameters.Count;
         }
 
-        public virtual int GetParameterInfo(int paramIndex, ref ParameterInfo info)
+        public virtual int GetParameterInfo(int paramIndex, out ParameterInfo info)
         {
             Trace.WriteLine($"IEditController.GetParameterInfo {paramIndex}");
 
@@ -81,6 +81,7 @@ namespace Jacobi.Vst3.Plugin
                 return TResult.S_OK;
             }
 
+            info = default;
             return TResult.E_InvalidArg;
         }
 
@@ -98,10 +99,11 @@ namespace Jacobi.Vst3.Plugin
             return TResult.E_InvalidArg;
         }
 
-        public virtual int GetParamValueByString(uint paramId, string str, ref double valueNormalized)
+        public virtual int GetParamValueByString(uint paramId, string str, out double valueNormalized)
         {
             Trace.WriteLine($"IEditController.GetParamValueByString {paramId}, {str}");
 
+            valueNormalized = default;
             if (Parameters.Contains(paramId))
             {
                 var param = Parameters[paramId];

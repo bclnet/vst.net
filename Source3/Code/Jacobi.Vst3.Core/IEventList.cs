@@ -27,7 +27,7 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetEvent(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
-            [MarshalAs(UnmanagedType.Struct), In, Out] ref Event e);
+            [MarshalAs(UnmanagedType.Struct), Out] out Event e);
 
         /// <summary>
         /// Adds a new event.

@@ -44,8 +44,7 @@ namespace Jacobi.Vst3.TestSuite
             var foundBypass = false;
             for (var i = 0; i < numParameters; ++i)
             {
-                ParameterInfo paramInfo = new();
-                var result = controller.GetParameterInfo(i, ref paramInfo);
+                var result = controller.GetParameterInfo(i, out var paramInfo);
                 if (result != TResult.S_OK)
                 {
                     testResult.AddErrorMessage($"=>Parameter {i,3}: is missing!!!");
@@ -116,8 +115,7 @@ namespace Jacobi.Vst3.TestSuite
                         var uc = iUnitInfo.GetUnitCount();
                         for (var ui = 0; ui < uc; ++ui)
                         {
-                            UnitInfo uinfo = new();
-                            if (iUnitInfo.GetUnitInfo(ui, ref uinfo) != TResult.S_True)
+                            if (iUnitInfo.GetUnitInfo(ui, out var uinfo) != TResult.S_True)
                             {
                                 testResult.AddErrorMessage($"IUnitInfo::getUnitInfo ({ui}..) failed.");
                                 return false;

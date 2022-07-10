@@ -1,6 +1,5 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Core.Test;
-using Jacobi.Vst3.Host;
 using System.Text;
 
 namespace Jacobi.Vst3.TestSuite
@@ -16,6 +15,12 @@ namespace Jacobi.Vst3.TestSuite
             if (testResult == null || vstPlug == null) return false;
 
             PrintTestHeader(testResult);
+
+            if (controller == null)
+            {
+                testResult.AddMessage("No Edit Controller supplied!");
+                return true;
+            }
 
             if (controller is IUnitInfo iUnitInfo)
             {
@@ -33,12 +38,10 @@ namespace Jacobi.Vst3.TestSuite
 
                 // used to check double IDs
                 var programListIds = new int[programListCount];
-
                 for (var programListIndex = 0; programListIndex < programListCount; programListIndex++)
                 {
                     // get programm list info
-                    ProgramListInfo programListInfo = new();
-                    if (iUnitInfo.GetProgramListInfo(programListIndex, ref programListInfo) == TResult.S_OK)
+                    if (iUnitInfo.GetProgramListInfo(programListIndex, out var programListInfo) == TResult.S_OK)
                     {
                         var programListId = programListInfo.Id;
                         programListIds[programListIndex] = programListId;
@@ -118,8 +121,7 @@ namespace Jacobi.Vst3.TestSuite
                 var numPrgChanges = 0;
                 for (var i = 0; i < controller.GetParameterCount(); ++i)
                 {
-                    ParameterInfo paramInfo = new();
-                    if (controller.GetParameterInfo(i, paramInfo) != TResult.S_OK)
+                    if (controller.GetParameterInfo(i, out var paramInfo) != TResult.S_OK)
                         if ((paramInfo.Flags & ParameterInfo.ParameterFlags.IsProgramChange) != 0) numPrgChanges++;
                 }
                 if (numPrgChanges > 1) testResult.AddErrorMessage($"More than 1 programChange Parameter ({numPrgChanges}) without support of IUnitInfo!!!");

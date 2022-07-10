@@ -135,11 +135,9 @@ namespace Jacobi.Vst3.TestPlugin
             if (inputs != null && outputs != null)
             {
                 var count = inputs.GetEventCount();
-                var evnt = new Event();
-
-                for (int i = 0; i < count; i++)
+                for (var i = 0; i < count; i++)
                 {
-                    inputs.GetEvent(i, ref evnt);
+                    inputs.GetEvent(i, out var evnt);
                     outputs.AddEvent(evnt);
                 }
             }

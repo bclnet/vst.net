@@ -132,8 +132,7 @@ namespace Jacobi.Vst3.TestSuite
             var audioBuffers2 = (AudioBusBuffers*)audioBuffers;
             for (var busIndex = 0; busIndex < numBusses; busIndex++) // buses
             {
-                BusInfo busInfo = new();
-                if (vstPlug.GetBusInfo(MediaTypes.Audio, dir, busIndex, ref busInfo) == TResult.S_True)
+                if (vstPlug.GetBusInfo(MediaTypes.Audio, dir, busIndex, out var busInfo) == TResult.S_True)
                 {
                     if (!SetupBuffers(ref audioBuffers2[busIndex])) return false;
 

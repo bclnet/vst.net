@@ -20,7 +20,7 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetScreenSize(
             [MarshalAs(UnmanagedType.Struct), In, Out] ref ViewRect size,
-            [MarshalAs(UnmanagedType.R4), In, Out] ref Single scale);
+            [MarshalAs(UnmanagedType.R4), Out] out Single scale);
 
         /// <summary>
         /// get status of connection

@@ -33,7 +33,7 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetInt(
             [MarshalAs(UnmanagedType.LPStr), In] String id,
-            [MarshalAs(UnmanagedType.I8), In, Out] ref Int64 value);
+            [MarshalAs(UnmanagedType.I8), Out] out Int64 value);
 
         /// <summary>
         /// Sets float value.
@@ -57,7 +57,7 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetFloat(
             [MarshalAs(UnmanagedType.LPStr), In] String id,
-            [MarshalAs(UnmanagedType.R8), In, Out] ref Double value);
+            [MarshalAs(UnmanagedType.R8), Out] out Double value);
 
         /// <summary>
         /// Sets string value (UTF16) (must be null-terminated!).

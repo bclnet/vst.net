@@ -38,7 +38,7 @@ namespace Jacobi.Vst3.TestSuite
                             for (busIndex = 0; busIndex < numBusses; busIndex++)
                             {
                                 busArray[busIndex].Clear();
-                                vstPlug.GetBusInfo(mediaType, dir, busIndex, ref busArray[busIndex]);
+                                vstPlug.GetBusInfo(mediaType, dir, busIndex, out busArray[busIndex]);
                             }
 
                             // test by getting descriptions randomly and comparing with saved ones
@@ -50,8 +50,7 @@ namespace Jacobi.Vst3.TestSuite
                                 randIndex = rand.Next() % numBusses;
 
                                 info.Clear();
-
-                                vstPlug.GetBusInfo(mediaType, dir, randIndex, ref info);
+                                vstPlug.GetBusInfo(mediaType, dir, randIndex, out info);
                                 if (busArray[randIndex] != info)
                                 {
                                     failed |= true;

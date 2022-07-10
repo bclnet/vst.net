@@ -39,7 +39,7 @@ namespace Jacobi.Vst3.TestSuite
                         randIndex = rand.Next();
                         if (0 > randIndex || randIndex > numBusses)
                         {
-                            vstPlug.GetBusInfo(mediaType, dir, randIndex, descAfter);
+                            vstPlug.GetBusInfo(mediaType, dir, randIndex, out descAfter);
                             if (descBefore != descAfter)
                             {
                                 failed |= true;

@@ -23,7 +23,7 @@ namespace Jacobi.Vst3.Core
         Int32 Read(
             [MarshalAs(UnmanagedType.SysInt), In] IntPtr buffer,
             [MarshalAs(UnmanagedType.I4), In] Int32 numBytes,
-            [MarshalAs(UnmanagedType.I4), In, Out] ref Int32 numBytesRead);
+            [MarshalAs(UnmanagedType.I4), Out] out Int32 numBytesRead);
 
         /// <summary>
         /// Writes binary data to stream.
@@ -37,7 +37,7 @@ namespace Jacobi.Vst3.Core
         Int32 Write(
             [MarshalAs(UnmanagedType.SysInt), In] IntPtr buffer,
             [MarshalAs(UnmanagedType.I4), In] Int32 numBytes,
-            [MarshalAs(UnmanagedType.I4), In, Out] ref Int32 numBytesWritten);
+            [MarshalAs(UnmanagedType.I4), Out] out Int32 numBytesWritten);
 
         /// <summary>
         /// Sets stream read-write position.

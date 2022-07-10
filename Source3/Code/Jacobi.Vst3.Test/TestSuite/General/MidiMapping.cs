@@ -39,15 +39,13 @@ namespace Jacobi.Vst3.TestSuite
             var parameterIds = new HashSet<uint>();
             for (var i = 0; i < numParameters; ++i)
             {
-                ParameterInfo parameterInfo = new();
-                if (controller.GetParameterInfo(i, ref parameterInfo) == TResult.S_True) parameterIds.Add(parameterInfo.Id);
+                if (controller.GetParameterInfo(i, out var parameterInfo) == TResult.S_True) parameterIds.Add(parameterInfo.Id);
             }
             for (var bus = 0; bus < eventBusCount + 1; bus++)
             {
                 if (interruptProcess) break;
 
-                BusInfo info = new();
-                if (vstPlug.GetBusInfo(MediaTypes.Event, BusDirections.Input, bus, ref info) == TResult.S_True)
+                if (vstPlug.GetBusInfo(MediaTypes.Event, BusDirections.Input, bus, out var info) == TResult.S_True)
                 {
                     if (bus >= eventBusCount)
                     {

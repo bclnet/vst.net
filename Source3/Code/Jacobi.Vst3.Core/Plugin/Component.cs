@@ -14,7 +14,7 @@ namespace Jacobi.Vst3.Plugin
 
         #region IComponent Members
 
-        public virtual int GetControllerClassId(ref Guid controllerClassId)
+        public virtual int GetControllerClassId(out Guid controllerClassId)
         {
             Trace.WriteLine("IComponent.GetControllerClassId");
 
@@ -40,12 +40,13 @@ namespace Jacobi.Vst3.Plugin
             return busses != null ? busses.Count : 0;
         }
 
-        public virtual int GetBusInfo(MediaTypes type, BusDirections dir, int index, ref BusInfo bus)
+        public virtual int GetBusInfo(MediaTypes type, BusDirections dir, int index, out BusInfo bus)
         {
             Trace.WriteLine($"IComponent.GetBusInfo({type}, {dir}, {index})");
 
             var busses = GetBusCollection(type, dir);
 
+            bus = default;
             if (busses != null)
             {
                 if (index < 0 || index >= busses.Count) return TResult.E_InvalidArg;
@@ -58,10 +59,11 @@ namespace Jacobi.Vst3.Plugin
             return TResult.E_Unexpected;
         }
 
-        public virtual int GetRoutingInfo(ref RoutingInfo inInfo, ref RoutingInfo outInfo)
+        public virtual int GetRoutingInfo(ref RoutingInfo inInfo, out RoutingInfo outInfo)
         {
             Trace.WriteLine("IComponent.GetRoutingInfo");
 
+            outInfo = default;
             return TResult.E_NotImplemented;
         }
 

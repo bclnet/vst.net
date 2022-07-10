@@ -45,18 +45,17 @@ namespace Jacobi.Vst3.TestSuite
                 numParams = controller.GetParameterCount();
             if (audioEffect != null && numParams > 0)
             {
-                ParameterInfo inf = new();
                 for (var i = 0; i < numParams; ++i)
                 {
                     paramChanges.Add(new ParamChanges());
-                    var r = controller.GetParameterInfo(i, ref inf);
+                    var r = controller.GetParameterInfo(i, out var inf);
                     if (r != TResult.S_True) return false;
                     if ((inf.Flags & ParameterInfo.ParameterFlags.CanAutomate) != 0) paramChanges[i].Init(inf.Id, processSetup.MaxSamplesPerBlock);
                 }
 
                 for (var i = 0; i < controller.GetParameterCount(); ++i)
                 {
-                    var r = controller.GetParameterInfo(i, ref inf);
+                    var r = controller.GetParameterInfo(i, out var inf);
                     if (r != TResult.S_True) return false;
                     if ((inf.Flags & ParameterInfo.ParameterFlags.IsBypass) != 0)
                     {

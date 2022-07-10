@@ -34,8 +34,7 @@ namespace Jacobi.Vst3.TestSuite
                     var busDirection = i < numInputs ? BusDirections.Input : BusDirections.Output;
                     var busIndex = busDirection == BusDirections.Input ? i : i - numInputs;
 
-                    BusInfo busInfo = new();
-                    if (vstPlug.GetBusInfo(type, busDirection, busIndex, ref busInfo) != TResult.S_True)
+                    if (vstPlug.GetBusInfo(type, busDirection, busIndex, out var busInfo) != TResult.S_True)
                     {
                         testResult.AddErrorMessage("IComponent::getBusInfo (..) failed.");
                         return false;

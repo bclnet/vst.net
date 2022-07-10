@@ -13,14 +13,14 @@ namespace Jacobi.Vst3.Core
     [ComImport, Guid(Interfaces.IComponent), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IComponent : IPluginBase
     {
-        //[PreserveSig]
-        //[return: MarshalAs(UnmanagedType.Error)]
-        //Int32 Initialize(
-        //    [MarshalAs(UnmanagedType.IUnknown), In] Object context);
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.Error)]
+        new Int32 Initialize(
+            [MarshalAs(UnmanagedType.IUnknown), In] Object context);
 
-        //[PreserveSig]
-        //[return: MarshalAs(UnmanagedType.Error)]
-        //Int32 Terminate();
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.Error)]
+        new Int32 Terminate();
 
         //---------------------------------------------------------------------
 
@@ -32,7 +32,7 @@ namespace Jacobi.Vst3.Core
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetControllerClassId(
-            [MarshalAs(UnmanagedType.Struct), In, Out] ref Guid controllerClassId);
+            [MarshalAs(UnmanagedType.Struct), Out] out Guid controllerClassId);
 
         /// <summary>
         /// Called before 'initialize' to set the component usage (optional). See \ref IoModes
@@ -69,7 +69,7 @@ namespace Jacobi.Vst3.Core
         Int32 GetBusInfo(
             [MarshalAs(UnmanagedType.I4), In] MediaTypes type,
             [MarshalAs(UnmanagedType.I4), In] BusDirections dir, Int32 index,
-            [MarshalAs(UnmanagedType.Struct), In, Out] ref BusInfo bus);
+            [MarshalAs(UnmanagedType.Struct), Out] out BusInfo bus);
 
         /// <summary>
         /// Retrieves routing information (to be implemented when more than one regular input or output bus exists).
@@ -82,7 +82,7 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetRoutingInfo(
             [MarshalAs(UnmanagedType.Struct), In] ref RoutingInfo inInfo,
-            [MarshalAs(UnmanagedType.Struct), In, Out] ref RoutingInfo outInfo);
+            [MarshalAs(UnmanagedType.Struct), Out] out RoutingInfo outInfo);
 
         /// <summary>
         /// Called upon (de-)activating a bus in the host application. The plug-in should only processed

@@ -25,9 +25,7 @@ namespace Jacobi.Vst3.TestSuite
                 var unitIds = new int[unitCount];
                 for (var unitIndex = 0; unitIndex < unitCount; unitIndex++)
                 {
-                    UnitInfo unitInfo = new();
-
-                    if (iUnitInfo.GetUnitInfo(unitIndex, ref unitInfo) == TResult.S_OK)
+                    if (iUnitInfo.GetUnitInfo(unitIndex, out var unitInfo) == TResult.S_OK)
                     {
                         var unitId = unitInfo.Id;
                         unitIds[unitIndex] = unitId;

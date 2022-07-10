@@ -178,8 +178,9 @@ namespace Steinberg.Vst
             return TResult.S_True;
         }
 
-        public int CreateInstance(ref Guid cid, ref Guid iid, ref IntPtr obj)
+        public int CreateInstance(ref Guid cid, ref Guid iid, out IntPtr obj)
         {
+            throw new NotImplementedException();
             //    var classID = cid;
             //    var interfaceID = iid;
             //    if (classID == IMessage::iid && interfaceID == IMessage::iid)
@@ -215,12 +216,6 @@ namespace Steinberg.Vst
 
         public async Task<int> Run()
         {
-            //args = new[] { "version" };
-            //args = new[] { "list" };
-            //args = new[] { "snapshots" };
-            args = new[] { "selftest" };
-            //args = new[] { "f", "C:\\Program Files\\Common Files\\VST3\\iZotope\\Nectar 3 Elements.vst3" };
-            //args = new[] { "l", "e", "f", "C:\\Program Files\\Common Files\\VST3\\iZotope\\Nectar 3 Elements.vst3" };
             var returnCode = 0;
             var rootCommand = new RootCommand($"{Constants.Vst3SdkVersion} Plug-in Validator")
             {
@@ -511,8 +506,7 @@ namespace Steinberg.Vst
                         {
                             infoStream.Write($"[{name}");
                             var desc = testItem.GetDescription();
-                            if (string.IsNullOrEmpty(desc))
-                                infoStream.Write($": {desc}");
+                            if (string.IsNullOrEmpty(desc)) infoStream.Write($": {desc}");
                             infoStream.Write("]\n");
                         }
 

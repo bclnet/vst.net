@@ -32,7 +32,7 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetUnitInfo(
             [MarshalAs(UnmanagedType.I4), In] Int32 unitIndex,
-            [MarshalAs(UnmanagedType.Struct), In, Out] ref UnitInfo info);
+            [MarshalAs(UnmanagedType.Struct), Out] out UnitInfo info);
 
         /* Component intern program structure. */
 
@@ -54,7 +54,7 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetProgramListInfo(
             [MarshalAs(UnmanagedType.I4), In] Int32 listIndex,
-            [MarshalAs(UnmanagedType.I4), In, Out] ref ProgramListInfo info);
+            [MarshalAs(UnmanagedType.I4), Out] out ProgramListInfo info);
 
         /// <summary>
         /// Gets for a given program list ID and program index its program name.
@@ -152,7 +152,7 @@ namespace Jacobi.Vst3.Core
             [MarshalAs(UnmanagedType.I4), In] BusDirections dir,
             [MarshalAs(UnmanagedType.I4), In] Int32 busIndex,
             [MarshalAs(UnmanagedType.I4), In] Int32 channel,
-            [MarshalAs(UnmanagedType.I4), In, Out] ref Int32 unitId);
+            [MarshalAs(UnmanagedType.I4), Out] out Int32 unitId);
 
         /// <summary>
         /// Receives a preset data stream.

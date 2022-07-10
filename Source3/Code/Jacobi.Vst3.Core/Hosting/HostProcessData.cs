@@ -134,8 +134,7 @@ namespace Jacobi.Vst3.Host
                 buffers = (AudioBusBuffers*)Marshal.AllocHGlobal(AudioBusBuffers.Size * busCount);
                 for (var i = 0; i < busCount; i++)
                 {
-                    BusInfo busInfo = new();
-                    if (component.GetBusInfo(MediaTypes.Audio, dir, i, ref busInfo) == TResult.S_True)
+                    if (component.GetBusInfo(MediaTypes.Audio, dir, i, out var busInfo) == TResult.S_True)
                     {
                         buffers[i].NumChannels = busInfo.ChannelCount;
 
@@ -208,14 +207,12 @@ namespace Jacobi.Vst3.Host
 
             for (var i = 0; i < inBusCount; i++)
             {
-                BusInfo busInfo = new();
-                if (component.GetBusInfo(MediaTypes.Audio, BusDirections.Input, i, ref busInfo) == TResult.S_True)
+                if (component.GetBusInfo(MediaTypes.Audio, BusDirections.Input, i, out var busInfo) == TResult.S_True)
                     if (((AudioBusBuffers*)_.Inputs)[i].NumChannels != busInfo.ChannelCount) return true;
             }
             for (var i = 0; i < outBusCount; i++)
             {
-                BusInfo busInfo = new();
-                if (component.GetBusInfo(MediaTypes.Audio, BusDirections.Output, i, ref busInfo) == TResult.S_True)
+                if (component.GetBusInfo(MediaTypes.Audio, BusDirections.Output, i, out var busInfo) == TResult.S_True)
                     if (((AudioBusBuffers*)_.Outputs)[i].NumChannels != busInfo.ChannelCount) return true;
             }
             return false;

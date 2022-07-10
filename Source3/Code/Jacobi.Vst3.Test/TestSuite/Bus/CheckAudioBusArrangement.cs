@@ -33,11 +33,9 @@ namespace Jacobi.Vst3.TestSuite
                     testResult.AddMessage(string.Format("   Check {0} Audio Bus Arrangement ({1})",
                         dir == BusDirections.Input ? "Input" : "Output", busIndex));
 
-                    BusInfo busInfo = new();
-                    if (vstPlug.GetBusInfo(MediaTypes.Audio, dir, busIndex, ref busInfo) == TResult.S_True)
+                    if (vstPlug.GetBusInfo(MediaTypes.Audio, dir, busIndex, out var busInfo) == TResult.S_True)
                     {
-                        var arrangement = new SpeakerArrangement();
-                        if (audioEffect.GetBusArrangement(dir, busIndex, ref arrangement) == TResult.S_True)
+                        if (audioEffect.GetBusArrangement(dir, busIndex, out var arrangement) == TResult.S_True)
                         {
                             if (busInfo.ChannelCount != arrangement.GetChannelCount())
                             {

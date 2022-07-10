@@ -11,14 +11,14 @@ namespace Jacobi.Vst3.Core
     [ComImport, Guid(Interfaces.IEditController), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IEditController : IPluginBase
     {
-        //[PreserveSig]
-        //[return: MarshalAs(UnmanagedType.Error)]
-        //Int32 Initialize(
-        //    [MarshalAs(UnmanagedType.IUnknown), In] Object context);
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.Error)]
+        Int32 Initialize(
+            [MarshalAs(UnmanagedType.IUnknown), In] Object context);
 
-        //[PreserveSig]
-        //[return: MarshalAs(UnmanagedType.Error)]
-        //Int32 Terminate();
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.Error)]
+        Int32 Terminate();
 
         //---------------------------------------------------------------------
 
@@ -72,7 +72,7 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetParameterInfo(
             [MarshalAs(UnmanagedType.I4), In] Int32 paramIndex,
-            [MarshalAs(UnmanagedType.Struct), In, Out] ref ParameterInfo info);
+            [MarshalAs(UnmanagedType.Struct), Out] out ParameterInfo info);
 
         /// <summary>
         /// Gets for a given paramID and normalized value its associated string representation.
@@ -100,7 +100,7 @@ namespace Jacobi.Vst3.Core
         Int32 GetParamValueByString(
             [MarshalAs(UnmanagedType.U4), In] UInt32 paramId,
             [MarshalAs(UnmanagedType.LPWStr, SizeConst = Constants.String128), In] String @string,
-            [MarshalAs(UnmanagedType.R8), In, Out] ref Double valueNormalized);
+            [MarshalAs(UnmanagedType.R8), Out] out Double valueNormalized);
 
         /// <summary>
         /// Returns for a given paramID and a normalized value its plain representation (for example -6 for -6dB - see \ref vst3AutomationIntro).

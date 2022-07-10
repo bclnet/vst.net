@@ -87,9 +87,7 @@ namespace Jacobi.Vst3.Plugin
 
             try
             {
-                var readBytes = 0;
-
-                if (TResult.Succeeded(BaseStream.Read(unmanaged, count, ref readBytes)))
+                if (TResult.Succeeded(BaseStream.Read(unmanaged, count, out var readBytes)))
                 {
                     for (var i = 0; i < readBytes; i++)
                         buffer[offset + i] = Marshal.ReadByte(unmanaged, i);
@@ -111,11 +109,9 @@ namespace Jacobi.Vst3.Plugin
 
             try
             {
-                for (var i = 0; i < count; i++)
-                    Marshal.WriteByte(unmanaged, i, buffer[offset + i]);
+                for (var i = 0; i < count; i++) Marshal.WriteByte(unmanaged, i, buffer[offset + i]);
 
-                var writtenBytes = 0;
-                var result = BaseStream.Write(unmanaged, count, ref writtenBytes);
+                var result = BaseStream.Write(unmanaged, count, out var writtenBytes);
                 TResult.ThrowIfFailed(result);
             }
             finally

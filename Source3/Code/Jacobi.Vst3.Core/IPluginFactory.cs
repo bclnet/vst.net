@@ -57,8 +57,8 @@ namespace Jacobi.Vst3.Core
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 CreateInstance(
-            [In] ref Guid classId,
-            [In] ref Guid interfaceId,
+            [MarshalAs(UnmanagedType.Struct), In] ref Guid classId,
+            [MarshalAs(UnmanagedType.Struct), In] ref Guid interfaceId,
             [MarshalAs(UnmanagedType.SysInt, IidParameterIndex = 1), Out] out IntPtr instance);
     }
 
@@ -91,8 +91,8 @@ namespace Jacobi.Vst3.Core
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         new Int32 CreateInstance(
-            [In] ref Guid classId,
-            [In] ref Guid interfaceId,
+            [MarshalAs(UnmanagedType.Struct), In] ref Guid classId,
+            [MarshalAs(UnmanagedType.Struct), In] ref Guid interfaceId,
             [MarshalAs(UnmanagedType.SysInt, IidParameterIndex = 1), Out] out IntPtr instance);
 
         //---------------------------------------------------------------------
@@ -139,8 +139,8 @@ namespace Jacobi.Vst3.Core
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         new Int32 CreateInstance(
-            [In] ref Guid classId,
-            [In] ref Guid interfaceId,
+            [MarshalAs(UnmanagedType.Struct), In] ref Guid classId,
+            [MarshalAs(UnmanagedType.Struct), In] ref Guid interfaceId,
             [MarshalAs(UnmanagedType.SysInt, IidParameterIndex = 1), Out] out IntPtr instance);
 
         //---------------------------------------------------------------------

@@ -45,8 +45,7 @@ namespace Jacobi.Vst3.TestSuite
             var paramIds = new Dictionary<uint, int>();
             for (var i = 0; i < numParameters; ++i)
             {
-                ParameterInfo paramInfo = new();
-                var result = controller.GetParameterInfo(i, ref paramInfo);
+                var result = controller.GetParameterInfo(i, out var paramInfo);
                 if (result != TResult.S_OK)
                 {
                     testResult.AddErrorMessage($"Parameter {i,3}: is missing!!!");

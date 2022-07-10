@@ -123,14 +123,14 @@ namespace Jacobi.Vst3.TestSuite
                 else { numBusses = processData._.NumOutputs; compareSpArr = outSpArr; }
                 for (var i = 0; i < numBusses; ++i)
                 {
-                    if (audioEffect.GetBusArrangement(bd, i, spArr) != TResult.S_True)
+                    if (audioEffect.GetBusArrangement(bd, i, out spArr) != TResult.S_True)
                     {
                         testResult.AddErrorMessage("IAudioProcessor::getBusArrangement (..) failed.");
                         return false;
                     }
                     if (spArr != compareSpArr)
                         testResult.AddMessage($"    {GetSpeakerArrangementName(compareSpArr)} {(bd == BusDirections.Input ? "Input-" : "Output-")}SpeakerArrangement is not supported. Plug-in suggests: {GetSpeakerArrangementName(spArr)}.");
-                    if (vstPlug.GetBusInfo(MediaTypes.Audio, bd, i, busInfo) != TResult.S_True)
+                    if (vstPlug.GetBusInfo(MediaTypes.Audio, bd, i, out busInfo) != TResult.S_True)
                     {
                         testResult.AddErrorMessage("IComponent::getBusInfo (..) failed.");
                         return false;

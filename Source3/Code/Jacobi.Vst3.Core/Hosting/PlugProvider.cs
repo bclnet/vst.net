@@ -30,20 +30,20 @@ namespace Jacobi.Vst3.Host
         public IComponent GetComponent()
         {
             if (component == null) SetupPlugin(PluginContextFactory.Instance.GetPluginContext());
-            //if (component != null) component.AddRef();
+            if (component != null) Marshal.AddRef(Marshal.GetIUnknownForObject(component));
             return component;
         }
 
         public IEditController GetController()
         {
-            //if (controller != null) controller.AddRef();
+            if (controller != null) Marshal.AddRef(Marshal.GetIUnknownForObject(controller));
             // 'iController == 0' is allowed! In this case the plug has no controller
             return controller;
         }
-        public int ReleasePlugIn(IComponent iComponent, IEditController iController)
+        public int ReleasePlugIn(IComponent component, IEditController controller)
         {
-            if (iComponent != null) Marshal.ReleaseComObject(iComponent);
-            if (iController != null) Marshal.ReleaseComObject(iController);
+            if (component != null) Marshal.Release(Marshal.GetIUnknownForObject(component));
+            if (controller != null) Marshal.Release(Marshal.GetIUnknownForObject(controller));
 
             if (!plugIsGlobal) TerminatePlugin();
             return TResult.S_OK;
@@ -61,10 +61,6 @@ namespace Jacobi.Vst3.Host
         public IPluginFactory GetPluginFactory()
             => factory.Get();
 
-        //OBJ_METHODS(PlugProvider, FObject)
-        //REFCOUNT_METHODS(FObject)
-        //DEF_INTERFACES_2(ITestPlugProvider, ITestPlugProvider2, FObject)
-
         protected bool SetupPlugin(object hostContext)
         {
             var res = false;
@@ -77,21 +73,18 @@ namespace Jacobi.Vst3.Host
                 // initialize the component with our context
                 res = component.Initialize(hostContext) == TResult.S_OK;
 
-                //:SKY
                 // try to create the controller part from the component (for Plug-ins which did not succeed to separate component from controller)
-                //Marshal.QueryInterface(component, ref interfaceId, out instance);
-                //if (component.QueryInterface(IEditController.iid, (void**)&controller) != TResult.S_True)
-                //{
-                //    // ask for the associated controller class ID
-                //    Guid controllerCID = new();
-                //    if (component.GetControllerClassId(ref controllerCID) == TResult.S_True)
-                //    {
-                //        // create its controller part created from the factory
-                //        controller = factory.CreateInstance<IEditController>(controllerCID);
-                //        // initialize the component with our context
-                //        if (controller != null) res = controller.Initialize(hostContext) == TResult.S_OK;
-                //    }
-                //}
+                if (component is IEditController controller)
+                {
+                    // ask for the associated controller class ID
+                    if (component.GetControllerClassId(out var controllerCID) == TResult.S_True)
+                    {
+                        // create its controller part created from the factory
+                        controller = factory.CreateInstance<IEditController>(controllerCID);
+                        // initialize the component with our context
+                        if (controller != null) res = controller.Initialize(hostContext) == TResult.S_OK;
+                    }
+                }
             }
             else Console.Out?.Write($"Failed to create instance of {classInfo.Name}!\n");
 
@@ -104,9 +97,7 @@ namespace Jacobi.Vst3.Host
         {
             if (component == null || controller == null) return false;
 
-            var compICP = component as IConnectionPoint;
-            var contrICP = controller as IConnectionPoint;
-            if (compICP == null || contrICP == null) return false;
+            if (component is not IConnectionPoint compICP || controller is not IConnectionPoint contrICP) return false;
 
             var res = false;
 

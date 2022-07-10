@@ -35,8 +35,7 @@ namespace Jacobi.Vst3.TestSuite
 
             for (var busIndex = 0; busIndex < numInBusses; busIndex++)
             {
-                var info = new BusInfo();
-                if (vstPlug.GetBusInfo(MediaTypes.Audio, BusDirections.Input, busIndex, ref info) != TResult.S_True)
+                if (vstPlug.GetBusInfo(MediaTypes.Audio, BusDirections.Input, busIndex, out var info) != TResult.S_True)
                 {
                     testResult.AddErrorMessage("IComponent::getBusInfo (..) failed.");
                     continue;
@@ -47,7 +46,7 @@ namespace Jacobi.Vst3.TestSuite
 
             var inputArrArray = new SpeakerArrangement[numInBusses];
             for (var busIndex = 0; busIndex < numInBusses; busIndex++)
-                if (audioEffect.GetBusArrangement(BusDirections.Input, busIndex, inputArrArray[busIndex]) != TResult.S_True)
+                if (audioEffect.GetBusArrangement(BusDirections.Input, busIndex, out inputArrArray[busIndex]) != TResult.S_True)
                     testResult.AddErrorMessage("IComponent::getBusArrangement (..) failed.");
 
             var numOutBusses = vstPlug.GetBusCount(MediaTypes.Audio, BusDirections.Output);
@@ -56,7 +55,7 @@ namespace Jacobi.Vst3.TestSuite
             {
                 outputArrArray = new SpeakerArrangement[numOutBusses];
                 for (var busIndex = 0; busIndex < numOutBusses; busIndex++)
-                    if (audioEffect.GetBusArrangement(BusDirections.Output, busIndex, outputArrArray[busIndex]) != TResult.S_True)
+                    if (audioEffect.GetBusArrangement(BusDirections.Output, busIndex, out outputArrArray[busIndex]) != TResult.S_True)
                         testResult.AddErrorMessage("IComponent::getBusArrangement (..) failed.");
                 outputArrArray[0] = SpeakerArrangement.kMono;
             }
@@ -66,8 +65,7 @@ namespace Jacobi.Vst3.TestSuite
             {
                 for (var busIndex = 0; busIndex < numInBusses; busIndex++)
                 {
-                    SpeakerArrangement tmp = new();
-                    if (audioEffect.GetBusArrangement(BusDirections.Input, busIndex, ref tmp) == TResult.S_True)
+                    if (audioEffect.GetBusArrangement(BusDirections.Input, busIndex, out var tmp) == TResult.S_True)
                         if (tmp != inputArrArray[busIndex])
                         {
                             testResult.AddErrorMessage($"Input {busIndex}: setBusArrangements was returning kResultTrue but getBusArrangement returns different arrangement!");
@@ -76,8 +74,7 @@ namespace Jacobi.Vst3.TestSuite
                 }
                 for (var busIndex = 0; busIndex < numOutBusses; busIndex++)
                 {
-                    SpeakerArrangement tmp = new();
-                    if (audioEffect.GetBusArrangement(BusDirections.Output, busIndex, ref tmp) != TResult.S_True)
+                    if (audioEffect.GetBusArrangement(BusDirections.Output, busIndex, out var tmp) != TResult.S_True)
                         if (tmp != outputArrArray[busIndex])
                         {
                             testResult.AddErrorMessage($"Output {busIndex}: setBusArrangements was returning kResultTrue but getBusArrangement returns different arrangement!");

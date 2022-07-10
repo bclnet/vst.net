@@ -34,8 +34,7 @@ namespace Jacobi.Vst3.TestSuite
             var eventBusCount = vstPlug.GetBusCount(MediaTypes.Event, BusDirections.Input);
             for (var bus = 0; bus < eventBusCount; bus++)
             {
-                BusInfo busInfo = new();
-                vstPlug.GetBusInfo(MediaTypes.Event, BusDirections.Input, bus, ref busInfo);
+                vstPlug.GetBusInfo(MediaTypes.Event, BusDirections.Input, bus, out var busInfo);
                 for (short channel = 0; channel < busInfo.ChannelCount; channel++)
                 {
                     var count = keyswitch.GetKeyswitchCount(bus, channel);
