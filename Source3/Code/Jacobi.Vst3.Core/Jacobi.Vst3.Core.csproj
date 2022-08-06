@@ -26,7 +26,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Hosting\Test\" />
     <Folder Include="InterAppAudio\" />
   </ItemGroup>
 

@@ -13,12 +13,12 @@ namespace Jacobi.Vst3.Core
     {
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Initialize(
+        new Int32 Initialize(
             [MarshalAs(UnmanagedType.IUnknown), In] Object context);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Terminate();
+        new Int32 Terminate();
 
         //---------------------------------------------------------------------
 
@@ -50,7 +50,7 @@ namespace Jacobi.Vst3.Core
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetState(
-            [MarshalAs(UnmanagedType.Interface), In] IBStream state);
+            [MarshalAs(UnmanagedType.Interface), In, Out] IBStream state);
 
         // parameters -------------------------
 
@@ -86,7 +86,7 @@ namespace Jacobi.Vst3.Core
         Int32 GetParamStringByValue(
             [MarshalAs(UnmanagedType.U4), In] UInt32 paramId,
             [MarshalAs(UnmanagedType.R8), In] Double valueNormalized,
-            [MarshalAs(UnmanagedType.LPWStr, SizeConst = Constants.String128), Out] StringBuilder @string);
+            [MarshalAs(UnmanagedType.LPWStr, SizeConst = Constants.Fixed128), Out] StringBuilder @string);
 
         /// <summary>
         /// Gets for a given paramID and string its normalized value.
@@ -99,7 +99,7 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetParamValueByString(
             [MarshalAs(UnmanagedType.U4), In] UInt32 paramId,
-            [MarshalAs(UnmanagedType.LPWStr, SizeConst = Constants.String128), In] String @string,
+            [MarshalAs(UnmanagedType.LPWStr, SizeConst = Constants.Fixed128), In] String @string,
             [MarshalAs(UnmanagedType.R8), Out] out Double valueNormalized);
 
         /// <summary>

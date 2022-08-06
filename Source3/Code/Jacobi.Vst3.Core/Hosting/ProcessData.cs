@@ -28,8 +28,8 @@ namespace Jacobi.Vst3.Host
             else
             {
                 // reset silence flags
-                for (var i = 0; i < _.NumInputs; i++) ((AudioBusBuffers*)_.Inputs)[i].SilenceFlags = 0;
-                for (var i = 0; i < _.NumOutputs; i++) ((AudioBusBuffers*)_.Outputs)[i].SilenceFlags = 0;
+                for (var i = 0; i < _.NumInputs; i++) _.Inputs_[i].SilenceFlags = 0;
+                for (var i = 0; i < _.NumOutputs; i++) _.Outputs_[i].SilenceFlags = 0;
             }
             _.SymbolicSampleSize = symbolicSampleSize;
 
@@ -52,8 +52,8 @@ namespace Jacobi.Vst3.Host
             if (channelBufferOwner || _.SymbolicSampleSize != SymbolicSampleSizes.Sample32) return false;
             if (!IsValidBus(dir, busIndex)) return false;
 
-            var busBuffers = dir == BusDirections.Input ? ((AudioBusBuffers*)_.Inputs)[busIndex] : ((AudioBusBuffers*)_.Outputs)[busIndex];
-            for (var i = 0; i < busBuffers.NumChannels; i++) ((Single**)busBuffers.ChannelBuffers32)[i] = sampleBuffer;
+            var busBuffers = dir == BusDirections.Input ? _.Inputs_[busIndex] : _.Outputs_[busIndex];
+            for (var i = 0; i < busBuffers.NumChannels; i++) busBuffers.ChannelBuffers32_[i] = sampleBuffer;
             return true;
         }
 
@@ -63,8 +63,8 @@ namespace Jacobi.Vst3.Host
             if (channelBufferOwner || _.SymbolicSampleSize != SymbolicSampleSizes.Sample64) return false;
             if (!IsValidBus(dir, busIndex)) return false;
 
-            var busBuffers = dir == BusDirections.Input ? ((AudioBusBuffers*)_.Inputs)[busIndex] : ((AudioBusBuffers*)_.Outputs)[busIndex];
-            for (var i = 0; i < busBuffers.NumChannels; i++) ((Double**)busBuffers.ChannelBuffers64)[i] = sampleBuffer;
+            var busBuffers = dir == BusDirections.Input ? _.Inputs_[busIndex] : _.Outputs_[busIndex];
+            for (var i = 0; i < busBuffers.NumChannels; i++) busBuffers.ChannelBuffers64_[i] = sampleBuffer;
             return true;
         }
 
@@ -75,9 +75,9 @@ namespace Jacobi.Vst3.Host
             if (channelBufferOwner || _.SymbolicSampleSize != SymbolicSampleSizes.Sample32) return false;
             if (!IsValidBus(dir, busIndex)) return false;
 
-            var busBuffers = dir == BusDirections.Input ? ((AudioBusBuffers*)_.Inputs)[busIndex] : ((AudioBusBuffers*)_.Outputs)[busIndex];
+            var busBuffers = dir == BusDirections.Input ? _.Inputs_[busIndex] : _.Outputs_[busIndex];
             var count = bufferCount < busBuffers.NumChannels ? bufferCount : busBuffers.NumChannels;
-            for (var i = 0; i < count; i++) ((Single**)busBuffers.ChannelBuffers32)[i] = sampleBuffers != null ? sampleBuffers[i] : null;
+            for (var i = 0; i < count; i++) busBuffers.ChannelBuffers32_[i] = sampleBuffers != null ? sampleBuffers[i] : null;
             return true;
         }
 
@@ -87,7 +87,7 @@ namespace Jacobi.Vst3.Host
             if (channelBufferOwner || _.SymbolicSampleSize != SymbolicSampleSizes.Sample64) return false;
             if (!IsValidBus(dir, busIndex)) return false;
 
-            var busBuffers = dir == BusDirections.Input ? ((AudioBusBuffers*)_.Inputs)[busIndex] : ((AudioBusBuffers*)_.Outputs)[busIndex];
+            var busBuffers = dir == BusDirections.Input ? _.Inputs_[busIndex] : _.Outputs_[busIndex];
             var count = bufferCount < busBuffers.NumChannels ? bufferCount : busBuffers.NumChannels;
             for (var i = 0; i < count; i++) ((Double**)busBuffers.ChannelBuffers64)[i] = sampleBuffers != null ? sampleBuffers[i] : null;
             return true;
@@ -100,9 +100,9 @@ namespace Jacobi.Vst3.Host
             if (_.SymbolicSampleSize != SymbolicSampleSizes.Sample32) return false;
             if (!IsValidBus(dir, busIndex)) return false;
 
-            var busBuffers = dir == BusDirections.Input ? ((AudioBusBuffers*)_.Inputs)[busIndex] : ((AudioBusBuffers*)_.Outputs)[busIndex];
+            var busBuffers = dir == BusDirections.Input ? _.Inputs_[busIndex] : _.Outputs_[busIndex];
             if (channelIndex >= busBuffers.NumChannels) return false;
-            ((Single**)busBuffers.ChannelBuffers32)[channelIndex] = sampleBuffer;
+            busBuffers.ChannelBuffers32_[channelIndex] = sampleBuffer;
             return true;
         }
 
@@ -112,9 +112,9 @@ namespace Jacobi.Vst3.Host
             if (_.SymbolicSampleSize != SymbolicSampleSizes.Sample64) return false;
             if (!IsValidBus(dir, busIndex)) return false;
 
-            var busBuffers = dir == BusDirections.Input ? ((AudioBusBuffers*)_.Inputs)[busIndex] : ((AudioBusBuffers*)_.Outputs)[busIndex];
+            var busBuffers = dir == BusDirections.Input ? _.Inputs_[busIndex] : _.Outputs_[busIndex];
             if (channelIndex >= busBuffers.NumChannels) return false;
-            ((Double**)busBuffers.ChannelBuffers64)[channelIndex] = sampleBuffer;
+            busBuffers.ChannelBuffers64_[channelIndex] = sampleBuffer;
             return true;
         }
 
@@ -132,6 +132,7 @@ namespace Jacobi.Vst3.Host
             if (busCount > 0)
             {
                 buffers = (AudioBusBuffers*)Marshal.AllocHGlobal(AudioBusBuffers.Size * busCount);
+                buffers2 = (IntPtr)buffers;
                 for (var i = 0; i < busCount; i++)
                 {
                     if (component.GetBusInfo(MediaTypes.Audio, dir, i, out var busInfo) == TResult.S_True)
@@ -148,9 +149,9 @@ namespace Jacobi.Vst3.Host
 
                             for (var j = 0; j < busInfo.ChannelCount; j++)
                                 if (_.SymbolicSampleSize == SymbolicSampleSizes.Sample64)
-                                    ((Double**)buffers[i].ChannelBuffers64)[j] = bufferSamples > 0 ? (Double*)Marshal.AllocHGlobal(sizeof(Double) * bufferSamples) : null;
+                                    buffers[i].ChannelBuffers64_[j] = bufferSamples > 0 ? (Double*)Marshal.AllocHGlobal(sizeof(Double) * bufferSamples) : null;
                                 else
-                                    ((Single**)buffers[i].ChannelBuffers32)[j] = bufferSamples > 0 ? (Single*)Marshal.AllocHGlobal(sizeof(Single) * bufferSamples) : null;
+                                    buffers[i].ChannelBuffers32_[j] = bufferSamples > 0 ? (Single*)Marshal.AllocHGlobal(sizeof(Single) * bufferSamples) : null;
                         }
                     }
                 }
@@ -170,11 +171,11 @@ namespace Jacobi.Vst3.Host
                         {
                             if (_.SymbolicSampleSize == SymbolicSampleSizes.Sample64)
                             {
-                                if (buffers[i].ChannelBuffers64 != IntPtr.Zero && ((Double**)buffers[i].ChannelBuffers64)[j] != null) Marshal.FreeHGlobal((IntPtr)((Double**)buffers[i].ChannelBuffers64)[j]);
+                                if (buffers[i].ChannelBuffers64_ != null && buffers[i].ChannelBuffers64_[j] != null) Marshal.FreeHGlobal((IntPtr)buffers[i].ChannelBuffers64_[j]);
                             }
                             else
                             {
-                                if (buffers[i].ChannelBuffers32 != IntPtr.Zero && ((Single**)buffers[i].ChannelBuffers32)[j] != null) Marshal.FreeHGlobal((IntPtr)((Single**)buffers[i].ChannelBuffers32)[j]);
+                                if (buffers[i].ChannelBuffers32_ != null && buffers[i].ChannelBuffers32_[j] != null) Marshal.FreeHGlobal((IntPtr)buffers[i].ChannelBuffers32_[j]);
                             }
                         }
 
@@ -196,7 +197,7 @@ namespace Jacobi.Vst3.Host
 
         protected bool CheckIfReallocationNeeded(IComponent component, int bufferSamples, SymbolicSampleSizes symbolicSampleSize)
         {
-            if (channelBufferOwner != (bufferSamples > 0)) return true;
+            if (channelBufferOwner != bufferSamples > 0) return true;
             if (_.SymbolicSampleSize != symbolicSampleSize) return true;
 
             var inBusCount = component.GetBusCount(MediaTypes.Audio, BusDirections.Input);
@@ -208,12 +209,12 @@ namespace Jacobi.Vst3.Host
             for (var i = 0; i < inBusCount; i++)
             {
                 if (component.GetBusInfo(MediaTypes.Audio, BusDirections.Input, i, out var busInfo) == TResult.S_True)
-                    if (((AudioBusBuffers*)_.Inputs)[i].NumChannels != busInfo.ChannelCount) return true;
+                    if (_.Inputs_[i].NumChannels != busInfo.ChannelCount) return true;
             }
             for (var i = 0; i < outBusCount; i++)
             {
                 if (component.GetBusInfo(MediaTypes.Audio, BusDirections.Output, i, out var busInfo) == TResult.S_True)
-                    if (((AudioBusBuffers*)_.Outputs)[i].NumChannels != busInfo.ChannelCount) return true;
+                    if (_.Outputs_[i].NumChannels != busInfo.ChannelCount) return true;
             }
             return false;
         }

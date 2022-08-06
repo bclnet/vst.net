@@ -4,7 +4,7 @@ namespace Jacobi.Vst3.Core
 {
     public static class Constants
     {
-        public const int String128 = 128;
+        public const int Fixed128 = 128;
 
         // IAudioProcessor.GetTailSamples()
         public const uint kNoTail = 0;                   // kNoTail to be returned by getTailSamples when no tail is wanted

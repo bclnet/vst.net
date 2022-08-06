@@ -9,7 +9,7 @@ namespace Jacobi.Vst3.Core
     [StructLayout(LayoutKind.Sequential, CharSet = Platform.CharacterSet, Pack = Platform.StructurePack)]
     public struct ContextMenuItem
     {
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.String128)] public String Name; // Name of the item
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.Fixed128)] public String Name; // Name of the item
         [MarshalAs(UnmanagedType.I4)] public Int32 Tag;						// Identifier tag of the item
         [MarshalAs(UnmanagedType.I4)] public ItemFlags Flags;				// Flags of the item
 

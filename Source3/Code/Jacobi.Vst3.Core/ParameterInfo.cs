@@ -16,9 +16,9 @@ namespace Jacobi.Vst3.Core
         public const UInt32 NoParamId = UInt32.MaxValue;
 
         [MarshalAs(UnmanagedType.U4)] public UInt32 Id;                     // unique identifier of this parameter (named tag too)
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.String128)] public String Title;       // parameter title (e.g. "Volume")
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.String128)] public String ShortTitle;  // parameter shortTitle (e.g. "Vol")
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.String128)] public String Units;       // parameter unit (e.g. "dB")
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.Fixed128)] public String Title;       // parameter title (e.g. "Volume")
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.Fixed128)] public String ShortTitle;  // parameter shortTitle (e.g. "Vol")
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.Fixed128)] public String Units;       // parameter unit (e.g. "dB")
         [MarshalAs(UnmanagedType.I4)] public Int32 StepCount;               // number of discrete steps (0: continuous, 1: toggle, discrete value otherwise 
                                                                             // (corresponding to max - min, for example: 127 for a min = 0 and a max = 127) - see \ref vst3ParameterIntro)
         [MarshalAs(UnmanagedType.R8)] public Double DefaultNormalizedValue; // default normalized value [0,1] (in case of discrete value: defaultNormalizedValue = defDiscreteValue / stepCount)

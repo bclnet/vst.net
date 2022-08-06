@@ -30,20 +30,26 @@ namespace Jacobi.Vst3.Host
         public IComponent GetComponent()
         {
             if (component == null) SetupPlugin(PluginContextFactory.Instance.GetPluginContext());
-            if (component != null) Marshal.AddRef(Marshal.GetIUnknownForObject(component));
+            //if (component != null) Console.WriteLine($"getComponent:{Marshal.AddRef(componentHandle)}");
             return component;
         }
 
         public IEditController GetController()
         {
-            if (controller != null) Marshal.AddRef(Marshal.GetIUnknownForObject(controller));
+            //if (controller != null) Console.WriteLine($"getController:{Marshal.AddRef(controllerHandle)}");
             // 'iController == 0' is allowed! In this case the plug has no controller
             return controller;
         }
+
         public int ReleasePlugIn(IComponent component, IEditController controller)
         {
-            if (component != null) Marshal.Release(Marshal.GetIUnknownForObject(component));
-            if (controller != null) Marshal.Release(Marshal.GetIUnknownForObject(controller));
+            if (component != null) component = null;
+            //try { handle = Marshal.GetIUnknownForObject(component); Console.WriteLine($"ReleasePlugIn[component]:{Marshal.Release(handle) - 1}"); }
+            //finally { Marshal.Release(handle); }
+
+            if (controller != null) controller = null;
+            //try { handle = Marshal.GetIUnknownForObject(controller); Console.WriteLine($"ReleasePlugIn[controller]:{Marshal.Release(handle) - 1}"); }
+            //finally { Marshal.Release(handle); }
 
             if (!plugIsGlobal) TerminatePlugin();
             return TResult.S_OK;
@@ -74,8 +80,7 @@ namespace Jacobi.Vst3.Host
                 res = component.Initialize(hostContext) == TResult.S_OK;
 
                 // try to create the controller part from the component (for Plug-ins which did not succeed to separate component from controller)
-                if (component is IEditController controller)
-                {
+                if (component is not IEditController)
                     // ask for the associated controller class ID
                     if (component.GetControllerClassId(out var controllerCID) == TResult.S_True)
                     {
@@ -84,7 +89,6 @@ namespace Jacobi.Vst3.Host
                         // initialize the component with our context
                         if (controller != null) res = controller.Initialize(hostContext) == TResult.S_OK;
                     }
-                }
             }
             else Console.Out?.Write($"Failed to create instance of {classInfo.Name}!\n");
 
@@ -115,7 +119,7 @@ namespace Jacobi.Vst3.Host
 
         protected bool DisconnectComponents()
         {
-            if (componentCP != null || controllerCP != null) return false;
+            if (componentCP == null || controllerCP == null) return false;
 
             var res = componentCP.Disconnect();
             res &= controllerCP.Disconnect();

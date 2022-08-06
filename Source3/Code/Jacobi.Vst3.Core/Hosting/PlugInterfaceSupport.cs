@@ -1,7 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using System;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Host
 {

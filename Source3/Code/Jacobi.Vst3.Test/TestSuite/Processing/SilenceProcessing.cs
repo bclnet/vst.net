@@ -58,25 +58,25 @@ namespace Jacobi.Vst3.TestSuite
                 {
                     for (var busIndex = 0; busIndex < processData._.NumInputs; busIndex++)
                     {
-                        ((AudioBusBuffers*)processData._.Inputs)[busIndex].SilenceFlags = 0;
-                        for (var channelIndex = 0; channelIndex < ((AudioBusBuffers*)processData._.Inputs)[busIndex].NumChannels; channelIndex++)
+                        processData._.Inputs_[busIndex].SilenceFlags = 0;
+                        for (var channelIndex = 0; channelIndex < processData._.Inputs_[busIndex].NumChannels; channelIndex++)
                         {
-                            ((AudioBusBuffers*)processData._.Inputs)[busIndex].SilenceFlags |= 1UL << channelIndex;
+                            processData._.Inputs_[busIndex].SilenceFlags |= 1UL << channelIndex;
                             if (processData._.SymbolicSampleSize == SymbolicSampleSizes.Sample32)
-                                Platform.Memset((IntPtr)((AudioBusBuffers*)processData._.Inputs)[busIndex].ChannelBuffers32_[channelIndex], 0, sizeof(float) * processData._.NumSamples);
+                                Platform.Memset((IntPtr)processData._.Inputs_[busIndex].ChannelBuffers32_[channelIndex], 0, sizeof(float) * processData._.NumSamples);
                             else if (processData._.SymbolicSampleSize == SymbolicSampleSizes.Sample64)
-                                Platform.Memset((IntPtr)((AudioBusBuffers*)processData._.Inputs)[busIndex].ChannelBuffers32_[channelIndex], 0, sizeof(double) * processData._.NumSamples);
+                                Platform.Memset((IntPtr)processData._.Inputs_[busIndex].ChannelBuffers32_[channelIndex], 0, sizeof(double) * processData._.NumSamples);
                         }
                     }
 
                     for (var busIndex = 0; busIndex < processData._.NumOutputs; busIndex++)
                     {
-                        if (processData._.NumInputs > busIndex) ((AudioBusBuffers*)processData._.Outputs)[busIndex].SilenceFlags = ((AudioBusBuffers*)processData._.Inputs)[busIndex].SilenceFlags;
+                        if (processData._.NumInputs > busIndex) processData._.Outputs_[busIndex].SilenceFlags = processData._.Inputs_[busIndex].SilenceFlags;
                         else
                         {
-                            ((AudioBusBuffers*)processData._.Outputs)[busIndex].SilenceFlags = 0;
-                            for (var channelIndex = 0; channelIndex < ((AudioBusBuffers*)processData._.Outputs)[busIndex].NumChannels; channelIndex++)
-                                ((AudioBusBuffers*)processData._.Outputs)[busIndex].SilenceFlags |= (1UL << channelIndex);
+                            processData._.Outputs_[busIndex].SilenceFlags = 0;
+                            for (var channelIndex = 0; channelIndex < processData._.Outputs_[busIndex].NumChannels; channelIndex++)
+                                processData._.Outputs_[busIndex].SilenceFlags |= (1UL << channelIndex);
                         }
                     }
 
@@ -91,10 +91,10 @@ namespace Jacobi.Vst3.TestSuite
                 }
 
                 for (var busIndex = 0; busIndex < processData._.NumOutputs; busIndex++)
-                    for (var channelIndex = 0; channelIndex < ((AudioBusBuffers*)processData._.Outputs)[busIndex].NumChannels; channelIndex++)
+                    for (var channelIndex = 0; channelIndex < processData._.Outputs_[busIndex].NumChannels; channelIndex++)
                     {
-                        var channelShouldBeSilent = (((AudioBusBuffers*)processData._.Outputs)[busIndex].SilenceFlags & 1UL << channelIndex) != 0;
-                        var channelIsSilent = IsBufferSilent(((AudioBusBuffers*)processData._.Outputs)[busIndex].ChannelBuffers32_[channelIndex], processData._.NumSamples, processData._.SymbolicSampleSize);
+                        var channelShouldBeSilent = (processData._.Outputs_[busIndex].SilenceFlags & 1UL << channelIndex) != 0;
+                        var channelIsSilent = IsBufferSilent(processData._.Outputs_[busIndex].ChannelBuffers32_[channelIndex], processData._.NumSamples, processData._.SymbolicSampleSize);
                         if (channelShouldBeSilent != channelIsSilent)
                         {
                             var silentText = "The component reported a wrong silent flag for its output buffer! : output is silent but silenceFlags not set !";

@@ -34,10 +34,10 @@ namespace Jacobi.Vst3.TestSuite
             {
                 if (!noNeedtoProcess) break;
 
-                var minChannel = ((AudioBusBuffers*)processData._.Inputs)[i].NumChannels < ((AudioBusBuffers*)processData._.Outputs)[i].NumChannels ? ((AudioBusBuffers*)processData._.Inputs)[i].NumChannels : ((AudioBusBuffers*)processData._.Outputs)[i].NumChannels;
+                var minChannel = processData._.Inputs_[i].NumChannels < processData._.Outputs_[i].NumChannels ? processData._.Inputs_[i].NumChannels : processData._.Outputs_[i].NumChannels;
 
-                var ptrIn = (Single**)((AudioBusBuffers*)processData._.Inputs)[i].ChannelBuffers32;
-                var ptrOut = (Single**)((AudioBusBuffers*)processData._.Outputs)[i].ChannelBuffers32;
+                var ptrIn = processData._.Inputs_[i].ChannelBuffers32_;
+                var ptrOut = processData._.Outputs_[i].ChannelBuffers32_;
                 for (var j = 0; j < minChannel; j++)
                     if (ptrIn[j] != ptrOut[j]) { noNeedtoProcess = false; break; }
             }
@@ -47,11 +47,11 @@ namespace Jacobi.Vst3.TestSuite
             {
                 if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample32)
                 {
-                    var ptr = (Single**)((AudioBusBuffers*)processData._.Inputs)[i].ChannelBuffers32;
+                    var ptr = processData._.Inputs_[i].ChannelBuffers32_;
                     if (ptr != null)
                     {
                         var inc = 1f / (processData._.NumSamples - 1);
-                        for (var c = 0; c < ((AudioBusBuffers*)processData._.Inputs)[i].NumChannels; c++)
+                        for (var c = 0; c < processData._.Inputs_[i].NumChannels; c++)
                         {
                             var chaBuf = ptr[c];
                             for (var j = 0; j < processData._.NumSamples; j++)
@@ -64,11 +64,11 @@ namespace Jacobi.Vst3.TestSuite
                 }
                 else if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample64)
                 {
-                    var ptr = (Double**)((AudioBusBuffers*)processData._.Inputs)[i].ChannelBuffers64;
+                    var ptr = processData._.Inputs_[i].ChannelBuffers64_;
                     if (ptr != null)
                     {
                         var inc = 1f / (processData._.NumSamples - 1);
-                        for (var c = 0; c < ((AudioBusBuffers*)processData._.Inputs)[i].NumChannels; c++)
+                        for (var c = 0; c < processData._.Inputs_[i].NumChannels; c++)
                         {
                             var chaBuf = ptr[c];
                             for (var j = 0; j < processData._.NumSamples; j++)
@@ -91,11 +91,11 @@ namespace Jacobi.Vst3.TestSuite
             {
                 if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample32)
                 {
-                    var ptr = (Single**)((AudioBusBuffers*)processData._.Inputs)[i].ChannelBuffers32;
+                    var ptr = processData._.Inputs_[i].ChannelBuffers32_;
                     if (ptr != null)
                     {
                         var inc = 1f / (processData._.NumSamples - 1);
-                        for (var c = 0; c < ((AudioBusBuffers*)processData._.Inputs)[i].NumChannels; c++)
+                        for (var c = 0; c < processData._.Inputs_[i].NumChannels; c++)
                         {
                             var chaBuf = ptr[c];
                             for (var j = 0; j < processData._.NumSamples; j++)
@@ -112,11 +112,11 @@ namespace Jacobi.Vst3.TestSuite
                 }
                 else if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample64)
                 {
-                    var ptr = (Double**)((AudioBusBuffers*)processData._.Inputs)[i].ChannelBuffers64;
+                    var ptr = processData._.Inputs_[i].ChannelBuffers64_;
                     if (ptr != null)
                     {
                         var inc = 1f / (processData._.NumSamples - 1);
-                        for (var c = 0; c < ((AudioBusBuffers*)processData._.Inputs)[i].NumChannels; c++)
+                        for (var c = 0; c < processData._.Inputs_[i].NumChannels; c++)
                         {
                             var chaBuf = ptr[c];
                             for (var j = 0; j < processData._.NumSamples; j++)

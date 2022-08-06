@@ -84,7 +84,7 @@ namespace Jacobi.Vst3.Core
         Int32 GetString(
             [MarshalAs(UnmanagedType.LPStr), In] String id,
             [MarshalAs(UnmanagedType.LPWStr, SizeParamIndex = 2), In] StringBuilder str,
-            [MarshalAs(UnmanagedType.U4), In] UInt32 size);
+            [MarshalAs(UnmanagedType.U4), In, Out] ref UInt32 size);
 
         /// <summary>
         /// Sets binary data.

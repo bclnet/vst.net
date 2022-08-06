@@ -148,8 +148,8 @@ namespace Jacobi.Vst3.Host
         {
             var type = typeof(T);
             var interfaceId = type.GUID;
-            return _factory.CreateInstance(ref classID, ref interfaceId, out var obj) == TResult.S_True
-                ? (T)Marshal.GetTypedObjectForIUnknown(obj, typeof(T))
+            return _factory.CreateInstance(ref classID, ref interfaceId, out var handle) == TResult.S_True
+                ? (T)Marshal.GetTypedObjectForIUnknown(handle, typeof(T))
                 : default;
         }
 

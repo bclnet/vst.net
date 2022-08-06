@@ -14,7 +14,7 @@ namespace Jacobi.Vst3.Core
         /// </summary>
         /// <returns></returns>
         [PreserveSig]
-        [return: MarshalAs(UnmanagedType.LPWStr)]
+        [return: MarshalAs(UnmanagedType.LPStr)]
         String GetMessageID();
 
         /// <summary>
@@ -23,7 +23,7 @@ namespace Jacobi.Vst3.Core
         /// <param name="id"></param>
         [PreserveSig]
         void SetMessageID(
-            [MarshalAs(UnmanagedType.LPWStr), In] String id);
+            [MarshalAs(UnmanagedType.LPStr), In] String id);
 
         /// <summary>
         /// Returns the attribute list associated to the message.

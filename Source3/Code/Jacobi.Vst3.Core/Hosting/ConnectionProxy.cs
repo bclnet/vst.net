@@ -48,6 +48,5 @@ namespace Jacobi.Vst3.Host
 
         public bool Disconnect()
             => Disconnect(dstConnection) == TResult.S_True;
-
     }
 }

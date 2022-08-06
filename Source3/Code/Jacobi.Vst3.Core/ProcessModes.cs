@@ -19,7 +19,7 @@
     /// - Switching between kRealtime (or kPrefetch) and kOffline requires that the host calls IAudioProcessor::setupProcessing
     ///   in order to inform the plug-in about this mode change.
     /// </summary>
-    public enum ProcessModes
+    public enum ProcessModes : int
     {
         Realtime,       // realtime processing
         Prefetch,       // prefetch processing

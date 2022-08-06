@@ -90,7 +90,7 @@ namespace Steinberg.Vst
                         + $"\n\tsubCategories = {classInfo.SubCategoriesString()}"
                         + $"\n\tversion = {classInfo.Version}"
                         + $"\n\tsdkVersion = {classInfo.SdkVersion}"
-                        + $"\n\tcid = {classInfo.ID}\n\n");
+                        + $"\n\tcid = {classInfo.ID.ToString().Replace("-", "")}\n\n");
                     ++i;
                 }
             }
@@ -125,31 +125,19 @@ namespace Steinberg.Vst
         }
 
         string[] args;
-        PlugInterfaceSupport _plugInterfaceSupport;
+        PlugInterfaceSupport _plugInterfaceSupport = new();
         int numTestsFailed;
         int numTestsPassed;
         bool addErrorWarningTextToOutput = true;
 
-        TextWriter infoStream;
-        TextWriter errorStream;
+        TextWriter infoStream = Console.Out;
+        TextWriter errorStream = Console.Out;
 
         public Validator(string[] args)
         {
             this.args = args;
-            infoStream = Console.Out;
-            errorStream = Console.Out;
-            _plugInterfaceSupport = new PlugInterfaceSupport();
             PluginContextFactory.Instance.SetPluginContext(this);
             TestingPluginContext.Set(this);
-        }
-
-        int QueryInterface(string _iid, object obj)
-        {
-            //QUERY_INTERFACE (_iid, obj, IHostApplication::iid, IHostApplication)
-            //QUERY_INTERFACE (_iid, obj, ITestResult::iid, ITestResult)
-            //if (mPlugInterfaceSupport && mPlugInterfaceSupport.queryInterface(_iid, obj) == kResultTrue) return kResultOk;
-            //return FObject.queryInterface(_iid, obj);
-            return 0;
         }
 
         public void AddErrorMessage(string msg)
@@ -178,25 +166,31 @@ namespace Steinberg.Vst
             return TResult.S_True;
         }
 
+        HostMessage _hostMessage;
+        HostAttributeList _hostAttributeList;
         public int CreateInstance(ref Guid cid, ref Guid iid, out IntPtr obj)
         {
-            throw new NotImplementedException();
-            //    var classID = cid;
-            //    var interfaceID = iid;
-            //    if (classID == IMessage::iid && interfaceID == IMessage::iid)
-            //    {
-            //        obj = new HostMessage();
-            //        return TResult.S_True;
-            //    }
-            //    else if (classID == IAttributeList::iid && interfaceID == IAttributeList::iid)
-            //    {
-            //        if (auto al = HostAttributeList::make())
-            //    {
-            //            obj = al.take();
-            //            return TResult.S_True;
-            //        }
-            //        return TResult.E_OutOfMemory;
-            //    }
+            Type imessage = typeof(IMessage), iattributeList = typeof(IAttributeList);
+
+            var classID = cid;
+            var interfaceID = iid;
+            obj = default;
+            if (classID == imessage.GUID && interfaceID == imessage.GUID)
+            {
+                var objx = _hostMessage = new HostMessage();
+                obj = Marshal.GetComInterfaceForObject(objx, imessage);
+                return TResult.S_True;
+            }
+            else if (classID == iattributeList.GUID && interfaceID == iattributeList.GUID)
+            {
+                var al = _hostAttributeList = new HostAttributeList();
+                if (al != null)
+                {
+                    obj = Marshal.GetComInterfaceForObject(al, iattributeList);
+                    return TResult.S_True;
+                }
+                return TResult.E_OutOfMemory;
+            }
             obj = default;
             return TResult.S_False;
         }
@@ -313,7 +307,7 @@ namespace Steinberg.Vst
             Module testModule;
             List<PlugProvider> plugProviders = new();
             Dictionary<string, ITestFactory> testFactories = new();
-            IPluginCompatibility plugCompatibility = null; ;
+            IPluginCompatibility plugCompatibility = null;
             var testSuite = new TestSuite("Tests");
 
             //---create tests---------------
@@ -490,7 +484,7 @@ namespace Steinberg.Vst
         void AddTest(ITestSuite testSuite, TestBase testItem)
         {
             testSuite.AddTest(testItem.Name, testItem);
-            Marshal.ReleaseComObject(testItem);
+            //Marshal.Release(Marshal.GetIUnknownForObject(testItem));
         }
 
         void RunTestSuite(TestSuite suite, string nameFilter)
@@ -506,7 +500,7 @@ namespace Steinberg.Vst
                         {
                             infoStream.Write($"[{name}");
                             var desc = testItem.GetDescription();
-                            if (string.IsNullOrEmpty(desc)) infoStream.Write($": {desc}");
+                            if (!string.IsNullOrEmpty(desc)) infoStream.Write($": {desc}");
                             infoStream.Write("]\n");
                         }
 

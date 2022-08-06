@@ -42,6 +42,7 @@ namespace Jacobi.Vst3.TestSuite
             {
                 vstPlug = plugProvider.GetComponent();
                 controller = plugProvider.GetController();
+                Console.WriteLine(controller.GetParameterCount());
                 return ActivateMainIOBusses(true);
             }
             return false;
@@ -101,16 +102,14 @@ namespace Jacobi.Vst3.TestSuite
             if (vstPlug != null)
             {
                 audioEffect = vstPlug as IAudioProcessor;
-                //var check = vstPlug.QueryInterface(new Guid(Interfaces.IAudioProcessor), out audioEffect);
-                //if (check != TResult.S_True)
-                //    return false;
+                if (audioEffect == null) return false;
             }
             return res && audioEffect != null;
         }
 
         public override bool Teardown()
         {
-            if (audioEffect != null) Marshal.ReleaseComObject(audioEffect);
+            //if (audioEffect != null) Marshal.Release(Marshal.GetIUnknownForObject(audioEffect));
             var res = base.Teardown();
             return res && audioEffect != null;
         }
@@ -178,10 +177,7 @@ namespace Jacobi.Vst3.TestSuite
         public bool HavePointsBeenRead(bool atAll)
         {
             for (var i = 0; i < GetPointCount(); ++i)
-                if (points[i].WasRead())
-                {
-                    if (atAll) return true;
-                }
+                if (points[i].WasRead()) { if (atAll) return true; }
                 else if (!atAll) return false;
             return !atAll;
         }
@@ -204,25 +200,8 @@ namespace Jacobi.Vst3.TestSuite
     public class StringResult : IStringResult
     {
         string data;
-        //uint __refCount;
 
         public string Get() => data;
         public void SetText(string text) => data = text;
-
-        public int QueryInterface(Guid _iid, IntPtr obj)
-        {
-            //QUERY_INTERFACE (_iid, obj, FUnknown::iid, IStringResult)
-            //QUERY_INTERFACE (_iid, obj, IStringResult::iid, IStringResult)
-            obj = IntPtr.Zero;
-            return TResult.E_NoInterface;
-        }
-
-        //uint addRef() { return ++__refCount; }
-
-        //uint release()
-        //{
-        //    if (--__refCount == 0) return 0;
-        //    return __refCount;
-        //}
     }
 }

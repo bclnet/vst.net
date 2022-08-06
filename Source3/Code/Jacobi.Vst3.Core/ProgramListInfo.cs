@@ -15,7 +15,7 @@ namespace Jacobi.Vst3.Core
         public const Int32 AllProgramInvalid = -1;	    // all program information is invalid
 
         [MarshalAs(UnmanagedType.I4)] public Int32 Id;				        // program list identifier
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.String128)] public String Name; // name of program list
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.Fixed128)] public String Name; // name of program list
         [MarshalAs(UnmanagedType.I4)] public Int32 ProgramCount;			// number of programs in this list
     }
 }
