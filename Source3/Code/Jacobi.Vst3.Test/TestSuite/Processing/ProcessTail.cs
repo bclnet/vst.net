@@ -69,15 +69,15 @@ namespace Jacobi.Vst3.TestSuite
                 for (var i = 0; i < processData._.NumOutputs; ++i)
                     for (var c = 0; c < processData._.Outputs_[i].NumChannels; ++c)
                         if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample32)
-                            Platform.Memset((IntPtr)processData._.Outputs_[i].ChannelBuffers32_[c], 0, processData._.NumSamples * sizeof(float));
+                            Platform.Memset((IntPtr)processData._.Outputs_[i].ChannelBuffers32X[c], 0, processData._.NumSamples * sizeof(float));
                         else
-                            Platform.Memset((IntPtr)processData._.Outputs_[i].ChannelBuffers64_[c], 0, processData._.NumSamples * sizeof(double));
+                            Platform.Memset((IntPtr)processData._.Outputs_[i].ChannelBuffers64X[c], 0, processData._.NumSamples * sizeof(double));
                 for (var i = 0; i < processData._.NumInputs; ++i)
                     for (var c = 0; c < processData._.Inputs_[i].NumChannels; ++c)
                         if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample32)
-                            Platform.Memcpy((IntPtr)processData._.Inputs_[i].ChannelBuffers32_[c], (IntPtr)dataPtrFloat, processData._.NumSamples * sizeof(float));
+                            Platform.Memcpy((IntPtr)processData._.Inputs_[i].ChannelBuffers32X[c], (IntPtr)dataPtrFloat, processData._.NumSamples * sizeof(float));
                         else
-                            Platform.Memcpy((IntPtr)processData._.Inputs_[i].ChannelBuffers64_[c], (IntPtr)dataPtrDouble, processData._.NumSamples * sizeof(double));
+                            Platform.Memcpy((IntPtr)processData._.Inputs_[i].ChannelBuffers64X[c], (IntPtr)dataPtrDouble, processData._.NumSamples * sizeof(double));
             }
             else
             {
@@ -85,15 +85,15 @@ namespace Jacobi.Vst3.TestSuite
                 for (var i = 0; i < processData._.NumOutputs; ++i)
                     for (var c = 0; c < processData._.Outputs_[i].NumChannels; ++c)
                         if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample32)
-                            Platform.Memset((IntPtr)processData._.Outputs_[i].ChannelBuffers32_[c], 0, processData._.NumSamples * sizeof(float));
+                            Platform.Memset((IntPtr)processData._.Outputs_[i].ChannelBuffers32X[c], 0, processData._.NumSamples * sizeof(float));
                         else
-                            Platform.Memset((IntPtr)processData._.Outputs_[i].ChannelBuffers64_[c], 0, processData._.NumSamples * sizeof(double));
+                            Platform.Memset((IntPtr)processData._.Outputs_[i].ChannelBuffers64X[c], 0, processData._.NumSamples * sizeof(double));
                 for (var i = 0; i < processData._.NumInputs; ++i)
                     for (var c = 0; c < processData._.Inputs_[i].NumChannels; ++c)
                         if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample32)
-                            Platform.Memset((IntPtr)processData._.Inputs_[i].ChannelBuffers32_[c], 0, processData._.NumSamples * sizeof(float));
+                            Platform.Memset((IntPtr)processData._.Inputs_[i].ChannelBuffers32X[c], 0, processData._.NumSamples * sizeof(float));
                         else
-                            Platform.Memset((IntPtr)processData._.Inputs_[i].ChannelBuffers64_[c], 0, processData._.NumSamples * sizeof(double));
+                            Platform.Memset((IntPtr)processData._.Inputs_[i].ChannelBuffers64X[c], 0, processData._.NumSamples * sizeof(double));
             }
 
             return true;
@@ -115,7 +115,7 @@ namespace Jacobi.Vst3.TestSuite
                             if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample32)
                             {
                                 for (var s = start; s < end; ++s)
-                                    if (Math.Abs(processData._.Outputs_[i].ChannelBuffers32_[c][s]) >= 1e-7)
+                                    if (Math.Abs(processData._.Outputs_[i].ChannelBuffers32X[c][s]) >= 1e-7)
                                     {
                                         testResult.AddErrorMessage($"IAudioProcessor::process (..) generates non silent output for silent input for tail above {_tailSamples} samples.");
                                         return false;
@@ -124,7 +124,7 @@ namespace Jacobi.Vst3.TestSuite
                             else
                             {
                                 for (var s = start; s < end; ++s)
-                                    if (Math.Abs(processData._.Outputs_[i].ChannelBuffers64_[c][s]) >= 1e-7)
+                                    if (Math.Abs(processData._.Outputs_[i].ChannelBuffers64X[c][s]) >= 1e-7)
                                     {
                                         testResult.AddErrorMessage($"IAudioProcessor::process (..) generates non silent output for silent input for tail above {_tailSamples} samples.");
                                         return false;

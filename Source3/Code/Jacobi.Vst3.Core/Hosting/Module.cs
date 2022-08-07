@@ -6,7 +6,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using static Jacobi.Vst3.Core.PFactoryInfo;
 
-namespace Jacobi.Vst3.Host
+namespace Jacobi.Vst3.Hosting
 {
     public class FactoryInfo
     {

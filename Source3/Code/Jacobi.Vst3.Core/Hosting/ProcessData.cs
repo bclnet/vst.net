@@ -3,7 +3,7 @@ using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Jacobi.Vst3.Host
+namespace Jacobi.Vst3.Hosting
 {
     public unsafe class HostProcessData
     {
@@ -53,7 +53,7 @@ namespace Jacobi.Vst3.Host
             if (!IsValidBus(dir, busIndex)) return false;
 
             var busBuffers = dir == BusDirections.Input ? _.Inputs_[busIndex] : _.Outputs_[busIndex];
-            for (var i = 0; i < busBuffers.NumChannels; i++) busBuffers.ChannelBuffers32_[i] = sampleBuffer;
+            for (var i = 0; i < busBuffers.NumChannels; i++) busBuffers.ChannelBuffers32X[i] = sampleBuffer;
             return true;
         }
 
@@ -64,7 +64,7 @@ namespace Jacobi.Vst3.Host
             if (!IsValidBus(dir, busIndex)) return false;
 
             var busBuffers = dir == BusDirections.Input ? _.Inputs_[busIndex] : _.Outputs_[busIndex];
-            for (var i = 0; i < busBuffers.NumChannels; i++) busBuffers.ChannelBuffers64_[i] = sampleBuffer;
+            for (var i = 0; i < busBuffers.NumChannels; i++) busBuffers.ChannelBuffers64X[i] = sampleBuffer;
             return true;
         }
 
@@ -77,7 +77,7 @@ namespace Jacobi.Vst3.Host
 
             var busBuffers = dir == BusDirections.Input ? _.Inputs_[busIndex] : _.Outputs_[busIndex];
             var count = bufferCount < busBuffers.NumChannels ? bufferCount : busBuffers.NumChannels;
-            for (var i = 0; i < count; i++) busBuffers.ChannelBuffers32_[i] = sampleBuffers != null ? sampleBuffers[i] : null;
+            for (var i = 0; i < count; i++) busBuffers.ChannelBuffers32X[i] = sampleBuffers != null ? sampleBuffers[i] : null;
             return true;
         }
 
@@ -102,7 +102,7 @@ namespace Jacobi.Vst3.Host
 
             var busBuffers = dir == BusDirections.Input ? _.Inputs_[busIndex] : _.Outputs_[busIndex];
             if (channelIndex >= busBuffers.NumChannels) return false;
-            busBuffers.ChannelBuffers32_[channelIndex] = sampleBuffer;
+            busBuffers.ChannelBuffers32X[channelIndex] = sampleBuffer;
             return true;
         }
 
@@ -114,7 +114,7 @@ namespace Jacobi.Vst3.Host
 
             var busBuffers = dir == BusDirections.Input ? _.Inputs_[busIndex] : _.Outputs_[busIndex];
             if (channelIndex >= busBuffers.NumChannels) return false;
-            busBuffers.ChannelBuffers64_[channelIndex] = sampleBuffer;
+            busBuffers.ChannelBuffers64X[channelIndex] = sampleBuffer;
             return true;
         }
 
@@ -149,9 +149,9 @@ namespace Jacobi.Vst3.Host
 
                             for (var j = 0; j < busInfo.ChannelCount; j++)
                                 if (_.SymbolicSampleSize == SymbolicSampleSizes.Sample64)
-                                    buffers[i].ChannelBuffers64_[j] = bufferSamples > 0 ? (Double*)Marshal.AllocHGlobal(sizeof(Double) * bufferSamples) : null;
+                                    buffers[i].ChannelBuffers64X[j] = bufferSamples > 0 ? (Double*)Marshal.AllocHGlobal(sizeof(Double) * bufferSamples) : null;
                                 else
-                                    buffers[i].ChannelBuffers32_[j] = bufferSamples > 0 ? (Single*)Marshal.AllocHGlobal(sizeof(Single) * bufferSamples) : null;
+                                    buffers[i].ChannelBuffers32X[j] = bufferSamples > 0 ? (Single*)Marshal.AllocHGlobal(sizeof(Single) * bufferSamples) : null;
                         }
                     }
                 }
@@ -171,11 +171,11 @@ namespace Jacobi.Vst3.Host
                         {
                             if (_.SymbolicSampleSize == SymbolicSampleSizes.Sample64)
                             {
-                                if (buffers[i].ChannelBuffers64_ != null && buffers[i].ChannelBuffers64_[j] != null) Marshal.FreeHGlobal((IntPtr)buffers[i].ChannelBuffers64_[j]);
+                                if (buffers[i].ChannelBuffers64X != null && buffers[i].ChannelBuffers64X[j] != null) Marshal.FreeHGlobal((IntPtr)buffers[i].ChannelBuffers64X[j]);
                             }
                             else
                             {
-                                if (buffers[i].ChannelBuffers32_ != null && buffers[i].ChannelBuffers32_[j] != null) Marshal.FreeHGlobal((IntPtr)buffers[i].ChannelBuffers32_[j]);
+                                if (buffers[i].ChannelBuffers32X != null && buffers[i].ChannelBuffers32X[j] != null) Marshal.FreeHGlobal((IntPtr)buffers[i].ChannelBuffers32X[j]);
                             }
                         }
 

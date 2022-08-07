@@ -3,7 +3,7 @@ using System.IO;
 using System.Linq;
 using Daw.Core;
 using Jacobi.Vst3.Core;
-using Jacobi.Vst3.Host;
+using Jacobi.Vst3.Hosting;
 using Jacobi.Vst3.Plugin;
 
 namespace Daw.Vst

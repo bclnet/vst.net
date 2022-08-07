@@ -1,4 +1,4 @@
-﻿using Jacobi.Vst3.Host;
+﻿using Jacobi.Vst3.Hosting;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -73,7 +73,7 @@ namespace Jacobi.Vst3.Core.ModuleInfo
             w.WriteEndObject();
         }
 
-        static ModuleInfo CreateModuleInfo(Module module, bool includeDiscardableClasses)
+        public static ModuleInfo CreateModuleInfo(Module module, bool includeDiscardableClasses)
         {
             var factory = module.Factory;
             var factoryInfo = factory.Info;
@@ -131,7 +131,7 @@ namespace Jacobi.Vst3.Core.ModuleInfo
             return info;
         }
 
-        static void OutputJson(ModuleInfo info, Stream stream)
+        public static void OutputJson(ModuleInfo info, Stream stream)
         {
             var options = new JsonWriterOptions { Indented = true };
             using var w = new Utf8JsonWriter(stream, options);

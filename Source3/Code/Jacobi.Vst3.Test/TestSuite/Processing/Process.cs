@@ -1,6 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Core.Test;
-using Jacobi.Vst3.Host;
+using Jacobi.Vst3.Hosting;
 using System;
 using System.Runtime.InteropServices;
 
@@ -152,9 +152,9 @@ namespace Jacobi.Vst3.TestSuite
             for (var chIdx = 0; chIdx < audioBuffers.NumChannels; chIdx++)
                 if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample32)
                 {
-                    if (audioBuffers.ChannelBuffers32_ != null)
+                    if (audioBuffers.ChannelBuffers32X != null)
                     {
-                        var channelBuffers32 = audioBuffers.ChannelBuffers32_;
+                        var channelBuffers32 = audioBuffers.ChannelBuffers32X;
                         channelBuffers32[chIdx] = (Single*)Marshal.AllocHGlobal(sizeof(Single) * processSetup.MaxSamplesPerBlock);
                         if (channelBuffers32[chIdx] != null) Platform.Memset((IntPtr)channelBuffers32[chIdx], 0, (IntPtr)(processSetup.MaxSamplesPerBlock * sizeof(Single)));
                         else return false;
@@ -163,9 +163,9 @@ namespace Jacobi.Vst3.TestSuite
                 }
                 else if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample64)
                 {
-                    if (audioBuffers.ChannelBuffers64_ != null)
+                    if (audioBuffers.ChannelBuffers64X != null)
                     {
-                        var channelBuffers64 = audioBuffers.ChannelBuffers64_;
+                        var channelBuffers64 = audioBuffers.ChannelBuffers64X;
                         channelBuffers64[chIdx] = (Double*)Marshal.AllocHGlobal(sizeof(Double) * processSetup.MaxSamplesPerBlock);
                         if (channelBuffers64[chIdx] != null) Platform.Memset((IntPtr)channelBuffers64[chIdx], 0, (IntPtr)(processSetup.MaxSamplesPerBlock * sizeof(Double)));
                         else return false;
@@ -192,8 +192,8 @@ namespace Jacobi.Vst3.TestSuite
             for (var busIndex = 0; busIndex < numBuses; busIndex++)
                 for (var chIdx = 0; chIdx < buses2[busIndex].NumChannels; chIdx++)
                 {
-                    if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample32) Marshal.FreeHGlobal((IntPtr)buses2[busIndex].ChannelBuffers32_[chIdx]);
-                    else if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample64) Marshal.FreeHGlobal((IntPtr)buses2[busIndex].ChannelBuffers64_[chIdx]);
+                    if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample32) Marshal.FreeHGlobal((IntPtr)buses2[busIndex].ChannelBuffers32X[chIdx]);
+                    else if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample64) Marshal.FreeHGlobal((IntPtr)buses2[busIndex].ChannelBuffers64X[chIdx]);
                     else return false;
                 }
             return true;

@@ -2,7 +2,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Jacobi.Vst3.Host
+namespace Jacobi.Vst3.Hosting
 {
     /// <summary>
     /// Example implementation of IPlugInterfaceSupport.

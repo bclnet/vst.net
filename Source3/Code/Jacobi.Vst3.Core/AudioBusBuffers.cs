@@ -27,11 +27,11 @@ namespace Jacobi.Vst3.Core
 
         // Single** pointer to an array Single[NumChannels][NumSamples]
         [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.SysInt)] public IntPtr ChannelBuffers32; // sample buffers to process with 32-bit precision
-        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.SysInt)] public unsafe Single** ChannelBuffers32_; // sample buffers to process with 32-bit precision (unsafe)
+        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.SysInt)] public unsafe Single** ChannelBuffers32X; // sample buffers to process with 32-bit precision (unsafe)
 
         // Double** pointer to an array Double[NumChannels][NumSamples]
         [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.SysInt)] public IntPtr ChannelBuffers64; // sample buffers to process with 64-bit precision
-        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.SysInt)] public unsafe Double** ChannelBuffers64_; // sample buffers to process with 64-bit precision (unsafe)
+        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.SysInt)] public unsafe Double** ChannelBuffers64X; // sample buffers to process with 64-bit precision (unsafe)
 
 #if X86
         internal const int FieldOffset_NumChannels = 0;

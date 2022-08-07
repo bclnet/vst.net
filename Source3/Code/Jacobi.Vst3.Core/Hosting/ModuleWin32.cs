@@ -8,7 +8,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using _Path = System.IO.Path;
 
-namespace Jacobi.Vst3.Host
+namespace Jacobi.Vst3.Hosting
 {
     public class ModuleWin32 : Module
     {

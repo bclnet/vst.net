@@ -14,8 +14,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\Code\Jacobi.Vst3.Core\Jacobi.Vst3.Core.csproj" />
     <ProjectReference Include="..\..\..\Code\Jacobi.Vst3.Interop\Jacobi.Vst3.Interop.vcxproj" />
+    <ProjectReference Include="..\..\..\Code\Jacobi.Vst3.Test\Jacobi.Vst3.TestSuite.csproj" />
   </ItemGroup>
 
 </Project>

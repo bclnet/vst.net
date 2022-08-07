@@ -1,4 +1,4 @@
-﻿using Jacobi.Vst3.Host;
+﻿using Jacobi.Vst3.Hosting;
 using System.Collections.Generic;
 
 namespace Daw.Vst

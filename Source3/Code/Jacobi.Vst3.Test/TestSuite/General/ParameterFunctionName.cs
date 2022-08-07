@@ -1,6 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Core.Test;
-using Jacobi.Vst3.Host;
+using Jacobi.Vst3.Hosting;
 using System.Collections.Generic;
 
 namespace Jacobi.Vst3.TestSuite

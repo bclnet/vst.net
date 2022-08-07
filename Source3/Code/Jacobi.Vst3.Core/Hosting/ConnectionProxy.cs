@@ -1,6 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 
-namespace Jacobi.Vst3.Host
+namespace Jacobi.Vst3.Hosting
 {
     public class ConnectionProxy : IConnectionPoint
     {

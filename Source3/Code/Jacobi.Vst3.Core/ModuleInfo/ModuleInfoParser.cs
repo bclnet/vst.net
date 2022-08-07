@@ -290,7 +290,7 @@ namespace Jacobi.Vst3.Core.ModuleInfo
             }
         }
 
-        public static ModuleInfo ParseJson(string jsonData, TextWriter optErrorOutput)
+        public static ModuleInfo ParseJson(string jsonData, out string optErrorOutput)
         {
             var docVar = JsonDocument.Parse(jsonData);
             var doc = docVar.RootElement;
@@ -298,16 +298,17 @@ namespace Jacobi.Vst3.Core.ModuleInfo
             {
                 var parser = new ModuleInfoJsonParser();
                 parser.Parse(doc);
+                optErrorOutput = default;
                 return parser.info;
             }
             catch (Exception ex)
             {
-                optErrorOutput?.WriteLine(ex.Message);
+                optErrorOutput = ex.Message;
                 return null;
             }
         }
 
-        public static List<ModuleInfo.Compatibility_> ParseCompatibilityJson(string jsonData, TextWriter optErrorOutput)
+        public static List<ModuleInfo.Compatibility_> ParseCompatibilityJson(string jsonData, out string optErrorOutput)
         {
             var docVar = JsonDocument.Parse(jsonData);
             var doc = docVar.RootElement;
@@ -315,11 +316,12 @@ namespace Jacobi.Vst3.Core.ModuleInfo
             {
                 ModuleInfoJsonParser parser = new();
                 parser.ParseCompatibility(doc);
+                optErrorOutput = default;
                 return parser.info.Compatibility;
             }
             catch (Exception ex)
             {
-                optErrorOutput?.WriteLine(ex.Message);
+                optErrorOutput = ex.Message;
                 return null;
             }
         }

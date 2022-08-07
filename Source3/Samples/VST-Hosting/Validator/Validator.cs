@@ -1,6 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Core.Test;
-using Jacobi.Vst3.Host;
+using Jacobi.Vst3.Hosting;
 using Jacobi.Vst3.TestSuite;
 using Jacobi.Vst3.Utility;
 using System;
@@ -371,7 +371,11 @@ namespace Steinberg.Vst
             RunTestSuite(testSuite, string.IsNullOrEmpty(config.testSuiteName) ? null : config.testSuiteName);
 
             if (plugCompatibility != null)
-                if (!PlugCompat.CheckPluginCompatibility(module, plugCompatibility, errorStream)) ++numTestsFailed;
+                if (!PlugCompat.CheckPluginCompatibility(module, plugCompatibility, out var error))
+                {
+                    errorStream?.WriteLine(error);
+                    ++numTestsFailed;
+                }
 
             if (infoStream != null)
             {

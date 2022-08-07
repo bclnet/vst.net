@@ -36,8 +36,8 @@ namespace Jacobi.Vst3.TestSuite
 
                 var minChannel = processData._.Inputs_[i].NumChannels < processData._.Outputs_[i].NumChannels ? processData._.Inputs_[i].NumChannels : processData._.Outputs_[i].NumChannels;
 
-                var ptrIn = processData._.Inputs_[i].ChannelBuffers32_;
-                var ptrOut = processData._.Outputs_[i].ChannelBuffers32_;
+                var ptrIn = processData._.Inputs_[i].ChannelBuffers32X;
+                var ptrOut = processData._.Outputs_[i].ChannelBuffers32X;
                 for (var j = 0; j < minChannel; j++)
                     if (ptrIn[j] != ptrOut[j]) { noNeedtoProcess = false; break; }
             }
@@ -47,7 +47,7 @@ namespace Jacobi.Vst3.TestSuite
             {
                 if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample32)
                 {
-                    var ptr = processData._.Inputs_[i].ChannelBuffers32_;
+                    var ptr = processData._.Inputs_[i].ChannelBuffers32X;
                     if (ptr != null)
                     {
                         var inc = 1f / (processData._.NumSamples - 1);
@@ -64,7 +64,7 @@ namespace Jacobi.Vst3.TestSuite
                 }
                 else if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample64)
                 {
-                    var ptr = processData._.Inputs_[i].ChannelBuffers64_;
+                    var ptr = processData._.Inputs_[i].ChannelBuffers64X;
                     if (ptr != null)
                     {
                         var inc = 1f / (processData._.NumSamples - 1);
@@ -91,7 +91,7 @@ namespace Jacobi.Vst3.TestSuite
             {
                 if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample32)
                 {
-                    var ptr = processData._.Inputs_[i].ChannelBuffers32_;
+                    var ptr = processData._.Inputs_[i].ChannelBuffers32X;
                     if (ptr != null)
                     {
                         var inc = 1f / (processData._.NumSamples - 1);
@@ -112,7 +112,7 @@ namespace Jacobi.Vst3.TestSuite
                 }
                 else if (processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample64)
                 {
-                    var ptr = processData._.Inputs_[i].ChannelBuffers64_;
+                    var ptr = processData._.Inputs_[i].ChannelBuffers64X;
                     if (ptr != null)
                     {
                         var inc = 1f / (processData._.NumSamples - 1);

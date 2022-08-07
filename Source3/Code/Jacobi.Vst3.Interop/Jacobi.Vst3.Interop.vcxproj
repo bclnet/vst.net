@@ -78,19 +78,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)..\..\..\..\..\..\..\_libs\VST_SDK\VST3_SDK;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\vst3sdk;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)..\..\..\..\..\..\..\_libs\VST_SDK\VST3_SDK\pluginterfaces;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\vst3sdk;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>C:\_LIB\VST_SDK\vst3sdk;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\vst3sdk;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(SolutionDir)..\..\..\..\..\..\..\_libs\VST_SDK\VST3_SDK\pluginterfaces;$(IncludePath)</IncludePath>
+    <IncludePath>..\..\vst3sdk;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
