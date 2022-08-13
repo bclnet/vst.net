@@ -20,7 +20,7 @@ namespace Jacobi.Vst3.Core
     [StructLayout(LayoutKind.Explicit)]
     public struct AudioBusBuffers
     {
-        public static readonly int Size = FieldOffset_SizeOf; // Marshal.SizeOf<AudioBusBuffers>();
+        public static readonly int Size = FieldOffset_SizeOf;
 
         [FieldOffset(FieldOffset_NumChannels), MarshalAs(UnmanagedType.I4)] public Int32 NumChannels;		// number of audio channels in bus
         [FieldOffset(FieldOffset_SilenceFlags), MarshalAs(UnmanagedType.U8)] public UInt64 SilenceFlags;	// Bitset of silence state per channel
@@ -35,15 +35,15 @@ namespace Jacobi.Vst3.Core
 
 #if X86
         internal const int FieldOffset_NumChannels = 0;
-        internal const int FieldOffset_SilenceFlags = 4;
-        internal const int FieldOffset_Union = 12;
-        internal const int FieldOffset_SizeOf = 16;
+        internal const int FieldOffset_SilenceFlags = 8;
+        internal const int FieldOffset_Union = 16;
+        internal const int FieldOffset_SizeOf = 24;
 #endif
 #if X64
         internal const int FieldOffset_NumChannels = 0;
         internal const int FieldOffset_SilenceFlags = 8;
         internal const int FieldOffset_Union = 16;
-        internal const int FieldOffset_SizeOf = 25;
+        internal const int FieldOffset_SizeOf = 24;
 #endif
     }
 }

@@ -215,8 +215,8 @@ namespace Jacobi.Vst3.TestSuite
             // remember original processData config
             Platform.Swap<int>(ref numInputs, ref processData._.NumInputs);
             Platform.Swap<int>(ref numOutputs, ref processData._.NumOutputs);
-            if (processData._.Inputs != IntPtr.Zero) Platform.Swap<int>(ref numChannelsIn, ref processData._.Inputs_[0].NumChannels);
-            if (processData._.Outputs != IntPtr.Zero) Platform.Swap<int>(ref numChannelsOut, ref processData._.Outputs_[0].NumChannels);
+            if (processData._.Inputs != IntPtr.Zero) Platform.Swap<int>(ref numChannelsIn, ref processData._.InputsX[0].NumChannels);
+            if (processData._.Outputs != IntPtr.Zero) Platform.Swap<int>(ref numChannelsOut, ref processData._.OutputsX[0].NumChannels);
         }
 
         public override bool Teardown()
@@ -224,8 +224,8 @@ namespace Jacobi.Vst3.TestSuite
             // restore original processData config for correct deallocation
             Platform.Swap<int>(ref numInputs, ref processData._.NumInputs);
             Platform.Swap<int>(ref numOutputs, ref processData._.NumOutputs);
-            if (processData._.Inputs != IntPtr.Zero) Platform.Swap<int>(ref numChannelsIn, ref processData._.Inputs_[0].NumChannels);
-            if (processData._.Outputs != IntPtr.Zero) Platform.Swap<int>(ref numChannelsOut, ref processData._.Outputs_[0].NumChannels);
+            if (processData._.Inputs != IntPtr.Zero) Platform.Swap<int>(ref numChannelsIn, ref processData._.InputsX[0].NumChannels);
+            if (processData._.Outputs != IntPtr.Zero) Platform.Swap<int>(ref numChannelsOut, ref processData._.OutputsX[0].NumChannels);
 
             return base.Teardown();
         }

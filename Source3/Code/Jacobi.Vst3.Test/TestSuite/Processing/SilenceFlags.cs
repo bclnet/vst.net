@@ -26,10 +26,10 @@ namespace Jacobi.Vst3.TestSuite
 
                 for (var inputsIndex = 0; inputsIndex < processData._.NumInputs; inputsIndex++)
                 {
-                    var numSilenceFlagsCombinations = (1 << processData._.Inputs_[inputsIndex].NumChannels) - 1;
+                    var numSilenceFlagsCombinations = (1 << processData._.InputsX[inputsIndex].NumChannels) - 1;
                     for (var flagCombination = 0; flagCombination <= numSilenceFlagsCombinations; flagCombination++)
                     {
-                        processData._.Inputs_[inputsIndex].SilenceFlags = (ulong)flagCombination;
+                        processData._.InputsX[inputsIndex].SilenceFlags = (ulong)flagCombination;
                         var result = audioEffect.Process(processData._);
                         if (result != TResult.S_OK)
                         {

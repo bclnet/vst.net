@@ -25,7 +25,8 @@ namespace Jacobi.Vst3.Hosting
 
         public int Disconnect(IConnectionPoint other)
         {
-            if (other == null) return TResult.E_InvalidArg;
+            if (other == null)
+                return TResult.E_InvalidArg;
 
             if (other == dstConnection)
             {

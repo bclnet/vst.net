@@ -25,7 +25,7 @@ namespace Jacobi.Vst3.UnitTests
         [TestMethod]
         public void CoreStructsAreBlittable()
         {
-            AssertIsBlittable(new AudioBusBuffers());
+            //AssertIsBlittable(new AudioBusBuffers());
             AssertIsBlittable(new Chord());
             AssertIsBlittable(new DataEvent());
             AssertIsBlittable(new NoteExpressionValueDescription());

@@ -1,4 +1,5 @@
-﻿using Jacobi.Vst3.Core;
+﻿using Jacobi.Vst3.Common;
+using Jacobi.Vst3.Core;
 using System;
 using System.Runtime.InteropServices;
 
@@ -23,35 +24,49 @@ namespace Jacobi.Vst3.Hosting
             this.classInfo = classInfo;
             this.plugIsGlobal = plugIsGlobal;
 
-            if (plugIsGlobal) SetupPlugin(PluginContextFactory.Instance.GetPluginContext());
+            if (plugIsGlobal)
+                SetupPlugin(PluginContextFactory.Instance.GetPluginContext());
         }
-        ~PlugProvider() => TerminatePlugin();
+        ~PlugProvider()
+            => TerminatePlugin();
 
         public IComponent GetComponent()
         {
-            if (component == null) SetupPlugin(PluginContextFactory.Instance.GetPluginContext());
-            //if (component != null) Console.WriteLine($"getComponent:{Marshal.AddRef(componentHandle)}");
+            if (component == null)
+                SetupPlugin(PluginContextFactory.Instance.GetPluginContext());
+
+            //if (component != null)
+            //    Console.WriteLine($"getComponent:{Marshal.AddRef(componentHandle)}");
+
             return component;
         }
 
         public IEditController GetController()
         {
-            //if (controller != null) Console.WriteLine($"getController:{Marshal.AddRef(controllerHandle)}");
-            // 'iController == 0' is allowed! In this case the plug has no controller
+            //if (controller != null)
+            //    Console.WriteLine($"getController:{Marshal.AddRef(controllerHandle)}");
+
+            // 'controller == null' is allowed! In this case the plug has no controller
             return controller;
         }
 
         public int ReleasePlugIn(IComponent component, IEditController controller)
         {
-            if (component != null) component = null;
+            if (component != null)
+                MarshalX.ReleaseRcw(ref component);
+
             //try { handle = Marshal.GetIUnknownForObject(component); Console.WriteLine($"ReleasePlugIn[component]:{Marshal.Release(handle) - 1}"); }
             //finally { Marshal.Release(handle); }
 
-            if (controller != null) controller = null;
+            if (controller != null)
+                MarshalX.ReleaseRcw(ref controller);
+
             //try { handle = Marshal.GetIUnknownForObject(controller); Console.WriteLine($"ReleasePlugIn[controller]:{Marshal.Release(handle) - 1}"); }
             //finally { Marshal.Release(handle); }
 
-            if (!plugIsGlobal) TerminatePlugin();
+            if (!plugIsGlobal)
+                TerminatePlugin();
+
             return TResult.S_OK;
         }
 

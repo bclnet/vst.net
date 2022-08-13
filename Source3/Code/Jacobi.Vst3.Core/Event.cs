@@ -16,7 +16,7 @@ namespace Jacobi.Vst3.Core
     /// Event
     /// Structure representing a single Event of different types associated to a specific event (\ref kEvent) bus.
     /// </summary>
-    [StructLayout(LayoutKind.Explicit, CharSet = Platform.CharacterSet)]
+    [StructLayout(LayoutKind.Explicit, CharSet = Platform.CharacterSet, Pack = Platform.StructurePack)]
     public struct Event
     {
         public static readonly int Size = Marshal.SizeOf<Event>();
@@ -26,6 +26,7 @@ namespace Jacobi.Vst3.Core
         [FieldOffset(FieldOffset_PpqPosition), MarshalAs(UnmanagedType.R8)] public Double PpqPosition;	// position in project
         [FieldOffset(FieldOffset_Flags), MarshalAs(UnmanagedType.I4)] public EventFlags Flags;		    // combination of \ref EventFlags
         [FieldOffset(FieldOffset_Type), MarshalAs(UnmanagedType.I4)] public EventTypes Type;			// a value from \ref EventTypes
+
         // union
         [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public NoteOnEvent NoteOn;                            // type == NoteOnEvent
         [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public NoteOffEvent NoteOff;							// type == NoteOffEvent
@@ -33,8 +34,8 @@ namespace Jacobi.Vst3.Core
         [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public PolyPressureEvent PolyPressure;				// type == PolyPressureEvent
         [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public NoteExpressionValueEvent NoteExpressionValue;	// type == NoteExpressionValueEvent
         [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public NoteExpressionTextEvent NoteExpressionText;	// type == NoteExpressionTextEvent
-        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public ChordEvent Chord;	                            // type == ChordEvent
-        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public ScaleEvent Scale;	                            // type == ScaleEvent
+        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public ChordEvent Chord; /*unbound*/                  // type == ChordEvent
+        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public ScaleEvent Scale; /*unbound*/	                // type == ScaleEvent
         [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public LegacyMIDICCOutEvent MidiCCOut;	            // type == LegacyMIDICCOutEvent
 
         public enum EventFlags

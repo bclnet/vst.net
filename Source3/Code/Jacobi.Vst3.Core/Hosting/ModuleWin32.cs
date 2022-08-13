@@ -24,9 +24,9 @@ namespace Jacobi.Vst3.Hosting
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)] public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
         [DllImport("kernel32.dll", SetLastError = true)][return: MarshalAs(UnmanagedType.Bool)] public static extern bool FreeLibrary(IntPtr hModule);
 
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)] public delegate bool InitModuleFunc();
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)] public delegate bool ExitModuleFunc();
-        [UnmanagedFunctionPointer(CallingConvention.Cdecl)] public delegate IPluginFactory GetFactoryProc();
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)][return: MarshalAs(UnmanagedType.I1)] public delegate bool InitModuleFunc();
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)][return: MarshalAs(UnmanagedType.I1)] public delegate bool ExitModuleFunc();
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)][return: MarshalAs(UnmanagedType.Interface)] public delegate IPluginFactory GetFactoryProc();
 
         IntPtr _module;
 
@@ -58,7 +58,7 @@ namespace Jacobi.Vst3.Hosting
                 if (_module == IntPtr.Zero)
                 {
                     var lastError = Marshal.GetLastWin32Error();
-                    var msg = new Win32Exception(lastError).Message;
+                    var msg = new Win32Exception(lastError).Message.Replace("%1", inPath);
                     errorDescription = $"LoadLibray failed: {msg}";
                     return false;
                 }
@@ -66,6 +66,7 @@ namespace Jacobi.Vst3.Hosting
             var factoryProc = GetFunctionPointer<GetFactoryProc>("GetPluginFactory");
             if (factoryProc == null) { errorDescription = "The dll does not export the required 'GetPluginFactory' function."; return false; }
             errorDescription = null;
+
             // InitDll is optional
             var dllEntry = GetFunctionPointer<InitModuleFunc>("InitDll");
             if (dllEntry != null)

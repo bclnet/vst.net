@@ -42,7 +42,8 @@ namespace Jacobi.Vst3.TestSuite
             {
                 vstPlug = plugProvider.GetComponent();
                 controller = plugProvider.GetController();
-                Console.WriteLine(controller.GetParameterCount());
+                Console.WriteLine($"setup:{controller?.GetParameterCount()}");
+
                 return ActivateMainIOBusses(true);
             }
             return false;

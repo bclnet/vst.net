@@ -10,8 +10,4 @@
     <PackageReference Include="NAudio.Lame" Version="2.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Daw.Core\Daw.Core.csproj" />
-  </ItemGroup>
-
 </Project>
