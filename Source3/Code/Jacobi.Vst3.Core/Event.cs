@@ -33,9 +33,9 @@ namespace Jacobi.Vst3.Core
         [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public DataEvent Data;								// type == DataEvent
         [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public PolyPressureEvent PolyPressure;				// type == PolyPressureEvent
         [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public NoteExpressionValueEvent NoteExpressionValue;	// type == NoteExpressionValueEvent
-        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public NoteExpressionTextEvent NoteExpressionText;	// type == NoteExpressionTextEvent
-        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public ChordEvent Chord; /*unbound*/                  // type == ChordEvent
-        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public ScaleEvent Scale; /*unbound*/	                // type == ScaleEvent
+        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public NoteExpressionTextEvent NoteExpressionText; /*unbound*/ // type == NoteExpressionTextEvent
+        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public ChordEvent Chord; /*unbound*/                // type == ChordEvent
+        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public ScaleEvent Scale; /*unbound*/	            // type == ScaleEvent
         [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public LegacyMIDICCOutEvent MidiCCOut;	            // type == LegacyMIDICCOutEvent
 
         public enum EventFlags

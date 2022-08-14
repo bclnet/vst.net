@@ -1,5 +1,4 @@
-﻿using Jacobi.Vst3.Common;
-using Jacobi.Vst3.Core;
+﻿using Jacobi.Vst3.Core;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,9 +23,11 @@ namespace Jacobi.Vst3.Hosting
         [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Ansi)] public static extern IntPtr GetProcAddress(IntPtr hModule, string procName);
         [DllImport("kernel32.dll", SetLastError = true)][return: MarshalAs(UnmanagedType.Bool)] public static extern bool FreeLibrary(IntPtr hModule);
 
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)][return: MarshalAs(UnmanagedType.I1)] public delegate bool ManagedModuleFunc();
         [UnmanagedFunctionPointer(CallingConvention.StdCall)][return: MarshalAs(UnmanagedType.I1)] public delegate bool InitModuleFunc();
         [UnmanagedFunctionPointer(CallingConvention.StdCall)][return: MarshalAs(UnmanagedType.I1)] public delegate bool ExitModuleFunc();
         [UnmanagedFunctionPointer(CallingConvention.StdCall)][return: MarshalAs(UnmanagedType.Interface)] public delegate IPluginFactory GetFactoryProc();
+        public delegate string GetManagedPluginFactoryType();
 
         IntPtr _module;
 
@@ -48,6 +49,29 @@ namespace Jacobi.Vst3.Hosting
             }
         }
 
+        protected bool LoadManaged(string interopPath)
+        {
+            var pluginPath = _Path.GetDirectoryName(interopPath);
+            var pluginName = _Path.GetFileNameWithoutExtension(interopPath);
+
+            var loader = new Core.Common.AssemblyLoader(pluginPath);
+            var pluginAssembly = loader.LoadPlugin(pluginName);
+
+            Type pluginType = null;
+            foreach (var type in pluginAssembly.GetTypes())
+                if (type.IsPublic && type.GetInterface("Jacobi.Vst3.Core.IPluginFactory") != null)
+                {
+                    pluginType = type;
+                    break;
+                }
+
+            _factory = pluginType != null
+                ? Activator.CreateInstance(pluginType) as IPluginFactory
+                : null;
+
+            return _factory != null;
+        }
+
         protected override bool Load(string inPath, out string errorDescription)
         {
             var path = _Path.Combine(inPath, "Contents", ArchitectureString, _Path.GetFileName(inPath));
@@ -62,7 +86,18 @@ namespace Jacobi.Vst3.Hosting
                     errorDescription = $"LoadLibray failed: {msg}";
                     return false;
                 }
+                path = inPath;
             }
+
+            // managed
+            var dllManaged = GetFunctionPointer<ManagedModuleFunc>("ManagedDll");
+            if (dllManaged != null && dllManaged() && LoadManaged(path))
+            {
+                errorDescription = default;
+                return true;
+            }
+
+            // get plugin factory
             var factoryProc = GetFunctionPointer<GetFactoryProc>("GetPluginFactory");
             if (factoryProc == null) { errorDescription = "The dll does not export the required 'GetPluginFactory' function."; return false; }
             errorDescription = null;
@@ -77,10 +112,11 @@ namespace Jacobi.Vst3.Hosting
                 }
                 catch (SEHException e) { errorDescription = $"Calling 'InitDll' failed. {e.Message}"; }
             }
+
+            // load factory
             var f = factoryProc();
             if (f == null) { errorDescription = "Calling 'GetPluginFactory' returned null."; return false; }
             _factory = f;
-            errorDescription ??= default;
             return true;
         }
 

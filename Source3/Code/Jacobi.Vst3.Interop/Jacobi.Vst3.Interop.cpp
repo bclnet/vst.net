@@ -2,47 +2,47 @@
 #include <pluginterfaces/base/funknown.h>
 #include <pluginterfaces/base/ipluginbase.h>
 
+using namespace System;
+using namespace Jacobi::Vst3::Core;
+using namespace Jacobi::Vst3::Plugin;
+
 bool PLUGIN_API InitDll() { return true; }
 bool PLUGIN_API ExitDll() { return true; }
+bool PLUGIN_API ManagedDll() { return true; }
 
-Jacobi::Vst3::Core::IPluginFactory^ LoadPlugin()
+IPluginFactory^ LoadPlugin()
 {
-	auto interopPath = System::Reflection::Assembly::GetExecutingAssembly()->Location;
-	auto pluginPath = System::IO::Path::GetDirectoryName(interopPath);
-	auto pluginName = System::IO::Path::GetFileNameWithoutExtension(interopPath);
+	auto interopPath = Reflection::Assembly::GetExecutingAssembly()->Location;
+	auto pluginPath = IO::Path::GetDirectoryName(interopPath);
+	auto pluginName = IO::Path::GetFileNameWithoutExtension(interopPath);
 
-	auto loader = gcnew Jacobi::Vst3::Core::Common::AssemblyLoader(pluginPath);
+	auto loader = gcnew Common::AssemblyLoader(pluginPath);
 	auto pluginAssembly = loader->LoadPlugin(pluginName);
 
-	System::Type^ pluginType = nullptr;
+	Type^ pluginType = nullptr;
 	for each (auto type in pluginAssembly->GetTypes())
-		if (type->IsPublic && type->GetInterface("Jacobi.Vst3.Core.IPluginFactory") != nullptr)
+		if (type->IsPublic && type->GetInterface("Jacobi.Vst3.Core.IPluginFactory"))
 		{
 			pluginType = type;
 			break;
 		}
 
-	Jacobi::Vst3::Core::IPluginFactory^ plugin = nullptr;
-	if (pluginType != nullptr)
-		plugin = safe_cast<Jacobi::Vst3::Core::IPluginFactory^>(System::Activator::CreateInstance(pluginType));
-
-	return plugin;
+	return pluginType != nullptr
+		? safe_cast<IPluginFactory^>(Activator::CreateInstance(pluginType))
+		: nullptr;
 }
 
 Steinberg::IPluginFactory* PLUGIN_API GetPluginFactory()
 {
-	Jacobi::Vst3::Core::IPluginFactory^ pluginFactory = LoadPlugin();
-	if (pluginFactory == nullptr) return nullptr;
+	auto pluginFactory = LoadPlugin();
+	if (!pluginFactory) return nullptr;
 
-	System::IntPtr unknownPtr = System::Runtime::InteropServices::Marshal::GetComInterfaceForObject(
-		pluginFactory, Jacobi::Vst3::Core::IPluginFactory::typeid);
+	auto unknownPtr = Runtime::InteropServices::Marshal::GetComInterfaceForObject(
+		pluginFactory, IPluginFactory::typeid);
+	if (unknownPtr == IntPtr::Zero) return nullptr;
 
+	auto unknown = (Steinberg::FUnknown*)unknownPtr.ToPointer();
 	Steinberg::IPluginFactory* plugin = nullptr;
-	if (unknownPtr != System::IntPtr::Zero)
-	{
-		Steinberg::FUnknown* unknown = (Steinberg::FUnknown*)unknownPtr.ToPointer();
-		unknown->queryInterface(Steinberg::IPluginFactory_iid, (void**)&plugin);
-	}
-
+	unknown->queryInterface(Steinberg::IPluginFactory_iid, (void**)&plugin);
 	return plugin;
 }

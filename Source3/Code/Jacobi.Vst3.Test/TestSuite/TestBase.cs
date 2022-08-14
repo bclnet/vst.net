@@ -116,11 +116,18 @@ namespace Jacobi.Vst3.TestSuite
         }
     }
 
-    public class ParamPoint
+    public struct ParamPoint
     {
-        int offsetSamples = -1;
+        int offsetSamples;
         double value;
         bool read;
+
+        public ParamPoint()
+        {
+            offsetSamples = -1;
+            value = default;
+            read = default;
+        }
 
         public void Set(int offsetSamples, double value)
         {

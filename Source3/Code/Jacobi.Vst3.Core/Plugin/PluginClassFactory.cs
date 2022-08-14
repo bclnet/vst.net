@@ -11,30 +11,14 @@ namespace Jacobi.Vst3.Plugin
     [ClassInterface(ClassInterfaceType.None)]
     public class PluginClassFactory : IPluginFactory, IPluginFactory2, IPluginFactory3, IServiceContainerSite, IDisposable
     {
-        private readonly List<ClassRegistration> _registrations = new List<ClassRegistration>();
+        readonly List<ClassRegistration> _registrations = new();
 
-        //public const string AudioModuleClassCategory = "Audio Module Class";
-        //public const string ComponentControllerClassCategory = "Component Controller Class";
-        //public const string TestClassCategory = "Test Class";
-        //public static readonly VstVersion Vst3SdkVersion = new Version(3, 6, 14);
-
-        public PluginClassFactory(string vendor, string email, string url)
-            : this(vendor, email, url, PFactoryInfo.FactoryFlags.NoFlags) { }
-
-        public PluginClassFactory(string vendor, string email, string url, PFactoryInfo.FactoryFlags flags)
-            : this(vendor, email, url, flags, Constants.Vst3SdkVersion) { }
-
-        public PluginClassFactory(string vendor, string email, string url, PFactoryInfo.FactoryFlags flags, Version sdkVersion)
+        public PluginClassFactory(string vendor, string email, string url, PFactoryInfo.FactoryFlags flags = PFactoryInfo.FactoryFlags.NoFlags)
         {
             Vendor = vendor;
             Email = email;
             Url = url;
             Flags = flags | PFactoryInfo.FactoryFlags.Unicode;
-            SdkVersion = sdkVersion;
-
-            DefaultVersion = ReflectionExtensions.GetExportAssembly().GetAssemblyVersion();
-
-            ServiceContainer = new ServiceContainer();
         }
 
         public string Vendor { get; private set; }
@@ -45,26 +29,16 @@ namespace Jacobi.Vst3.Plugin
 
         public PFactoryInfo.FactoryFlags Flags { get; private set; }
 
-        public Version SdkVersion { get; private set; }
+        public Version SdkVersion { get; protected set; } = Constants.Vst3SdkVersion;
 
-        public ServiceContainer ServiceContainer { get; protected set; }
+        public ServiceContainer ServiceContainer { get; protected set; } = new ServiceContainer();
 
-        public Version DefaultVersion { get; set; }
+        public Version DefaultVersion { get; set; } = ReflectionExtensions.GetExportAssembly().GetAssemblyVersion();
 
         public ClassRegistration Register(Type classType, ClassRegistration.ObjectClasses objClass)
-        {
-            var reg = new ClassRegistration
-            {
-                ClassType = classType,
-                ObjectClass = objClass,
-            };
+            => Register(new ClassRegistration { ClassType = classType, ObjectClass = objClass });
 
-            Register(reg);
-
-            return reg;
-        }
-
-        public void Register(ClassRegistration registration)
+        public ClassRegistration Register(ClassRegistration registration)
         {
             if (registration.ClassTypeId == Guid.Empty && registration.ClassType.GUID == Guid.Empty)
                 throw new ArgumentException("The ClassTypeId property is not set and the ClassType (class) does not have a GuidAttribute set.", nameof(registration.ClassType));
@@ -74,6 +48,8 @@ namespace Jacobi.Vst3.Plugin
             EnrichRegistration(registration);
 
             _registrations.Add(registration);
+
+            return registration;
         }
 
         public bool Unregister(Type classType)
@@ -135,7 +111,7 @@ namespace Jacobi.Vst3.Plugin
             if (!IsValidRegIndex(index)) return TResult.E_InvalidArg;
 
             var reg = _registrations[index];
-            
+
             FillClassInfo(ref info, reg);
 
             return TResult.S_OK;

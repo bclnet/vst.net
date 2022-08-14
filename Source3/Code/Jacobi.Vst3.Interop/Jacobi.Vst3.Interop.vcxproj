@@ -198,11 +198,6 @@
   <ItemGroup>
     <None Include="dllexports.def" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Jacobi.Vst3.Core\Jacobi.Vst3.Core.csproj">
-      <Project>{56fb1e03-b0c4-4074-9a93-7787e07b58bc}</Project>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
@@ -212,5 +207,10 @@
   </ItemGroup>
   <ItemGroup>
     <Xml Include="manifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Jacobi.Vst3.Core\Jacobi.Vst3.Core.csproj">
+      <Project>{56fb1e03-b0c4-4074-9a93-7787e07b58bc}</Project>
+    </ProjectReference>
   </ItemGroup>
 </Project>

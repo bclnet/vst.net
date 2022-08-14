@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Plugin
 {
-    public class AudioBusAccessor
+    public unsafe class AudioBusAccessor
     {
         private readonly SymbolicSampleSizes _sampleSize;
         private readonly BusDirections _busDir;
@@ -21,19 +21,13 @@ namespace Jacobi.Vst3.Plugin
             if (busDir == BusDirections.Input)
             {
                 Guard.ThrowIfOutOfRange(nameof(busIndex), busIndex, 0, processData.NumInputs);
-                InitializeAudioBuffers(processData.Inputs, busIndex);
+                _audioBuffers = processData.InputsX[busIndex];
             }
             else
             {
                 Guard.ThrowIfOutOfRange(nameof(busIndex), busIndex, 0, processData.NumOutputs);
-                InitializeAudioBuffers(processData.Outputs, busIndex);
+                _audioBuffers = processData.OutputsX[busIndex];
             }
-        }
-
-        private void InitializeAudioBuffers(IntPtr arrayPtr, int index)
-        {
-            var bufferPtr = IntPtr.Add(arrayPtr, index * AudioBusBuffers.Size);
-            _audioBuffers = (AudioBusBuffers)Marshal.PtrToStructure(bufferPtr, typeof(AudioBusBuffers));
         }
 
         public BusDirections BusDirection => _busDir;

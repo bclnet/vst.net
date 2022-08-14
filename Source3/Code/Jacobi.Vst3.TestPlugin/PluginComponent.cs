@@ -10,10 +10,10 @@ namespace Jacobi.Vst3.TestPlugin
     [DisplayName("My Plugin Component"), Guid("599B4AD4-932E-4B35-B8A7-E01508FD1AAB"), ClassInterface(ClassInterfaceType.None)]
     unsafe class PluginComponent : AudioEffect
     {
-        readonly BusCollection _audioInputs = new BusCollection(MediaTypes.Audio, BusDirections.Input);
-        readonly BusCollection _audioOutputs = new BusCollection(MediaTypes.Audio, BusDirections.Output);
-        readonly BusCollection _eventInputs = new BusCollection(MediaTypes.Event, BusDirections.Input);
-        readonly BusCollection _eventOutputs = new BusCollection(MediaTypes.Event, BusDirections.Output);
+        readonly BusCollection _audioInputs = new(MediaTypes.Audio, BusDirections.Input);
+        readonly BusCollection _audioOutputs = new(MediaTypes.Audio, BusDirections.Output);
+        readonly BusCollection _eventInputs = new(MediaTypes.Event, BusDirections.Input);
+        readonly BusCollection _eventOutputs = new(MediaTypes.Event, BusDirections.Output);
 
         public PluginComponent()
         {

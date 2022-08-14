@@ -15,6 +15,7 @@ namespace Jacobi.Vst3.Core
         [MarshalAs(UnmanagedType.I2)] public Int16 BassNote;		// range [0, 127] = [C-2, G8] with A3=440Hz
         [MarshalAs(UnmanagedType.I2)] public Int16 Mask;		    // root is bit 0
         [MarshalAs(UnmanagedType.U4)] public UInt32 TextLen;		// the number of characters (TChar) between the beginning of text and the terminating null character (without including the terminating null character itself)
-        [MarshalAs(UnmanagedType.LPWStr)] public String Text;    	// UTF-16, null terminated Hosts Chord Name
+        [MarshalAs(UnmanagedType.LPWStr)] public IntPtr Text;    	// UTF-16, null terminated Hosts Chord Name
+        public String TextX => Marshal.PtrToStringUni(Text, (int)TextLen);
     }
 }
