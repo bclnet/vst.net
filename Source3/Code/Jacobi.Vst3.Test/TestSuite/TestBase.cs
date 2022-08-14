@@ -1,5 +1,4 @@
 ﻿using Jacobi.Vst3.Core;
-using Jacobi.Vst3.Core.Test;
 using System;
 using System.Runtime.InteropServices;
 

@@ -1,5 +1,4 @@
 ﻿using Jacobi.Vst3.Core;
-using Jacobi.Vst3.Core.Test;
 using static Jacobi.Vst3.Core.SpeakerArrangement;
 
 namespace Jacobi.Vst3.TestSuite

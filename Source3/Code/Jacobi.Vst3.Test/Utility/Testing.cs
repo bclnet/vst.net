@@ -1,9 +1,8 @@
 ﻿using Jacobi.Vst3.Core;
-using Jacobi.Vst3.Core.Test;
 using System.Collections.Generic;
 using System.Diagnostics;
-using TestFunc = System.Func<Jacobi.Vst3.Core.Test.ITestResult, bool>;
-using TestFuncWithContext = System.Func<object, Jacobi.Vst3.Core.Test.ITestResult, bool>;
+using TestFunc = System.Func<Jacobi.Vst3.Core.ITestResult, bool>;
+using TestFuncWithContext = System.Func<object, Jacobi.Vst3.Core.ITestResult, bool>;
 
 namespace Jacobi.Vst3.Utility
 {

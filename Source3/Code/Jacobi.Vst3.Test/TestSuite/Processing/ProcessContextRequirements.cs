@@ -1,5 +1,4 @@
 ﻿using Jacobi.Vst3.Core;
-using Jacobi.Vst3.Core.Test;
 using Jacobi.Vst3.Hosting;
 using Jacobi.Vst3.Utility;
 using System;
