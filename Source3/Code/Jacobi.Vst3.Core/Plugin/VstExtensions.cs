@@ -2,6 +2,7 @@
 using Jacobi.Vst3.Core;
 using System;
 using System.Runtime.InteropServices;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.Plugin
 {
@@ -16,7 +17,7 @@ namespace Jacobi.Vst3.Plugin
         //    var ptr = IntPtr.Zero;
 
         //    var result = host.CreateInstance(ref iid, ref iid, ref ptr);
-        //    if (TResult.Succeeded(result))
+        //    if (Succeeded(result))
         //        return (IMessage)Marshal.GetTypedObjectForIUnknown(ptr, msgType);
 
         //    return null;

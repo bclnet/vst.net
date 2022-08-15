@@ -49,7 +49,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 ExecuteMenuItem(
+        TResult ExecuteMenuItem(
             [MarshalAs(UnmanagedType.I4), In] Int32 tag);
     }
 
@@ -104,7 +104,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetItem(
+        TResult GetItem(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
             [MarshalAs(UnmanagedType.Struct), In, Out] ref ContextMenuItem item,
             [MarshalAs(UnmanagedType.Interface), In, Out] ref IContextMenuTarget target);
@@ -117,7 +117,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 AddItem(
+        TResult AddItem(
             [MarshalAs(UnmanagedType.Struct), In] ref ContextMenuItem item,
             [MarshalAs(UnmanagedType.Interface), In] IContextMenuTarget target);
 
@@ -129,7 +129,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 RemoveItem(
+        TResult RemoveItem(
             [MarshalAs(UnmanagedType.Struct), In] ref ContextMenuItem item,
             [MarshalAs(UnmanagedType.Interface), In] IContextMenuTarget target);
 
@@ -141,7 +141,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Popup(
+        TResult Popup(
             [MarshalAs(UnmanagedType.I4), In] Int32 x,
             [MarshalAs(UnmanagedType.I4), In] Int32 y);
     }

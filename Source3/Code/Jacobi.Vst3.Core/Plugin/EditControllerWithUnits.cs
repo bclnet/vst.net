@@ -2,19 +2,20 @@
 using Jacobi.Vst3.Core;
 using System;
 using System.Text;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.Plugin
 {
     public abstract class EditControllerWithUnits : EditController, IUnitInfo
     {
-        public override int SetComponentHandler(IComponentHandler handler)
+        public override TResult SetComponentHandler(IComponentHandler handler)
         {
             UnitHandler = handler as IUnitHandler;
 
             return base.SetComponentHandler(handler);
         }
 
-        private ProgramListCollection _programLists;
+        ProgramListCollection _programLists;
 
         public ProgramListCollection ProgramLists
         {
@@ -28,7 +29,7 @@ namespace Jacobi.Vst3.Plugin
 
         public IUnitHandler UnitHandler { get; private set; }
 
-        private UnitCollection _units;
+        UnitCollection _units;
 
         public UnitCollection Units
         {
@@ -41,7 +42,7 @@ namespace Jacobi.Vst3.Plugin
             protected set => _units = value;
         }
 
-        private Unit _rootUnit;
+        Unit _rootUnit;
         public Unit RootUnit
         {
             get => _rootUnit;
@@ -53,7 +54,7 @@ namespace Jacobi.Vst3.Plugin
             }
         }
 
-        private Unit _selectedUnit;
+        Unit _selectedUnit;
         public Unit SelectedUnit
         {
             get => _selectedUnit;
@@ -73,7 +74,7 @@ namespace Jacobi.Vst3.Plugin
         public virtual int GetUnitCount()
             => Units.Count;
 
-        public virtual int GetUnitInfo(int unitIndex, out UnitInfo info)
+        public virtual TResult GetUnitInfo(int unitIndex, out UnitInfo info)
         {
             if (unitIndex >= 0 && unitIndex < Units.Count)
             {
@@ -84,16 +85,16 @@ namespace Jacobi.Vst3.Plugin
                 info.ParentUnitId = unit.Info.ParentUnitId;
                 info.ProgramListId = unit.Info.ProgramListId;
 
-                return TResult.S_OK;
+                return kResultOk;
             }
             info = default;
-            return TResult.E_InvalidArg;
+            return kInvalidArgument;
         }
 
         public virtual int GetProgramListCount()
             => ProgramLists.Count;
 
-        public virtual int GetProgramListInfo(int listIndex, out ProgramListInfo info)
+        public virtual TResult GetProgramListInfo(int listIndex, out ProgramListInfo info)
         {
             if (listIndex >= 0 && listIndex < ProgramLists.Count)
             {
@@ -103,14 +104,14 @@ namespace Jacobi.Vst3.Plugin
                 info.Name = programList.Name;
                 info.ProgramCount = programList.Count;
 
-                return TResult.S_OK;
+                return kResultOk;
             }
 
             info = default;
-            return TResult.E_InvalidArg;
+            return kInvalidArgument;
         }
 
-        public virtual int GetProgramName(int listId, int programIndex, StringBuilder name)
+        public virtual TResult GetProgramName(int listId, int programIndex, StringBuilder name)
         {
             if (ProgramLists.Contains(listId))
             {
@@ -122,14 +123,14 @@ namespace Jacobi.Vst3.Plugin
 
                     name.Append(program.Name);
 
-                    return TResult.S_OK;
+                    return kResultOk;
                 }
             }
 
-            return TResult.E_InvalidArg;
+            return kInvalidArgument;
         }
 
-        public virtual int GetProgramInfo(int listId, int programIndex, string attributeId, StringBuilder attributeValue)
+        public virtual TResult GetProgramInfo(int listId, int programIndex, string attributeId, StringBuilder attributeValue)
         {
             if (ProgramLists.Contains(listId))
             {
@@ -143,17 +144,17 @@ namespace Jacobi.Vst3.Plugin
                     {
                         attributeValue.Append(program[attributeId]);
 
-                        return TResult.S_OK;
+                        return kResultOk;
                     }
 
-                    return TResult.S_False;
+                    return kResultFalse;
                 }
             }
 
-            return TResult.E_InvalidArg;
+            return kInvalidArgument;
         }
 
-        public virtual int HasProgramPitchNames(int listId, int programIndex)
+        public virtual TResult HasProgramPitchNames(int listId, int programIndex)
         {
             if (ProgramLists.Contains(listId))
             {
@@ -163,14 +164,14 @@ namespace Jacobi.Vst3.Plugin
                 {
                     var program = programList[programIndex];
 
-                    return program is ProgramWithPitchNames ? TResult.S_True : TResult.S_False;
+                    return program is ProgramWithPitchNames ? kResultTrue : kResultFalse;
                 }
             }
 
-            return TResult.E_InvalidArg;
+            return kInvalidArgument;
         }
 
-        public virtual int GetProgramPitchName(int listId, int programIndex, short midiPitch, StringBuilder name)
+        public virtual TResult GetProgramPitchName(int listId, int programIndex, short midiPitch, StringBuilder name)
         {
             if (ProgramLists.Contains(listId))
             {
@@ -183,39 +184,39 @@ namespace Jacobi.Vst3.Plugin
                     {
                         name.Append(program.PitchNames[midiPitch]);
 
-                        return TResult.S_OK;
+                        return kResultOk;
                     }
 
-                    return TResult.S_False;
+                    return kResultFalse;
                 }
             }
 
-            return TResult.E_InvalidArg;
+            return kInvalidArgument;
         }
 
         public virtual int GetSelectedUnit()
             => SelectedUnit != null ? SelectedUnit.Info.Id : 0;
 
-        public virtual int SelectUnit(int unitId)
+        public virtual TResult SelectUnit(int unitId)
         {
             if (Units.Contains(unitId))
             {
                 SelectedUnit = Units[unitId];
 
-                return TResult.S_OK;
+                return kResultOk;
             }
 
-            return TResult.E_InvalidArg;
+            return kInvalidArgument;
         }
 
-        public virtual int GetUnitByBus(MediaTypes type, BusDirections dir, int busIndex, int channel, out int unitId)
+        public virtual TResult GetUnitByBus(MediaTypes type, BusDirections dir, int busIndex, int channel, out int unitId)
         {
             unitId = default;
-            return TResult.E_NotImplemented;
+            return kNotImplemented;
         }
 
-        public virtual int SetUnitProgramData(int listOrUnitId, int programIndex, IBStream data)
-            => TResult.E_NotImplemented;
+        public virtual TResult SetUnitProgramData(int listOrUnitId, int programIndex, IBStream data)
+            => kNotImplemented;
 
         #endregion
 

@@ -1,5 +1,5 @@
 ﻿using Jacobi.Vst3.Core;
-using Jacobi.Vst3.Hosting;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -23,7 +23,7 @@ namespace Jacobi.Vst3.TestSuite
                 var rootFound = false;
                 for (var unitIndex = 0; unitIndex < unitCount; unitIndex++)
                 {
-                    if (iUnitInfo.GetUnitInfo(unitIndex, out var unitInfo) == TResult.S_OK)
+                    if (iUnitInfo.GetUnitInfo(unitIndex, out var unitInfo) == kResultOk)
                     {
                         // check parent Id
                         if (unitInfo.ParentUnitId != UnitInfo.NoParentUnitId) //-1: connected to root
@@ -31,7 +31,7 @@ namespace Jacobi.Vst3.TestSuite
                             var noParent = true;
                             for (var i = 0; i < unitCount; ++i)
                             {
-                                if (iUnitInfo.GetUnitInfo(i, out var tmpInfo) == TResult.S_OK)
+                                if (iUnitInfo.GetUnitInfo(i, out var tmpInfo) == kResultOk)
                                     if (unitInfo.ParentUnitId == tmpInfo.Id)
                                     {
                                         noParent = false;

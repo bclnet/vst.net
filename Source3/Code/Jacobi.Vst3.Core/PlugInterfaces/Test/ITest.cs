@@ -56,19 +56,19 @@ namespace Jacobi.Vst3.Core
     {
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 AddTest(
+        TResult AddTest(
             [MarshalAs(UnmanagedType.LPWStr), In] String name,
             [MarshalAs(UnmanagedType.Interface), In] ITest test);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 AddTestSuite(
+        TResult AddTestSuite(
             [MarshalAs(UnmanagedType.LPWStr), In] String name,
             [MarshalAs(UnmanagedType.Interface), In] ITestSuite testSuite);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetEnvironment(
+        TResult SetEnvironment(
             [MarshalAs(UnmanagedType.Interface), In] ITest environment);
     }
 
@@ -83,7 +83,7 @@ namespace Jacobi.Vst3.Core
     {
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 CreateTests(
+        TResult CreateTests(
             [MarshalAs(UnmanagedType.IUnknown), In] Object context,
             [MarshalAs(UnmanagedType.Interface), In] ITestSuite parentSuite);
     }

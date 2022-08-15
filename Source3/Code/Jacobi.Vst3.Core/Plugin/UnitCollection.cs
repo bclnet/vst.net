@@ -34,7 +34,7 @@ namespace Jacobi.Vst3.Plugin
             base.RemoveItem(index);
         }
 
-        private void SetParent(Unit item)
+        void SetParent(Unit item)
         {
             if (Parent != null && item != null && item.Parent == null) item.Parent = Parent;
         }

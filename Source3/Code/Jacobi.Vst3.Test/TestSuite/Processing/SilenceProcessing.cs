@@ -1,5 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using System;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -80,7 +81,7 @@ namespace Jacobi.Vst3.TestSuite
                     }
 
                     var result = audioEffect.Process(processData._);
-                    if (result != TResult.S_OK)
+                    if (result != kResultOk)
                     {
                         testResult.AddErrorMessage("The component failed to process!");
 

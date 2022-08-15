@@ -1,6 +1,7 @@
 ﻿using Jacobi.Vst3.Core;
 using System;
 using System.Diagnostics;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.Plugin
 {
@@ -14,20 +15,20 @@ namespace Jacobi.Vst3.Plugin
 
         #region IComponent Members
 
-        public virtual int GetControllerClassId(out Guid controllerClassId)
+        public virtual TResult GetControllerClassId(out Guid controllerClassId)
         {
             Trace.WriteLine("IComponent.GetControllerClassId");
 
             controllerClassId = ControlledClassId;
 
-            return ControlledClassId == Guid.Empty ? TResult.E_NotImplemented : TResult.S_OK;
+            return ControlledClassId == Guid.Empty ? kNotImplemented : kResultOk;
         }
 
-        public virtual int SetIoMode(IoModes mode)
+        public virtual TResult SetIoMode(IoModes mode)
         {
             Trace.WriteLine($"IComponent.SetIoMode({mode})");
 
-            return TResult.E_NotImplemented;
+            return kNotImplemented;
         }
 
         // retval NOT a TResult
@@ -40,7 +41,7 @@ namespace Jacobi.Vst3.Plugin
             return busses != null ? busses.Count : 0;
         }
 
-        public virtual int GetBusInfo(MediaTypes type, BusDirections dir, int index, out BusInfo bus)
+        public virtual TResult GetBusInfo(MediaTypes type, BusDirections dir, int index, out BusInfo bus)
         {
             Trace.WriteLine($"IComponent.GetBusInfo({type}, {dir}, {index})");
 
@@ -49,25 +50,25 @@ namespace Jacobi.Vst3.Plugin
             bus = default;
             if (busses != null)
             {
-                if (index < 0 || index >= busses.Count) return TResult.E_InvalidArg;
+                if (index < 0 || index >= busses.Count) return kInvalidArgument;
 
                 busses[index].GetInfo(ref bus);
 
-                return TResult.S_OK;
+                return kResultOk;
             }
 
-            return TResult.E_Unexpected;
+            return kNotInitialized;
         }
 
-        public virtual int GetRoutingInfo(ref RoutingInfo inInfo, out RoutingInfo outInfo)
+        public virtual TResult GetRoutingInfo(ref RoutingInfo inInfo, out RoutingInfo outInfo)
         {
             Trace.WriteLine("IComponent.GetRoutingInfo");
 
             outInfo = default;
-            return TResult.E_NotImplemented;
+            return kNotImplemented;
         }
 
-        public virtual int ActivateBus(MediaTypes type, BusDirections dir, int index, bool state)
+        public virtual TResult ActivateBus(MediaTypes type, BusDirections dir, int index, bool state)
         {
             Trace.WriteLine($"IComponent.ActivateBus({type}, {dir}, {index}, {state})");
 
@@ -75,37 +76,37 @@ namespace Jacobi.Vst3.Plugin
 
             if (busses != null)
             {
-                if (index < 0 || index >= busses.Count) return TResult.E_InvalidArg;
+                if (index < 0 || index >= busses.Count) return kInvalidArgument;
 
                 busses[index].IsActive = state;
 
-                return TResult.S_OK;
+                return kResultOk;
             }
 
-            return TResult.E_Unexpected;
+            return kNotInitialized;
         }
 
-        public virtual int SetActive(bool state)
+        public virtual TResult SetActive(bool state)
         {
             Trace.WriteLine($"IComponent.SetActive({state})");
 
             IsActive = state;
 
-            return TResult.S_OK;
+            return kResultOk;
         }
 
-        public virtual int SetState(IBStream state)
+        public virtual TResult SetState(IBStream state)
         {
             Trace.WriteLine("IComponent.SetState");
 
-            return TResult.E_NotImplemented;
+            return kNotImplemented;
         }
 
-        public virtual int GetState(IBStream state)
+        public virtual TResult GetState(IBStream state)
         {
             Trace.WriteLine("IComponent.GetState");
 
-            return TResult.E_NotImplemented;
+            return kNotImplemented;
         }
 
         #endregion

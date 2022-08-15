@@ -1,6 +1,7 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Hosting;
 using System.Collections.Generic;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -45,7 +46,7 @@ namespace Jacobi.Vst3.TestSuite
             for (var i = 0; i < numParameters; ++i)
             {
                 var result = controller.GetParameterInfo(i, out var paramInfo);
-                if (result != TResult.S_OK)
+                if (result != kResultOk)
                 {
                     testResult.AddErrorMessage($"Parameter {i,3}: is missing!!!");
                     return false;
@@ -78,7 +79,7 @@ namespace Jacobi.Vst3.TestSuite
                 FunctionNameType.DryWetMix};
             var paramID = 0U;
             foreach (var item in arrayFunctionName)
-                if (iParameterFunctionName.GetParameterIDFromFunctionName(UnitInfo.RootUnitId, item, ref paramID) == TResult.S_True)
+                if (iParameterFunctionName.GetParameterIDFromFunctionName(UnitInfo.RootUnitId, item, ref paramID) == kResultTrue)
                 {
                     testResult.AddMessage($"FunctionName {item} supported => paramID {paramID}");
 

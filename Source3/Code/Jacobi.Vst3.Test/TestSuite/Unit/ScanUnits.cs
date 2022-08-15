@@ -1,5 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Hosting;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -24,7 +25,7 @@ namespace Jacobi.Vst3.TestSuite
                 var unitIds = new int[unitCount];
                 for (var unitIndex = 0; unitIndex < unitCount; unitIndex++)
                 {
-                    if (iUnitInfo.GetUnitInfo(unitIndex, out var unitInfo) == TResult.S_OK)
+                    if (iUnitInfo.GetUnitInfo(unitIndex, out var unitInfo) == kResultOk)
                     {
                         var unitId = unitInfo.Id;
                         unitIds[unitIndex] = unitId;
@@ -72,7 +73,7 @@ namespace Jacobi.Vst3.TestSuite
                         testResult.AddMessage("   Unit{unitIndex,3} (ID = {unitId}): \"{unitName}\" (parent ID = {parentUnitId}, programlist ID = {unitProgramListId})");
 
                         // test select Unit
-                        if (iUnitInfo.SelectUnit(unitIndex) == TResult.S_True)
+                        if (iUnitInfo.SelectUnit(unitIndex) == kResultTrue)
                         {
                             var newSelected = iUnitInfo.GetSelectedUnit();
                             if (newSelected != unitIndex)

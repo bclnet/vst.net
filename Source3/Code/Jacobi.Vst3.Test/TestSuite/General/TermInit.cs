@@ -1,5 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Hosting;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -19,12 +20,12 @@ namespace Jacobi.Vst3.TestSuite
             PrintTestHeader(testResult);
 
             var result = true;
-            if (vstPlug.Terminate() != TResult.S_True)
+            if (vstPlug.Terminate() != kResultTrue)
             {
                 testResult.AddErrorMessage("IPluginBase::terminate () failed.");
                 result = false;
             }
-            if (vstPlug.Initialize(TestingPluginContext.Get()) != TResult.S_True)
+            if (vstPlug.Initialize(TestingPluginContext.Get()) != kResultTrue)
             {
                 testResult.AddErrorMessage("IPluginBase::initialize (..) failed.");
                 result = false;

@@ -1,4 +1,5 @@
 ﻿using Jacobi.Vst3.Core;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -30,7 +31,7 @@ namespace Jacobi.Vst3.TestSuite
                                               1234.5678, 12345.678, 123456.78, 1234567.8};
 
             var result = vstPlug.SetActive(false);
-            if (result != TResult.S_OK) { testResult.AddErrorMessage("IComponent::setActive (false) failed."); return false; }
+            if (result != kResultOk) { testResult.AddErrorMessage("IComponent::setActive (false) failed."); return false; }
 
             testResult.AddMessage("***Tested Sample Rates***");
 
@@ -38,26 +39,26 @@ namespace Jacobi.Vst3.TestSuite
             {
                 processSetup.SampleRate = sampleRateFormats[i];
                 result = audioEffect.SetupProcessing(processSetup);
-                if (result == TResult.S_OK)
+                if (result == kResultOk)
                 {
                     result = vstPlug.SetActive(true);
-                    if (result != TResult.S_OK) { testResult.AddErrorMessage("IComponent::setActive (true) failed."); return false; }
+                    if (result != kResultOk) { testResult.AddErrorMessage("IComponent::setActive (true) failed."); return false; }
 
                     audioEffect.SetProcessing(true);
                     result = audioEffect.Process(ref processData._);
                     audioEffect.SetProcessing(false);
 
-                    if (result == TResult.S_OK) testResult.AddMessage($" {sampleRateFormats[i],10}10G Hz - processed successfully!");
+                    if (result == kResultOk) testResult.AddMessage($" {sampleRateFormats[i],10}10G Hz - processed successfully!");
                     else { numFails++; testResult.AddErrorMessage($" {sampleRateFormats[i]}10G Hz - failed to process!"); }
 
                     result = vstPlug.SetActive(false);
-                    if (result != TResult.S_OK) { testResult.AddErrorMessage($"IComponent::setActive (false) failed."); return false; }
+                    if (result != kResultOk) { testResult.AddErrorMessage($"IComponent::setActive (false) failed."); return false; }
                 }
                 else if (sampleRateFormats[i] > 0.0) testResult.AddErrorMessage($"IAudioProcessor::setupProcessing (..) failed for samplerate {sampleRateFormats[i],3} Hz! ");
             }
 
             result = vstPlug.SetActive(true);
-            if (result != TResult.S_OK) return false;
+            if (result != kResultOk) return false;
 
             return true;
         }

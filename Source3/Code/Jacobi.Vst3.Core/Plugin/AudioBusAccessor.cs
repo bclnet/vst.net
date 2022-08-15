@@ -1,16 +1,15 @@
 ﻿using Jacobi.Vst3.Common;
 using Jacobi.Vst3.Core;
 using System;
-using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Plugin
 {
     public unsafe class AudioBusAccessor
     {
-        private readonly SymbolicSampleSizes _sampleSize;
-        private readonly BusDirections _busDir;
-        private readonly int _numSamples;
-        private AudioBusBuffers _audioBuffers;
+        readonly SymbolicSampleSizes _sampleSize;
+        readonly BusDirections _busDir;
+        readonly int _numSamples;
+        AudioBusBuffers* _audioBuffers;
 
         public AudioBusAccessor(ref ProcessData processData, BusDirections busDir, int busIndex)
         {
@@ -21,12 +20,12 @@ namespace Jacobi.Vst3.Plugin
             if (busDir == BusDirections.Input)
             {
                 Guard.ThrowIfOutOfRange(nameof(busIndex), busIndex, 0, processData.NumInputs);
-                _audioBuffers = processData.InputsX[busIndex];
+                _audioBuffers = &processData.InputsX[busIndex];
             }
             else
             {
                 Guard.ThrowIfOutOfRange(nameof(busIndex), busIndex, 0, processData.NumOutputs);
-                _audioBuffers = processData.OutputsX[busIndex];
+                _audioBuffers = &processData.OutputsX[busIndex];
             }
         }
 
@@ -36,23 +35,23 @@ namespace Jacobi.Vst3.Plugin
 
         public int SampleCount => _numSamples;
 
-        public int ChannelCount => _audioBuffers.NumChannels;
+        public int ChannelCount => _audioBuffers->NumChannels;
 
         public bool IsChannelSilent(int channelIndex)
         {
-            Guard.ThrowIfOutOfRange(nameof(channelIndex), channelIndex, 0, _audioBuffers.NumChannels);
-            return (_audioBuffers.SilenceFlags & (ulong)(1 << channelIndex)) != 0;
+            Guard.ThrowIfOutOfRange(nameof(channelIndex), channelIndex, 0, _audioBuffers->NumChannels);
+            return (_audioBuffers->SilenceFlags & (ulong)(1 << channelIndex)) != 0;
         }
 
         public void SetChannelSilent(int channelIndex, bool silent)
         {
-            Guard.ThrowIfOutOfRange(nameof(channelIndex), channelIndex, 0, _audioBuffers.NumChannels);
+            Guard.ThrowIfOutOfRange(nameof(channelIndex), channelIndex, 0, _audioBuffers->NumChannels);
             var mask = (ulong)(1 << channelIndex);
 
             // reset (not-silent)
-            _audioBuffers.SilenceFlags &= ~mask;
+            _audioBuffers->SilenceFlags &= ~mask;
 
-            if (silent) _audioBuffers.SilenceFlags |= mask; // set
+            if (silent) _audioBuffers->SilenceFlags |= mask; // set
         }
 
         public int Read32(int channelIndex, float[] buffer, int length)
@@ -60,14 +59,11 @@ namespace Jacobi.Vst3.Plugin
             if (length > _numSamples) length = _numSamples;
             if (length > buffer.Length) length = buffer.Length;
 
-            unsafe
+            var ptr = GetBuffer32(channelIndex);
+            if (ptr != null)
             {
-                var ptr = GetUnsafeBuffer32(channelIndex);
-                if (ptr != null)
-                {
-                    for (var i = 0; i < length; i++) buffer[i] = ptr[i];
-                    return length;
-                }
+                for (var i = 0; i < length; i++) buffer[i] = ptr[i];
+                return length;
             }
 
             return 0;
@@ -79,14 +75,11 @@ namespace Jacobi.Vst3.Plugin
             if (length > _numSamples) length = _numSamples;
             if (length > buffer.Length) length = buffer.Length;
 
-            unsafe
+            var ptr = GetBuffer32(channelIndex);
+            if (ptr != null)
             {
-                var ptr = GetUnsafeBuffer32(channelIndex);
-                if (ptr != null)
-                {
-                    for (var i = 0; i < length; i++) ptr[i] = buffer[i];
-                    return length;
-                }
+                for (var i = 0; i < length; i++) ptr[i] = buffer[i];
+                return length;
             }
 
             return 0;
@@ -97,14 +90,11 @@ namespace Jacobi.Vst3.Plugin
             if (length > _numSamples) length = _numSamples;
             if (length > buffer.Length) length = buffer.Length;
 
-            unsafe
+            var ptr = GetBuffer64(channelIndex);
+            if (ptr != null)
             {
-                var ptr = GetUnsafeBuffer64(channelIndex);
-                if (ptr != null)
-                {
-                    for (var i = 0; i < length; i++) buffer[i] = ptr[i];
-                    return length;
-                }
+                for (var i = 0; i < length; i++) buffer[i] = ptr[i];
+                return length;
             }
 
             return 0;
@@ -116,45 +106,34 @@ namespace Jacobi.Vst3.Plugin
             if (length > _numSamples) length = _numSamples;
             if (length > buffer.Length) length = buffer.Length;
 
-            unsafe
+            var ptr = GetBuffer64(channelIndex);
+            if (ptr != null)
             {
-                var ptr = GetUnsafeBuffer64(channelIndex);
-                if (ptr != null)
-                {
-                    for (var i = 0; i < length; i++) ptr[i] = buffer[i];
-                    return length;
-                }
+                for (var i = 0; i < length; i++) ptr[i] = buffer[i];
+                return length;
             }
 
             return 0;
         }
 
-        public unsafe float* GetUnsafeBuffer32(int channelIndex)
+        public float* GetBuffer32(int channelIndex)
         {
             if (_sampleSize != SymbolicSampleSizes.Sample32) throw new InvalidOperationException("32 bit sample size is not supported.");
-            Guard.ThrowIfOutOfRange(nameof(channelIndex), channelIndex, 0, _audioBuffers.NumChannels);
+            Guard.ThrowIfOutOfRange(nameof(channelIndex), channelIndex, 0, _audioBuffers->NumChannels);
 
-            if (_audioBuffers.ChannelBuffers32 != IntPtr.Zero && !IsChannelSilent(channelIndex))
-            {
-                var ptr = (float**)_audioBuffers.ChannelBuffers32.ToPointer();
-                return ptr[channelIndex];
-            }
-
-            return null;
+            return _audioBuffers->ChannelBuffers32 != IntPtr.Zero && !IsChannelSilent(channelIndex)
+                ? _audioBuffers->ChannelBuffers32X[channelIndex]
+                : (float*)null;
         }
 
-        public unsafe double* GetUnsafeBuffer64(int channelIndex)
+        public double* GetBuffer64(int channelIndex)
         {
             if (_sampleSize != SymbolicSampleSizes.Sample64) throw new InvalidOperationException("64 bit sample size is not supported.");
-            Guard.ThrowIfOutOfRange(nameof(channelIndex), channelIndex, 0, _audioBuffers.NumChannels);
+            Guard.ThrowIfOutOfRange(nameof(channelIndex), channelIndex, 0, _audioBuffers->NumChannels);
 
-            if (_audioBuffers.ChannelBuffers64 != IntPtr.Zero && !IsChannelSilent(channelIndex))
-            {
-                var ptr = (double**)_audioBuffers.ChannelBuffers64.ToPointer();
-                return ptr[channelIndex];
-            }
-
-            return null;
+            return _audioBuffers->ChannelBuffers64 != IntPtr.Zero && !IsChannelSilent(channelIndex)
+                ? _audioBuffers->ChannelBuffers64X[channelIndex]
+                : (double*)null;
         }
     }
 }

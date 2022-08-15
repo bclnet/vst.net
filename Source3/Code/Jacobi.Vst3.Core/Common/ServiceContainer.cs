@@ -6,7 +6,7 @@ namespace Jacobi.Vst3.Common
 {
     public sealed class ServiceContainer : IServiceProvider, IDisposable
     {
-        private readonly Dictionary<Type, ServiceRegistration> _registrations = new();
+        readonly Dictionary<Type, ServiceRegistration> _registrations = new();
 
         public object Unknown { get; set; }
 
@@ -41,7 +41,7 @@ namespace Jacobi.Vst3.Common
             Guard.ThrowIfNull(nameof(instance), instance);
             if (!svcType.IsInstanceOfType(instance))
                 throw new ArgumentException("The instance does not implement the specified service type: " + svcType.FullName, nameof(instance));
-            if (scope != Scope.Singleton && instance is not ICloneable && instance is not Core.ICloneable)
+            if (scope != Scope.Singleton && instance is not System.ICloneable && instance is not Core.ICloneable)
                 throw new ArgumentException("The instance needs to implement IClonable if to use with a PerCall scope.", nameof(instance));
 
             if (FindRegistration(svcType) == null)
@@ -110,12 +110,12 @@ namespace Jacobi.Vst3.Common
 
         #endregion
 
-        private ServiceRegistration FindRegistration(Type svcType)
+        ServiceRegistration FindRegistration(Type svcType)
             => _registrations.TryGetValue(svcType, out ServiceRegistration svcReg)
                 ? svcReg
                 : null;
 
-        private object GetInstance(ServiceRegistration svcReg)
+        object GetInstance(ServiceRegistration svcReg)
         {
             object instance = null;
 
@@ -131,7 +131,7 @@ namespace Jacobi.Vst3.Common
                 if (svcReg.Scope == Scope.PerCall)
                 {
                     var comCloneable = svcReg.Instance as Core.ICloneable;
-                    instance = svcReg.Instance is ICloneable cloneable ? cloneable.Clone()
+                    instance = svcReg.Instance is System.ICloneable cloneable ? cloneable.Clone()
                         : comCloneable != null ? comCloneable.Clone()
                         : throw new InvalidOperationException("Cannot clone Service instance for PerCall service request."); //instance = svcReg.Instance;
                 }
@@ -141,7 +141,7 @@ namespace Jacobi.Vst3.Common
             return instance;
         }
 
-        private ServiceRegistration CreateServiceRegistration(Type svcType, object instance, ObjectCreatorCallback callback, Scope scope)
+        ServiceRegistration CreateServiceRegistration(Type svcType, object instance, ObjectCreatorCallback callback, Scope scope)
             => new ServiceRegistration()
             {
                 ServiceType = svcType,
@@ -176,7 +176,7 @@ namespace Jacobi.Vst3.Common
 
         //---------------------------------------------------------------------
 
-        private sealed class ServiceRegistration : IDisposable
+        sealed class ServiceRegistration : IDisposable
         {
             public Type ServiceType;
             public object Instance;

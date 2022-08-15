@@ -1,5 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Hosting;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -22,25 +23,25 @@ namespace Jacobi.Vst3.TestSuite
             {
                 if (audioEffect != null)
                 {
-                    if (audioEffect.CanProcessSampleSize(SymbolicSampleSizes.Sample32) == TResult.S_OK) processSetup.SymbolicSampleSize = SymbolicSampleSizes.Sample32;
-                    else if (audioEffect.CanProcessSampleSize(SymbolicSampleSizes.Sample64) == TResult.S_OK) processSetup.SymbolicSampleSize = SymbolicSampleSizes.Sample64;
+                    if (audioEffect.CanProcessSampleSize(SymbolicSampleSizes.Sample32) == kResultOk) processSetup.SymbolicSampleSize = SymbolicSampleSizes.Sample32;
+                    else if (audioEffect.CanProcessSampleSize(SymbolicSampleSizes.Sample64) == kResultOk) processSetup.SymbolicSampleSize = SymbolicSampleSizes.Sample64;
                     else
                     {
                         testResult.AddErrorMessage("No appropriate symbolic sample size supported!");
                         return false;
                     }
 
-                    if (audioEffect.SetupProcessing(processSetup) != TResult.S_OK)
+                    if (audioEffect.SetupProcessing(processSetup) != kResultOk)
                     {
                         testResult.AddErrorMessage("Process setup failed!");
                         return false;
                     }
                 }
                 var result = vstPlug.SetActive(true);
-                if (result != TResult.S_OK) return false;
+                if (result != kResultOk) return false;
 
                 result = vstPlug.SetActive(false);
-                if (result != TResult.S_OK) return false;
+                if (result != kResultOk) return false;
             }
             return true;
         }

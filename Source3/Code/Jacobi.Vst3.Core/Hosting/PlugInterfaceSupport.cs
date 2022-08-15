@@ -1,6 +1,7 @@
 ﻿using Jacobi.Vst3.Core;
 using System;
 using System.Collections.Generic;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.Hosting
 {
@@ -63,7 +64,7 @@ namespace Jacobi.Vst3.Hosting
             */
         }
 
-        public int IsPlugInterfaceSupported(Guid iid) => _FUIDArray.Contains(iid) ? TResult.S_True : TResult.S_False;
+        public TResult IsPlugInterfaceSupported(Guid iid) => _FUIDArray.Contains(iid) ? kResultTrue : kResultFalse;
         public void AddPlugInterfaceSupported(string iid) => _FUIDArray.Add(Guid.Parse(iid));
         public bool RemovePlugInterfaceSupported(string iid)
         {

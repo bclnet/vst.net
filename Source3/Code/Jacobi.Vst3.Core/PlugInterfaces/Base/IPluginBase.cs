@@ -29,7 +29,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Initialize(
+        TResult Initialize(
             [MarshalAs(UnmanagedType.IUnknown), In] Object context);
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Terminate();
+        TResult Terminate();
     }
 
     static partial class Interfaces
@@ -54,17 +54,6 @@ namespace Jacobi.Vst3.Core
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = Platform.StructurePack)]
     public struct PFactoryInfo
     {
-        public static readonly int Size = Marshal.SizeOf<PFactoryInfo>();
-
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kNameSize)] public String Vendor; // e.g. "Steinberg Media Technologies"
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kURLSize)] public String Url;     // e.g. "http://www.steinberg.de"
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kEmailSize)] public String Email; // e.g. "info@steinberg.de"
-        [MarshalAs(UnmanagedType.I4)] public FactoryFlags Flags;             // (see FactoryFlags above)
-
-        public void SetVendor(string vendor) { Guard.ThrowIfTooLong(nameof(vendor), vendor, 0, SizeConst.kNameSize); Vendor = vendor; }
-        public void SetEmail(string email) { Guard.ThrowIfTooLong(nameof(email), email, 0, SizeConst.kEmailSize); Email = email; }
-        public void SetUrl(string url) { Guard.ThrowIfTooLong(nameof(url), url, 0, SizeConst.kURLSize); Url = url; }
-
         [Flags]
         public enum FactoryFlags : int
         {
@@ -97,6 +86,17 @@ namespace Jacobi.Vst3.Core
             public const int kEmailSize = 128;
             public const int kNameSize = 64;
         }
+
+        public static readonly int Size = Marshal.SizeOf<PFactoryInfo>();
+
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kNameSize)] public String Vendor; // e.g. "Steinberg Media Technologies"
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kURLSize)] public String Url;     // e.g. "http://www.steinberg.de"
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kEmailSize)] public String Email; // e.g. "info@steinberg.de"
+        [MarshalAs(UnmanagedType.I4)] public FactoryFlags Flags;                                    // (see FactoryFlags above)
+
+        public void SetVendor(string vendor) { Guard.ThrowIfTooLong(nameof(vendor), vendor, 0, SizeConst.kNameSize); Vendor = vendor; }
+        public void SetEmail(string email) { Guard.ThrowIfTooLong(nameof(email), email, 0, SizeConst.kEmailSize); Email = email; }
+        public void SetUrl(string url) { Guard.ThrowIfTooLong(nameof(url), url, 0, SizeConst.kURLSize); Url = url; }
     }
 
     /// <summary>
@@ -105,16 +105,6 @@ namespace Jacobi.Vst3.Core
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Ansi, Pack = Platform.StructurePack), NativeCppClass]
     public struct PClassInfo
     {
-        public static readonly int Size = Marshal.SizeOf<PClassInfo>();
-
-        [MarshalAs(UnmanagedType.Struct)] public Guid Cid;                                                      // Class ID 16 Byte class GUID
-        [MarshalAs(UnmanagedType.I4)] public ClassCardinality Cardinality;                                                 // Cardinality of the class, set to kManyInstances (see \ref PClassInfo::ClassCardinality)
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kCategorySize)] public String Category;       // Class category, host uses this to categorize interfaces
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kNameSize)] public String Name;               // Class name, visible to the user
-
-        public void SetCategory(string category) { Guard.ThrowIfTooLong(nameof(category), category, 0, SizeConst.kCategorySize); Category = category; }
-        public void SetName(string name) { Guard.ThrowIfTooLong(nameof(name), name, 0, SizeConst.kNameSize); Name = name; }
-
         public enum ClassCardinality : int
         {
             ManyInstances = 0x7FFFFFFF
@@ -125,6 +115,16 @@ namespace Jacobi.Vst3.Core
             public const int kCategorySize = 32;
             public const int kNameSize = 64;
         }
+
+        public static readonly int Size = Marshal.SizeOf<PClassInfo>();
+
+        [MarshalAs(UnmanagedType.Struct)] public Guid Cid;                                                      // Class ID 16 Byte class GUID
+        [MarshalAs(UnmanagedType.I4)] public ClassCardinality Cardinality;                                                 // Cardinality of the class, set to kManyInstances (see \ref PClassInfo::ClassCardinality)
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kCategorySize)] public String Category;       // Class category, host uses this to categorize interfaces
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kNameSize)] public String Name;               // Class name, visible to the user
+
+        public void SetCategory(string category) { Guard.ThrowIfTooLong(nameof(category), category, 0, SizeConst.kCategorySize); Category = category; }
+        public void SetName(string name) { Guard.ThrowIfTooLong(nameof(name), name, 0, SizeConst.kNameSize); Name = name; }
     }
 
     /// <summary>
@@ -146,7 +146,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetFactoryInfo(
+        TResult GetFactoryInfo(
             [MarshalAs(UnmanagedType.Struct), Out] out PFactoryInfo info);
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetClassInfo(
+        TResult GetClassInfo(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
             [MarshalAs(UnmanagedType.Struct), Out] out PClassInfo info);
 
@@ -180,7 +180,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 CreateInstance(
+        TResult CreateInstance(
             [MarshalAs(UnmanagedType.Struct), In] ref Guid classId,
             [MarshalAs(UnmanagedType.Struct), In] ref Guid interfaceId,
             [MarshalAs(UnmanagedType.SysInt, IidParameterIndex = 1), Out] out IntPtr instance);
@@ -206,18 +206,18 @@ namespace Jacobi.Vst3.Core
 
         // --------------------------------------------------------------------
 
-        [MarshalAs(UnmanagedType.U4)] public ComponentFlags ClassFlags;                                         // flags used for a specific category, must be defined where category is defined
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kSubCategoriesSize)] public String SubCategories; // module specific subcategories, can be more than one, logically added by the OR operator
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kVendorSize)] public String Vendor;           // overwrite vendor information from factory info
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kVersionSize)] public String Version;         // Version string (e.g. "1.0.0.512" with Major.Minor.Subversion.Build)
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kVersionSize)] public String SdkVersion;      // SDK version used to build this class (e.g. "VST 3.0")
-
         public static class SizeConst
         {
             public const int kVendorSize = 64;
             public const int kVersionSize = 64;
             public const int kSubCategoriesSize = 128;
         }
+
+        [MarshalAs(UnmanagedType.U4)] public ComponentFlags ClassFlags;                                         // flags used for a specific category, must be defined where category is defined
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kSubCategoriesSize)] public String SubCategories; // module specific subcategories, can be more than one, logically added by the OR operator
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kVendorSize)] public String Vendor;           // overwrite vendor information from factory info
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kVersionSize)] public String Version;         // Version string (e.g. "1.0.0.512" with Major.Minor.Subversion.Build)
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kVersionSize)] public String SdkVersion;      // SDK version used to build this class (e.g. "VST 3.0")
     }
 
     /// <summary>
@@ -228,7 +228,7 @@ namespace Jacobi.Vst3.Core
     {
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        new Int32 GetFactoryInfo(
+        new TResult GetFactoryInfo(
             [MarshalAs(UnmanagedType.Struct), Out] out PFactoryInfo info);
 
         [PreserveSig]
@@ -237,13 +237,13 @@ namespace Jacobi.Vst3.Core
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        new Int32 GetClassInfo(
+        new TResult GetClassInfo(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
             [MarshalAs(UnmanagedType.Struct), Out] out PClassInfo info);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        new Int32 CreateInstance(
+        new TResult CreateInstance(
             [MarshalAs(UnmanagedType.Struct), In] ref Guid classId,
             [MarshalAs(UnmanagedType.Struct), In] ref Guid interfaceId,
             [MarshalAs(UnmanagedType.SysInt, IidParameterIndex = 1), Out] out IntPtr instance);
@@ -258,7 +258,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetClassInfo2(
+        TResult GetClassInfo2(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
             [MarshalAs(UnmanagedType.Struct), Out] out PClassInfo2 info);
     }
@@ -283,6 +283,13 @@ namespace Jacobi.Vst3.Core
 
         // --------------------------------------------------------------------
 
+        public static class SizeConst
+        {
+            public const int kVendorSize = 64;
+            public const int kVersionSize = 64;
+            public const int kSubCategoriesSize = 128;
+        }
+
         [MarshalAs(UnmanagedType.U4)] public ComponentFlags ClassFlags;                                         // flags used for a specific category, must be defined where category is defined
         public AnsiSubCategories SubCategories;                                                                 // module specific subcategories, can be more than one, logically added by the OR operator
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kVendorSize)] public String Vendor;           // overwrite vendor information from factory info
@@ -303,13 +310,6 @@ namespace Jacobi.Vst3.Core
         {
             [MarshalAs(UnmanagedType.ByValTStr, SizeConst = SizeConst.kSubCategoriesSize)] public String Value;
         }
-
-        public static class SizeConst
-        {
-            public const int kVendorSize = 64;
-            public const int kVersionSize = 64;
-            public const int kSubCategoriesSize = 128;
-        }
     }
 
     /// <summary>
@@ -320,7 +320,7 @@ namespace Jacobi.Vst3.Core
     {
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        new Int32 GetFactoryInfo(
+        new TResult GetFactoryInfo(
             [MarshalAs(UnmanagedType.Struct), Out] out PFactoryInfo info);
 
         [PreserveSig]
@@ -329,13 +329,13 @@ namespace Jacobi.Vst3.Core
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        new Int32 GetClassInfo(
+        new TResult GetClassInfo(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
             [MarshalAs(UnmanagedType.Struct), Out] out PClassInfo info);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        new Int32 CreateInstance(
+        new TResult CreateInstance(
             [MarshalAs(UnmanagedType.Struct), In] ref Guid classId,
             [MarshalAs(UnmanagedType.Struct), In] ref Guid interfaceId,
             [MarshalAs(UnmanagedType.SysInt, IidParameterIndex = 1), Out] out IntPtr instance);
@@ -344,7 +344,7 @@ namespace Jacobi.Vst3.Core
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        new Int32 GetClassInfo2(
+        new TResult GetClassInfo2(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
             [MarshalAs(UnmanagedType.Struct), Out] out PClassInfo2 info);
 
@@ -358,7 +358,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetClassInfoUnicode(
+        TResult GetClassInfoUnicode(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
             [MarshalAs(UnmanagedType.Struct), Out] out PClassInfoW info);
 
@@ -369,7 +369,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetHostContext(
+        TResult SetHostContext(
             [MarshalAs(UnmanagedType.IUnknown), In] Object context);
     }
 

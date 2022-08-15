@@ -1,4 +1,5 @@
 ﻿using Jacobi.Vst3.Core;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.Hosting
 {
@@ -12,42 +13,42 @@ namespace Jacobi.Vst3.Hosting
             => this.srcConnection = srcConnection;
 
         //--- from IConnectionPoint
-        public int Connect(IConnectionPoint other)
+        public TResult Connect(IConnectionPoint other)
         {
-            if (other == null) return TResult.E_InvalidArg;
-            if (dstConnection != null) return TResult.S_False;
+            if (other == null) return kInvalidArgument;
+            if (dstConnection != null) return kResultFalse;
 
             dstConnection = other; // share it
             var res = srcConnection.Connect(this);
-            if (res != TResult.S_True) dstConnection = null;
+            if (res != kResultTrue) dstConnection = null;
             return res;
         }
 
-        public int Disconnect(IConnectionPoint other)
+        public TResult Disconnect(IConnectionPoint other)
         {
             if (other == null)
-                return TResult.E_InvalidArg;
+                return kInvalidArgument;
 
             if (other == dstConnection)
             {
                 srcConnection?.Disconnect(this);
                 dstConnection = null;
-                return TResult.S_True;
+                return kResultTrue;
             }
-            return TResult.E_InvalidArg;
+            return kInvalidArgument;
         }
 
-        public int Notify(IMessage message)
+        public TResult Notify(IMessage message)
         {
             if (dstConnection != null)
             {
                 // We discard the message if we are not in the UI main thread
                 //if (threadChecker?.Test()) return dstConnection.Notify(message);
             }
-            return TResult.S_False;
+            return kResultFalse;
         }
 
         public bool Disconnect()
-            => Disconnect(dstConnection) == TResult.S_True;
+            => Disconnect(dstConnection) == kResultTrue;
     }
 }

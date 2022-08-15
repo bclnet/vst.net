@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestPlugin
 {
@@ -25,29 +26,29 @@ namespace Jacobi.Vst3.TestPlugin
             _eventOutputs.Add(new EventBus("Output Events", 1));
         }
 
-        public override int CanProcessSampleSize(SymbolicSampleSizes symbolicSampleSize)
+        public override TResult CanProcessSampleSize(SymbolicSampleSizes symbolicSampleSize)
         {
             Trace.WriteLine($"IAudioProcessor.CanProcessSampleSize({symbolicSampleSize})");
 
-            return symbolicSampleSize == SymbolicSampleSizes.Sample32 ? TResult.S_True : TResult.S_False;
+            return symbolicSampleSize == SymbolicSampleSizes.Sample32 ? kResultTrue : kResultFalse;
         }
 
-        public override int Process(ref ProcessData data)
+        public override TResult Process(ref ProcessData data)
         {
             //Trace.WriteLine($"IAudioProcessor.Process: numSamples={data.NumSamples}");
 
             var result = ProcessInParameters(ref data);
-            if (TResult.Failed(result))
+            if (result.Failed())
                 return result;
 
             result = ProcessAudio(ref data);
-            if (TResult.Failed(result))
+            if (result.Failed())
                 return result;
 
             return ProcessEvents(ref data);
         }
 
-        private int ProcessInParameters(ref ProcessData data)
+        TResult ProcessInParameters(ref ProcessData data)
         {
             var paramChanges = data.GetInputParameterChanges();
             if (paramChanges != null)
@@ -73,23 +74,23 @@ namespace Jacobi.Vst3.TestPlugin
                 }
             }
 
-            return TResult.S_OK;
+            return kResultOk;
         }
 
-        private int ProcessAudio(ref ProcessData data)
+        TResult ProcessAudio(ref ProcessData data)
         {
             // flushing parameters
             if (data.NumInputs == 0 || data.NumOutputs == 0 || data.NumSamples == 0)
-                return TResult.S_OK;
+                return kResultOk;
 
             if (data.NumInputs != _audioInputs.Count || data.NumOutputs != _audioOutputs.Count)
-                return TResult.E_Unexpected;
+                return kNotInitialized;
 
             var inputBusInfo = _audioInputs[0];
             var outputBusInfo = _audioOutputs[0];
 
             if (!inputBusInfo.IsActive || !outputBusInfo.IsActive)
-                return TResult.S_False;
+                return kResultFalse;
 
             // hard-coded on one stereo input and one stereo output bus (see ctor)
             var inputBus = new AudioBusAccessor(ref data, BusDirections.Input, 0);
@@ -97,8 +98,8 @@ namespace Jacobi.Vst3.TestPlugin
 
             for (var c = 0; c < inputBus.ChannelCount; c++)
             {
-                var input = inputBus.GetUnsafeBuffer32(c);
-                var output = outputBus.GetUnsafeBuffer32(c);
+                var input = inputBus.GetBuffer32(c);
+                var output = outputBus.GetBuffer32(c);
                 outputBus.SetChannelSilent(0, input == null);
 
                 if (input != null && output != null)
@@ -106,10 +107,10 @@ namespace Jacobi.Vst3.TestPlugin
                         output[i] = input[i];
             }
 
-            return TResult.S_OK;
+            return kResultOk;
         }
 
-        private int ProcessEvents(ref ProcessData data)
+        TResult ProcessEvents(ref ProcessData data)
         {
             var inputs = data.GetInputEvents();
             var outputs = data.GetOutputEvents();
@@ -124,7 +125,7 @@ namespace Jacobi.Vst3.TestPlugin
                 }
             }
 
-            return TResult.S_OK;
+            return kResultOk;
         }
 
         protected override BusCollection GetBusCollection(MediaTypes mediaType, BusDirections busDir)

@@ -1,5 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using System;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -25,7 +26,7 @@ namespace Jacobi.Vst3.TestSuite
                 return true;
             }
 
-            if (vstPlug.GetControllerClassId(out var controllerClassTUID) != TResult.S_OK)
+            if (vstPlug.GetControllerClassId(out var controllerClassTUID) != kResultOk)
             {
                 testResult.AddMessage("This component does not export an edit controller class ID!!!");
                 return true;

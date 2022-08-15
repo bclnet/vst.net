@@ -30,7 +30,7 @@ namespace Jacobi.Vst3.Plugin
 
         public Unit Parent { get; set; }
 
-        private UnitCollection _children;
+        UnitCollection _children;
 
         public UnitCollection Children
         {

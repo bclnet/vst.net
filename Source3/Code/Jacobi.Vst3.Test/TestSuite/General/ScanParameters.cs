@@ -1,6 +1,7 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Hosting;
 using System.Collections.Generic;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -44,7 +45,7 @@ namespace Jacobi.Vst3.TestSuite
             for (var i = 0; i < numParameters; ++i)
             {
                 var result = controller.GetParameterInfo(i, out var paramInfo);
-                if (result != TResult.S_OK)
+                if (result != kResultOk)
                 {
                     testResult.AddErrorMessage($"=>Parameter {i,3}: is missing!!!");
                     return false;
@@ -114,7 +115,7 @@ namespace Jacobi.Vst3.TestSuite
                         var uc = iUnitInfo.GetUnitCount();
                         for (var ui = 0; ui < uc; ++ui)
                         {
-                            if (iUnitInfo.GetUnitInfo(ui, out var uinfo) != TResult.S_True)
+                            if (iUnitInfo.GetUnitInfo(ui, out var uinfo) != kResultTrue)
                             {
                                 testResult.AddErrorMessage($"IUnitInfo::getUnitInfo ({ui}..) failed.");
                                 return false;

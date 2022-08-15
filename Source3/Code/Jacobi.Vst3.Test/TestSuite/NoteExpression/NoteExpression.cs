@@ -1,5 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Hosting;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -58,15 +59,15 @@ namespace Jacobi.Vst3.TestSuite
                     for (var i = 0; i < count; ++i)
                     {
                         NoteExpressionTypeInfo info = new();
-                        if (noteExpression.GetNoteExpressionInfo(bus, channel, i, ref info) == TResult.S_True)
+                        if (noteExpression.GetNoteExpressionInfo(bus, channel, i, ref info) == kResultTrue)
                         {
                             testResult.AddMessage($"Note Expression TypeID: {info.TypeId} [{info.Title}]");
                             var id = info.TypeId;
                             var valueNormalized = info.ValueDesc.DefaultValue;
                             var str = string.Empty;
-                            if (noteExpression.GetNoteExpressionStringByValue(bus, channel, id, valueNormalized, ref str) != TResult.S_True)
+                            if (noteExpression.GetNoteExpressionStringByValue(bus, channel, id, valueNormalized, ref str) != kResultTrue)
                                 testResult.AddMessage($"Note Expression getNoteExpressionStringByValue ({bus}, {channel}, {id}) return kResultFalse!");
-                            if (noteExpression.GetNoteExpressionValueByString(bus, channel, id, str, valueNormalized) != TResult.S_True)
+                            if (noteExpression.GetNoteExpressionValueByString(bus, channel, id, str, valueNormalized) != kResultTrue)
                                 testResult.AddMessage($"Note Expression getNoteExpressionValueByString ({bus}, {channel}, {id}) return kResultFalse!");
                         }
                         else
@@ -81,7 +82,7 @@ namespace Jacobi.Vst3.TestSuite
                         for (var i = 0; i < maxPUI; i++)
                             puiMap.Map[i].NoteExpressionTypeID = (uint)NoteExpressionTypeIDs.InvalidTypeID;
 
-                        if (noteExpressionPUIMapping.GetPhysicalUIMapping(bus, channel, puiMap) == TResult.S_False)
+                        if (noteExpressionPUIMapping.GetPhysicalUIMapping(bus, channel, puiMap) == kResultFalse)
                             testResult.AddMessage("Note Expression getPhysicalUIMapping ({bus}, {channel}, ...) return kResultFalse!");
                         else
                             for (var i = 0; i < maxPUI; i++)

@@ -14,7 +14,6 @@ namespace Jacobi.Vst3.Core
         public const Int32 NoProgramListId = -1;	// no programs are used in the unit.
     }
 
-
     /// <summary>
     /// Basic Unit Description.
     /// </summary>
@@ -23,9 +22,9 @@ namespace Jacobi.Vst3.Core
     {
         public static readonly int Size = Marshal.SizeOf<UnitInfo>();
 
-        [MarshalAs(UnmanagedType.I4)] public Int32 Id;						// unit identifier
+        [MarshalAs(UnmanagedType.I4)] public Int32 Id;						    // unit identifier
         [MarshalAs(UnmanagedType.I4)] public Int32 ParentUnitId;			    // identifier of parent unit (kNoParentUnitId: does not apply, this unit is the root)
-        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.Fixed128)] public String Name;					    // name, optional for the root component, required otherwise
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Constants.Fixed128)] public String Name; // name, optional for the root component, required otherwise
         [MarshalAs(UnmanagedType.I4)] public Int32 ProgramListId;	            // id of program list used in unit (kNoProgramListId = no programs used in this unit)
     }
 
@@ -59,7 +58,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 NotifyUnitSelection(
+        TResult NotifyUnitSelection(
             [MarshalAs(UnmanagedType.I4), In] Int32 unitId);
 
         /// <summary>
@@ -70,7 +69,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 NotifyProgramListChange(
+        TResult NotifyProgramListChange(
             [MarshalAs(UnmanagedType.I4), In] Int32 listId,
             [MarshalAs(UnmanagedType.I4), In] Int32 programIndex);
     }
@@ -97,7 +96,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 NotifyUnitByBusChange();
+        TResult NotifyUnitByBusChange();
     }
 
     static partial class Interfaces
@@ -131,7 +130,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetUnitInfo(
+        TResult GetUnitInfo(
             [MarshalAs(UnmanagedType.I4), In] Int32 unitIndex,
             [MarshalAs(UnmanagedType.Struct), Out] out UnitInfo info);
 
@@ -153,7 +152,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetProgramListInfo(
+        TResult GetProgramListInfo(
             [MarshalAs(UnmanagedType.I4), In] Int32 listIndex,
             [MarshalAs(UnmanagedType.I4), Out] out ProgramListInfo info);
 
@@ -166,7 +165,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetProgramName(
+        TResult GetProgramName(
             [MarshalAs(UnmanagedType.I4), In] Int32 listId,
             [MarshalAs(UnmanagedType.I4), In] Int32 programIndex,
             [MarshalAs(UnmanagedType.LPWStr, SizeConst = Constants.Fixed128), In, Out] StringBuilder name);
@@ -181,7 +180,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetProgramInfo(
+        TResult GetProgramInfo(
             [MarshalAs(UnmanagedType.I4), In] Int32 listId,
             [MarshalAs(UnmanagedType.I4), In] Int32 programIndex,
             [MarshalAs(UnmanagedType.LPWStr), In] String attributeId,
@@ -195,7 +194,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 HasProgramPitchNames(
+        TResult HasProgramPitchNames(
             [MarshalAs(UnmanagedType.I4), In] Int32 listId,
             [MarshalAs(UnmanagedType.I4), In] Int32 programIndex);
 
@@ -210,7 +209,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetProgramPitchName(
+        TResult GetProgramPitchName(
             [MarshalAs(UnmanagedType.I4), In] Int32 listId,
             [MarshalAs(UnmanagedType.I4), In] Int32 programIndex,
             [MarshalAs(UnmanagedType.I4), In] Int16 midiPitch,
@@ -233,7 +232,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SelectUnit(
+        TResult SelectUnit(
             [MarshalAs(UnmanagedType.I4), In] Int32 unitId);
 
         /// <summary>
@@ -248,7 +247,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetUnitByBus(
+        TResult GetUnitByBus(
             [MarshalAs(UnmanagedType.I4), In] MediaTypes type,
             [MarshalAs(UnmanagedType.I4), In] BusDirections dir,
             [MarshalAs(UnmanagedType.I4), In] Int32 busIndex,
@@ -266,7 +265,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetUnitProgramData(
+        TResult SetUnitProgramData(
             [MarshalAs(UnmanagedType.I4), In] Int32 listOrUnitId,
             [MarshalAs(UnmanagedType.I4), In] Int32 programIndex,
             [MarshalAs(UnmanagedType.I4), In] IBStream data);
@@ -290,7 +289,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 ProgramDataSupported(
+        TResult ProgramDataSupported(
             [MarshalAs(UnmanagedType.I4), In] Int32 listId);
 
         /// <summary>
@@ -302,7 +301,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetProgramData(
+        TResult GetProgramData(
             [MarshalAs(UnmanagedType.I4), In] Int32 listId,
             [MarshalAs(UnmanagedType.I4), In] Int32 programIndex,
             [MarshalAs(UnmanagedType.Interface), In] IBStream data);
@@ -316,7 +315,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetProgramData(
+        TResult SetProgramData(
             [MarshalAs(UnmanagedType.I4), In] Int32 listId,
             [MarshalAs(UnmanagedType.I4), In] Int32 programIndex,
             [MarshalAs(UnmanagedType.Interface), In] IBStream data);
@@ -340,7 +339,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 UnitDataSupported(
+        TResult UnitDataSupported(
             [MarshalAs(UnmanagedType.I4), In] Int32 unitID);
 
         /// <summary>
@@ -351,7 +350,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetUnitData(
+        TResult GetUnitData(
             [MarshalAs(UnmanagedType.I4), In] Int32 unitId,
             [MarshalAs(UnmanagedType.Interface), In] IBStream data);
 
@@ -363,7 +362,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetUnitData(
+        TResult SetUnitData(
             [MarshalAs(UnmanagedType.I4), In] Int32 unitId,
             [MarshalAs(UnmanagedType.Interface), In] IBStream data);
     }

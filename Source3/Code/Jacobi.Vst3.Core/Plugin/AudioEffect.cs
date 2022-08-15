@@ -1,5 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using System.Diagnostics;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.Plugin
 {
@@ -17,7 +18,7 @@ namespace Jacobi.Vst3.Plugin
 
         #region IAudioProcessor Members
 
-        public virtual int SetBusArrangements(SpeakerArrangement[] inputs, int numIns, SpeakerArrangement[] outputs, int numOuts)
+        public virtual TResult SetBusArrangements(SpeakerArrangement[] inputs, int numIns, SpeakerArrangement[] outputs, int numOuts)
         {
             Trace.WriteLine("IAudioProcessor.SetBusArrangements");
 
@@ -43,24 +44,24 @@ namespace Jacobi.Vst3.Plugin
                 }
             }
 
-            return TResult.S_OK;
+            return kResultOk;
         }
 
-        public virtual int GetBusArrangement(BusDirections dir, int index, out SpeakerArrangement arr)
+        public virtual TResult GetBusArrangement(BusDirections dir, int index, out SpeakerArrangement arr)
         {
             Trace.WriteLine($"IAudioProcessor.GetBusArrangement({dir}, {index})");
 
             arr = default;
             var busses = GetBusCollection(MediaTypes.Audio, dir);
-            if (busses == null) return TResult.E_NotImplemented;
-            if (index < 0 || index > busses.Count) return TResult.E_InvalidArg;
+            if (busses == null) return kNotImplemented;
+            if (index < 0 || index > busses.Count) return kInvalidArgument;
 
             arr = ((AudioBus)busses[index]).SpeakerArrangement;
 
-            return TResult.S_OK;
+            return kResultOk;
         }
 
-        public abstract int CanProcessSampleSize(SymbolicSampleSizes symbolicSampleSize);
+        public abstract TResult CanProcessSampleSize(SymbolicSampleSizes symbolicSampleSize);
 
         public virtual uint GetLatencySamples()
         {
@@ -69,33 +70,33 @@ namespace Jacobi.Vst3.Plugin
             return 0;
         }
 
-        public virtual int SetupProcessing(ref ProcessSetup setup)
+        public virtual TResult SetupProcessing(ref ProcessSetup setup)
         {
             Trace.WriteLine("IAudioProcessor.SetupProcessing");
 
-            if (IsActive) return TResult.E_Unexpected;
-            if (!TResult.IsTrue(CanProcessSampleSize(setup.SymbolicSampleSize))) return TResult.S_False;
+            if (IsActive) return kNotInitialized;
+            if (!CanProcessSampleSize(setup.SymbolicSampleSize).IsTrue()) return kResultFalse;
 
             MaxSamplesPerBlock = setup.MaxSamplesPerBlock;
             ProcessMode = setup.ProcessMode;
             SampleRate = setup.SampleRate;
             SampleSize = setup.SymbolicSampleSize;
 
-            return TResult.S_True;
+            return kResultTrue;
         }
 
-        public virtual int SetProcessing(bool state)
+        public virtual TResult SetProcessing(bool state)
         {
             Trace.WriteLine($"IAudioProcessor.SetProcessing({state})");
 
-            if (!IsActive)                return TResult.E_Unexpected;
+            if (!IsActive) return kNotInitialized;
 
             IsProcessing = state;
 
-            return TResult.S_OK;
+            return kResultOk;
         }
 
-        public abstract int Process(ref ProcessData data);
+        public abstract TResult Process(ref ProcessData data);
 
         public uint GetTailSamples()
         {

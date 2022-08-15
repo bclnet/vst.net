@@ -37,7 +37,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetXmlRepresentationStream(
+        TResult GetXmlRepresentationStream(
             [MarshalAs(UnmanagedType.Struct), In] ref RepresentationInfo info,
             [MarshalAs(UnmanagedType.Interface), In, Out] IBStream stream);
     }

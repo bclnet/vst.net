@@ -3,6 +3,7 @@ using Jacobi.Vst3.Core.ModuleInfo;
 using Jacobi.Vst3.Hosting;
 using System.Collections.Generic;
 using System.IO;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -24,7 +25,7 @@ namespace Jacobi.Vst3.TestSuite
             List<ModuleInfo.Compatibility_> result;
             using var s = new MemoryStream();
             var strStream = new BStream(s);
-            if (compat.GetCompatibilityJSON(strStream) != TResult.S_True)
+            if (compat.GetCompatibilityJSON(strStream) != kResultTrue)
             {
                 errorStream = "Error: Call to IPluginCompatiblity::getCompatibilityJSON (IBStream*) failed\n";
                 failure = true;

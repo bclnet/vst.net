@@ -25,7 +25,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetChannelContextInfos(
+        TResult SetChannelContextInfos(
             [MarshalAs(UnmanagedType.Interface), In] IAttributeList list);
     }
 

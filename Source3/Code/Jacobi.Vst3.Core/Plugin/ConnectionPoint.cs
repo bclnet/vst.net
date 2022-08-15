@@ -2,12 +2,13 @@
 using Jacobi.Vst3.Core;
 using System;
 using System.Diagnostics;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.Plugin
 {
     public abstract class ConnectionPoint : ObservableObject, IPluginBase, IConnectionPoint, IServiceContainerSite
     {
-        private IConnectionPoint _peer;
+        IConnectionPoint _peer;
 
         protected ConnectionPoint() { }
 
@@ -19,16 +20,16 @@ namespace Jacobi.Vst3.Plugin
 
         #region IPluginBase Members
 
-        public virtual int Initialize(object context)
+        public virtual TResult Initialize(object context)
         {
             Trace.WriteLine("IPluginBase.Initialize");
 
             ServiceContainer.Unknown = context;
 
-            return TResult.S_OK;
+            return kResultOk;
         }
 
-        public virtual int Terminate()
+        public virtual TResult Terminate()
         {
             Trace.WriteLine("IPluginBase.Terminate");
 
@@ -36,26 +37,26 @@ namespace Jacobi.Vst3.Plugin
 
             ServiceContainer.Dispose();
 
-            return TResult.S_OK;
+            return kResultOk;
         }
 
         #endregion
 
         #region IConnectionPoint Members
 
-        public virtual int Connect(IConnectionPoint other)
+        public virtual TResult Connect(IConnectionPoint other)
         {
             Trace.WriteLine("IConnectionPoint.Connect");
 
-            if (other == null) return TResult.E_InvalidArg;
-            if (_peer != null) return TResult.S_False;
+            if (other == null) return kInvalidArgument;
+            if (_peer != null) return kResultFalse;
 
             _peer = other;
 
-            return TResult.S_OK;
+            return kResultOk;
         }
 
-        public virtual int Disconnect(IConnectionPoint other)
+        public virtual TResult Disconnect(IConnectionPoint other)
         {
             Trace.WriteLine("IConnectionPoint.Disconnect");
 
@@ -63,19 +64,19 @@ namespace Jacobi.Vst3.Plugin
             {
                 _peer = null;
 
-                return TResult.S_OK;
+                return kResultOk;
             }
 
-            return TResult.S_False;
+            return kResultFalse;
         }
 
-        public virtual int Notify(IMessage message)
+        public virtual TResult Notify(IMessage message)
         {
-            if (message == null) return TResult.E_InvalidArg;
+            if (message == null) return kInvalidArgument;
 
             Trace.WriteLine($"IConnectionPoint.Notify {message.GetMessageID()}");
 
-            return OnMessageReceived(new MessageEventArgs(message)) ? TResult.S_OK : TResult.S_False;
+            return OnMessageReceived(new MessageEventArgs(message)) ? kResultOk : kResultFalse;
         }
 
         #endregion
@@ -97,7 +98,7 @@ namespace Jacobi.Vst3.Plugin
 
                 var result = _peer.Notify(msg);
 
-                return TResult.Succeeded(result);
+                return result.Succeeded();
             }
 
             return false;

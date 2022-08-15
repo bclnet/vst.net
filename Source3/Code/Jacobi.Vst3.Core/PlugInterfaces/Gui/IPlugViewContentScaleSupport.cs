@@ -8,7 +8,7 @@ namespace Jacobi.Vst3.Core
     {
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        int SetContentScaleFactor(
+        TResult SetContentScaleFactor(
             [MarshalAs(UnmanagedType.R4), In] float factor);
     }
 

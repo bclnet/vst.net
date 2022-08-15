@@ -18,7 +18,7 @@ namespace Jacobi.Vst3.Core
         /// <returns>kResultTrue on success</returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetScreenSize(
+        TResult GetScreenSize(
             [MarshalAs(UnmanagedType.Struct), In, Out] ref ViewRect size,
             [MarshalAs(UnmanagedType.R4), Out] out Single scale);
 
@@ -28,7 +28,7 @@ namespace Jacobi.Vst3.Core
         /// <returns>kResultTrue if an Inter-App Audio connection is established</returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 ConnectedToHost();
+        TResult ConnectedToHost();
 
         /// <summary>
         /// switch to the host.
@@ -36,7 +36,7 @@ namespace Jacobi.Vst3.Core
         /// <returns>kResultTrue on success</returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SwitchToHost();
+        TResult SwitchToHost();
 
         /// <summary>
         /// send a remote control event to the host
@@ -45,7 +45,7 @@ namespace Jacobi.Vst3.Core
         /// <returns>kResultTrue on success</returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SendRemoteControlEvent(
+        TResult SendRemoteControlEvent(
             [MarshalAs(UnmanagedType.U4), In] UInt32 evnt);
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Jacobi.Vst3.Core
         /// <returns>kResultTrue on success</returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetHostIcon(
+        TResult GetHostIcon(
             [MarshalAs(UnmanagedType.LPArray), In] IntPtr icon);
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Jacobi.Vst3.Core
         /// <returns>kResultTrue on success</returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 ScheduleEventFromUI(
+        TResult ScheduleEventFromUI(
             [MarshalAs(UnmanagedType.Struct), In, Out] ref Event evnt);
 
         /// <summary>
@@ -84,7 +84,7 @@ namespace Jacobi.Vst3.Core
         /// <returns>kResultTrue on success</returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 ShowSettingsView();
+        TResult ShowSettingsView();
     }
 
     static partial class Interfaces

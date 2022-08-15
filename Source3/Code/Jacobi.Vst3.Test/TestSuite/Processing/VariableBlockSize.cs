@@ -1,6 +1,7 @@
 ﻿//#define TOUGHTESTS
 using Jacobi.Vst3.Core;
 using System;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -33,7 +34,7 @@ namespace Jacobi.Vst3.TestSuite
                 else if (i == 2) processData._.NumSamples = processSetup.MaxSamplesPerBlock * 2;
 #endif
                 var result = audioEffect.Process(processData._);
-                if (result != TResult.S_OK
+                if (result != kResultOk
 #if TOUGHTESTS
                     && i > 1)
 #else

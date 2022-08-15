@@ -21,7 +21,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 FindParameter(
+        TResult FindParameter(
             [MarshalAs(UnmanagedType.U4), In] Int32 xPos,
             [MarshalAs(UnmanagedType.U4), In] Int32 yPos,
             [MarshalAs(UnmanagedType.U4), In, Out] UInt32 resultTag);

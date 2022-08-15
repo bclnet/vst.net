@@ -118,12 +118,12 @@ namespace Jacobi.Vst3.Core
     {
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        new Int32 Initialize(
+        new TResult Initialize(
             [MarshalAs(UnmanagedType.IUnknown), In] Object context);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        new Int32 Terminate();
+        new TResult Terminate();
 
         //---------------------------------------------------------------------
 
@@ -134,7 +134,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetControllerClassId(
+        TResult GetControllerClassId(
             [MarshalAs(UnmanagedType.Struct), Out] out Guid controllerClassId);
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetIoMode(
+        TResult SetIoMode(
             [MarshalAs(UnmanagedType.I4), In] IoModes mode);
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetBusInfo(
+        TResult GetBusInfo(
             [MarshalAs(UnmanagedType.I4), In] MediaTypes type,
             [MarshalAs(UnmanagedType.I4), In] BusDirections dir, Int32 index,
             [MarshalAs(UnmanagedType.Struct), Out] out BusInfo bus);
@@ -183,7 +183,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetRoutingInfo(
+        TResult GetRoutingInfo(
             [MarshalAs(UnmanagedType.Struct), In] ref RoutingInfo inInfo,
             [MarshalAs(UnmanagedType.Struct), Out] out RoutingInfo outInfo);
 
@@ -200,7 +200,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 ActivateBus(
+        TResult ActivateBus(
             [MarshalAs(UnmanagedType.I4), In] MediaTypes type,
             [MarshalAs(UnmanagedType.I4), In] BusDirections dir,
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
@@ -213,7 +213,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetActive(
+        TResult SetActive(
             [MarshalAs(UnmanagedType.U1), In] Boolean state);
 
         /// <summary>
@@ -223,7 +223,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetState(
+        TResult SetState(
             [MarshalAs(UnmanagedType.Interface), In] IBStream state);
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetState(
+        TResult GetState(
             [MarshalAs(UnmanagedType.Interface), In] IBStream state);
     }
 

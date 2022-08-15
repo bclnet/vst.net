@@ -38,7 +38,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 ReleasePlugIn(
+        TResult ReleasePlugIn(
             [MarshalAs(UnmanagedType.Interface), In] IComponent obj,
             [MarshalAs(UnmanagedType.Interface), In] IEditController edit);
 
@@ -47,7 +47,7 @@ namespace Jacobi.Vst3.Core
         /// </summary>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetSubCategories(
+        TResult GetSubCategories(
             [MarshalAs(UnmanagedType.Interface), In] IStringResult result);
 
         /// <summary>
@@ -55,7 +55,7 @@ namespace Jacobi.Vst3.Core
         /// </summary>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetComponentUID(
+        TResult GetComponentUID(
             [MarshalAs(UnmanagedType.Struct), Out] out Guid uid);
     }
 
@@ -98,7 +98,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        new Int32 ReleasePlugIn(
+        new TResult ReleasePlugIn(
             [MarshalAs(UnmanagedType.Interface), In] IComponent obj,
             [MarshalAs(UnmanagedType.Interface), In] IEditController edit);
 
@@ -107,7 +107,7 @@ namespace Jacobi.Vst3.Core
         /// </summary>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        new Int32 GetSubCategories(
+        new TResult GetSubCategories(
             [MarshalAs(UnmanagedType.Interface), In] IStringResult result);
 
         /// <summary>
@@ -115,7 +115,7 @@ namespace Jacobi.Vst3.Core
         /// </summary>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        new Int32 GetComponentUID(
+        new TResult GetComponentUID(
             [MarshalAs(UnmanagedType.Struct), Out] out Guid uid);
 
         //-------------------------------------------------------------

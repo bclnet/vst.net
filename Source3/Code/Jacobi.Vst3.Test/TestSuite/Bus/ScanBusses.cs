@@ -1,5 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Hosting;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -41,7 +42,7 @@ namespace Jacobi.Vst3.TestSuite
                     var busDirection = i < numInputs ? BusDirections.Input : BusDirections.Output;
                     var busIndex = busDirection == BusDirections.Input ? i : i - numInputs;
 
-                    if (vstPlug.GetBusInfo(mediaType, busDirection, busIndex, out var busInfo) == TResult.S_True)
+                    if (vstPlug.GetBusInfo(mediaType, busDirection, busIndex, out var busInfo) == kResultTrue)
                     {
                         var busName = busInfo.Name;
                         if (string.IsNullOrWhiteSpace(busName))

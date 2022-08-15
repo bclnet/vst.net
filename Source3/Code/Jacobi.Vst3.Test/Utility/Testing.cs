@@ -1,6 +1,7 @@
 ﻿using Jacobi.Vst3.Core;
 using System.Collections.Generic;
 using System.Diagnostics;
+using static Jacobi.Vst3.Core.TResult;
 using TestFunc = System.Func<Jacobi.Vst3.Core.ITestResult, bool>;
 using TestFuncWithContext = System.Func<object, Jacobi.Vst3.Core.ITestResult, bool>;
 
@@ -47,11 +48,11 @@ namespace Jacobi.Vst3.Utility
 
         class TestFactoryImpl : ITestFactory
         {
-            public int CreateTests(object context, ITestSuite parentSuite)
+            public TResult CreateTests(object context, ITestSuite parentSuite)
             {
                 foreach (var (first, second) in TestRegistry.Instance.Tests) parentSuite.AddTest(first, second);
                 foreach (var (first, second) in TestRegistry.Instance.TestsWithContext) parentSuite.AddTest(first, new FuncWithContextTest(context, second.Desc, second.Func));
-                return TResult.S_True;
+                return kResultTrue;
             }
         }
 

@@ -19,7 +19,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetClassID(
+        TResult GetClassID(
             [MarshalAs(UnmanagedType.LPStr), In, Out] ref String uid);
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SaveAttributes(
+        TResult SaveAttributes(
             [MarshalAs(UnmanagedType.Interface), In] IAttributes attrs);
 
         /// <summary>
@@ -39,11 +39,11 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 LoadAttributes(
+        TResult LoadAttributes(
             [MarshalAs(UnmanagedType.Interface), In] IAttributes attrs);
     }
 
-    internal static partial class Interfaces
+    static partial class Interfaces
     {
         public const string IPersistent = "BA1A4637-3C9F-46D0-A65D-BA0EB85DA829";
     }
@@ -78,7 +78,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Set(
+        TResult Set(
             [MarshalAs(UnmanagedType.LPStr), In] String attrID,
             [MarshalAs(UnmanagedType.Struct), In] ref FVariant data);
 
@@ -92,7 +92,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Queue(
+        TResult Queue(
             [MarshalAs(UnmanagedType.LPStr), In] String listID,
             [MarshalAs(UnmanagedType.Struct), In] ref FVariant data);
 
@@ -109,7 +109,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetBinaryData(
+        TResult SetBinaryData(
             [MarshalAs(UnmanagedType.LPStr), In] String attrID,
             [MarshalAs(UnmanagedType.SysInt), In] IntPtr data,
             [MarshalAs(UnmanagedType.U4), In] UInt32 bytes,
@@ -125,7 +125,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Get(
+        TResult Get(
             [MarshalAs(UnmanagedType.LPStr), In] String attrID,
             [MarshalAs(UnmanagedType.Struct), In, Out] ref FVariant data);
 
@@ -139,7 +139,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Unqueue(
+        TResult Unqueue(
             [MarshalAs(UnmanagedType.LPStr), In] String listID,
             [MarshalAs(UnmanagedType.Struct), In, Out] ref FVariant data);
 
@@ -160,7 +160,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 ResetQueue(
+        TResult ResetQueue(
             [MarshalAs(UnmanagedType.LPStr), In] String attrID);
 
         /// <summary>
@@ -169,7 +169,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 ResetAllQueues();
+        TResult ResetAllQueues();
 
         /// <summary>
         /// Read binary data from the archive. The data is copied into the passed buffer. The size of that buffer
@@ -181,7 +181,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetBinaryData(
+        TResult GetBinaryData(
             [MarshalAs(UnmanagedType.LPStr), In] String attrID,
             [MarshalAs(UnmanagedType.SysInt), In, Out] ref IntPtr data,
             [MarshalAs(UnmanagedType.U4), In] UInt32 bytes);
@@ -208,63 +208,63 @@ namespace Jacobi.Vst3.Core
     [ComImport, Guid(Interfaces.IAttributes2), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     public interface IAttributes2 : IAttributes
     {
-        //[PreserveSig]
-        //[return: MarshalAs(UnmanagedType.Error)]
-        //Int32 Set(
-        //    [MarshalAs(UnmanagedType.LPStr), In] String attrID,
-        //    [MarshalAs(UnmanagedType.Struct), In] ref FVariant data);
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.Error)]
+        new TResult Set(
+            [MarshalAs(UnmanagedType.LPStr), In] String attrID,
+            [MarshalAs(UnmanagedType.Struct), In] ref FVariant data);
 
-        //[PreserveSig]
-        //[return: MarshalAs(UnmanagedType.Error)]
-        //Int32 Queue(
-        //    [MarshalAs(UnmanagedType.LPStr), In] String listID,
-        //    [MarshalAs(UnmanagedType.Struct), In] ref FVariant data);
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.Error)]
+        new TResult Queue(
+            [MarshalAs(UnmanagedType.LPStr), In] String listID,
+            [MarshalAs(UnmanagedType.Struct), In] ref FVariant data);
 
-        //[PreserveSig]
-        //[return: MarshalAs(UnmanagedType.Error)]
-        //Int32 SetBinaryData(
-        //    [MarshalAs(UnmanagedType.LPStr), In] String attrID,
-        //    [MarshalAs(UnmanagedType.SysInt), In] IntPtr data,
-        //    [MarshalAs(UnmanagedType.U4), In] UInt32 bytes,
-        //    [MarshalAs(UnmanagedType.U1), In] Boolean copyBytes);
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.Error)]
+        new TResult SetBinaryData(
+            [MarshalAs(UnmanagedType.LPStr), In] String attrID,
+            [MarshalAs(UnmanagedType.SysInt), In] IntPtr data,
+            [MarshalAs(UnmanagedType.U4), In] UInt32 bytes,
+            [MarshalAs(UnmanagedType.U1), In] Boolean copyBytes);
 
-        //[PreserveSig]
-        //[return: MarshalAs(UnmanagedType.Error)]
-        //Int32 Get(
-        //    [MarshalAs(UnmanagedType.LPStr), In] String attrID,
-        //    [MarshalAs(UnmanagedType.Struct), In, Out] ref FVariant data);
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.Error)]
+        new TResult Get(
+            [MarshalAs(UnmanagedType.LPStr), In] String attrID,
+            [MarshalAs(UnmanagedType.Struct), In, Out] ref FVariant data);
 
-        //[PreserveSig]
-        //[return: MarshalAs(UnmanagedType.Error)]
-        //Int32 Unqueue(
-        //    [MarshalAs(UnmanagedType.LPStr), In] String listID,
-        //    [MarshalAs(UnmanagedType.Struct), In, Out] ref FVariant data);
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.Error)]
+        new TResult Unqueue(
+            [MarshalAs(UnmanagedType.LPStr), In] String listID,
+            [MarshalAs(UnmanagedType.Struct), In, Out] ref FVariant data);
 
-        //[PreserveSig]
-        //[return: MarshalAs(UnmanagedType.I4)]
-        //Int32 GetQueueItemCount(
-        //    [MarshalAs(UnmanagedType.LPStr), In] String attrID);
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.I4)]
+        new Int32 GetQueueItemCount(
+            [MarshalAs(UnmanagedType.LPStr), In] String attrID);
 
-        //[PreserveSig]
-        //[return: MarshalAs(UnmanagedType.Error)]
-        //Int32 ResetQueue(
-        //    [MarshalAs(UnmanagedType.LPStr), In] String attrID);
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.Error)]
+        new TResult ResetQueue(
+            [MarshalAs(UnmanagedType.LPStr), In] String attrID);
 
-        //[PreserveSig]
-        //[return: MarshalAs(UnmanagedType.Error)]
-        //Int32 ResetAllQueues();
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.Error)]
+        new TResult ResetAllQueues();
 
-        //[PreserveSig]
-        //[return: MarshalAs(UnmanagedType.Error)]
-        //Int32 GetBinaryData(
-        //    [MarshalAs(UnmanagedType.LPStr), In] String attrID,
-        //    [MarshalAs(UnmanagedType.SysInt), In, Out] ref IntPtr data,
-        //    [MarshalAs(UnmanagedType.U4), In] UInt32 bytes);
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.Error)]
+        new TResult GetBinaryData(
+            [MarshalAs(UnmanagedType.LPStr), In] String attrID,
+            [MarshalAs(UnmanagedType.SysInt), In, Out] ref IntPtr data,
+            [MarshalAs(UnmanagedType.U4), In] UInt32 bytes);
 
-        //[PreserveSig]
-        //[return: MarshalAs(UnmanagedType.U4)]
-        //UInt32 GetBinaryDataSize(
-        //    [MarshalAs(UnmanagedType.LPStr), In] String attrID);
+        [PreserveSig]
+        [return: MarshalAs(UnmanagedType.U4)]
+        new UInt32 GetBinaryDataSize(
+            [MarshalAs(UnmanagedType.LPStr), In] String attrID);
 
         //---------------------------------------------------------------------
 

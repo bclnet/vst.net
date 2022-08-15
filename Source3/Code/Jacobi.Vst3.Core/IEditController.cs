@@ -13,12 +13,12 @@ namespace Jacobi.Vst3.Core
     {
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        new Int32 Initialize(
+        new TResult Initialize(
             [MarshalAs(UnmanagedType.IUnknown), In] Object context);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        new Int32 Terminate();
+        new TResult Terminate();
 
         //---------------------------------------------------------------------
 
@@ -29,7 +29,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetComponentState(
+        TResult SetComponentState(
             [MarshalAs(UnmanagedType.Interface), In] IBStream state);
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetState(
+        TResult SetState(
             [MarshalAs(UnmanagedType.Interface), In] IBStream state);
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetState(
+        TResult GetState(
             [MarshalAs(UnmanagedType.Interface), In, Out] IBStream state);
 
         // parameters -------------------------
@@ -70,7 +70,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetParameterInfo(
+        TResult GetParameterInfo(
             [MarshalAs(UnmanagedType.I4), In] Int32 paramIndex,
             [MarshalAs(UnmanagedType.Struct), Out] out ParameterInfo info);
 
@@ -83,7 +83,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetParamStringByValue(
+        TResult GetParamStringByValue(
             [MarshalAs(UnmanagedType.U4), In] UInt32 paramId,
             [MarshalAs(UnmanagedType.R8), In] Double valueNormalized,
             [MarshalAs(UnmanagedType.LPWStr, SizeConst = Constants.Fixed128), Out] StringBuilder @string);
@@ -97,7 +97,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetParamValueByString(
+        TResult GetParamValueByString(
             [MarshalAs(UnmanagedType.U4), In] UInt32 paramId,
             [MarshalAs(UnmanagedType.LPWStr, SizeConst = Constants.Fixed128), In] String @string,
             [MarshalAs(UnmanagedType.R8), Out] out Double valueNormalized);
@@ -146,7 +146,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetParamNormalized(
+        TResult SetParamNormalized(
             [MarshalAs(UnmanagedType.I4), In] UInt32 paramId,
             [MarshalAs(UnmanagedType.R8), In] Double value);
 
@@ -160,7 +160,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetComponentHandler(
+        TResult SetComponentHandler(
             [MarshalAs(UnmanagedType.Interface), In] IComponentHandler handler);
 
         /// <summary>

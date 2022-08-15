@@ -70,8 +70,8 @@ namespace Jacobi.Vst3.Core
         /// <param name="list"></param>
         /// <returns></returns>
         [PreserveSig]
-        [return: MarshalAs(UnmanagedType.I4)]
-        Int32 GetPhysicalUIMapping(
+        [return: MarshalAs(UnmanagedType.Error)]
+        TResult GetPhysicalUIMapping(
             [MarshalAs(UnmanagedType.I4), In] Int32 busIndex,
             [MarshalAs(UnmanagedType.I2), In] Int16 channel,
             [MarshalAs(UnmanagedType.Struct), In, Out] ref PhysicalUIMapList list);

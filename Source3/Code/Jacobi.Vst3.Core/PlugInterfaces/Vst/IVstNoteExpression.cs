@@ -141,7 +141,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetNoteExpressionInfo(
+        TResult GetNoteExpressionInfo(
             [MarshalAs(UnmanagedType.I4), In] Int32 busIndex,
             [MarshalAs(UnmanagedType.I2), In] Int16 channel,
             [MarshalAs(UnmanagedType.I4), In] Int32 noteExpressionIndex,
@@ -158,7 +158,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetNoteExpressionStringByValue(
+        TResult GetNoteExpressionStringByValue(
             [MarshalAs(UnmanagedType.I4), In] Int32 busIndex,
             [MarshalAs(UnmanagedType.I2), In] Int16 channel,
             [MarshalAs(UnmanagedType.U4), In] UInt32 noteExpressionTypeId,
@@ -176,7 +176,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetNoteExpressionValueByString(
+        TResult GetNoteExpressionValueByString(
             [MarshalAs(UnmanagedType.I4), In] Int32 busIndex,
             [MarshalAs(UnmanagedType.I2), In] Int16 channel,
             [MarshalAs(UnmanagedType.U4), In] UInt32 noteExpressionTypeID,
@@ -256,7 +256,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetKeyswitchInfo(
+        TResult GetKeyswitchInfo(
             [MarshalAs(UnmanagedType.I4), In] Int32 busIndex,
             [MarshalAs(UnmanagedType.I2), In] Int16 channel,
             [MarshalAs(UnmanagedType.I4), In] Int32 keySwitchIndex,

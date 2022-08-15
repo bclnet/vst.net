@@ -30,7 +30,7 @@ namespace Jacobi.Vst3.Core
         /// <returns>kResultTrue on success</returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetCompatibilityJSON(
+        TResult GetCompatibilityJSON(
             [MarshalAs(UnmanagedType.Struct), In] IBStream stream);
     }
 

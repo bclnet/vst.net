@@ -1,5 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Hosting;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -42,7 +43,7 @@ namespace Jacobi.Vst3.TestSuite
                     for (var i = 0; i < count; ++i)
                     {
                         KeyswitchInfo info = new();
-                        if (keyswitch.GetKeyswitchInfo(bus, channel, i, ref info) == TResult.S_True) { }
+                        if (keyswitch.GetKeyswitchInfo(bus, channel, i, ref info) == kResultTrue) { }
                         else
                         {
                             testResult.AddErrorMessage($"Keyswitch getKeyswitchInfo ({bus}, {channel}, {i}) return kResultFalse!");

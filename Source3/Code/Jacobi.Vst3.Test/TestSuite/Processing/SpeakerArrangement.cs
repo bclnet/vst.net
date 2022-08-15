@@ -1,5 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using static Jacobi.Vst3.Core.SpeakerArrangement;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -89,7 +90,7 @@ namespace Jacobi.Vst3.TestSuite
             var outSpArrs = new SpeakerArrangement[os];
             for (var o = 0; o < os; o++) outSpArrs[o] = outSpArr;
 
-            if (audioEffect.SetBusArrangements(inSpArrs, is_, outSpArrs, os) != TResult.S_True) ret = false;
+            if (audioEffect.SetBusArrangements(inSpArrs, is_, outSpArrs, os) != kResultTrue) ret = false;
 
             // activate only the extra IO (index > 0), the main ones (index 0) were already activated in TestBase::setup ()
             for (var i = 1; i < is_; i++) vstPlug.ActivateBus(MediaTypes.Audio, BusDirections.Input, i, true);
@@ -122,14 +123,14 @@ namespace Jacobi.Vst3.TestSuite
                 else { numBusses = processData._.NumOutputs; compareSpArr = outSpArr; }
                 for (var i = 0; i < numBusses; ++i)
                 {
-                    if (audioEffect.GetBusArrangement(bd, i, out spArr) != TResult.S_True)
+                    if (audioEffect.GetBusArrangement(bd, i, out spArr) != kResultTrue)
                     {
                         testResult.AddErrorMessage("IAudioProcessor::getBusArrangement (..) failed.");
                         return false;
                     }
                     if (spArr != compareSpArr)
                         testResult.AddMessage($"    {GetSpeakerArrangementName(compareSpArr)} {(bd == BusDirections.Input ? "Input-" : "Output-")}SpeakerArrangement is not supported. Plug-in suggests: {GetSpeakerArrangementName(spArr)}.");
-                    if (vstPlug.GetBusInfo(MediaTypes.Audio, bd, i, out busInfo) != TResult.S_True)
+                    if (vstPlug.GetBusInfo(MediaTypes.Audio, bd, i, out busInfo) != kResultTrue)
                     {
                         testResult.AddErrorMessage("IComponent::getBusInfo (..) failed.");
                         return false;

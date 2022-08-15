@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.Hosting
 {
@@ -16,15 +17,15 @@ namespace Jacobi.Vst3.Hosting
         HostApplication() { }
 
         //--- IHostApplication ---------------
-        public int GetName(StringBuilder name)
+        public TResult GetName(StringBuilder name)
         {
             name.Append("My VST3 HostApplication");
-            return TResult.S_True;
+            return kResultTrue;
         }
 
         HostMessage _hostMessage;
         HostAttributeList _hostAttributeList;
-        public int CreateInstance(ref Guid cid, ref Guid iid, out IntPtr obj)
+        public TResult CreateInstance(ref Guid cid, ref Guid iid, out IntPtr obj)
         {
             Type imessage = typeof(IMessage), iattributeList = typeof(IAttributeList);
 
@@ -33,7 +34,7 @@ namespace Jacobi.Vst3.Hosting
             {
                 var objx = _hostMessage = new HostMessage();
                 obj = Marshal.GetComInterfaceForObject(objx, imessage);
-                return TResult.S_True;
+                return kResultTrue;
             }
             else if (cid == iattributeList.GUID && iid == iattributeList.GUID)
             {
@@ -41,12 +42,12 @@ namespace Jacobi.Vst3.Hosting
                 if (al != null)
                 {
                     obj = Marshal.GetComInterfaceForObject(al, iattributeList);
-                    return TResult.S_True;
+                    return kResultTrue;
                 }
-                return TResult.E_OutOfMemory;
+                return kOutOfMemory;
             }
             obj = default;
-            return TResult.S_False;
+            return kResultFalse;
         }
 
         public PlugInterfaceSupport GetPlugInterfaceSupport() => _plugInterfaceSupport;
@@ -92,61 +93,61 @@ namespace Jacobi.Vst3.Hosting
 
         Dictionary<string, Attribute> list = new();
 
-        public int SetInt(string id, long value)
+        public TResult SetInt(string id, long value)
         {
-            if (id == null) return TResult.E_InvalidArg;
+            if (id == null) return kInvalidArgument;
             list[id] = new Attribute(value);
-            return TResult.S_True;
+            return kResultTrue;
         }
 
-        public int GetInt(string id, out long value)
+        public TResult GetInt(string id, out long value)
         {
-            if (id == null) { value = default; return TResult.E_InvalidArg; }
-            if (list.TryGetValue(id, out var z) && z.GetType() == Attribute.Type.kInteger) { value = z.IntValue(); return TResult.S_True; }
-            value = default; return TResult.S_False;
+            if (id == null) { value = default; return kInvalidArgument; }
+            if (list.TryGetValue(id, out var z) && z.GetType() == Attribute.Type.kInteger) { value = z.IntValue(); return kResultTrue; }
+            value = default; return kResultFalse;
         }
 
-        public int SetFloat(string id, double value)
+        public TResult SetFloat(string id, double value)
         {
-            if (id == null) return TResult.E_InvalidArg;
+            if (id == null) return kInvalidArgument;
             list[id] = new Attribute(value);
-            return TResult.S_True;
+            return kResultTrue;
         }
 
-        public int GetFloat(string id, out double value)
+        public TResult GetFloat(string id, out double value)
         {
-            if (id == null) { value = default; return TResult.E_InvalidArg; }
-            if (list.TryGetValue(id, out var z) && z.GetType() == Attribute.Type.kFloat) { value = z.FloatValue(); return TResult.S_True; }
-            value = default; return TResult.S_False;
+            if (id == null) { value = default; return kInvalidArgument; }
+            if (list.TryGetValue(id, out var z) && z.GetType() == Attribute.Type.kFloat) { value = z.FloatValue(); return kResultTrue; }
+            value = default; return kResultFalse;
         }
 
-        public int SetString(string id, string str)
+        public TResult SetString(string id, string str)
         {
-            if (id == null) return TResult.E_InvalidArg;
+            if (id == null) return kInvalidArgument;
             var length = str.Length + 1; // + 1 for the null-terminate
             list[id] = new Attribute(str, (uint)length);
-            return TResult.S_True;
+            return kResultTrue;
         }
 
-        public int GetString(string id, StringBuilder str, ref uint size)
+        public TResult GetString(string id, StringBuilder str, ref uint size)
         {
-            if (id == null) { return TResult.E_InvalidArg; }
-            if (list.TryGetValue(id, out var z) && z.GetType() == Attribute.Type.kString) { str.Append(z.StringValue(out size)); return TResult.S_True; }
-            return TResult.S_False;
+            if (id == null) { return kInvalidArgument; }
+            if (list.TryGetValue(id, out var z) && z.GetType() == Attribute.Type.kString) { str.Append(z.StringValue(out size)); return kResultTrue; }
+            return kResultFalse;
         }
 
-        public int SetBinary(string id, IntPtr data, uint size)
+        public TResult SetBinary(string id, IntPtr data, uint size)
         {
-            if (id == null) return TResult.E_InvalidArg;
+            if (id == null) return kInvalidArgument;
             list[id] = new Attribute(data, size);
-            return TResult.S_True;
+            return kResultTrue;
         }
 
-        public int GetBinary(string id, IntPtr data, ref uint size)
+        public TResult GetBinary(string id, IntPtr data, ref uint size)
         {
-            if (id == null) { return TResult.E_InvalidArg; }
-            if (list.TryGetValue(id, out var z) && z.GetType() == Attribute.Type.kBinary) { data = z.BinaryValue(out size); return TResult.S_True; }
-            return TResult.S_False;
+            if (id == null) { return kInvalidArgument; }
+            if (list.TryGetValue(id, out var z) && z.GetType() == Attribute.Type.kBinary) { data = z.BinaryValue(out size); return kResultTrue; }
+            return kResultFalse;
         }
     }
 

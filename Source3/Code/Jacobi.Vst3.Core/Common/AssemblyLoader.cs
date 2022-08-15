@@ -7,8 +7,8 @@ namespace Jacobi.Vst3.Core.Common
 {
     public sealed class AssemblyLoader : IDisposable
     {
-        private readonly string _basePath;
-        private readonly AssemblyLoadContext _context;
+        readonly string _basePath;
+        readonly AssemblyLoadContext _context;
 
         public AssemblyLoader(string basePath)
         {
@@ -30,7 +30,7 @@ namespace Jacobi.Vst3.Core.Common
             return File.Exists(filePath) ? _context.LoadFromAssemblyPath(filePath) : null;
         }
 
-        private Assembly LoadContext_ResolvingAssembly(AssemblyLoadContext assemblyLoadContext, AssemblyName assemblyName)
+        Assembly LoadContext_ResolvingAssembly(AssemblyLoadContext assemblyLoadContext, AssemblyName assemblyName)
             => LoadAssembly($"{assemblyName.Name}.dll");
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Hosting;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -16,31 +17,31 @@ namespace Jacobi.Vst3.TestSuite
             PrintTestHeader(testResult);
 
             var result = vstPlug.Initialize(TestingPluginContext.Get());
-            if (result != TResult.S_False) return false;
+            if (result != kResultFalse) return false;
 
             result = audioEffect.SetupProcessing(processSetup);
-            if (result != TResult.S_True) return false;
+            if (result != kResultTrue) return false;
 
             result = vstPlug.SetActive(true);
-            if (result != TResult.S_OK) return false;
+            if (result != kResultOk) return false;
 
             result = vstPlug.SetActive(true);
-            if (result != TResult.S_False) return false;
+            if (result != kResultFalse) return false;
 
             result = vstPlug.SetActive(false);
-            if (result != TResult.S_OK) return false;
+            if (result != kResultOk) return false;
 
             result = vstPlug.SetActive(false);
-            if (result == TResult.S_OK) return false;
+            if (result == kResultOk) return false;
 
             result = vstPlug.Terminate();
-            if (result != TResult.S_OK) return false;
+            if (result != kResultOk) return false;
 
             result = vstPlug.Terminate();
-            if (result == TResult.S_OK) return false;
+            if (result == kResultOk) return false;
 
             result = vstPlug.Initialize(TestingPluginContext.Get());
-            if (result != TResult.S_OK) return false;
+            if (result != kResultOk) return false;
 
             return true;
         }

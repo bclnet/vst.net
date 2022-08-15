@@ -266,7 +266,7 @@ namespace Jacobi.Vst3.Core
         /// <returns>kResultTrue when Arrangements is supported and is the current one, else returns kResultFalse.</returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetBusArrangements(
+        TResult SetBusArrangements(
             [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1), In] SpeakerArrangement[] inputs,
             [MarshalAs(UnmanagedType.I4), In] Int32 numIns,
             [MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3), In] SpeakerArrangement[] outputs,
@@ -283,7 +283,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetBusArrangement(
+        TResult GetBusArrangement(
             [MarshalAs(UnmanagedType.I4), In] BusDirections dir,
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
             [MarshalAs(UnmanagedType.U8), Out] out SpeakerArrangement arr);
@@ -295,7 +295,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 CanProcessSampleSize(
+        TResult CanProcessSampleSize(
             [MarshalAs(UnmanagedType.I4), In] SymbolicSampleSizes symbolicSampleSize);
 
         /// <summary>
@@ -319,7 +319,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetupProcessing(
+        TResult SetupProcessing(
             [MarshalAs(UnmanagedType.Struct), In] ref ProcessSetup setup);
 
         /// <summary>
@@ -336,7 +336,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetProcessing(
+        TResult SetProcessing(
             [MarshalAs(UnmanagedType.U1), In] Boolean state);
 
         /// <summary>
@@ -346,7 +346,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Process(
+        TResult Process(
             [MarshalAs(UnmanagedType.Struct), In] ref ProcessData data);
 
         /// <summary>
@@ -401,7 +401,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetAudioPresentationLatencySamples(
+        TResult SetAudioPresentationLatencySamples(
             [MarshalAs(UnmanagedType.I4), In] BusDirections dir,
             [MarshalAs(UnmanagedType.I4), In] Int32 busIndex,
             [MarshalAs(UnmanagedType.U4), In] UInt32 latencyInSamples);
@@ -430,7 +430,6 @@ namespace Jacobi.Vst3.Core
     public interface IProcessContextRequirements
     {
         [PreserveSig]
-        [return: MarshalAs(UnmanagedType.Error)]
         UInt32 GetProcessContextRequirements();
 
         public enum Flags

@@ -12,16 +12,16 @@ namespace Jacobi.Vst3.Core
 
         #region IBStream Members
 
-        public int Read(IntPtr buffer, int numBytes, out int numBytesRead)
+        public TResult Read(IntPtr buffer, int numBytes, out int numBytesRead)
             => throw new NotImplementedException();
 
-        public int Write(IntPtr buffer, int numBytes, out int numBytesWritten)
+        public TResult Write(IntPtr buffer, int numBytes, out int numBytesWritten)
             => throw new NotImplementedException();
 
-        public int Seek(long pos, StreamSeekMode mode, ref long result)
+        public TResult Seek(long pos, StreamSeekMode mode, ref long result)
             => throw new NotImplementedException();
 
-        public int Tell(out long pos)
+        public TResult Tell(out long pos)
             => throw new NotImplementedException();
 
         #endregion

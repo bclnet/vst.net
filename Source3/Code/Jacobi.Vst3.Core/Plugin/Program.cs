@@ -8,7 +8,7 @@ namespace Jacobi.Vst3.Plugin
 
         public string Name { get; private set; }
 
-        private readonly Dictionary<string, string> _attrValues = new();
+        readonly Dictionary<string, string> _attrValues = new();
 
         public IDictionary<string, string> AttributeValues => _attrValues;
 

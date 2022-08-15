@@ -55,7 +55,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Connect(
+        TResult Connect(
             [MarshalAs(UnmanagedType.Interface), In] IConnectionPoint other);
 
         /// <summary>
@@ -65,7 +65,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Disconnect(
+        TResult Disconnect(
             [MarshalAs(UnmanagedType.Interface), In] IConnectionPoint other);
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Notify(
+        TResult Notify(
             [MarshalAs(UnmanagedType.Interface), In] IMessage message);
     }
 

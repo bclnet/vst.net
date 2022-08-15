@@ -17,7 +17,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetAutomationState(
+        TResult SetAutomationState(
             [MarshalAs(UnmanagedType.I4), In] AutomationStates state);
 
         public enum AutomationStates : int

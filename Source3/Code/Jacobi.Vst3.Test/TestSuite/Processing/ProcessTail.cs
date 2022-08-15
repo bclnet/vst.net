@@ -1,6 +1,7 @@
 ﻿using Jacobi.Vst3.Core;
 using System;
 using System.Runtime.InteropServices;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -154,7 +155,7 @@ namespace Jacobi.Vst3.TestSuite
 
                 if (!PreProcess(testResult)) return false;
                 var result = audioEffect.Process(processData._);
-                if (result != TResult.S_OK)
+                if (result != kResultOk)
                 {
                     testResult.AddErrorMessage("IAudioProcessor::process (..) failed.");
 

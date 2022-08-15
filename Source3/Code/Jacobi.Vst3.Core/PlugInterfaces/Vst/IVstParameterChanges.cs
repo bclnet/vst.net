@@ -44,7 +44,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetPoint(
+        TResult GetPoint(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
             [MarshalAs(UnmanagedType.I4), In, Out] ref Int32 sampleOffset,
             [MarshalAs(UnmanagedType.R8), In, Out] ref Double value);
@@ -58,7 +58,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 AddPoint(
+        TResult AddPoint(
             [MarshalAs(UnmanagedType.I4), In] Int32 sampleOffset,
             [MarshalAs(UnmanagedType.R8), In] Double value,
             [MarshalAs(UnmanagedType.I4), In, Out] ref Int32 index);

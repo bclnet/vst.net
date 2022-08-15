@@ -14,7 +14,6 @@ namespace Jacobi.Vst3.Core
         /// </summary>
         /// <param name="state"></param>
         [PreserveSig]
-        [return: MarshalAs(UnmanagedType.Error)]
         void DisableErrorUI(
             [MarshalAs(UnmanagedType.U1), In] Boolean state);
 
@@ -24,7 +23,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 ErrorMessageShown();
+        TResult ErrorMessageShown();
 
         /// <summary>
         /// Fill message with error string. The host may show this to the user.
@@ -33,11 +32,11 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetErrorMessage(
+        TResult GetErrorMessage(
             [MarshalAs(UnmanagedType.Interface), In] IString message);
     }
 
-    internal static partial class Interfaces
+    static partial class Interfaces
     {
         public const string IErrorContext = "12BCD07B-7C69-4336-B7DA-77C3444A0CD0";
     }

@@ -22,7 +22,7 @@ namespace Jacobi.Vst3.Plugin
         // DisplayName on ClassType
         public string DisplayName { get; set; }
 
-        private PlugType _categories;
+        PlugType _categories;
         // maps to subCategories
         public PlugType Categories
         {

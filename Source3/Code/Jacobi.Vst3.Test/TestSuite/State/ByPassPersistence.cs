@@ -1,6 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
-using Jacobi.Vst3.Hosting;
 using System;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -47,7 +47,7 @@ namespace Jacobi.Vst3.TestSuite
 
             // flush
             var result = audioEffect.Process(ref processData._);
-            if (result != TResult.S_OK)
+            if (result != kResultOk)
             {
                 testResult.AddErrorMessage("The component failed to process without audio buffers!");
                 audioEffect.SetProcessing(false);
@@ -80,7 +80,7 @@ namespace Jacobi.Vst3.TestSuite
 
             // flush
             result = audioEffect.Process(ref processData._);
-            if (result != TResult.S_OK)
+            if (result != kResultOk)
             {
                 testResult.AddErrorMessage("The component failed to process without audio buffers!");
                 audioEffect.SetProcessing(false);

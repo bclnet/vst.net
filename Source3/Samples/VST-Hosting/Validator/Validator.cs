@@ -11,6 +11,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using static Jacobi.Vst3.Core.SpeakerArrangement;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Steinberg.Vst
 {
@@ -159,15 +160,15 @@ namespace Steinberg.Vst
             }
         }
 
-        public int GetName(StringBuilder name)
+        public TResult GetName(StringBuilder name)
         {
             name.Append("vstvalidator");
-            return TResult.S_True;
+            return kResultTrue;
         }
 
         HostMessage _hostMessage;
         HostAttributeList _hostAttributeList;
-        public int CreateInstance(ref Guid cid, ref Guid iid, out IntPtr obj)
+        public TResult CreateInstance(ref Guid cid, ref Guid iid, out IntPtr obj)
         {
             Type imessage = typeof(IMessage), iattributeList = typeof(IAttributeList);
 
@@ -178,7 +179,7 @@ namespace Steinberg.Vst
             {
                 var objx = _hostMessage = new HostMessage();
                 obj = Marshal.GetComInterfaceForObject(objx, imessage);
-                return TResult.S_True;
+                return kResultTrue;
             }
             else if (classID == iattributeList.GUID && interfaceID == iattributeList.GUID)
             {
@@ -186,12 +187,12 @@ namespace Steinberg.Vst
                 if (al != null)
                 {
                     obj = Marshal.GetComInterfaceForObject(al, iattributeList);
-                    return TResult.S_True;
+                    return kResultTrue;
                 }
-                return TResult.E_OutOfMemory;
+                return kOutOfMemory;
             }
             obj = default;
-            return TResult.S_False;
+            return kResultFalse;
         }
 
         //-- Options
@@ -248,7 +249,7 @@ namespace Steinberg.Vst
                 {
                     Console.Write("Running validator selftest:\n\n");
                     var testSuite = new TestSuite(string.Empty);
-                    if (testFactory.CreateTests(null, testSuite) == TResult.S_True) RunTestSuite(testSuite, null);
+                    if (testFactory.CreateTests(null, testSuite) == kResultTrue) RunTestSuite(testSuite, null);
                     Console.Write($"Executed {numTestsFailed + numTestsPassed} Tests.\n");
                     Console.Write($"{numTestsFailed} failed test(s).\n");
                     returnCode = numTestsFailed == 0 ? 0 : 1;
@@ -359,7 +360,7 @@ namespace Steinberg.Vst
                 foreach (var plugProvider in plugProviders)
                 {
                     var plugTestSuite = new TestSuite(item.Key);
-                    if (item.Value.CreateTests(plugProvider, plugTestSuite) == TResult.S_True)
+                    if (item.Value.CreateTests(plugProvider, plugTestSuite) == kResultTrue)
                         testSuite.AddTestSuite(plugTestSuite.Name, plugTestSuite);
                 }
             testFactories.Clear();
@@ -497,7 +498,7 @@ namespace Steinberg.Vst
                 nameFilter = null; // make sure if suiteName is the namefilter that sub suite will run
                 // first run all tests in the suite
                 for (var i = 0; i < suite.GetTestCount(); i++)
-                    if (suite.GetTest(i, out var testItem, out var name) == TResult.S_True)
+                    if (suite.GetTest(i, out var testItem, out var name) == kResultTrue)
                     {
                         if (infoStream != null)
                         {
@@ -538,7 +539,7 @@ namespace Steinberg.Vst
             }
             // next run sub suites
             var subTestSuiteIndex = 0;
-            while (suite.GetTestSuite(subTestSuiteIndex++, out var subSuite, out _) == TResult.S_True)
+            while (suite.GetTestSuite(subTestSuiteIndex++, out var subSuite, out _) == kResultTrue)
             {
                 var ts = (TestSuite)subSuite;
                 if (ts != null)

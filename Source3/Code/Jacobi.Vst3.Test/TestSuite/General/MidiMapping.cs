@@ -1,6 +1,7 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Hosting;
 using System.Collections.Generic;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -38,13 +39,13 @@ namespace Jacobi.Vst3.TestSuite
             var parameterIds = new HashSet<uint>();
             for (var i = 0; i < numParameters; ++i)
             {
-                if (controller.GetParameterInfo(i, out var parameterInfo) == TResult.S_True) parameterIds.Add(parameterInfo.Id);
+                if (controller.GetParameterInfo(i, out var parameterInfo) == kResultTrue) parameterIds.Add(parameterInfo.Id);
             }
             for (var bus = 0; bus < eventBusCount + 1; bus++)
             {
                 if (interruptProcess) break;
 
-                if (vstPlug.GetBusInfo(MediaTypes.Event, BusDirections.Input, bus, out var info) == TResult.S_True)
+                if (vstPlug.GetBusInfo(MediaTypes.Event, BusDirections.Input, bus, out var info) == kResultTrue)
                 {
                     if (bus >= eventBusCount)
                     {
@@ -63,7 +64,7 @@ namespace Jacobi.Vst3.TestSuite
                     for (ControllerNumbers cc = 0; cc < ControllerNumbers.CountCtrlNumber + 1; cc++)
                     {
                         var tag = 0U;
-                        if (midiMapping.GetMidiControllerAssignment(bus, channel, cc, ref tag) == TResult.S_True)
+                        if (midiMapping.GetMidiControllerAssignment(bus, channel, cc, ref tag) == kResultTrue)
                         {
                             if (bus >= eventBusCount)
                             {

@@ -1,5 +1,5 @@
 ﻿using Jacobi.Vst3.Core;
-using Jacobi.Vst3.Hosting;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -33,7 +33,7 @@ namespace Jacobi.Vst3.TestSuite
                     var busDirection = i < numInputs ? BusDirections.Input : BusDirections.Output;
                     var busIndex = busDirection == BusDirections.Input ? i : i - numInputs;
 
-                    if (vstPlug.GetBusInfo(type, busDirection, busIndex, out var busInfo) != TResult.S_True)
+                    if (vstPlug.GetBusInfo(type, busDirection, busIndex, out var busInfo) != kResultTrue)
                     {
                         testResult.AddErrorMessage("IComponent::getBusInfo (..) failed.");
                         return false;
@@ -46,13 +46,13 @@ namespace Jacobi.Vst3.TestSuite
 
                     if ((busInfo.Flags & BusInfo.BusFlags.DefaultActive) == 0)
                     {
-                        if (vstPlug.ActivateBus(type, busDirection, busIndex, true) != TResult.S_OK) numFailedActivations++;
-                        if (vstPlug.ActivateBus(type, busDirection, busIndex, false) != TResult.S_OK) numFailedActivations++;
+                        if (vstPlug.ActivateBus(type, busDirection, busIndex, true) != kResultOk) numFailedActivations++;
+                        if (vstPlug.ActivateBus(type, busDirection, busIndex, false) != kResultOk) numFailedActivations++;
                     }
                     else if ((busInfo.Flags & BusInfo.BusFlags.DefaultActive) != 0)
                     {
-                        if (vstPlug.ActivateBus(type, busDirection, busIndex, false) != TResult.S_OK) numFailedActivations++;
-                        if (vstPlug.ActivateBus(type, busDirection, busIndex, true) != TResult.S_OK) numFailedActivations++;
+                        if (vstPlug.ActivateBus(type, busDirection, busIndex, false) != kResultOk) numFailedActivations++;
+                        if (vstPlug.ActivateBus(type, busDirection, busIndex, true) != kResultOk) numFailedActivations++;
                     }
                 }
             }

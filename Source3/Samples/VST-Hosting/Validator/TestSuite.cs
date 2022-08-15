@@ -1,5 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using System.Collections.Generic;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Steinberg.Vst
 {
@@ -17,35 +18,35 @@ namespace Steinberg.Vst
         List<(string, ITestSuite)> testSuites = new();
 
         public TestSuite(string name) => this.name = name;
-        public int AddTest(string name, ITest test) { tests.Add(new Test(name, test)); return TResult.S_True; }
-        public int AddTestSuite(string name, ITestSuite testSuite) { testSuites.Add((name, testSuite)); return TResult.S_True; }
-        public int SetEnvironment(ITest environment) => TResult.E_NotImplemented;
+        public TResult AddTest(string name, ITest test) { tests.Add(new Test(name, test)); return kResultTrue; }
+        public TResult AddTestSuite(string name, ITestSuite testSuite) { testSuites.Add((name, testSuite)); return kResultTrue; }
+        public TResult SetEnvironment(ITest environment) => kNotImplemented;
         public int GetTestCount() => tests.Count;
-        public int GetTest(int index, out ITest test, out string name)
+        public TResult GetTest(int index, out ITest test, out string name)
         {
             var foundTest = tests[index];
             if (foundTest != null)
             {
                 test = foundTest.test;
                 name = foundTest.name;
-                return TResult.S_True;
+                return kResultTrue;
             }
             test = default;
             name = default;
-            return TResult.S_False;
+            return kResultFalse;
         }
-        public int GetTestSuite(int index, out ITestSuite testSuite, out string name)
+        public TResult GetTestSuite(int index, out ITestSuite testSuite, out string name)
         {
             if (index < 0 || index >= testSuites.Count)
             {
                 name = default;
                 testSuite = default;
-                return TResult.E_InvalidArg;
+                return kInvalidArgument;
             }
             var ts = testSuites[index];
             name = ts.Item1;
             testSuite = ts.Item2;
-            return TResult.S_True;
+            return kResultTrue;
         }
         public ITestSuite GetTestSuite(string name)
         {

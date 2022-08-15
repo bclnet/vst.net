@@ -29,7 +29,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetPrefetchableSupport(
+        TResult GetPrefetchableSupport(
             [MarshalAs(UnmanagedType.U4), In, Out] ref PrefetchableSupport prefetchable);
     }
 

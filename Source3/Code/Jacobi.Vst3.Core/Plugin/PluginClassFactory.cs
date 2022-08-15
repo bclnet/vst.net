@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.Plugin
 {
@@ -92,29 +93,29 @@ namespace Jacobi.Vst3.Plugin
 
         #region IPluginFactory Members
 
-        public virtual int GetFactoryInfo(out PFactoryInfo info)
+        public virtual TResult GetFactoryInfo(out PFactoryInfo info)
         {
             info.Email = Email;
             info.Flags = Flags;
             info.Url = Url;
             info.Vendor = Vendor;
 
-            return TResult.S_OK;
+            return kResultOk;
         }
 
         public virtual int CountClasses()
             => _registrations.Count;
 
-        public virtual int GetClassInfo(int index, out PClassInfo info)
+        public virtual TResult GetClassInfo(int index, out PClassInfo info)
         {
             info = default;
-            if (!IsValidRegIndex(index)) return TResult.E_InvalidArg;
+            if (!IsValidRegIndex(index)) return kInvalidArgument;
 
             var reg = _registrations[index];
 
             FillClassInfo(ref info, reg);
 
-            return TResult.S_OK;
+            return kResultOk;
         }
 
         protected virtual void FillClassInfo(ref PClassInfo info, ClassRegistration reg)
@@ -125,10 +126,10 @@ namespace Jacobi.Vst3.Plugin
             info.Name = reg.DisplayName;
         }
 
-        public virtual int CreateInstance(ref Guid classId, ref Guid interfaceId, out IntPtr instance)
+        public virtual TResult CreateInstance(ref Guid classId, ref Guid interfaceId, out IntPtr instance)
         {
             // seems not every host is programmed defensively...
-            //if (instance != IntPtr.Zero) return TResult.E_Pointer;
+            //if (instance != IntPtr.Zero) return E_Pointer;
 
             var reg = Find(classId);
             if (reg != null)
@@ -137,7 +138,7 @@ namespace Jacobi.Vst3.Plugin
                 var unk = Marshal.GetIUnknownForObject(obj);
                 try
                 {
-                    return Marshal.QueryInterface(unk, ref interfaceId, out instance);
+                    return (TResult)Marshal.QueryInterface(unk, ref interfaceId, out instance);
                 }
                 finally
                 {
@@ -146,23 +147,23 @@ namespace Jacobi.Vst3.Plugin
             }
 
             instance = IntPtr.Zero;
-            return TResult.E_ClassNotReg;
+            return E_ClassNotReg;
         }
 
         #endregion
 
         #region IPluginFactory2 Members
 
-        public virtual int GetClassInfo2(int index, out PClassInfo2 info)
+        public virtual TResult GetClassInfo2(int index, out PClassInfo2 info)
         {
             info = default;
-            if (!IsValidRegIndex(index)) return TResult.E_InvalidArg;
+            if (!IsValidRegIndex(index)) return kInvalidArgument;
 
             var reg = _registrations[index];
 
             FillClassInfo2(ref info, reg);
 
-            return TResult.S_OK;
+            return kResultOk;
         }
 
         protected virtual void FillClassInfo2(ref PClassInfo2 info, ClassRegistration reg)
@@ -182,16 +183,16 @@ namespace Jacobi.Vst3.Plugin
 
         #region IPluginFactory3 Members
 
-        public virtual int GetClassInfoUnicode(int index, out PClassInfoW info)
+        public virtual TResult GetClassInfoUnicode(int index, out PClassInfoW info)
         {
             info = default;
-            if (!IsValidRegIndex(index)) return TResult.E_InvalidArg;
+            if (!IsValidRegIndex(index)) return kInvalidArgument;
 
             var reg = _registrations[index];
 
             FillClassInfoW(ref info, reg);
 
-            return TResult.S_OK;
+            return kResultOk;
         }
 
         protected virtual void FillClassInfoW(ref PClassInfoW info, ClassRegistration reg)
@@ -207,10 +208,10 @@ namespace Jacobi.Vst3.Plugin
             info.Version = reg.Version.ToString();
         }
 
-        public virtual int SetHostContext(object context)
+        public virtual TResult SetHostContext(object context)
         {
             ServiceContainer.Unknown = context;
-            return TResult.S_OK;
+            return kResultOk;
         }
 
         #endregion
@@ -231,11 +232,11 @@ namespace Jacobi.Vst3.Plugin
 
         #endregion
 
-        private bool IsValidRegIndex(int index) => index >= 0 && index < _registrations.Count;
+        bool IsValidRegIndex(int index) => index >= 0 && index < _registrations.Count;
 
-        private static string FormatSdkVersionString(Version sdkVersion) => $"VST {sdkVersion}";
+        static string FormatSdkVersionString(Version sdkVersion) => $"VST {sdkVersion}";
 
-        private static string ObjectClassToCategory(ClassRegistration.ObjectClasses objClass) => objClass switch
+        static string ObjectClassToCategory(ClassRegistration.ObjectClasses objClass) => objClass switch
         {
             ClassRegistration.ObjectClasses.AudioModuleClass => Constants.kVstAudioEffectClass,
             ClassRegistration.ObjectClasses.ComponentControllerClass => Constants.kVstComponentControllerClass,

@@ -1,7 +1,7 @@
 ﻿using Jacobi.Vst3.Common;
 using Jacobi.Vst3.Core;
 using System;
-using System.Runtime.InteropServices;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.Hosting
 {
@@ -50,7 +50,7 @@ namespace Jacobi.Vst3.Hosting
             return controller;
         }
 
-        public int ReleasePlugIn(IComponent component, IEditController controller)
+        public TResult ReleasePlugIn(IComponent component, IEditController controller)
         {
             if (component != null)
                 MarshalX.ReleaseRcw(ref component);
@@ -67,15 +67,15 @@ namespace Jacobi.Vst3.Hosting
             if (!plugIsGlobal)
                 TerminatePlugin();
 
-            return TResult.S_OK;
+            return kResultOk;
         }
 
-        public int GetSubCategories(IStringResult result) { result.SetText(classInfo.SubCategoriesString()); return TResult.S_True; }
+        public TResult GetSubCategories(IStringResult result) { result.SetText(classInfo.SubCategoriesString()); return kResultTrue; }
 
-        public int GetComponentUID(out Guid uid)
+        public TResult GetComponentUID(out Guid uid)
         {
             uid = classInfo.ID;
-            return TResult.S_OK;
+            return kResultOk;
         }
 
         //--- from ITestPlugProvider2 ------------------
@@ -92,17 +92,17 @@ namespace Jacobi.Vst3.Hosting
             if (component != null)
             {
                 // initialize the component with our context
-                res = component.Initialize(hostContext) == TResult.S_OK;
+                res = component.Initialize(hostContext) == kResultOk;
 
                 // try to create the controller part from the component (for Plug-ins which did not succeed to separate component from controller)
                 if (component is not IEditController)
                     // ask for the associated controller class ID
-                    if (component.GetControllerClassId(out var controllerCID) == TResult.S_True)
+                    if (component.GetControllerClassId(out var controllerCID) == kResultTrue)
                     {
                         // create its controller part created from the factory
                         controller = factory.CreateInstance<IEditController>(controllerCID);
                         // initialize the component with our context
-                        if (controller != null) res = controller.Initialize(hostContext) == TResult.S_OK;
+                        if (controller != null) res = controller.Initialize(hostContext) == kResultOk;
                     }
             }
             else Console.Out?.Write($"Failed to create instance of {classInfo.Name}!\n");
@@ -123,10 +123,10 @@ namespace Jacobi.Vst3.Hosting
             componentCP = new ConnectionProxy(compICP);
             controllerCP = new ConnectionProxy(contrICP);
 
-            if (componentCP.Connect(contrICP) != TResult.S_True) { } // TODO: Alert or what for non conformant plugin ?
+            if (componentCP.Connect(contrICP) != kResultTrue) { } // TODO: Alert or what for non conformant plugin ?
             else
             {
-                if (controllerCP.Connect(compICP) != TResult.S_True) { } // TODO: Alert or what for non conformant plugin ?
+                if (controllerCP.Connect(compICP) != kResultTrue) { } // TODO: Alert or what for non conformant plugin ?
                 else res = true;
             }
             return res;

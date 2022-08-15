@@ -16,7 +16,7 @@ namespace Jacobi.Vst3.UnitTests
     [TestClass]
     public class BlittableStructsTests
     {
-        private static void AssertIsBlittable<T>(T uot) where T : struct
+        static void AssertIsBlittable<T>(T uot) where T : struct
         {
             var handle = GCHandle.Alloc(uot, GCHandleType.Pinned);
             handle.Should().NotBeNull();

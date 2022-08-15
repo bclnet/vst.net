@@ -35,7 +35,7 @@ namespace Jacobi.Vst3.Plugin
             base.SetItem(index, item);
         }
 
-        private void ThrowIfNotOfMediaType(Bus item)
+        void ThrowIfNotOfMediaType(Bus item)
         {
             if (item != null && item.MediaType != MediaType) throw new ArgumentException("The MediaType for the item does not match the collection.", nameof(item));
         }

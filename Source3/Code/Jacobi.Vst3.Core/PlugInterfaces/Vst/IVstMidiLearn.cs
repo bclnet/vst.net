@@ -24,7 +24,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 OnLiveMIDIControllerInput(
+        TResult OnLiveMIDIControllerInput(
             [MarshalAs(UnmanagedType.I4), In] Int32 busIndex,
             [MarshalAs(UnmanagedType.I2), In] Int16 channel,
             [MarshalAs(UnmanagedType.I2), In] ControllerNumbers midiControllerNumber);

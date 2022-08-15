@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -48,14 +49,14 @@ namespace Jacobi.Vst3.TestSuite
                 {
                     paramChanges.Add(new ParamChanges());
                     var r = controller.GetParameterInfo(i, out var inf);
-                    if (r != TResult.S_True) return false;
+                    if (r != kResultTrue) return false;
                     if ((inf.Flags & ParameterInfo.ParameterFlags.CanAutomate) != 0) paramChanges[i].Init(inf.Id, processSetup.MaxSamplesPerBlock);
                 }
 
                 for (var i = 0; i < controller.GetParameterCount(); ++i)
                 {
                     var r = controller.GetParameterInfo(i, out var inf);
-                    if (r != TResult.S_True) return false;
+                    if (r != kResultTrue) return false;
                     if ((inf.Flags & ParameterInfo.ParameterFlags.IsBypass) != 0)
                     {
                         bypassId = inf.Id;
@@ -178,7 +179,7 @@ namespace Jacobi.Vst3.TestSuite
             PreProcess(testResult);
 
             var result = audioEffect.Process(ref processData._);
-            if (result != TResult.S_OK)
+            if (result != kResultOk)
             {
                 testResult.AddErrorMessage("The component failed to process without audio buffers!");
                 audioEffect.SetProcessing(false);

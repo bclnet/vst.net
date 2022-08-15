@@ -1,5 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using System.Threading;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -30,7 +31,7 @@ namespace Jacobi.Vst3.TestSuite
                 for (var i = 0; i < NUM_ITERATIONS; i++)
                 {
                     var tr = audioEffect.Process(processData._);
-                    if (tr != TResult.S_True) { result = false; break; }
+                    if (tr != kResultTrue) { result = false; break; }
                 }
                 audioEffect.SetProcessing(false);
             });

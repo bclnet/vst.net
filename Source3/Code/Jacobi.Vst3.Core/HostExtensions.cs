@@ -18,7 +18,7 @@ namespace Jacobi.Vst3.Core
             var iid = msgType.GUID;
             var ptr = IntPtr.Zero;
             var result = host.CreateInstance(ref iid, ref iid, out ptr);
-            return TResult.Succeeded(result)
+            return result.Succeeded()
                 ? (IMessage)Marshal.GetTypedObjectForIUnknown(ptr, msgType)
                 : default;
             //try { return (IMessage)Marshal.GetTypedObjectForIUnknown(ptr, msgType); }

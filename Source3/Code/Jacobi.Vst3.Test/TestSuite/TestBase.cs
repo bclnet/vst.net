@@ -1,6 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using System;
-using System.Runtime.InteropServices;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -192,16 +192,16 @@ namespace Jacobi.Vst3.TestSuite
         //---for IParamValueQueue-------------------------
         public uint GetParameterId() => id;
         public int GetPointCount() => numUsedPoints;
-        public int GetPoint(int index, ref int offsetSamples, ref double value)
+        public TResult GetPoint(int index, ref int offsetSamples, ref double value)
         {
             if (points != null && index < numUsedPoints && index >= 0)
             {
                 points[index].Get(out offsetSamples, out value);
-                return TResult.S_True;
+                return kResultTrue;
             }
-            return TResult.S_False;
+            return kResultFalse;
         }
-        public int AddPoint(int offsetSamples, double value, ref int index) => TResult.S_False;
+        public TResult AddPoint(int offsetSamples, double value, ref int index) => kResultFalse;
     }
 
     public class StringResult : IStringResult

@@ -21,7 +21,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 AddDependent(
+        TResult AddDependent(
             [MarshalAs(UnmanagedType.IUnknown), In] Object obj,
             [MarshalAs(UnmanagedType.Interface), In] IDependent dependent);
 
@@ -33,7 +33,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 RemoveDependent(
+        TResult RemoveDependent(
             [MarshalAs(UnmanagedType.IUnknown), In] Object obj,
             [MarshalAs(UnmanagedType.Interface), In] IDependent dependent);
 
@@ -45,7 +45,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 TriggerUpdates(
+        TResult TriggerUpdates(
             [MarshalAs(UnmanagedType.IUnknown), In] Object obj,
             [MarshalAs(UnmanagedType.I4), In] Int32 message);
 
@@ -57,7 +57,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 DeferUpdates(
+        TResult DeferUpdates(
             [MarshalAs(UnmanagedType.IUnknown), In] Object obj,
             [MarshalAs(UnmanagedType.I4), In] Int32 message);
     }

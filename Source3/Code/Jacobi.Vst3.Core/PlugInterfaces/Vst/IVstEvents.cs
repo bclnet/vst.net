@@ -202,7 +202,6 @@ namespace Jacobi.Vst3.Core
         /// </summary>
         /// <returns></returns>
         [PreserveSig]
-        [return: MarshalAs(UnmanagedType.Error)]
         Int32 GetEventCount();
 
         /// <summary>
@@ -213,7 +212,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetEvent(
+        TResult GetEvent(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
             [MarshalAs(UnmanagedType.Struct), Out] out Event e);
 
@@ -224,7 +223,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 AddEvent(
+        TResult AddEvent(
             [MarshalAs(UnmanagedType.Struct), In] ref Event e);
     }
 

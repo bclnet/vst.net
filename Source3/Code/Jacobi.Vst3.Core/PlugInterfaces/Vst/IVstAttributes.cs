@@ -19,7 +19,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetInt(
+        TResult SetInt(
             [MarshalAs(UnmanagedType.LPStr), In] String id,
             [MarshalAs(UnmanagedType.I8), In] Int64 value);
 
@@ -31,7 +31,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetInt(
+        TResult GetInt(
             [MarshalAs(UnmanagedType.LPStr), In] String id,
             [MarshalAs(UnmanagedType.I8), Out] out Int64 value);
 
@@ -43,7 +43,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetFloat(
+        TResult SetFloat(
             [MarshalAs(UnmanagedType.LPStr), In] String id,
             [MarshalAs(UnmanagedType.R8), In] Double value);
 
@@ -55,7 +55,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetFloat(
+        TResult GetFloat(
             [MarshalAs(UnmanagedType.LPStr), In] String id,
             [MarshalAs(UnmanagedType.R8), Out] out Double value);
 
@@ -67,7 +67,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetString(
+        TResult SetString(
             [MarshalAs(UnmanagedType.LPStr), In] String id,
             [MarshalAs(UnmanagedType.LPWStr), In] String str);
 
@@ -81,7 +81,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetString(
+        TResult GetString(
             [MarshalAs(UnmanagedType.LPStr), In] String id,
             [MarshalAs(UnmanagedType.LPWStr, SizeParamIndex = 2), In] StringBuilder str,
             [MarshalAs(UnmanagedType.U4), In, Out] ref UInt32 size);
@@ -95,7 +95,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetBinary(
+        TResult SetBinary(
             [MarshalAs(UnmanagedType.LPStr), In] String id,
             [MarshalAs(UnmanagedType.SysInt), In] IntPtr data,
             [MarshalAs(UnmanagedType.U4), In] UInt32 size);
@@ -109,7 +109,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetBinary(
+        TResult GetBinary(
             [MarshalAs(UnmanagedType.LPStr), In] String id,
             [MarshalAs(UnmanagedType.SysInt), In, Out] IntPtr data,
             [MarshalAs(UnmanagedType.U4), In, Out] ref UInt32 size);
@@ -136,7 +136,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetFileName(
+        TResult GetFileName(
             [MarshalAs(UnmanagedType.LPStr), In, Out] String name);
 
         /// <summary>

@@ -2,6 +2,7 @@
 using Jacobi.Vst3.Hosting;
 using System;
 using System.Runtime.InteropServices;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -30,11 +31,11 @@ namespace Jacobi.Vst3.TestSuite
             if (!base.Setup()) return false;
             if (vstPlug == null || audioEffect == null) return false;
             if (processSetup.SymbolicSampleSize != processData._.SymbolicSampleSize) return false;
-            if (audioEffect.CanProcessSampleSize(processSetup.SymbolicSampleSize) != TResult.S_OK) return true; // this fails in run (..)
+            if (audioEffect.CanProcessSampleSize(processSetup.SymbolicSampleSize) != kResultOk) return true; // this fails in run (..)
 
             PrepareProcessing();
 
-            return vstPlug.SetActive(true) == TResult.S_True;
+            return vstPlug.SetActive(true) == kResultTrue;
         }
 
         public override bool Run(ITestResult testResult)
@@ -50,7 +51,7 @@ namespace Jacobi.Vst3.TestSuite
             {
                 if (!PreProcess(testResult)) return false;
                 var result = audioEffect.Process(ref processData._);
-                if (result != TResult.S_OK)
+                if (result != kResultOk)
                 {
                     testResult.AddErrorMessage(processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample32
                         ? "IAudioProcessor::process (..with kSample32..) failed."
@@ -77,7 +78,7 @@ namespace Jacobi.Vst3.TestSuite
         {
             if (testResult == null || audioEffect == null) return false;
             if (processSetup.SymbolicSampleSize != processData._.SymbolicSampleSize) return false;
-            if (audioEffect.CanProcessSampleSize(processSetup.SymbolicSampleSize) != TResult.S_OK)
+            if (audioEffect.CanProcessSampleSize(processSetup.SymbolicSampleSize) != kResultOk)
             {
                 testResult.AddMessage(processSetup.SymbolicSampleSize == SymbolicSampleSizes.Sample32
                     ? "32bit Audio Processing not supported."
@@ -90,7 +91,7 @@ namespace Jacobi.Vst3.TestSuite
         public override bool Teardown()
         {
             UnprepareProcessing();
-            if (vstPlug == null || vstPlug.SetActive(false) != TResult.S_OK) return false;
+            if (vstPlug == null || vstPlug.SetActive(false) != kResultOk) return false;
             return base.Teardown();
         }
 
@@ -98,7 +99,7 @@ namespace Jacobi.Vst3.TestSuite
         {
             if (vstPlug == null || audioEffect == null) return false;
 
-            if (audioEffect.SetupProcessing(processSetup) == TResult.S_OK)
+            if (audioEffect.SetupProcessing(processSetup) == kResultOk)
             {
                 processData.Prepare(vstPlug, 0, processSetup.SymbolicSampleSize);
 
@@ -131,7 +132,7 @@ namespace Jacobi.Vst3.TestSuite
             var audioBuffers2 = (AudioBusBuffers*)audioBuffers;
             for (var busIndex = 0; busIndex < numBusses; busIndex++) // buses
             {
-                if (vstPlug.GetBusInfo(MediaTypes.Audio, dir, busIndex, out var busInfo) == TResult.S_True)
+                if (vstPlug.GetBusInfo(MediaTypes.Audio, dir, busIndex, out var busInfo) == kResultTrue)
                 {
                     if (!SetupBuffers(ref audioBuffers2[busIndex])) return false;
 

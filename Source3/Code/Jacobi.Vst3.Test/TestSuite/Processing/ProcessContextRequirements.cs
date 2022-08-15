@@ -2,6 +2,7 @@
 using Jacobi.Vst3.Hosting;
 using Jacobi.Vst3.Utility;
 using System;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -30,7 +31,7 @@ namespace Jacobi.Vst3.TestSuite
                 testResult.AddErrorMessage("Internal test Error. Expected PluginFactory not there!");
                 return null;
             }
-            if (pp2.GetComponentUID(out var fuid) != TResult.S_True)
+            if (pp2.GetComponentUID(out var fuid) != kResultTrue)
             {
                 testResult.AddErrorMessage("Internal test Error. Could not query the UID of the plug-in!");
                 return null;

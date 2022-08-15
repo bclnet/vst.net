@@ -91,7 +91,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 BeginEdit(
+        TResult BeginEdit(
             [MarshalAs(UnmanagedType.U4), In] UInt32 paramId);
 
         /// <summary>
@@ -103,7 +103,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 PerformEdit(
+        TResult PerformEdit(
             [MarshalAs(UnmanagedType.U4), In] UInt32 paramId,
             [MarshalAs(UnmanagedType.R8), In] Double valueNormalized);
 
@@ -115,7 +115,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 EndEdit(
+        TResult EndEdit(
             [MarshalAs(UnmanagedType.U4), In] UInt32 paramId);
 
         /// <summary>
@@ -125,7 +125,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 RestartComponent(
+        TResult RestartComponent(
             [MarshalAs(UnmanagedType.I4), In] RestartFlags flags);
     }
 
@@ -148,7 +148,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetDirty(
+        TResult SetDirty(
             [MarshalAs(UnmanagedType.U1), In] Boolean state);
 
         /// <summary>
@@ -159,7 +159,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 RequestOpenEditor(
+        TResult RequestOpenEditor(
             [MarshalAs(UnmanagedType.LPStr), In] String name);
 
         /// <summary>
@@ -170,7 +170,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 StartGroupEdit();
+        TResult StartGroupEdit();
 
         /// <summary>
         /// Finishes the group editing started by a \ref startGroupEdit (call after a \ref IComponentHandler::endEdit).
@@ -178,7 +178,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 FinishGroupEdit();
+        TResult FinishGroupEdit();
     }
 
     static partial class Interfaces
@@ -206,7 +206,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 RequestBusActivation(
+        TResult RequestBusActivation(
             [MarshalAs(UnmanagedType.I4), In] MediaTypes type,
             [MarshalAs(UnmanagedType.I4), In] BusDirections dir,
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
@@ -234,7 +234,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Start(
+        TResult Start(
             [MarshalAs(UnmanagedType.U4), In] ProgressType type,
             [MarshalAs(UnmanagedType.LPWStr), In] string optionalDescription,
             [MarshalAs(UnmanagedType.U8), Out] out UInt64 outID);
@@ -247,7 +247,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Update(
+        TResult Update(
             [MarshalAs(UnmanagedType.U8), In] UInt64 id,
             [MarshalAs(UnmanagedType.R8), In] Double normValue);
 
@@ -258,7 +258,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Finish(
+        TResult Finish(
             [MarshalAs(UnmanagedType.U8), In] UInt64 id);
 
         public enum ProgressType : uint
@@ -298,7 +298,7 @@ namespace Jacobi.Vst3.Core
         /// <returns>kResultFalse means not supported mode.</returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetKnobMode(
+        TResult SetKnobMode(
             [MarshalAs(UnmanagedType.I4), In] KnobMode mode);
 
         /// <summary>
@@ -309,7 +309,7 @@ namespace Jacobi.Vst3.Core
         /// <returns>kResultFalse means not supported function.</returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 OpenHelp(
+        TResult OpenHelp(
             [MarshalAs(UnmanagedType.U1), In] Boolean onlyCheck);
 
         /// <summary>
@@ -320,7 +320,7 @@ namespace Jacobi.Vst3.Core
         /// <returns>kResultFalse means not supported function.</returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 OpenAboutBox(
+        TResult OpenAboutBox(
             [MarshalAs(UnmanagedType.U1), In] Boolean onlyCheck);
     }
 
@@ -349,7 +349,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetMidiControllerAssignment(
+        TResult GetMidiControllerAssignment(
             [MarshalAs(UnmanagedType.I4), In] Int32 busIndex,
             [MarshalAs(UnmanagedType.I2), In] Int16 channel,
             [MarshalAs(UnmanagedType.I2), In] ControllerNumbers midiControllerNumber,

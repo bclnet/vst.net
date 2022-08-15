@@ -18,7 +18,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetName(
+        TResult GetName(
             [MarshalAs(UnmanagedType.LPWStr, SizeConst = Constants.Fixed128), In] StringBuilder name);
 
         /// <summary>
@@ -30,7 +30,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 CreateInstance(
+        TResult CreateInstance(
             [MarshalAs(UnmanagedType.Struct), In] ref Guid classId,
             [MarshalAs(UnmanagedType.Struct), In] ref Guid interfaceId,
             [MarshalAs(UnmanagedType.SysInt, IidParameterIndex = 1), Out] out IntPtr instance);
@@ -104,7 +104,7 @@ namespace Jacobi.Vst3.Core
         /// <returns>kResultTrue on success</returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 EnableMPEInputProcessing(
+        TResult EnableMPEInputProcessing(
             [MarshalAs(UnmanagedType.I4), In] Boolean state);
 
         /// <summary>
@@ -116,7 +116,7 @@ namespace Jacobi.Vst3.Core
         /// <returns>kResultTrue on success</returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetMPEInputDeviceSettings(
+        TResult SetMPEInputDeviceSettings(
             [MarshalAs(UnmanagedType.I4), In] Int32 masterChannel,
             [MarshalAs(UnmanagedType.I4), In] Int32 memberBeginChannel,
             [MarshalAs(UnmanagedType.I4), In] Int32 memberEndChannel);

@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using static Jacobi.Vst3.Core.PFactoryInfo;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.Hosting
 {
@@ -130,9 +131,9 @@ namespace Jacobi.Vst3.Hosting
                 var result = new List<ClassInfo> { Capacity = count };
                 for (var i = 0; i < count; i++)
                 {
-                    if (_factory is IPluginFactory3 f3 && f3.GetClassInfoUnicode(i, out var ci3) == TResult.S_True) result.Add(new ClassInfo(ref ci3));
-                    else if (_factory is IPluginFactory2 f2 && f2.GetClassInfo2(i, out var ci2) == TResult.S_True) result.Add(new ClassInfo(ref ci2));
-                    else if (_factory.GetClassInfo(i, out var ci) == TResult.S_True) result.Add(new ClassInfo(ref ci));
+                    if (_factory is IPluginFactory3 f3 && f3.GetClassInfoUnicode(i, out var ci3) == kResultTrue) result.Add(new ClassInfo(ref ci3));
+                    else if (_factory is IPluginFactory2 f2 && f2.GetClassInfo2(i, out var ci2) == kResultTrue) result.Add(new ClassInfo(ref ci2));
+                    else if (_factory.GetClassInfo(i, out var ci) == kResultTrue) result.Add(new ClassInfo(ref ci));
                     var classInfo = result.LastOrDefault();
                     if (classInfo != null && string.IsNullOrEmpty(classInfo.Vendor))
                     {
@@ -148,7 +149,7 @@ namespace Jacobi.Vst3.Hosting
         {
             var type = typeof(T);
             var interfaceId = type.GUID;
-            return _factory.CreateInstance(ref classID, ref interfaceId, out var handle) == TResult.S_True
+            return _factory.CreateInstance(ref classID, ref interfaceId, out var handle) == kResultTrue
                 ? (T)Marshal.GetTypedObjectForIUnknown(handle, typeof(T))
                 : default;
         }

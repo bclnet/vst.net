@@ -6,7 +6,7 @@ namespace Jacobi.Vst3.Plugin
 {
     public class VstStreamWriter
     {
-        private readonly BStream _stream;
+        readonly BStream _stream;
 
         public VstStreamWriter(IBStream stream)
             => _stream = new BStream(stream, StreamAccessMode.Write);

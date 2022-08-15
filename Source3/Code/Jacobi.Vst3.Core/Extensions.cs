@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
-    public static class Extensions
+    public static partial class Extensions
     {
         //
         // ProcessData

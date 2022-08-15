@@ -6,7 +6,7 @@ namespace Jacobi.Vst3.Plugin
 {
     public class VstStreamReader
     {
-        private readonly BStream _stream;
+        readonly BStream _stream;
 
         public VstStreamReader(IBStream stream)
             => _stream = new BStream(stream, StreamAccessMode.Read);

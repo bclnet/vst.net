@@ -44,8 +44,8 @@ namespace Jacobi.Vst3.Core
         /// <param name="paramID"></param>
         /// <returns>kResultFalse when no found parameter (paramID is set to kNoParamId in this case).</returns>
         [PreserveSig]
-        [return: MarshalAs(UnmanagedType.I4)]
-        Int32 GetParameterIDFromFunctionName(
+        [return: MarshalAs(UnmanagedType.Error)]
+        TResult GetParameterIDFromFunctionName(
             [MarshalAs(UnmanagedType.I4), In] Int32 unitID,
             [MarshalAs(UnmanagedType.LPStr), In] String functionName,
             [MarshalAs(UnmanagedType.I4), In, Out] ref UInt32 paramID);

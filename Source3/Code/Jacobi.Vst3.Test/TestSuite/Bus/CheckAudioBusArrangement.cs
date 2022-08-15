@@ -1,6 +1,7 @@
 ﻿using Jacobi.Vst3.Core;
 using Jacobi.Vst3.Hosting;
 using Jacobi.Vst3.Plugin;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
 {
@@ -32,9 +33,9 @@ namespace Jacobi.Vst3.TestSuite
                     testResult.AddMessage(string.Format("   Check {0} Audio Bus Arrangement ({1})",
                         dir == BusDirections.Input ? "Input" : "Output", busIndex));
 
-                    if (vstPlug.GetBusInfo(MediaTypes.Audio, dir, busIndex, out var busInfo) == TResult.S_True)
+                    if (vstPlug.GetBusInfo(MediaTypes.Audio, dir, busIndex, out var busInfo) == kResultTrue)
                     {
-                        if (audioEffect.GetBusArrangement(dir, busIndex, out var arrangement) == TResult.S_True)
+                        if (audioEffect.GetBusArrangement(dir, busIndex, out var arrangement) == kResultTrue)
                         {
                             if (busInfo.ChannelCount != arrangement.GetChannelCount())
                             {

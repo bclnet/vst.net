@@ -2,6 +2,7 @@
 using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.Hosting
 {
@@ -135,7 +136,7 @@ namespace Jacobi.Vst3.Hosting
                 buffers2 = (IntPtr)buffers;
                 for (var i = 0; i < busCount; i++)
                 {
-                    if (component.GetBusInfo(MediaTypes.Audio, dir, i, out var busInfo) == TResult.S_True)
+                    if (component.GetBusInfo(MediaTypes.Audio, dir, i, out var busInfo) == kResultTrue)
                     {
                         buffers[i].NumChannels = busInfo.ChannelCount;
 
@@ -208,12 +209,12 @@ namespace Jacobi.Vst3.Hosting
 
             for (var i = 0; i < inBusCount; i++)
             {
-                if (component.GetBusInfo(MediaTypes.Audio, BusDirections.Input, i, out var busInfo) == TResult.S_True)
+                if (component.GetBusInfo(MediaTypes.Audio, BusDirections.Input, i, out var busInfo) == kResultTrue)
                     if (_.InputsX[i].NumChannels != busInfo.ChannelCount) return true;
             }
             for (var i = 0; i < outBusCount; i++)
             {
-                if (component.GetBusInfo(MediaTypes.Audio, BusDirections.Output, i, out var busInfo) == TResult.S_True)
+                if (component.GetBusInfo(MediaTypes.Audio, BusDirections.Output, i, out var busInfo) == kResultTrue)
                     if (_.OutputsX[i].NumChannels != busInfo.ChannelCount) return true;
             }
             return false;

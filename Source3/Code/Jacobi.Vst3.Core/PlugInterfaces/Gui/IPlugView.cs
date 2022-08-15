@@ -25,65 +25,65 @@ namespace Jacobi.Vst3.Core
     {
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        int IsPlatformTypeSupported(
+        TResult IsPlatformTypeSupported(
             [MarshalAs(UnmanagedType.LPStr), In] string type);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        int Attached(
+        TResult Attached(
             [MarshalAs(UnmanagedType.SysInt), In] IntPtr parent,
             [MarshalAs(UnmanagedType.LPStr), In] string type);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        int Removed();
+        TResult Removed();
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        int OnWheel(
+        TResult OnWheel(
             [MarshalAs(UnmanagedType.R4), In] float distance);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        int OnKeyDown(
+        TResult OnKeyDown(
             [MarshalAs(UnmanagedType.U2), In] char key,
             [MarshalAs(UnmanagedType.I2), In] short keyCode,
             [MarshalAs(UnmanagedType.I2), In] short modifiers);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        int OnKeyUp(
+        TResult OnKeyUp(
             [MarshalAs(UnmanagedType.U2), In] char key,
             [MarshalAs(UnmanagedType.I2), In] short keyCode,
             [MarshalAs(UnmanagedType.I2), In] short modifiers);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        int GetSize(
+        TResult GetSize(
             [MarshalAs(UnmanagedType.Struct), In, Out] ref ViewRect size);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        int OnSize(
+        TResult OnSize(
             [MarshalAs(UnmanagedType.Struct), In] ref ViewRect newSize);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        int OnFocus(
+        TResult OnFocus(
             [MarshalAs(UnmanagedType.U1), In] bool state);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        int SetFrame(
+        TResult SetFrame(
             [MarshalAs(UnmanagedType.Interface), In] IPlugFrame frame);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        int CanResize();
+        TResult CanResize();
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        int CheckSizeConstraint(
+        TResult CheckSizeConstraint(
             [MarshalAs(UnmanagedType.Struct), In] ref ViewRect rect);
     }
 
@@ -97,7 +97,7 @@ namespace Jacobi.Vst3.Core
     {
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 ResizeView(
+        TResult ResizeView(
             [MarshalAs(UnmanagedType.Interface), In] IPlugView view,
             [MarshalAs(UnmanagedType.Struct), In] ref ViewRect newSize);
     }

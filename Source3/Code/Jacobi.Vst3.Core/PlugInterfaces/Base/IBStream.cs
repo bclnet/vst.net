@@ -3,8 +3,16 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
+    public enum StreamSeekMode
+    {
+        SeekSet = 0, // set absolute seek position
+        SeekCur,     // set seek position relative to current position
+        SeekEnd      // set seek position relative to stream end
+    }
+
     /// <summary>
     /// Base class for streams.
+    /// pluginBase:
     /// - read/write binary data from/to stream
     /// - get/set stream read-write position(read and write position is the same)
     /// </summary>
@@ -20,7 +28,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Read(
+        TResult Read(
             [MarshalAs(UnmanagedType.SysInt), In] IntPtr buffer,
             [MarshalAs(UnmanagedType.I4), In] Int32 numBytes,
             [MarshalAs(UnmanagedType.I4), Out] out Int32 numBytesRead);
@@ -34,7 +42,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Write(
+        TResult Write(
             [MarshalAs(UnmanagedType.SysInt), In] IntPtr buffer,
             [MarshalAs(UnmanagedType.I4), In] Int32 numBytes,
             [MarshalAs(UnmanagedType.I4), Out] out Int32 numBytesWritten);
@@ -48,7 +56,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Seek(
+        TResult Seek(
             [MarshalAs(UnmanagedType.I8), In] Int64 pos,
             [MarshalAs(UnmanagedType.I4), In] StreamSeekMode mode,
             [MarshalAs(UnmanagedType.I8), In, Out] ref Int64 result);
@@ -60,7 +68,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 Tell(
+        TResult Tell(
             [MarshalAs(UnmanagedType.I8), Out] out Int64 pos);
     }
 
@@ -69,15 +77,9 @@ namespace Jacobi.Vst3.Core
         public const string IBStream = "C3BF6EA2-3099-4752-9B6B-F9901EE33E9B";
     }
 
-    public enum StreamSeekMode
-    {
-        SeekSet = 0, // set absolute seek position
-        SeekCur,     // set seek position relative to current position
-        SeekEnd      // set seek position relative to stream end
-    }
-
     /// <summary>
     /// Stream with a size.
+    /// pluginBase:
     /// [extends IBStream] when stream type supports it (like file and memory stream)
     /// </summary>
     [ComImport, Guid(Interfaces.ISizeableStream), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
@@ -90,7 +92,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 GetStreamSize(
+        TResult GetStreamSize(
             [MarshalAs(UnmanagedType.I8), Out] out Int64 size);
 
         /// <summary>
@@ -100,7 +102,7 @@ namespace Jacobi.Vst3.Core
         /// <returns></returns>
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
-        Int32 SetStreamSize(
+        TResult SetStreamSize(
             [MarshalAs(UnmanagedType.I8), In] Int64 size);
     }
 
