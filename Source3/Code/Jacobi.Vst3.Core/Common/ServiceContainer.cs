@@ -4,6 +4,13 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Common
 {
+    public interface IServiceContainerSite
+    {
+        ServiceContainer ServiceContainer { get; }
+    }
+
+    public delegate object ObjectCreatorCallback(IServiceProvider svcProvider, Type classType);
+
     public sealed class ServiceContainer : IServiceProvider, IDisposable
     {
         readonly Dictionary<Type, ServiceRegistration> _registrations = new();

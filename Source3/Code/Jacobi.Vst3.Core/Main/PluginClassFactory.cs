@@ -1,5 +1,6 @@
 ﻿using Jacobi.Vst3.Common;
 using Jacobi.Vst3.Core;
+using Jacobi.Vst3.Plugin;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using static Jacobi.Vst3.Core.TResult;
 
-namespace Jacobi.Vst3.Plugin
+namespace Jacobi.Vst3.Core
 {
     [ClassInterface(ClassInterfaceType.None)]
     public class PluginClassFactory : IPluginFactory, IPluginFactory2, IPluginFactory3, IServiceContainerSite, IDisposable

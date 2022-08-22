@@ -58,7 +58,7 @@ namespace Jacobi.Vst3.Plugin
 
         bool SetNormalizedValue(double value)
         {
-            value = value.Crop(0.0, 1.0);
+            value = value.Clamp(0.0, 1.0);
 
             if (_normalizedValue != value)
             {
@@ -79,7 +79,7 @@ namespace Jacobi.Vst3.Plugin
 
         bool SetPlainValue(double value)
         {
-            value = value.Crop(ValueInfo.MinValue, ValueInfo.MaxValue);
+            value = value.Clamp(ValueInfo.MinValue, ValueInfo.MaxValue);
 
             if (_plainValue != value)
             {
@@ -92,7 +92,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual double ToNormalized(double plainValue)
         {
-            plainValue = plainValue.Crop(ValueInfo.MinValue, ValueInfo.MaxValue);
+            plainValue = plainValue.Clamp(ValueInfo.MinValue, ValueInfo.MaxValue);
 
             var scale = ValueInfo.MaxValue - ValueInfo.MinValue;
             var offset = -ValueInfo.MinValue;
@@ -102,7 +102,7 @@ namespace Jacobi.Vst3.Plugin
 
         public virtual double ToPlain(double normValue)
         {
-            normValue = normValue.Crop(0.0, 1.0);
+            normValue = normValue.Clamp(0.0, 1.0);
 
             var scale = ValueInfo.MaxValue - ValueInfo.MinValue;
             var offset = -ValueInfo.MinValue;

@@ -53,16 +53,10 @@ namespace Jacobi.Vst3.Hosting
         public TResult ReleasePlugIn(IComponent component, IEditController controller)
         {
             if (component != null)
-                MarshalX.ReleaseRcw(ref component);
-
-            //try { handle = Marshal.GetIUnknownForObject(component); Console.WriteLine($"ReleasePlugIn[component]:{Marshal.Release(handle) - 1}"); }
-            //finally { Marshal.Release(handle); }
+                Platform.ReleaseRcw(ref component);
 
             if (controller != null)
-                MarshalX.ReleaseRcw(ref controller);
-
-            //try { handle = Marshal.GetIUnknownForObject(controller); Console.WriteLine($"ReleasePlugIn[controller]:{Marshal.Release(handle) - 1}"); }
-            //finally { Marshal.Release(handle); }
+                Platform.ReleaseRcw(ref controller);
 
             if (!plugIsGlobal)
                 TerminatePlugin();

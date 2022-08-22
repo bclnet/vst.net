@@ -112,7 +112,7 @@ namespace Jacobi.Vst3.TestSuite
                         }
                     if (add) check &= paramChanges[i].SetPoint(point++, pos, ((float)(rand.Next() % 1000000000)) / 1000000000.0);
                 }
-                if (check) processData._.InputParameterChanges = this.CastT();
+                if (check) processData._.InputParameterChanges = this; //: this.CastT();
             }
             return check;
         }
@@ -136,11 +136,11 @@ namespace Jacobi.Vst3.TestSuite
         public int GetParameterCount()
             => !paramChanges.Any() ? numParams : paramChanges.Count;
 
-        public IntPtr GetParameterData(int index) //: IParamValueQueue
-            => index >= 0 && index < GetParameterCount() ? paramChanges[index].CastT() : IntPtr.Zero;
+        public IParamValueQueue GetParameterData(int index)
+            => index >= 0 && index < GetParameterCount() ? paramChanges[index] : null;
 
-        public IntPtr AddParameterData(uint id, ref int index) //: IParamValueQueue
-            => IntPtr.Zero;
+        public IParamValueQueue AddParameterData(uint id, ref int index)
+            => default;
     }
 
     /// <summary>

@@ -18,7 +18,7 @@ namespace Jacobi.Vst3.Core
         public TResult Write(IntPtr buffer, int numBytes, out int numBytesWritten)
             => throw new NotImplementedException();
 
-        public TResult Seek(long pos, StreamSeekMode mode, ref long result)
+        public TResult Seek(long pos, SeekOrigin mode, out long result)
             => throw new NotImplementedException();
 
         public TResult Tell(out long pos)

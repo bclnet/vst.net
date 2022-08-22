@@ -50,7 +50,7 @@ namespace Jacobi.Vst3.TestPlugin
 
         TResult ProcessInParameters(ref ProcessData data)
         {
-            var paramChanges = data.GetInputParameterChanges();
+            var paramChanges = data.InputParameterChanges;
             if (paramChanges != null)
             {
                 var paramCount = paramChanges.GetParameterCount();
@@ -61,7 +61,7 @@ namespace Jacobi.Vst3.TestPlugin
 
                     for (var i = 0; i < paramCount; i++)
                     {
-                        var paramValue = paramChanges.GetParameterValue(i);
+                        var paramValue = paramChanges.GetParameterData(i);
 
                         for (var p = 0; p < paramValue.GetPointCount(); p++)
                         {
@@ -112,8 +112,8 @@ namespace Jacobi.Vst3.TestPlugin
 
         TResult ProcessEvents(ref ProcessData data)
         {
-            var inputs = data.GetInputEvents();
-            var outputs = data.GetOutputEvents();
+            var inputs = data.InputEvents;
+            var outputs = data.OutputEvents;
 
             if (inputs != null && outputs != null)
             {

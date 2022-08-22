@@ -1,81 +1,49 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
     public static partial class Extensions
     {
-        //
-        // ProcessData
-        //
-
-        public static IParameterChanges GetInputParameterChanges(this ref ProcessData processData)
-            => processData.InputParameterChanges.Cast<IParameterChanges>();
-
-        public static IParameterChanges GetOutputParameterChanges(this ref ProcessData processData)
-            => processData.OutputParameterChanges.Cast<IParameterChanges>();
-
-        public static IEventList GetInputEvents(this ref ProcessData processData)
-            => processData.InputEvents.Cast<IEventList>();
-
-        public static IEventList GetOutputEvents(this ref ProcessData processData)
-            => processData.OutputEvents.Cast<IEventList>();
-
-        public static bool TryGetProcessContext(this ref ProcessData processData, ref ProcessContext processContext)
-        {
-            if (processData.ProcessContext == IntPtr.Zero) return false;
-            Marshal.PtrToStructure(processData.ProcessContext, processContext);
-            return true;
-        }
-
-        //
-        // IParameterChanges
-        //
-
-        /// <summary>
-        /// Calls IParameterChanges.GetParameterData(index).
-        /// </summary>
-        /// <returns>Can return null.</returns>
-        public static IParamValueQueue GetParameterValue(this IParameterChanges parameterChanges, Int32 index)
-        {
-            if (parameterChanges == null) return null;
-            return parameterChanges.GetParameterData(index).Cast<IParamValueQueue>();
-        }
-
-        /// <summary>
-        /// Calls IParameterChanges.AddParameterData(id, index).
-        /// </summary>
-        /// <returns>Can return null.</returns>
-        public static IParamValueQueue AddParameterValue(this IParameterChanges parameterChanges, UInt32 id, ref Int32 index)
-        {
-            if (parameterChanges == null) return null;
-            return parameterChanges.AddParameterData(id, ref index).Cast<IParamValueQueue>();
-        }
-
-        //
         // IntPtr (unknown)
-        //
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static T Cast<T>(this IntPtr unknownPtr) where T : class
-        {
-            if (unknownPtr == IntPtr.Zero) return null;
-            var unknown = Marshal.GetObjectForIUnknown(unknownPtr);
-            return unknown as T;
-        }
+            => unknownPtr == IntPtr.Zero
+            ? null
+            : Marshal.GetObjectForIUnknown(unknownPtr) as T;
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static IntPtr CastT<T>(this T unknown) where T : class
-        {
-            if (unknown == null) return IntPtr.Zero;
-            return Marshal.GetIUnknownForObject(unknown);
-        }
+            => unknown == null
+            ? IntPtr.Zero
+            : Marshal.GetIUnknownForObject(unknown);
 
-
-        public static T Crop<T>(this T value, T min, T max)
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static T Clamp<T>(this T value, T min, T max)
             where T : IComparable<T>
+            => value.CompareTo(max) > 0 ? max
+            : value.CompareTo(min) < 0 ? min
+            : value;
+
+        /// <summary>
+        /// Helper to allocate a message
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        public static IMessage AllocateMessage(this IHostApplication host)
         {
-            if (value.CompareTo(max) > 0) value = max;
-            if (value.CompareTo(min) < 0) value = min;
-            return value;
+            var msgType = typeof(IMessage);
+            var iid = msgType.GUID;
+            var ptr = IntPtr.Zero;
+            var result = host.CreateInstance(ref iid, ref iid, out ptr);
+            return result.Succeeded()
+                ? (IMessage)Marshal.GetTypedObjectForIUnknown(ptr, msgType)
+                : default;
+            //try { return (IMessage)Marshal.GetTypedObjectForIUnknown(ptr, msgType); }
+            //finally { Marshal.Release(ptr); }
         }
     }
 }

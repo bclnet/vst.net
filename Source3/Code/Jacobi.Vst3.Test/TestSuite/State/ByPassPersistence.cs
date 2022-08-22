@@ -1,5 +1,6 @@
 ﻿using Jacobi.Vst3.Core;
 using System;
+using System.IO;
 using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite
@@ -61,8 +62,8 @@ namespace Jacobi.Vst3.TestSuite
             // save State
             plugProvider.GetComponentUID(out var uid);
 
-            //MemoryStream stream;
-            //PresetFile.SavePreset(&stream, uid, vstPlug, controller, nullptr, 0);
+            MemoryBStream stream = new();
+            PresetFile.SavePreset(stream, uid, vstPlug, controller, null, 0);
 
             audioEffect.SetProcessing(true);
 
@@ -92,8 +93,8 @@ namespace Jacobi.Vst3.TestSuite
             audioEffect.SetProcessing(false);
 
             // load previous preset
-            //stream.seek(0, IBStream::kIBSeekSet, nullptr);
-            //PresetFile.loadPreset(&stream, uid, vstPlug, controller);
+            stream.Seek(0, SeekOrigin.Begin, out var z);
+            PresetFile.LoadPreset(stream, uid, vstPlug, controller);
 
             if (controller.GetParamNormalized(bypassId) < 1)
             {

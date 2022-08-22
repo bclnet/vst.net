@@ -1,5 +1,4 @@
 ﻿using Jacobi.Vst3.Core;
-using Jacobi.Vst3.Hosting;
 using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.TestSuite

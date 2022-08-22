@@ -94,12 +94,12 @@ namespace Jacobi.Vst3.Core
         /// <param name="index"></param>
         /// <returns></returns>
         [PreserveSig]
-        //[return: MarshalAs(UnmanagedType.Interface)]
-        //IParamValueQueue GetParameterData(
-        //    [MarshalAs(UnmanagedType.I4), In] Int32 index);
-        [return: MarshalAs(UnmanagedType.SysInt)]
-        IntPtr GetParameterData(
+        [return: MarshalAs(UnmanagedType.Interface)]
+        IParamValueQueue GetParameterData(
             [MarshalAs(UnmanagedType.I4), In] Int32 index);
+        //[return: MarshalAs(UnmanagedType.SysInt)]
+        //IntPtr GetParameterData(
+        //    [MarshalAs(UnmanagedType.I4), In] Int32 index);
 
         /// <summary>
         /// Adds a new parameter queue with a given ID at the end of the list,
@@ -108,14 +108,14 @@ namespace Jacobi.Vst3.Core
         /// <param name="index"></param>
         /// <returns>returns it and its index in the parameter changes list.</returns>
         [PreserveSig]
-        //[return: MarshalAs(UnmanagedType.Interface)]
-        //IParamValueQueue AddParameterData(
-        //    [MarshalAs(UnmanagedType.U4), In] UInt32 id,
-        //    [MarshalAs(UnmanagedType.I4), In, Out] ref Int32 index);
-        [return: MarshalAs(UnmanagedType.SysInt)]
-        IntPtr AddParameterData(
+        [return: MarshalAs(UnmanagedType.Interface)]
+        IParamValueQueue AddParameterData(
             [MarshalAs(UnmanagedType.U4), In] UInt32 id,
             [MarshalAs(UnmanagedType.I4), In, Out] ref Int32 index);
+        //[return: MarshalAs(UnmanagedType.SysInt)]
+        //IntPtr AddParameterData(
+        //    [MarshalAs(UnmanagedType.U4), In] UInt32 id,
+        //    [MarshalAs(UnmanagedType.I4), In, Out] ref Int32 index);
     }
 
     static partial class Interfaces

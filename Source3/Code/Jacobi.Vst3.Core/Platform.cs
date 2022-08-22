@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
-    public static class Platform
+    public unsafe static class Platform
     {
 #if X86
         public const int StructurePack = 8;
@@ -20,5 +20,37 @@ namespace Jacobi.Vst3.Core
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Swap<T>(ref int a, ref int b) => (b, a) = (a, b);
+
+        public static void ReleaseRcw<T>(ref T t)
+        {
+            t = default;
+            GC.Collect();
+            GC.WaitForPendingFinalizers();
+        }
+
+        public static void Swap64(long* v)
+        {
+        }
+
+        public static void Swap32(int* v)
+        {
+        }
+
+        //    //:ref https://lanzkron.wordpress.com/2011/01/06/wrappers-unwrapped/
+        //    public static class MarshalX
+        //    {
+        //        public static T AddRcwRef<T>(T t)
+        //        {
+        //            var ptr = Marshal.GetIUnknownForObject(t);
+        //            try
+        //            {
+        //                return (T)Marshal.GetObjectForIUnknown(ptr);
+        //            }
+        //            finally
+        //            {
+        //                Marshal.Release(ptr); // done with the IntPtr
+        //            }
+        //        }
+        //    }
     }
 }

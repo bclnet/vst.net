@@ -70,10 +70,7 @@ namespace Jacobi.Vst3.Plugin
         }
 
         public override long Seek(long offset, SeekOrigin origin)
-        {
-            var pos = 0L;
-            return BaseStream.Seek(offset, SeekOriginSeekMode(origin), ref pos).Succeeded() ? pos : -1;
-        }
+            => BaseStream.Seek(offset, origin, out var pos).Succeeded() ? pos : -1;
 
         public override void SetLength(long value)
         {
@@ -137,14 +134,14 @@ namespace Jacobi.Vst3.Plugin
             if (_unmanagedBuffer == IntPtr.Zero) Marshal.FreeHGlobal(mem);
         }
 
-        StreamSeekMode SeekOriginSeekMode(SeekOrigin seekOrigin)
-            => seekOrigin switch
-            {
-                SeekOrigin.Begin => StreamSeekMode.SeekSet,
-                SeekOrigin.Current => StreamSeekMode.SeekCur,
-                SeekOrigin.End => StreamSeekMode.SeekEnd,
-                _ => StreamSeekMode.SeekSet,
-            };
+        //SeekOrigin SeekOriginSeekMode(SeekOrigin seekOrigin)
+        //    => seekOrigin switch
+        //    {
+        //        SeekOrigin.Begin => SeekOrigin.SeekSet,
+        //        SeekOrigin.Current => SeekOrigin.SeekCur,
+        //        SeekOrigin.End => SeekOrigin.SeekEnd,
+        //        _ => SeekOrigin.SeekSet,
+        //    };
 
         protected override void Dispose(bool disposing)
         {

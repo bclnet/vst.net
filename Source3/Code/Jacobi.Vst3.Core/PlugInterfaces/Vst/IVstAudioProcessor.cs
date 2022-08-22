@@ -155,16 +155,16 @@ namespace Jacobi.Vst3.Core
         [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.SysInt)] public unsafe Double** ChannelBuffers64X; // sample buffers to process with 64-bit precision (unsafe)
 
 #if X86
-        internal const int FieldOffset_NumChannels = 0;
-        internal const int FieldOffset_SilenceFlags = 8;
-        internal const int FieldOffset_Union = 16;
-        internal const int FieldOffset_SizeOf = 24;
+        const int FieldOffset_NumChannels = 0;
+        const int FieldOffset_SilenceFlags = 8;
+        const int FieldOffset_Union = 16;
+        const int FieldOffset_SizeOf = 24;
 #endif
 #if X64
-        internal const int FieldOffset_NumChannels = 0;
-        internal const int FieldOffset_SilenceFlags = 8;
-        internal const int FieldOffset_Union = 16;
-        internal const int FieldOffset_SizeOf = 24;
+        const int FieldOffset_NumChannels = 0;
+        const int FieldOffset_SilenceFlags = 8;
+        const int FieldOffset_Union = 16;
+        const int FieldOffset_SizeOf = 24;
 #endif
     }
 
@@ -175,7 +175,7 @@ namespace Jacobi.Vst3.Core
     /// with bus indices used in IComponent::getBusInfo of media type kAudio.
     /// </summary>
     [StructLayout(LayoutKind.Explicit, Pack = Platform.StructurePack)]
-    public struct ProcessData
+    public unsafe struct ProcessData
     {
         public static readonly int Size = FieldOffset_SizeOf;
 
@@ -187,51 +187,63 @@ namespace Jacobi.Vst3.Core
 
         // AudioBusBuffers Inputs[NumBuses]
         [FieldOffset(FieldOffset_Inputs), MarshalAs(UnmanagedType.SysInt)] public IntPtr Inputs;	                                            // buffers of input buses
-        [FieldOffset(FieldOffset_Inputs)] public unsafe AudioBusBuffers* InputsX;                                                               // buffers of input buses (unsafe)
+        [FieldOffset(FieldOffset_Inputs)] public AudioBusBuffers* InputsX;                                                                      // buffers of input buses (unsafe)
 
         // AudioBusBuffers Outputs[NumBuses]
         [FieldOffset(FieldOffset_Outputs), MarshalAs(UnmanagedType.SysInt)] public IntPtr Outputs;	                                            // buffers of output buses
-        [FieldOffset(FieldOffset_Outputs)] public unsafe AudioBusBuffers* OutputsX;                                                             // buffers of output buses (unsafe)
+        [FieldOffset(FieldOffset_Outputs)] public AudioBusBuffers* OutputsX;                                                                    // buffers of output buses (unsafe)
 
-        [FieldOffset(FieldOffset_InputParameterChanges), MarshalAs(UnmanagedType.SysInt)] public IntPtr InputParameterChanges;                  // incoming parameter changes for this block 
-        //[FieldOffset(FieldOffset_InputParameterChanges), MarshalAs(UnmanagedType.Interface)] public IParameterChanges InputParameterChangesX;	// incoming parameter changes for this block (unsafe)
+        //[FieldOffset(FieldOffset_InputParameterChanges), MarshalAs(UnmanagedType.SysInt)] public IntPtr InputParameterChanges;                // incoming parameter changes for this block 
+        //public IParameterChanges InputParameterChangesX => InputParameterChanges.Cast<IParameterChanges>();
+        [FieldOffset(FieldOffset_InputParameterChanges), MarshalAs(UnmanagedType.Interface)] public IParameterChanges InputParameterChanges;	// incoming parameter changes for this block (unsafe)
 
-        [FieldOffset(FieldOffset_OutputParameterChanges), MarshalAs(UnmanagedType.SysInt)] public IntPtr OutputParameterChanges;                // outgoing parameter changes for this block (optional)
-        //[FieldOffset(FieldOffset_OutputParameterChanges), MarshalAs(UnmanagedType.Interface)] public IParameterChanges OutputParameterChangesX; // outgoing parameter changes for this block (unsafe, optional)
+        //[FieldOffset(FieldOffset_OutputParameterChanges), MarshalAs(UnmanagedType.SysInt)] public IntPtr OutputParameterChanges;              // outgoing parameter changes for this block (optional)
+        //public IParameterChanges OutputParameterChangesX => OutputParameterChanges.Cast<IParameterChanges>();
+        [FieldOffset(FieldOffset_OutputParameterChanges), MarshalAs(UnmanagedType.Interface)] public IParameterChanges OutputParameterChanges;  // outgoing parameter changes for this block (unsafe, optional)
 
-        [FieldOffset(FieldOffset_InputEvents), MarshalAs(UnmanagedType.SysInt)] public IntPtr InputEvents;                                      // incoming events for this block (optional)
-        //[FieldOffset(FieldOffset_InputEvents), MarshalAs(UnmanagedType.Interface)] public IEventList InputEventsX;				            // incoming events for this block (unsafe, optional)
+        //[FieldOffset(FieldOffset_InputEvents), MarshalAs(UnmanagedType.SysInt)] public IntPtr InputEvents;                                    // incoming events for this block (optional)
+        //public IEventList InputEventsX => InputEvents.Cast<IEventList>();
+        [FieldOffset(FieldOffset_InputEvents), MarshalAs(UnmanagedType.Interface)] public IEventList InputEvents;				                // incoming events for this block (unsafe, optional)
 
-        [FieldOffset(FieldOffset_OutputEvents), MarshalAs(UnmanagedType.SysInt)] public IntPtr OutputEvents;                                    // outgoing events for this block (optional)
-        //[FieldOffset(FieldOffset_OutputEvents), MarshalAs(UnmanagedType.Interface)] public IEventList OutputEventsX;				            // outgoing events for this block (unsafe, optional)
+        //[FieldOffset(FieldOffset_OutputEvents), MarshalAs(UnmanagedType.SysInt)] public IntPtr OutputEvents;                                  // outgoing events for this block (optional)
+        //public IEventList OutputEventsX => OutputEvents.Cast<IEventList>();
+        [FieldOffset(FieldOffset_OutputEvents), MarshalAs(UnmanagedType.Interface)] public IEventList OutputEvents;				                // outgoing events for this block (unsafe, optional)
 
-        // ProcessContext pointer
-        [FieldOffset(FieldOffset_ProcessContext), MarshalAs(UnmanagedType.SysInt)] public IntPtr ProcessContext;                                // processing context (optional, but most welcome)
+        [FieldOffset(FieldOffset_ProcessContext), MarshalAs(UnmanagedType.Struct)] public ProcessContext ProcessContext;                                // processing context (optional, but most welcome)
+        //public ProcessContext ProcessContextX
+        //{
+        //    get
+        //    {
+        //        ProcessContext processContext = new();
+        //        if (ProcessContext != IntPtr.Zero) Marshal.PtrToStructure(ProcessContext, processContext);
+        //        return processContext;
+        //    }
+        //}
 
-        internal const int FieldOffset_ProcessMode = 0;
-        internal const int FieldOffset_SymbolicSampleSize = 4;
-        internal const int FieldOffset_NumSamples = 8;
-        internal const int FieldOffset_NumInputs = 12;
-        internal const int FieldOffset_NumOutputs = 16;
+        const int FieldOffset_ProcessMode = 0;
+        const int FieldOffset_SymbolicSampleSize = 4;
+        const int FieldOffset_NumSamples = 8;
+        const int FieldOffset_NumInputs = 12;
+        const int FieldOffset_NumOutputs = 16;
 #if X86
-        internal const int FieldOffset_Inputs = 20;
-        internal const int FieldOffset_Outputs = 24;
-        internal const int FieldOffset_InputParameterChanges = 28;
-        internal const int FieldOffset_OutputParameterChanges = 32;
-        internal const int FieldOffset_InputEvents = 36;
-        internal const int FieldOffset_OutputEvents = 40;
-        internal const int FieldOffset_ProcessContext = 44;
-        internal const int FieldOffset_SizeOf = 48;
+        const int FieldOffset_Inputs = 20;
+        const int FieldOffset_Outputs = 24;
+        const int FieldOffset_InputParameterChanges = 28;
+        const int FieldOffset_OutputParameterChanges = 32;
+        const int FieldOffset_InputEvents = 36;
+        const int FieldOffset_OutputEvents = 40;
+        const int FieldOffset_ProcessContext = 44;
+        const int FieldOffset_SizeOf = 48;
 #endif
 #if X64
-        internal const int FieldOffset_Inputs = 24;
-        internal const int FieldOffset_Outputs = 32;
-        internal const int FieldOffset_InputParameterChanges = 40;
-        internal const int FieldOffset_OutputParameterChanges = 48;
-        internal const int FieldOffset_InputEvents = 56;
-        internal const int FieldOffset_OutputEvents = 64;
-        internal const int FieldOffset_ProcessContext = 72;
-        internal const int FieldOffset_SizeOf = 80;
+        const int FieldOffset_Inputs = 24;
+        const int FieldOffset_Outputs = 32;
+        const int FieldOffset_InputParameterChanges = 40;
+        const int FieldOffset_OutputParameterChanges = 48;
+        const int FieldOffset_InputEvents = 56;
+        const int FieldOffset_OutputEvents = 64;
+        const int FieldOffset_ProcessContext = 72;
+        const int FieldOffset_SizeOf = 80;
 #endif
     }
 

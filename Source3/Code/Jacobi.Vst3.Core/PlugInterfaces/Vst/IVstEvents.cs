@@ -173,20 +173,20 @@ namespace Jacobi.Vst3.Core
         }
 
 #if X86
-        internal const int FieldOffset_BusIndex = 0;
-        internal const int FieldOffset_SampleOffset = 4;
-        internal const int FieldOffset_PpqPosition = 8;
-        internal const int FieldOffset_Flags = 16;
-        internal const int FieldOffset_Type = 20;
-        internal const int FieldOffset_Union = 24;
+        const int FieldOffset_BusIndex = 0;
+        const int FieldOffset_SampleOffset = 4;
+        const int FieldOffset_PpqPosition = 8;
+        const int FieldOffset_Flags = 16;
+        const int FieldOffset_Type = 20;
+        const int FieldOffset_Union = 24;
 #endif
 #if X64
-        internal const int FieldOffset_BusIndex = 0;
-        internal const int FieldOffset_SampleOffset = 8;
-        internal const int FieldOffset_PpqPosition = 16;
-        internal const int FieldOffset_Flags = 24;
-        internal const int FieldOffset_Type = 32;
-        internal const int FieldOffset_Union = 40;
+        const int FieldOffset_BusIndex = 0;
+        const int FieldOffset_SampleOffset = 8;
+        const int FieldOffset_PpqPosition = 16;
+        const int FieldOffset_Flags = 24;
+        const int FieldOffset_Type = 32;
+        const int FieldOffset_Union = 40;
 #endif
 
     }

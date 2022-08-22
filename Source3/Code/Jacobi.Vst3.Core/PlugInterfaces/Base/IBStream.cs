@@ -1,14 +1,15 @@
 ﻿using System;
+using System.IO;
 using System.Runtime.InteropServices;
 
 namespace Jacobi.Vst3.Core
 {
-    public enum StreamSeekMode
-    {
-        SeekSet = 0, // set absolute seek position
-        SeekCur,     // set seek position relative to current position
-        SeekEnd      // set seek position relative to stream end
-    }
+    //public enum StreamSeekMode -> SeekOrigin
+    //{
+    //    SeekSet = 0, // set absolute seek position
+    //    SeekCur,     // set seek position relative to current position
+    //    SeekEnd      // set seek position relative to stream end
+    //}
 
     /// <summary>
     /// Base class for streams.
@@ -58,8 +59,8 @@ namespace Jacobi.Vst3.Core
         [return: MarshalAs(UnmanagedType.Error)]
         TResult Seek(
             [MarshalAs(UnmanagedType.I8), In] Int64 pos,
-            [MarshalAs(UnmanagedType.I4), In] StreamSeekMode mode,
-            [MarshalAs(UnmanagedType.I8), In, Out] ref Int64 result);
+            [MarshalAs(UnmanagedType.I4), In] SeekOrigin mode,
+            [MarshalAs(UnmanagedType.I8), Out] out Int64 result);
 
         /// <summary>
         /// Gets current stream read-write position. 

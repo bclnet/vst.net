@@ -1,4 +1,6 @@
-﻿namespace Jacobi.Vst3.Core
+﻿using Jacobi.Vst3.Core;
+
+namespace Jacobi.Vst3.Utility
 {
     public class ProcessContextRequirements
     {
