@@ -11,10 +11,10 @@ namespace Jacobi.Vst3.TestPlugin
     [DisplayName("My Plugin Component"), Guid("599B4AD4-932E-4B35-B8A7-E01508FD1AAB"), ClassInterface(ClassInterfaceType.None)]
     unsafe class PluginComponent : AudioEffect
     {
-        readonly BusCollection _audioInputs = new(MediaTypes.Audio, BusDirections.Input);
-        readonly BusCollection _audioOutputs = new(MediaTypes.Audio, BusDirections.Output);
-        readonly BusCollection _eventInputs = new(MediaTypes.Event, BusDirections.Input);
-        readonly BusCollection _eventOutputs = new(MediaTypes.Event, BusDirections.Output);
+        readonly BusList _audioInputs = new(MediaTypes.Audio, BusDirections.Input);
+        readonly BusList _audioOutputs = new(MediaTypes.Audio, BusDirections.Output);
+        readonly BusList _eventInputs = new(MediaTypes.Event, BusDirections.Input);
+        readonly BusList _eventOutputs = new(MediaTypes.Event, BusDirections.Output);
 
         public PluginComponent()
         {
@@ -128,7 +128,7 @@ namespace Jacobi.Vst3.TestPlugin
             return kResultOk;
         }
 
-        protected override BusCollection GetBusCollection(MediaTypes mediaType, BusDirections busDir)
+        protected override BusList GetBusCollection(MediaTypes mediaType, BusDirections busDir)
             => mediaType switch
             {
                 MediaTypes.Audio => busDir == BusDirections.Input ? _audioInputs : _audioOutputs,

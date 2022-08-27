@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 namespace Jacobi.Vst3.TestPlugin
 {
     [DisplayName("My Edit Controller"), Guid("D74D670B-28B8-4AB2-9180-D4D12B52F54B"), ClassInterface(ClassInterfaceType.None)]
-    public class MyEditController : EditControllerWithUnits
+    public class MyEditController : EditControllerEx1
     {
         public MyEditController()
         {

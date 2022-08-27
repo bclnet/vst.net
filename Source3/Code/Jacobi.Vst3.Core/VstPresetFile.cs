@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text;
 using static Jacobi.Vst3.Core.PresetFile.ChunkType;
 using static Jacobi.Vst3.Core.TResult;
@@ -52,16 +53,16 @@ namespace Jacobi.Vst3.Core
         IBStream stream;
         Guid classID;       ///< classID is the FUID of the component (processor) part
         const int kMaxEntries = 128;
-        readonly Entry[] entries = new Entry[kMaxEntries];
+        readonly Entry[] entries = Enumerable.Repeat(new Entry(), kMaxEntries).ToArray();
         int entryCount;
 
         static readonly ChunkID[] commonChunks = {
-            Convert.ToInt32(new [] {'V', 'S', 'T', '3' }),	// kHeader
-	        Convert.ToInt32(new [] {'C', 'o', 'm', 'p'}),	// kComponentState
-	        Convert.ToInt32(new [] {'C', 'o', 'n', 't'}),	// kControllerState
-	        Convert.ToInt32(new [] {'P', 'r', 'o', 'g'}),	// kProgramData
-	        Convert.ToInt32(new [] {'I', 'n', 'f', 'o'}),	// kMetaInfo
-	        Convert.ToInt32(new [] {'L', 'i', 's', 't'})	// kChunkList
+            'V' << 24 | 'S' << 16 | 'T' << 8 | '3',	// kHeader
+	        'C' << 24 | 'o' << 16 | 'm' << 8 | 'p',	// kComponentState
+	        'C' << 24 | 'o' << 16 | 'n' << 8 | 't',	// kControllerState
+	        'P' << 24 | 'r' << 16 | 'o' << 8 | 'g',	// kProgramData
+	        'I' << 24 | 'n' << 16 | 'f' << 8 | 'o',	// kMetaInfo
+	        'L' << 24 | 'i' << 16 | 's' << 8 | 't'	// kChunkList
         };
 
         // Preset Header: header id + version + class id + list offset
@@ -219,15 +220,14 @@ namespace Jacobi.Vst3.Core
             SeekTo(0);
             entryCount = 0;
 
-            var classString = stackalloc char[kClassIDSize + 1];
+            var classString = stackalloc byte[kClassIDSize + 1];
 
             // Read header
             if (!(ReadEqualID(GetChunkID(kHeader)) && ReadInt32(out var version) &&
                   Verify(stream.Read((IntPtr)classString, kClassIDSize, out var z)) && ReadSize(out var listOffset) &&
                   listOffset > 0 && SeekTo(listOffset)))
                 return false;
-
-            classID = new Guid(new string(classString));
+            classID = new Guid(Encoding.ASCII.GetString(classString, kClassIDSize));
 
             // Read list
             var count = 0;
@@ -250,13 +250,15 @@ namespace Jacobi.Vst3.Core
 
             return entryCount > 0;
         }
+
         public bool WriteHeader()     ///< Writes into the stream the main header.
         {
             // header id + version + class id + list offset (unknown yet)
-            fixed (char* classString = classID.ToString())
+            fixed (byte* classString = Encoding.ASCII.GetBytes(classID.ToString().Replace("-", "")))
                 return SeekTo(0) && WriteID(GetChunkID(kHeader)) && WriteInt32(kFormatVersion) &&
                        Verify(stream.Write((IntPtr)classString, kClassIDSize, out var z)) && WriteSize(0);
         }
+
         public bool WriteChunkList()      ///< Writes into the stream the chunk list (should be at the end).
         {
             // Update list offset

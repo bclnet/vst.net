@@ -4,7 +4,7 @@ using static Jacobi.Vst3.Core.TResult;
 
 namespace Jacobi.Vst3.Plugin
 {
-    public abstract class AudioEffect : Component, IAudioProcessor, IComponent
+    public abstract class AudioEffect : Component, IAudioProcessor, IComponent //, IProcessContextRequirements
     {
         public bool IsProcessing { get; set; }
 

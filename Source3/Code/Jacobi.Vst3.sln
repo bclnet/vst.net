@@ -3,18 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacobi.Vst3.Core", "Jacobi.Vst3.Core\Jacobi.Vst3.Core.csproj", "{56FB1E03-B0C4-4074-9A93-7787E07B58BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacobi.Vst3", "Jacobi.Vst3.Core\Jacobi.Vst3.csproj", "{56FB1E03-B0C4-4074-9A93-7787E07B58BC}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacobi.Vst3.TestPlugin", "Jacobi.Vst3.TestPlugin\Jacobi.Vst3.TestPlugin.csproj", "{8A9C27CB-88AC-400F-A7E1-50488D5722F5}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Jacobi.Vst3.Interop", "Jacobi.Vst3.Interop\Jacobi.Vst3.Interop.vcxproj", "{761DDFE4-5A7E-425F-8729-1DD7644CDC0E}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bootstrap", "Jacobi.Vst3.Interop\Jacobi.Vst3.Interop.vcxproj", "{761DDFE4-5A7E-425F-8729-1DD7644CDC0E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1D43AEDE-3DB0-43A4-A5D3-E29A62BB0921}"
 	ProjectSection(SolutionItems) = preProject
 		readme.md = readme.md
 	EndProjectSection
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacobi.Vst3.UnitTests", "Jacobi.Vst3.UnitTests\Jacobi.Vst3.UnitTests.csproj", "{A404C4E7-C2D9-45AA-BAAD-0BFCB338F5F7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{1D0D46BC-1F90-43C8-9F99-74E629714DA2}"
 EndProject
@@ -66,14 +64,6 @@ Global
 		{761DDFE4-5A7E-425F-8729-1DD7644CDC0E}.Release|x64.Build.0 = Release|x64
 		{761DDFE4-5A7E-425F-8729-1DD7644CDC0E}.Release|x86.ActiveCfg = Release|Win32
 		{761DDFE4-5A7E-425F-8729-1DD7644CDC0E}.Release|x86.Build.0 = Release|Win32
-		{A404C4E7-C2D9-45AA-BAAD-0BFCB338F5F7}.Debug|x64.ActiveCfg = Debug|x64
-		{A404C4E7-C2D9-45AA-BAAD-0BFCB338F5F7}.Debug|x64.Build.0 = Debug|x64
-		{A404C4E7-C2D9-45AA-BAAD-0BFCB338F5F7}.Debug|x86.ActiveCfg = Debug|x86
-		{A404C4E7-C2D9-45AA-BAAD-0BFCB338F5F7}.Debug|x86.Build.0 = Debug|x86
-		{A404C4E7-C2D9-45AA-BAAD-0BFCB338F5F7}.Release|x64.ActiveCfg = Release|x64
-		{A404C4E7-C2D9-45AA-BAAD-0BFCB338F5F7}.Release|x64.Build.0 = Release|x64
-		{A404C4E7-C2D9-45AA-BAAD-0BFCB338F5F7}.Release|x86.ActiveCfg = Release|x86
-		{A404C4E7-C2D9-45AA-BAAD-0BFCB338F5F7}.Release|x86.Build.0 = Release|x86
 		{127441CD-1377-4DB4-AD8E-0F631B486BDD}.Debug|x64.ActiveCfg = Debug|x64
 		{127441CD-1377-4DB4-AD8E-0F631B486BDD}.Debug|x64.Build.0 = Debug|x64
 		{127441CD-1377-4DB4-AD8E-0F631B486BDD}.Debug|x86.ActiveCfg = Debug|x86

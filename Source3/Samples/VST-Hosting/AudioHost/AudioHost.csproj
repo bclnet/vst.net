@@ -12,7 +12,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-    <ProjectReference Include="..\..\..\Code\Jacobi.Vst3.Core\Jacobi.Vst3.Core.csproj" />
+    <ProjectReference Include="..\..\..\Code\Jacobi.Vst3.Core\Jacobi.Vst3.csproj" />
     <ProjectReference Include="..\..\..\Code\Jacobi.Vst3.Interop\Jacobi.Vst3.Interop.vcxproj" />
   </ItemGroup>
 

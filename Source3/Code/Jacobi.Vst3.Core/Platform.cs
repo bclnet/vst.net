@@ -21,6 +21,14 @@ namespace Jacobi.Vst3.Core
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Swap<T>(ref int a, ref int b) => (b, a) = (a, b);
 
+        public static uint NumberOfSetBits(uint value)
+        {
+            // don't ask...
+            value -= value >> 1 & 0x55555555;
+            value = (value & 0x33333333) + (value >> 2 & 0x33333333);
+            return (value + (value >> 4) & 0x0F0F0F0F) * 0x01010101 >> 24;
+        }
+
         public static void ReleaseRcw<T>(ref T t)
         {
             t = default;

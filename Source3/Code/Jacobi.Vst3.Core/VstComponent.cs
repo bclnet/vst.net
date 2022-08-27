@@ -1,13 +1,13 @@
-﻿using Jacobi.Vst3.Core;
+﻿using Jacobi.Vst3.Plugin;
 using System;
 using System.Diagnostics;
 using static Jacobi.Vst3.Core.TResult;
 
-namespace Jacobi.Vst3.Plugin
+namespace Jacobi.Vst3.Core
 {
     public abstract class Component : ConnectionPoint, IComponent
     {
-        protected abstract BusCollection GetBusCollection(MediaTypes mediaType, BusDirections busDir);
+        protected abstract BusList GetBusCollection(MediaTypes mediaType, BusDirections busDir);
 
         public Guid ControlledClassId { get; protected set; }
 
