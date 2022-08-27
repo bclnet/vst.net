@@ -19,13 +19,30 @@ namespace Steinberg.Vst
         }
 
         //-- Options
-        public static readonly Command optCreate = new("create", "Create moduleinfo"); // -create -version VERSION -path MODULE_PATH [-compat PATH -output PATH]
-        public static readonly Command optValidate = new("validate", "Validate moduleinfo"); // -validate -path MODULE_PATH [-infopath PATH]
-        public static readonly Option<string> optModuleVersion = new("version", "Module version");
-        public static readonly Option<string> optModulePath = new("path", "Path to module");
-        public static readonly Option<string> optInfoPath = new("infopath", "Path to moduleinfo.json");
-        public static readonly Option<string> optModuleCompatPath = new("compat", "Path to compatibility.json");
-        public static readonly Option<string> optOutputPath = new("output", "Write json to file instead of stdout");
+        public static readonly Option<string> optModuleVersion = new("-version", "Module version");
+        public static readonly Option<string> optModulePath = new("-path", "Path to module");
+        public static readonly Option<string> optInfoPath = new("-infopath", "Path to moduleinfo.json");
+        public static readonly Option<string> optModuleCompatPath = new("-compat", "Path to compatibility.json");
+        public static readonly Option<string> optOutputPath = new("-output", "Write json to file instead of stdout");
+        // -create -version VERSION -path MODULE_PATH [-compat PATH -output PATH]
+        public static readonly Command cmdCreate = new("-create", "Create moduleinfo")
+        {
+            optModuleVersion,
+            optModulePath,
+            optModuleCompatPath,
+            optOutputPath
+        };
+        // -validate -path MODULE_PATH [-infopath PATH]
+        public static readonly Command cmdValidate = new("-validate", "Validate moduleinfo")
+        {
+            optModulePath,
+            optInfoPath,
+        };
+        public static readonly RootCommand cmdRoot = new("")
+        {
+            cmdCreate,
+            cmdValidate
+        };
 
         static void PrintUsage()
         {
@@ -183,30 +200,20 @@ namespace Steinberg.Vst
         public async Task<int> Run()
         {
             var returnCode = 0;
-            var rootCommand = new RootCommand($"")
-            {
-                optCreate,
-                optValidate,
-                optModuleVersion,
-                optModulePath,
-                optInfoPath,
-                optModuleCompatPath,
-                optOutputPath
-            };
-            optCreate.SetHandler((moduleVersion, modulePath, moduleCompatPath, outputPath) =>
+            cmdCreate.SetHandler((moduleVersion, modulePath, moduleCompatPath, outputPath) =>
             {
                 TextWriter infoStream = Console.Out;
                 TextWriter errorStream = Console.Out;
 
                 var outputStream = Console.Out;
                 List<ModuleInfo.CompatibilityX> compat = null;
-                if (moduleCompatPath != null)
+                if (!string.IsNullOrEmpty(moduleCompatPath))
                 {
                     compat = OpenAndParseCompatJSON(moduleCompatPath);
                     if (compat == null) { returnCode = 1; return; }
                 }
                 var writeToFile = false;
-                if (outputPath != null)
+                if (!string.IsNullOrEmpty(outputPath))
                 {
                     writeToFile = true;
                     var ostream = new StreamWriter(File.Open(outputPath, FileMode.CreateNew));
@@ -221,11 +228,11 @@ namespace Steinberg.Vst
                 returnCode = CreateJSON(compat, modulePath, moduleVersion, outputStream);
                 if (writeToFile) outputStream.Dispose();
             }, optModuleVersion, optModulePath, optModuleCompatPath, optOutputPath);
-            optValidate.SetHandler((modulePath, infoPath) =>
+            cmdValidate.SetHandler((modulePath, infoPath) =>
             {
                 returnCode = Validate(modulePath, infoPath);
             }, optModulePath, optInfoPath);
-            await rootCommand.InvokeAsync(args);
+            await cmdRoot.InvokeAsync(args);
             return returnCode;
         }
     }

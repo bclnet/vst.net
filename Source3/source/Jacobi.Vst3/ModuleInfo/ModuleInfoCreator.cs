@@ -24,6 +24,7 @@ namespace Jacobi.Vst3
 
         static void WriteClassInfo(ModuleInfo.ClassInfo cls, Utf8JsonWriter w)
         {
+            w.WriteStartObject();
             w.WriteString("CID", cls.Cid);
             w.WriteString("Category", cls.Category);
             w.WriteString("Name", cls.Name);
@@ -40,6 +41,7 @@ namespace Jacobi.Vst3
             w.WriteNumber("Class Flags", cls.Flags);
             w.WriteNumber("Cardinality", (int)cls.Cardinality);
             WriteSnapshots(cls.Snapshots, w);
+            w.WriteEndObject();
         }
 
         static void WritePluginCompatibility(List<ModuleInfo.CompatibilityX> cls, Utf8JsonWriter w)
@@ -106,6 +108,7 @@ namespace Jacobi.Vst3
                         Version = ci.Version,
                         SdkVersion = ci.SdkVersion,
                         SubCategories = ci.SubCategories,
+                        Snapshots = new(),
                         Cardinality = ci.Cardinality,
                         Flags = (uint)ci.ClassFlags
                     };

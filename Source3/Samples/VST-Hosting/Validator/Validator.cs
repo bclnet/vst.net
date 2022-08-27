@@ -196,51 +196,51 @@ namespace Steinberg.Vst
         }
 
         //-- Options
-        public static readonly Command optVersion = new("version", "Print version");
+        public static readonly Command cmdVersion = new("version", "Print version");
         public static readonly Option<bool> optLocalInstance = new("l", "Use local instance per test");
         public static readonly Option<string> optSuiteName = new("suite", "[name] Only run a special test suite");
         public static readonly Option<bool> optExtensiveTests = new("e", "Run extensive tests [may take a long time]");
         public static readonly Option<bool> optQuiet = new("q", "Only print errors");
         public static readonly Option<string> optTestComponentPath = new("test-component", "[path] Path to an additional component which includes custom tests");
-        public static readonly Command optListInstalledPlugIns = new("list", "Show all installed Plug-Ins");
-        public static readonly Command optListPlugInSnapshots = new("snapshots", "List snapshots from all installed Plug-Ins");
+        public static readonly Command cmdListInstalledPlugIns = new("list", "Show all installed Plug-Ins");
+        public static readonly Command cmdListPlugInSnapshots = new("snapshots", "List snapshots from all installed Plug-Ins");
         public static readonly Option<string> optCID = new("cid", "Only test processor with specified class ID");
-        public static readonly Command optSelftest = new("selftest", "Run a selftest");
+        public static readonly Command cmdSelftest = new("selftest", "Run a selftest");
         public static readonly Option<string[]> optFiles = new("f", "Files") { IsRequired = true, AllowMultipleArgumentsPerToken = true };
-
-        public async Task<int> Run()
+        public static readonly RootCommand cmdRoot = new($"{Constants.Vst3SdkVersion} Plug-in Validator")
         {
-            var returnCode = 0;
-            var rootCommand = new RootCommand($"{Constants.Vst3SdkVersion} Plug-in Validator")
-            {
-                optVersion,
+                cmdVersion,
                 optLocalInstance,
                 optSuiteName,
                 optExtensiveTests,
                 optQuiet,
                 optCID,
                 optTestComponentPath,
-                optListInstalledPlugIns,
-                optSelftest,
-                optListPlugInSnapshots,
+                cmdListInstalledPlugIns,
+                cmdSelftest,
+                cmdListPlugInSnapshots,
                 optFiles
-            };
-            optVersion.SetHandler(() =>
+        };
+
+        public async Task<int> Run()
+        {
+            var returnCode = 0;
+            cmdVersion.SetHandler(() =>
             {
                 Console.Write(VALIDATOR_INFO);
                 returnCode = 0;
             });
-            optListInstalledPlugIns.SetHandler(() =>
+            cmdListInstalledPlugIns.SetHandler(() =>
             {
                 PrintAllInstalledPlugins(infoStream);
                 returnCode = 0;
             });
-            optListPlugInSnapshots.SetHandler(() =>
+            cmdListPlugInSnapshots.SetHandler(() =>
             {
                 PrintAllSnapshots(infoStream);
                 returnCode = 0;
             });
-            optSelftest.SetHandler(() =>
+            cmdSelftest.SetHandler(() =>
             {
                 addErrorWarningTextToOutput = false;
                 var testFactoryInstance = (ITestFactory)Testing.CreateTestFactoryInstance(null);
@@ -257,7 +257,7 @@ namespace Steinberg.Vst
                 }
                 returnCode = 1;
             });
-            rootCommand.SetHandler((localInstance, suiteName, extensiveTests, quiet, testComponentPath, cid, files) =>
+            cmdRoot.SetHandler((localInstance, suiteName, extensiveTests, quiet, testComponentPath, cid, files) =>
             {
                 var useGlobalInstance = !localInstance;
                 var useExtensiveTests = extensiveTests;
@@ -290,7 +290,7 @@ namespace Steinberg.Vst
                 }
                 returnCode = globalFailure ? -1 : 0;
             }, optLocalInstance, optSuiteName, optExtensiveTests, optQuiet, optTestComponentPath, optCID, optFiles);
-            await rootCommand.InvokeAsync(args);
+            await cmdRoot.InvokeAsync(args);
             return returnCode;
         }
 

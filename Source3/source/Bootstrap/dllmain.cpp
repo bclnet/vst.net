@@ -36,7 +36,7 @@ extern "C"
 
         ::OutputDebugStringA("Loading Ijwhost.dll");
 
-        const char* path = "C:\\_GITHUB\\bclnet\\vst.net\\Source3\\Code\\x64\\Debug\\Ijwhost.dll";
+        const char* path = "C:\\_GITHUB\\bclnet\\vst.net\\Source3\\source\\x64\\Debug\\Ijwhost.dll";
         return (FARPROC)::LoadLibraryA(path);
     }
 
