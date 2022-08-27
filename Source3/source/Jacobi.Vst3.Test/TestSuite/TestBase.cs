@@ -192,16 +192,18 @@ namespace Jacobi.Vst3.TestSuite
         //---for IParamValueQueue-------------------------
         public uint GetParameterId() => id;
         public int GetPointCount() => numUsedPoints;
-        public TResult GetPoint(int index, ref int offsetSamples, ref double value)
+        public TResult GetPoint(int index, out int offsetSamples, out double value)
         {
             if (points != null && index < numUsedPoints && index >= 0)
             {
                 points[index].Get(out offsetSamples, out value);
                 return kResultTrue;
             }
+            offsetSamples = default;
+            value = default;
             return kResultFalse;
         }
-        public TResult AddPoint(int offsetSamples, double value, ref int index) => kResultFalse;
+        public TResult AddPoint(int offsetSamples, double value, out int index) { index = default; return kResultFalse; }
     }
 
     public class StringResult : IStringResult

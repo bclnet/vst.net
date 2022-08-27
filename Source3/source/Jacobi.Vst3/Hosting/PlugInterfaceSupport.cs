@@ -1,5 +1,4 @@
-﻿using Jacobi.Vst3;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using static Jacobi.Vst3.TResult;
 
@@ -10,7 +9,7 @@ namespace Jacobi.Vst3.Hosting
     /// </summary>
     public class PlugInterfaceSupport : IPlugInterfaceSupport
     {
-        List<Guid> _FUIDArray = new();
+        List<Guid> mFUIDArray = new();
 
         public PlugInterfaceSupport()
         {
@@ -64,14 +63,19 @@ namespace Jacobi.Vst3.Hosting
             */
         }
 
-        public TResult IsPlugInterfaceSupported(Guid iid) => _FUIDArray.Contains(iid) ? kResultTrue : kResultFalse;
-        public void AddPlugInterfaceSupported(string iid) => _FUIDArray.Add(Guid.Parse(iid));
+        public TResult IsPlugInterfaceSupported(Guid iid)
+            => mFUIDArray.Contains(iid) ? kResultTrue : kResultFalse;
+        
+        public void AddPlugInterfaceSupported(string iid)
+            => mFUIDArray.Add(Guid.Parse(iid));
+
         public bool RemovePlugInterfaceSupported(string iid)
         {
             var uid = Guid.Parse(iid);
-            var it_ = _FUIDArray.Find(x => x == uid);
-            if (it_ == default) return false;
-            _FUIDArray.Remove(it_);
+            var it_ = mFUIDArray.Find(x => x == uid);
+            if (it_ == default)
+                return false;
+            mFUIDArray.Remove(it_);
             return true;
         }
     }

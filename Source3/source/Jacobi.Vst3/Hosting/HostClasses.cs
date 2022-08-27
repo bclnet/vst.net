@@ -12,11 +12,12 @@ namespace Jacobi.Vst3.Hosting
     /// </summary>
     public class HostApplication : IHostApplication
     {
-        PlugInterfaceSupport _plugInterfaceSupport = new();
+        PlugInterfaceSupport mPlugInterfaceSupport = new();
 
-        HostApplication() { }
+        public HostApplication() { }
 
         //--- IHostApplication ---------------
+        //TODO: Change StringBuilder
         public TResult GetName(StringBuilder name)
         {
             name.Append("My VST3 HostApplication");
@@ -30,13 +31,15 @@ namespace Jacobi.Vst3.Hosting
             Type imessage = typeof(IMessage), iattributeList = typeof(IAttributeList);
 
             obj = default;
-            if (cid == imessage.GUID && iid == imessage.GUID)
+            if (cid == imessage.GUID &&
+                iid == imessage.GUID)
             {
                 var objx = _hostMessage = new HostMessage();
                 obj = Marshal.GetComInterfaceForObject(objx, imessage);
                 return kResultTrue;
             }
-            else if (cid == iattributeList.GUID && iid == iattributeList.GUID)
+            else if (cid == iattributeList.GUID &&
+                iid == iattributeList.GUID)
             {
                 var al = _hostAttributeList = new HostAttributeList();
                 if (al != null)
@@ -50,7 +53,23 @@ namespace Jacobi.Vst3.Hosting
             return kResultFalse;
         }
 
-        public PlugInterfaceSupport GetPlugInterfaceSupport() => _plugInterfaceSupport;
+        public PlugInterfaceSupport GetPlugInterfaceSupport()
+            => mPlugInterfaceSupport;
+    }
+
+    /// <summary>
+    /// Example implementation of IMessage.
+    /// </summary>
+    public class HostMessage : IMessage
+    {
+        string messageId;
+        IAttributeList attributeList;
+
+        public string GetMessageID() => messageId;
+        public void SetMessageID(string mid) => messageId = mid;
+        public IAttributeList GetAttributes() => attributeList != null
+            ? attributeList
+            : attributeList = new HostAttributeList();
     }
 
     /// <summary>
@@ -77,7 +96,7 @@ namespace Jacobi.Vst3.Hosting
             string v_stringValue;
             IntPtr v_binaryValue;
 
-            public Attribute(byte _) { this = default; type = Type.kUninitialized; }
+            public Attribute(object _) { this = default; type = Type.kUninitialized; }
             public Attribute(long value) { this = default; type = Type.kInteger; v_intValue = value; }
             public Attribute(double value) { this = default; type = Type.kFloat; v_floatValue = value; }
             public Attribute(string value, uint sizeInCodeUnit) { this = default; size = sizeInCodeUnit; type = Type.kString; v_stringValue = value; }
@@ -93,74 +112,69 @@ namespace Jacobi.Vst3.Hosting
 
         Dictionary<string, Attribute> list = new();
 
-        public TResult SetInt(string id, long value)
+        public TResult SetInt(string aid, long value)
         {
-            if (id == null) return kInvalidArgument;
-            list[id] = new Attribute(value);
+            if (aid == null) return kInvalidArgument;
+            list[aid] = new Attribute(value);
             return kResultTrue;
         }
 
-        public TResult GetInt(string id, out long value)
+        public TResult GetInt(string aid, out long value)
         {
-            if (id == null) { value = default; return kInvalidArgument; }
-            if (list.TryGetValue(id, out var z) && z.GetType() == Attribute.Type.kInteger) { value = z.IntValue(); return kResultTrue; }
+            if (aid == null) { value = default; return kInvalidArgument; }
+            if (list.TryGetValue(aid, out var z) && z.GetType() == Attribute.Type.kInteger) { value = z.IntValue(); return kResultTrue; }
             value = default; return kResultFalse;
         }
 
-        public TResult SetFloat(string id, double value)
+        public TResult SetFloat(string aid, double value)
         {
-            if (id == null) return kInvalidArgument;
-            list[id] = new Attribute(value);
+            if (aid == null) return kInvalidArgument;
+            list[aid] = new Attribute(value);
             return kResultTrue;
         }
 
-        public TResult GetFloat(string id, out double value)
+        public TResult GetFloat(string aid, out double value)
         {
-            if (id == null) { value = default; return kInvalidArgument; }
-            if (list.TryGetValue(id, out var z) && z.GetType() == Attribute.Type.kFloat) { value = z.FloatValue(); return kResultTrue; }
+            if (aid == null) { value = default; return kInvalidArgument; }
+            if (list.TryGetValue(aid, out var z) && z.GetType() == Attribute.Type.kFloat) { value = z.FloatValue(); return kResultTrue; }
             value = default; return kResultFalse;
         }
 
-        public TResult SetString(string id, string str)
+        public TResult SetString(string aid, string str)
         {
-            if (id == null) return kInvalidArgument;
+            if (aid == null) return kInvalidArgument;
             var length = str.Length + 1; // + 1 for the null-terminate
-            list[id] = new Attribute(str, (uint)length);
+            list[aid] = new Attribute(str, (uint)length);
             return kResultTrue;
         }
 
-        public TResult GetString(string id, StringBuilder str, ref uint size)
+        public TResult GetString(string aid, out string value, ref uint size)
         {
-            if (id == null) { return kInvalidArgument; }
-            if (list.TryGetValue(id, out var z) && z.GetType() == Attribute.Type.kString) { str.Append(z.StringValue(out size)); return kResultTrue; }
+            if (aid == null) { value = default; return kInvalidArgument; }
+            if (list.TryGetValue(aid, out var z) && z.GetType() == Attribute.Type.kString) { value = z.StringValue(out size); return kResultTrue; }
+            value = default; return kResultFalse;
+        }
+
+        //TODO: remove StringBuilder?
+        public TResult GetString(string aid, StringBuilder str, ref uint size)
+        {
+            if (aid == null) { return kInvalidArgument; }
+            if (list.TryGetValue(aid, out var z) && z.GetType() == Attribute.Type.kString) { str.Append(z.StringValue(out size)); return kResultTrue; }
             return kResultFalse;
         }
 
-        public TResult SetBinary(string id, IntPtr data, uint size)
+        public TResult SetBinary(string aid, IntPtr data, uint size)
         {
-            if (id == null) return kInvalidArgument;
-            list[id] = new Attribute(data, size);
+            if (aid == null) return kInvalidArgument;
+            list[aid] = new Attribute(data, size);
             return kResultTrue;
         }
 
-        public TResult GetBinary(string id, IntPtr data, ref uint size)
+        public TResult GetBinary(string aid, IntPtr data, ref uint size)
         {
-            if (id == null) { return kInvalidArgument; }
-            if (list.TryGetValue(id, out var z) && z.GetType() == Attribute.Type.kBinary) { data = z.BinaryValue(out size); return kResultTrue; }
+            if (aid == null) { return kInvalidArgument; }
+            if (list.TryGetValue(aid, out var z) && z.GetType() == Attribute.Type.kBinary) { data = z.BinaryValue(out size); return kResultTrue; }
             return kResultFalse;
         }
-    }
-
-    /// <summary>
-    /// Example implementation of IMessage.
-    /// </summary>
-    public class HostMessage : IMessage
-    {
-        string messageId;
-        IAttributeList attributeList = new HostAttributeList();
-
-        public string GetMessageID() => messageId;
-        public void SetMessageID(string mid) => messageId = mid;
-        public IAttributeList GetAttributes() => attributeList;
     }
 }

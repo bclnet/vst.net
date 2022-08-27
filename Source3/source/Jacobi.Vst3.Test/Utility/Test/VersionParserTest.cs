@@ -1,15 +1,10 @@
-﻿using Jacobi.Vst3;
-using System;
-using static Jacobi.Vst3.Utility.Testing;
+﻿using static Jacobi.Vst3.Utility.Testing;
 
 namespace Jacobi.Vst3.Utility
 {
     public static class VersionParserTest
     {
-        public static void Touch()
-        {
-            var _ = InitVersionParserTests;
-        }
+        public static void Touch() { var _ = InitVersionParserTests; }
 
         static ModuleInitializer InitVersionParserTests = new(() =>
         {

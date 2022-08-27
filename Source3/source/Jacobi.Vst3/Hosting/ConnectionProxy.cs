@@ -15,12 +15,15 @@ namespace Jacobi.Vst3.Hosting
         //--- from IConnectionPoint
         public TResult Connect(IConnectionPoint other)
         {
-            if (other == null) return kInvalidArgument;
-            if (dstConnection != null) return kResultFalse;
+            if (other == null)
+                return kInvalidArgument;
+            if (dstConnection != null)
+                return kResultFalse;
 
             dstConnection = other; // share it
             var res = srcConnection.Connect(this);
-            if (res != kResultTrue) dstConnection = null;
+            if (res != kResultTrue)
+                dstConnection = null;
             return res;
         }
 
@@ -43,6 +46,7 @@ namespace Jacobi.Vst3.Hosting
             if (dstConnection != null)
             {
                 // We discard the message if we are not in the UI main thread
+                //TODO: threadChecker
                 //if (threadChecker?.Test()) return dstConnection.Notify(message);
             }
             return kResultFalse;

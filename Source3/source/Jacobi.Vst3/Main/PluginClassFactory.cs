@@ -1,5 +1,4 @@
-﻿using Jacobi.Vst3;
-using Jacobi.Vst3.Plugin;
+﻿using Jacobi.Vst3.Plugin;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,26 +13,20 @@ namespace Jacobi.Vst3
     {
         readonly List<ClassRegistration> _registrations = new();
 
-        public PluginClassFactory(string vendor, string email, string url, PFactoryInfo.FactoryFlags flags = PFactoryInfo.FactoryFlags.NoFlags)
+        public PluginClassFactory(string vendor, string url, string email, PFactoryInfo.FactoryFlags flags = PFactoryInfo.FactoryFlags.NoFlags)
         {
             Vendor = vendor;
-            Email = email;
             Url = url;
+            Email = email;
             Flags = flags | PFactoryInfo.FactoryFlags.Unicode;
         }
 
         public string Vendor { get; private set; }
-
         public string Url { get; private set; }
-
         public string Email { get; private set; }
-
         public PFactoryInfo.FactoryFlags Flags { get; private set; }
-
         public Version SdkVersion { get; protected set; } = Constants.Vst3SdkVersion;
-
         public ServiceContainer ServiceContainer { get; protected set; } = new ServiceContainer();
-
         public Version DefaultVersion { get; set; } = ReflectionExtensions.GetExportAssembly().GetAssemblyVersion();
 
         public ClassRegistration Register(Type classType, ClassRegistration.ObjectClasses objClass)

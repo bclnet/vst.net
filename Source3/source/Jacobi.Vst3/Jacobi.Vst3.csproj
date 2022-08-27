@@ -27,6 +27,7 @@
 
 	<ItemGroup>
     <Folder Include="InterAppAudio\" />
+    <Folder Include="Vst2Wrapper\" />
   </ItemGroup>
 
 	<ItemGroup>

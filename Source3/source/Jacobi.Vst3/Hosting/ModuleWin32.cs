@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using _Path = System.IO.Path;
+using IOPath = System.IO.Path;
 
 namespace Jacobi.Vst3.Hosting
 {
@@ -50,8 +50,8 @@ namespace Jacobi.Vst3.Hosting
 
         protected bool LoadManaged(string interopPath)
         {
-            var pluginPath = _Path.GetDirectoryName(interopPath);
-            var pluginName = _Path.GetFileNameWithoutExtension(interopPath);
+            var pluginPath = IOPath.GetDirectoryName(interopPath);
+            var pluginName = IOPath.GetFileNameWithoutExtension(interopPath);
 
             var loader = new AssemblyLoader(pluginPath);
             var pluginAssembly = loader.LoadPlugin(pluginName);
@@ -73,7 +73,7 @@ namespace Jacobi.Vst3.Hosting
 
         protected override bool Load(string inPath, out string errorDescription)
         {
-            var path = _Path.Combine(inPath, "Contents", ArchitectureString, _Path.GetFileName(inPath));
+            var path = IOPath.Combine(inPath, "Contents", ArchitectureString, IOPath.GetFileName(inPath));
             _module = LoadLibrary(path);
             if (_module == IntPtr.Zero)
             {
@@ -121,7 +121,7 @@ namespace Jacobi.Vst3.Hosting
 
         static bool CheckVST3Package(string p, out string result)
         {
-            var path = _Path.Combine(p, "Contents", ArchitectureString, _Path.GetFileName(p));
+            var path = IOPath.Combine(p, "Contents", ArchitectureString, IOPath.GetFileName(p));
             if (File.Exists(path))
             {
                 var file = File.Open(path, FileMode.Open, FileAccess.Read, FileShare.Read);
@@ -141,7 +141,7 @@ namespace Jacobi.Vst3.Hosting
         {
             foreach (var p in Directory.GetFileSystemEntries(path))
             {
-                var cpExt = _Path.GetExtension(p);
+                var cpExt = IOPath.GetExtension(p);
                 if (cpExt == ext)
                 {
                     if (Directory.Exists(p) || IsFolderSymbolicLink(p))
@@ -158,7 +158,7 @@ namespace Jacobi.Vst3.Hosting
                     {
                         var resolvedLink = ResolveShellLink(p);
                         if (resolvedLink == null) continue;
-                        else if (_Path.GetExtension(resolvedLink) == ext)
+                        else if (IOPath.GetExtension(resolvedLink) == ext)
                         {
                             if (Directory.Exists(resolvedLink) || IsFolderSymbolicLink(resolvedLink))
                             {
@@ -183,10 +183,10 @@ namespace Jacobi.Vst3.Hosting
 
         static string GetContentsDirectoryFromModuleExecutablePath(string modulePath)
         {
-            var path = _Path.GetDirectoryName(modulePath);
-            if (_Path.GetFileName(path) != ArchitectureString) return null;
-            path = _Path.GetDirectoryName(path);
-            if (_Path.GetFileName(path) != "Contents") return null;
+            var path = IOPath.GetDirectoryName(modulePath);
+            if (IOPath.GetFileName(path) != ArchitectureString) return null;
+            path = IOPath.GetDirectoryName(path);
+            if (IOPath.GetFileName(path) != "Contents") return null;
             return path;
         }
 
@@ -196,7 +196,7 @@ namespace Jacobi.Vst3.Hosting
             if (module.Load(path, out errorDescription))
             {
                 module.Path = path;
-                module.Name = _Path.GetFileName(path);
+                module.Name = IOPath.GetFileName(path);
                 module.Factory = new PluginFactory(module._factory);
                 return module;
             }
@@ -208,12 +208,12 @@ namespace Jacobi.Vst3.Hosting
             string knownFolder;
             // find plug-ins located in common/VST3
             var list = new List<string>();
-            if ((knownFolder = GetKnownFolder(Environment.SpecialFolder.CommonProgramFiles)) != null) FindModules(_Path.Combine(knownFolder, "VST3"), list);
+            if ((knownFolder = GetKnownFolder(Environment.SpecialFolder.CommonProgramFiles)) != null) FindModules(IOPath.Combine(knownFolder, "VST3"), list);
             //if ((knownFolder = GetKnownFolder(Environment.SpecialFolder.CommonProgramFiles)) != null) FindModules(_Path.Combine(knownFolder, "VST3"), list);
 
             // find plug-ins located in VST3 (application folder)
-            var path = _Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            FindModules(_Path.Combine(path, "VST3"), list);
+            var path = IOPath.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            FindModules(IOPath.Combine(path, "VST3"), list);
             return list;
         }
 
@@ -223,9 +223,9 @@ namespace Jacobi.Vst3.Hosting
             if (path == null)
             {
                 if (!CheckVST3Package(modulePath, out var p)) return null;
-                path = _Path.GetDirectoryName(_Path.GetDirectoryName(p));
+                path = IOPath.GetDirectoryName(IOPath.GetDirectoryName(p));
             }
-            path = _Path.Combine(path, "moduleinfo.json");
+            path = IOPath.Combine(path, "moduleinfo.json");
             return File.Exists(path) ? path : null;
         }
 
@@ -236,16 +236,16 @@ namespace Jacobi.Vst3.Hosting
             if (path == null)
             {
                 if (!CheckVST3Package(modulePath, out var p)) return result;
-                path = _Path.GetDirectoryName(_Path.GetDirectoryName(p));
+                path = IOPath.GetDirectoryName(IOPath.GetDirectoryName(p));
             }
-            path = _Path.Combine(path, "Resources", "Snapshots");
+            path = IOPath.Combine(path, "Resources", "Snapshots");
             if (!File.Exists(path)) return result;
 
             var pngList = new List<string>();
             FindFilesWithExt(path, ".png", pngList, false);
             foreach (var png in pngList)
             {
-                var filename = _Path.GetFileName(png);
+                var filename = IOPath.GetFileName(png);
                 var uid = Snapshot.DecodeUID(filename);
                 if (uid == null) continue;
                 var decodedScaleFactor = Snapshot.DecodeScaleFactor(filename);

@@ -13,7 +13,7 @@ CtrlNumber -> Int16 -> ControllerNumbers.cs
 TQuarterNotes -> Double
 TSamples -> Int64
 ColorSpec -> UInt32
-kNoParamId -> ParameterInfo.cs
+kNoParamId -> Constants.cs
 
 // Audio Types
 Sample32 -> Single

@@ -1,5 +1,4 @@
-﻿using Jacobi.Vst3;
-using System;
+﻿using System;
 using static Jacobi.Vst3.TResult;
 
 namespace Jacobi.Vst3.Hosting
@@ -49,6 +48,12 @@ namespace Jacobi.Vst3.Hosting
             return controller;
         }
 
+        public TResult GetComponentUID(out Guid uid)
+        {
+            uid = classInfo.ID;
+            return kResultOk;
+        }
+
         public TResult ReleasePlugIn(IComponent component, IEditController controller)
         {
             if (component != null)
@@ -63,13 +68,9 @@ namespace Jacobi.Vst3.Hosting
             return kResultOk;
         }
 
-        public TResult GetSubCategories(IStringResult result) { result.SetText(classInfo.SubCategoriesString()); return kResultTrue; }
+        public TResult GetSubCategories(IStringResult result)
+        { result.SetText(classInfo.SubCategoriesString()); return kResultTrue; }
 
-        public TResult GetComponentUID(out Guid uid)
-        {
-            uid = classInfo.ID;
-            return kResultOk;
-        }
 
         //--- from ITestPlugProvider2 ------------------
         public IPluginFactory GetPluginFactory()
@@ -100,34 +101,45 @@ namespace Jacobi.Vst3.Hosting
             }
             else Console.Out?.Write($"Failed to create instance of {classInfo.Name}!\n");
 
-            if (res) ConnectComponents();
+            if (res)
+                ConnectComponents();
 
             return res;
         }
 
         protected bool ConnectComponents()
         {
-            if (component == null || controller == null) return false;
+            if (component == null || controller == null)
+                return false;
 
-            if (component is not IConnectionPoint compICP || controller is not IConnectionPoint contrICP) return false;
+            if (component is not IConnectionPoint compICP || controller is not IConnectionPoint contrICP)
+                return false;
 
             var res = false;
 
             componentCP = new ConnectionProxy(compICP);
             controllerCP = new ConnectionProxy(contrICP);
 
-            if (componentCP.Connect(contrICP) != kResultTrue) { } // TODO: Alert or what for non conformant plugin ?
+            if (componentCP.Connect(contrICP) != kResultTrue)
+            {
+                // TODO: Alert or what for non conformant plugin ?
+            }
             else
             {
-                if (controllerCP.Connect(compICP) != kResultTrue) { } // TODO: Alert or what for non conformant plugin ?
-                else res = true;
+                if (controllerCP.Connect(compICP) != kResultTrue)
+                {
+                    // TODO: Alert or what for non conformant plugin ?
+                }
+                else
+                    res = true;
             }
             return res;
         }
 
         protected bool DisconnectComponents()
         {
-            if (componentCP == null || controllerCP == null) return false;
+            if (componentCP == null || controllerCP == null)
+                return false;
 
             var res = componentCP.Disconnect();
             res &= controllerCP.Disconnect();
@@ -149,7 +161,8 @@ namespace Jacobi.Vst3.Hosting
                 component.Terminate();
             }
 
-            if (controller != null && controllerIsComponent == false) controller.Terminate();
+            if (controller != null && controllerIsComponent == false)
+                controller.Terminate();
 
             component = null;
             controller = null;

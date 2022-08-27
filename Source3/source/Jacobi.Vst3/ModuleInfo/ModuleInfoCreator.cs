@@ -67,7 +67,6 @@ namespace Jacobi.Vst3
             w.WriteString("URL", fi.Url);
             w.WriteString("E-Mail", fi.Email);
             w.WriteStartObject("Flags");
-            w.WriteString("Flags", fi.Vendor);
             w.WriteBoolean("Unicode", (fi.Flags & PFactoryInfo.FactoryFlags.Unicode) != 0);
             w.WriteBoolean("Classes Discardable", (fi.Flags & PFactoryInfo.FactoryFlags.ClassesDiscardable) != 0);
             w.WriteBoolean("Component Non Discardable", (fi.Flags & PFactoryInfo.FactoryFlags.ComponentNonDiscardable) != 0);
@@ -101,7 +100,7 @@ namespace Jacobi.Vst3
                 {
                     var classInfo = new ModuleInfo.ClassInfo
                     {
-                        Cid = ci.ID.ToString(),
+                        Cid = ci.ID.ToPackedString(),
                         Category = ci.Category,
                         Name = ci.Name,
                         Vendor = ci.Vendor,

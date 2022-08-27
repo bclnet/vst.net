@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Platforms>x64;x86</Platforms>
+	<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\source\Jacobi.Vst3\Jacobi.Vst3.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Jacobi.Vst3.TestPlugin.runtimeconfig.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+	  <Exec Command="copy $(TargetDir)*.runtimeconfig.json $(SolutionDir)$(PlatformName)\$(ConfigurationName)\" />
+	  <Exec Command="copy $(TargetPath) $(SolutionDir)$(PlatformName)\$(ConfigurationName)\$(TargetFileName)" />
+  </Target>
+
+</Project>

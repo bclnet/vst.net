@@ -46,8 +46,8 @@ namespace Jacobi.Vst3
         [return: MarshalAs(UnmanagedType.Error)]
         TResult GetPoint(
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
-            [MarshalAs(UnmanagedType.I4), In, Out] ref Int32 sampleOffset,
-            [MarshalAs(UnmanagedType.R8), In, Out] ref Double value);
+            [MarshalAs(UnmanagedType.I4), Out] out Int32 sampleOffset,
+            [MarshalAs(UnmanagedType.R8), Out] out Double value);
 
         /// <summary>
         /// Adds a new value at the end of the queue, its index is returned.
@@ -61,7 +61,7 @@ namespace Jacobi.Vst3
         TResult AddPoint(
             [MarshalAs(UnmanagedType.I4), In] Int32 sampleOffset,
             [MarshalAs(UnmanagedType.R8), In] Double value,
-            [MarshalAs(UnmanagedType.I4), In, Out] ref Int32 index);
+            [MarshalAs(UnmanagedType.I4), Out] out Int32 index);
     }
 
     partial class Interfaces
@@ -111,11 +111,11 @@ namespace Jacobi.Vst3
         [return: MarshalAs(UnmanagedType.Interface)]
         IParamValueQueue AddParameterData(
             [MarshalAs(UnmanagedType.U4), In] UInt32 id,
-            [MarshalAs(UnmanagedType.I4), In, Out] ref Int32 index);
+            [MarshalAs(UnmanagedType.I4), Out] out Int32 index);
         //[return: MarshalAs(UnmanagedType.SysInt)]
         //IntPtr AddParameterData(
         //    [MarshalAs(UnmanagedType.U4), In] UInt32 id,
-        //    [MarshalAs(UnmanagedType.I4), In, Out] ref Int32 index);
+        //    [MarshalAs(UnmanagedType.I4), Out] out Int32 index);
     }
 
     partial class Interfaces

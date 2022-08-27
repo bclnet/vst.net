@@ -26,7 +26,11 @@ namespace Jacobi.Vst3
         [MarshalAs(UnmanagedType.R4)] public Single Tuning;			// 1.f = +1 cent, -1.f = -1 cent 
         [MarshalAs(UnmanagedType.R4)] public Single Velocity;		// range [0.0, 1.0]
         [MarshalAs(UnmanagedType.I4)] public Int32 Length;          // in sample frames (optional, Note Off has to follow in any case!)
-        [MarshalAs(UnmanagedType.I4)] public Int32 NoteId;			// note identifier (if not available then -1)
+        [MarshalAs(UnmanagedType.I4)] public Int32 NoteId;          // note identifier (if not available then -1)
+
+        public static bool operator ==(NoteOnEvent _, NoteOnEvent o)
+            => _.Channel == o.Channel && _.Pitch == o.Pitch && _.Tuning == o.Tuning && _.Velocity == o.Velocity && _.Length == o.Length && _.NoteId == o.NoteId;
+        public static bool operator !=(NoteOnEvent _, NoteOnEvent o) => _ != o;
     }
 
     /// <summary>
@@ -42,6 +46,10 @@ namespace Jacobi.Vst3
         [MarshalAs(UnmanagedType.R4)] public Single Velocity;		// range [0.0, 1.0]
         [MarshalAs(UnmanagedType.I4)] public Int32 NoteId;			// associated noteOn identifier (if not available then -1)
         [MarshalAs(UnmanagedType.R4)] public Single Tuning;			// 1.f = +1 cent, -1.f = -1 cent 
+
+        public static bool operator ==(NoteOffEvent _, NoteOffEvent o)
+            => _.Channel == o.Channel && _.Pitch == o.Pitch && _.Velocity == o.Velocity && _.NoteId == o.NoteId && _.Tuning == o.Tuning;
+        public static bool operator !=(NoteOffEvent _, NoteOffEvent o) => _ != o;
     }
 
     /// <summary>
@@ -54,7 +62,11 @@ namespace Jacobi.Vst3
 
         [MarshalAs(UnmanagedType.U4)] public UInt32 Size;			// size of the bytes
         [MarshalAs(UnmanagedType.U4)] public DataTypes Type;		// type of this data block (see \ref DataTypes)
-        [MarshalAs(UnmanagedType.SysInt)] public IntPtr Bytes;		// pointer to the data block
+        [MarshalAs(UnmanagedType.SysInt)] public IntPtr Bytes;      // pointer to the data block
+
+        public static bool operator ==(DataEvent _, DataEvent o)
+            => _.Size == o.Size && _.Type == o.Type && _.Bytes == o.Bytes;
+        public static bool operator !=(DataEvent _, DataEvent o) => _ != o;
 
         /// <summary>
         /// Value for DataEvent::type
@@ -77,6 +89,10 @@ namespace Jacobi.Vst3
         [MarshalAs(UnmanagedType.I2)] public Int16 Pitch;			// range [0, 127] = [C-2, G8] with A3=440Hz
         [MarshalAs(UnmanagedType.R4)] public Single Pressure;		// range [0.0, 1.0]
         [MarshalAs(UnmanagedType.I4)] public Int32 NoteId;		    // event should be applied to the noteId (if not -1)
+
+        public static bool operator ==(PolyPressureEvent _, PolyPressureEvent o)
+            => _.Channel == o.Channel && _.Pitch == o.Pitch && _.Pressure == o.Pressure && _.NoteId == o.NoteId;
+        public static bool operator !=(PolyPressureEvent _, PolyPressureEvent o) => _ != o;
     }
 
     /// <summary>
@@ -93,6 +109,10 @@ namespace Jacobi.Vst3
         [MarshalAs(UnmanagedType.U4)] public UInt32 TextLen;		// the number of characters (TChar) between the beginning of text and the terminating null character (without including the terminating null character itself)
         [MarshalAs(UnmanagedType.LPWStr)] public IntPtr Text;    	// UTF-16, null terminated Hosts Chord Name
         public String TextX => Marshal.PtrToStringUni(Text, (int)TextLen);
+
+        public static bool operator ==(ChordEvent _, ChordEvent o)
+            => _.Root == o.Root && _.BassNote == o.BassNote && _.Mask == o.Mask && _.TextLen == o.TextLen && _.Text == o.Text;
+        public static bool operator !=(ChordEvent _, ChordEvent o) => _ != o;
     }
 
     /// <summary>
@@ -108,6 +128,10 @@ namespace Jacobi.Vst3
         [MarshalAs(UnmanagedType.U4)] public UInt32 TextLen;		// the number of characters (TChar) between the beginning of text and the terminating null character (without including the terminating null character itself)
         [MarshalAs(UnmanagedType.LPWStr)] public IntPtr Text;    	// UTF-16, null terminated, Hosts Scale Name
         public String TextX => Marshal.PtrToStringUni(Text, (int)TextLen);
+
+        public static bool operator ==(ScaleEvent _, ScaleEvent o)
+            => _.Root == o.Root && _.Mask == o.Mask && _.TextLen == o.TextLen && _.Text == o.Text;
+        public static bool operator !=(ScaleEvent _, ScaleEvent o) => _ != o;
     }
 
     /// <summary>
@@ -121,8 +145,12 @@ namespace Jacobi.Vst3
 
         [MarshalAs(UnmanagedType.U1)] public Byte ControlNumber;	// see enum ControllerNumbers [0, 255]
         [MarshalAs(UnmanagedType.I1)] public SByte Channel;		    // channel index in event bus [0, 15]
-        [MarshalAs(UnmanagedType.I1)] public SByte value;		    // value of Controller [0, 127]
-        [MarshalAs(UnmanagedType.I1)] public SByte value2;		    // [0, 127] used for pitch bend (kPitchBend) and polyPressure (kCtrlPolyPressure)
+        [MarshalAs(UnmanagedType.I1)] public SByte Value;		    // value of Controller [0, 127]
+        [MarshalAs(UnmanagedType.I1)] public SByte Value2;          // [0, 127] used for pitch bend (kPitchBend) and polyPressure (kCtrlPolyPressure)
+
+        public static bool operator ==(LegacyMIDICCOutEvent _, LegacyMIDICCOutEvent o)
+            => _.ControlNumber == o.ControlNumber && _.Channel == o.Channel && _.Value == o.Value && _.Value2 == o.Value2;
+        public static bool operator !=(LegacyMIDICCOutEvent _, LegacyMIDICCOutEvent o) => _ != o;
     }
 
     /// <summary>
@@ -149,12 +177,25 @@ namespace Jacobi.Vst3
         [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public NoteExpressionTextEvent NoteExpressionText; /*unbound*/ // type == NoteExpressionTextEvent
         [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public ChordEvent Chord; /*unbound*/                // type == ChordEvent
         [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public ScaleEvent Scale; /*unbound*/	            // type == ScaleEvent
-        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public LegacyMIDICCOutEvent MidiCCOut;	            // type == LegacyMIDICCOutEvent
+        [FieldOffset(FieldOffset_Union), MarshalAs(UnmanagedType.Struct)] public LegacyMIDICCOutEvent MidiCCOut;                // type == LegacyMIDICCOutEvent
+
+        public static bool operator ==(Event _, Event o)
+            => _.BusIndex == o.BusIndex && _.SampleOffset == o.SampleOffset && _.PpqPosition == o.PpqPosition && _.Flags == o.Flags && _.Type == o.Type && (
+                (_.Type == EventTypes.NoteOnEvent && _.NoteOn == o.NoteOn) ||
+                (_.Type == EventTypes.NoteOffEvent && _.NoteOff == o.NoteOff) ||
+                (_.Type == EventTypes.DataEvent && _.Data == o.Data) ||
+                (_.Type == EventTypes.PolyPressureEvent && _.PolyPressure == o.PolyPressure) ||
+                (_.Type == EventTypes.NoteExpressionValueEvent && _.NoteExpressionValue == o.NoteExpressionValue) ||
+                (_.Type == EventTypes.NoteExpressionTextEvent && _.NoteExpressionText == o.NoteExpressionText) ||
+                (_.Type == EventTypes.ChordEvent && _.Chord == o.Chord) ||
+                (_.Type == EventTypes.ScaleEvent && _.Scale == o.Scale) ||
+                (_.Type == EventTypes.LegacyMIDICCOutEvent && _.MidiCCOut == o.MidiCCOut)
+            );
+        public static bool operator !=(Event _, Event o) => _ != o;
 
         public enum EventFlags
         {
             IsLive = 1 << 0,			    // indicates that the event is played live (directly from keyboard)
-
             UserReserved1 = 1 << 14,	    // reserved for user (for internal use)
             UserReserved2 = 1 << 15	        // reserved for user (for internal use)
         }
@@ -188,7 +229,6 @@ namespace Jacobi.Vst3
         const int FieldOffset_Type = 32;
         const int FieldOffset_Union = 40;
 #endif
-
     }
 
     /// <summary>

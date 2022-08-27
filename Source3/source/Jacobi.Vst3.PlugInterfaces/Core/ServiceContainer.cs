@@ -11,7 +11,7 @@ namespace Jacobi.Vst3
 
     public delegate object ObjectCreatorCallback(IServiceProvider svcProvider, Type classType);
 
-    public sealed class ServiceContainer : IServiceProvider, IDisposable
+    public class ServiceContainer : IServiceProvider, IDisposable
     {
         readonly Dictionary<Type, ServiceRegistration> _registrations = new();
 

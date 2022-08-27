@@ -139,8 +139,8 @@ namespace Jacobi.Vst3.TestSuite
         public IParamValueQueue GetParameterData(int index)
             => index >= 0 && index < GetParameterCount() ? paramChanges[index] : null;
 
-        public IParamValueQueue AddParameterData(uint id, ref int index)
-            => default;
+        public IParamValueQueue AddParameterData(uint id, out int index)
+        { index = default; return default; }
     }
 
     /// <summary>

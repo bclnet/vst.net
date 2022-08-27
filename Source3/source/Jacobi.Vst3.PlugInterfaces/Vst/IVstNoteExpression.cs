@@ -59,7 +59,11 @@ namespace Jacobi.Vst3
 
         [MarshalAs(UnmanagedType.U4)] public UInt32 TypeId;		    // see \ref NoteExpressionTypeID
         [MarshalAs(UnmanagedType.I4)] public Int32 NoteId;			// associated note identifier to apply the change	
-        [MarshalAs(UnmanagedType.R8)] public Double Value;			// normalized value [0.0, 1.0].
+        [MarshalAs(UnmanagedType.R8)] public Double Value;          // normalized value [0.0, 1.0].
+
+        public static bool operator ==(NoteExpressionValueEvent _, NoteExpressionValueEvent o)
+            => _.TypeId == o.TypeId && _.NoteId == o.NoteId && _.Value == o.Value;
+        public static bool operator !=(NoteExpressionValueEvent _, NoteExpressionValueEvent o) => _ != o;
     }
 
     /// <summary>
@@ -76,6 +80,10 @@ namespace Jacobi.Vst3
         [MarshalAs(UnmanagedType.U4)] public UInt32 TextLen;					// number of bytes in text (includes null byte)
         [MarshalAs(UnmanagedType.LPWStr)] public IntPtr Text;    				// UTF-16, null terminated
         public String TextX => Marshal.PtrToStringUni(Text, (int)TextLen);
+
+        public static bool operator ==(NoteExpressionTextEvent _, NoteExpressionTextEvent o)
+            => _.TypeId == o.TypeId && _.NoteId == o.NoteId && _.TextLen == o.TextLen && _.Text == o.Text;
+        public static bool operator !=(NoteExpressionTextEvent _, NoteExpressionTextEvent o) => _ != o;
     }
 
     /// <summary>

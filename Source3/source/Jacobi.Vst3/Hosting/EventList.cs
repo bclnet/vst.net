@@ -1,5 +1,4 @@
-﻿using Jacobi.Vst3;
-using static Jacobi.Vst3.TResult;
+﻿using static Jacobi.Vst3.TResult;
 
 namespace Jacobi.Vst3.Hosting
 {
@@ -12,9 +11,23 @@ namespace Jacobi.Vst3.Hosting
         protected int maxSize;
         protected int fillCount;
 
-        public EventList(int maxSize = 50) => SetMaxSize(maxSize);
+        public EventList(int maxSize = 50)
+            => SetMaxSize(maxSize);
 
-        public int GetEventCount() => fillCount;
+        public int GetEventCount()
+            => fillCount;
+
+        public void SetMaxSize(int newMaxSize)
+        {
+            if (events != null)
+            {
+                events = null;
+                fillCount = 0;
+            }
+            if (newMaxSize > 0)
+                events = new Event[newMaxSize];
+            maxSize = newMaxSize;
+        }
 
         public TResult GetEvent(int index, out Event e)
         {
@@ -39,14 +52,8 @@ namespace Jacobi.Vst3.Hosting
             return kResultFalse;
         }
 
-        void SetMaxSize(int newMaxSize)
-        {
-            if (events != null) { events = null; fillCount = 0; }
-            if (newMaxSize > 0) events = new Event[newMaxSize];
-            maxSize = newMaxSize;
-        }
-
-        public void Clear() => fillCount = 0;
+        public void Clear()
+            => fillCount = 0;
 
         public Event? GetEventByIndex(int index)
             => index < fillCount ? events[index] : null;

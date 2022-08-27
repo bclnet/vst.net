@@ -64,12 +64,7 @@ namespace Jacobi.Vst3.TestPlugin
                         var paramValue = paramChanges.GetParameterData(i);
 
                         for (var p = 0; p < paramValue.GetPointCount(); p++)
-                        {
-                            int sampleOffset = 0;
-                            double val = 0;
-
-                            paramValue.GetPoint(p, ref sampleOffset, ref val);
-                        }
+                            paramValue.GetPoint(p, out var sampleOffset, out var val);
                     }
                 }
             }

@@ -62,7 +62,7 @@ namespace Jacobi.Vst3
                         {
                             var flagName = flag.Name;
                             var flagValue = flag.Value.GetBoolean();
-                            if (!flagValue) throw new parse_error("Flag must be a boolean", flag);
+                            //if (!flagValue) throw new parse_error("Flag must be a boolean", flag);
                             if (flagName == "Classes Discardable")
                             {
                                 if (flagValue) info.FactoryInfo.Flags |= PFactoryInfo.FactoryFlags.ClassesDiscardable;
@@ -107,7 +107,7 @@ namespace Jacobi.Vst3
                 {
                     var classInfo = classInfoEl.EnumerateObject();
                     //if (!classInfo) throw new parse_error("Expect Class Object", classInfoEl);
-                    ModuleInfo.ClassInfo ci = new();
+                    ModuleInfo.ClassInfo ci = new() { SubCategories = new(), Snapshots = new() };
                     ParseClassesBits parsed = 0;
                     foreach (var el in classInfo)
                     {
