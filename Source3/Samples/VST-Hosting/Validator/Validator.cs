@@ -1,4 +1,4 @@
-﻿using Jacobi.Vst3.Core;
+﻿using Jacobi.Vst3;
 using Jacobi.Vst3.Hosting;
 using Jacobi.Vst3.TestSuite;
 using Jacobi.Vst3.Utility;
@@ -10,8 +10,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using static Jacobi.Vst3.Core.SpeakerArrangement;
-using static Jacobi.Vst3.Core.TResult;
+using static Jacobi.Vst3.SpeakerArrangement;
+using static Jacobi.Vst3.TResult;
 
 namespace Steinberg.Vst
 {

@@ -1,6 +1,6 @@
 ﻿using Jacobi.Vst3.Utility;
 using System.Threading.Tasks;
-using static Jacobi.Vst3.Core.ModuleInit;
+using static Jacobi.Vst3.ModuleInit;
 
 namespace Steinberg.Vst
 {
@@ -11,7 +11,7 @@ namespace Steinberg.Vst
             var files = new string[]
             {
                 @"C:\Program Files (x86)\Common Files\VST3\iZotope\Nectar 3 Elements.vst3",
-                @"C:\_GITHUB\bclnet\vst.net\Source3\Code\x64\Debug\Jacobi.Vst3.TestPlugin.vst3",
+                @"C:\_GITHUB\bclnet\vst.net\Source3\source\x64\Debug\Jacobi.Vst3.TestPlugin.vst3",
                 @"C:\Program Files\Common Files\VST3\iZotope\Nectar 3 Elements.vst3",
                 @"C:\Program Files\Common Files\VST3\iZotope\Neutron 3 Elements.vst3",
                 @"C:\Program Files\Common Files\VST3\iZotope\Ozone 9 Elements.vst3",

@@ -1,5 +1,4 @@
-﻿using Jacobi.Vst3.Core;
-using Jacobi.Vst3.Core.ModuleInfo;
+﻿using Jacobi.Vst3;
 using Jacobi.Vst3.Hosting;
 using System;
 using System.Collections.Generic;
@@ -40,7 +39,7 @@ namespace Steinberg.Vst
             return File.ReadAllText(path);
         }
 
-        static List<ModuleInfo.Compatibility_> OpenAndParseCompatJSON(string path)
+        static List<ModuleInfo.CompatibilityX> OpenAndParseCompatJSON(string path)
         {
             var data = LoadFile(path);
             if (string.IsNullOrEmpty(data))
@@ -60,7 +59,7 @@ namespace Steinberg.Vst
             return result;
         }
 
-        static int CreateJSON(List<ModuleInfo.Compatibility_> compat, string modulePath, string moduleVersion, TextWriter outStream)
+        static int CreateJSON(List<ModuleInfo.CompatibilityX> compat, string modulePath, string moduleVersion, TextWriter outStream)
         {
             var module = Module.Create(modulePath, out var errorStr);
             if (module == null)
@@ -200,7 +199,7 @@ namespace Steinberg.Vst
                 TextWriter errorStream = Console.Out;
 
                 var outputStream = Console.Out;
-                List<ModuleInfo.Compatibility_> compat = null;
+                List<ModuleInfo.CompatibilityX> compat = null;
                 if (moduleCompatPath != null)
                 {
                     compat = OpenAndParseCompatJSON(moduleCompatPath);

@@ -1,6 +1,6 @@
-﻿using Jacobi.Vst3.Core;
+﻿using Jacobi.Vst3;
 using System.Collections.Generic;
-using static Jacobi.Vst3.Core.TResult;
+using static Jacobi.Vst3.TResult;
 
 namespace Steinberg.Vst
 {
