@@ -2,11 +2,27 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     static partial class Constants
     {
         public const string kVstComponentControllerClass = "Component Controller Class";
+    }
+
+    [Flags]
+    public enum ParameterFlags
+    {
+        None = 0,                   // no flags wanted
+        CanAutomate = 1 << 0,       // parameter can be automated
+        IsReadOnly = 1 << 1,        // parameter cannot be changed from outside the plug-in (implies that kCanAutomate is NOT set)
+        IsWrapAround = 1 << 2,      // attempts to set the parameter value out of the limits will result in a wrap around [SDK 3.0.2]
+        IsList = 1 << 3,            // parameter should be displayed as list in generic editor or automation editing [SDK 3.1.0]
+        IsHidden = 1 << 4,          // parameter should be NOT displayed and cannot be changed from outside the plug-in 
+                                    // (implies that kCanAutomate is NOT set and kIsReadOnly is set) [SDK 3.7.0]
+
+        IsProgramChange = 1 << 15,  // parameter is a program change (unitId gives info about associated unit - see \ref vst3ProgramLists)
+        IsBypass = 1 << 16          // special bypass parameter (only one allowed): plug-in can handle bypass
+                                    // (highly recommended to export a bypass parameter for effect plug-in)
     }
 
     /// <summary>
@@ -30,22 +46,6 @@ namespace Jacobi.Vst3
         [MarshalAs(UnmanagedType.R8)] public Double DefaultNormalizedValue; // default normalized value [0,1] (in case of discrete value: defaultNormalizedValue = defDiscreteValue / stepCount)
         [MarshalAs(UnmanagedType.I4)] public Int32 UnitId;                  // id of unit this parameter belongs to (see \ref vst3Units)
         [MarshalAs(UnmanagedType.I4)] public ParameterFlags Flags;          // ParameterFlags (see below)
-
-        [Flags]
-        public enum ParameterFlags
-        {
-            None = 0,                   // no flags wanted
-            CanAutomate = 1 << 0,       // parameter can be automated
-            IsReadOnly = 1 << 1,        // parameter cannot be changed from outside the plug-in (implies that kCanAutomate is NOT set)
-            IsWrapAround = 1 << 2,      // attempts to set the parameter value out of the limits will result in a wrap around [SDK 3.0.2]
-            IsList = 1 << 3,            // parameter should be displayed as list in generic editor or automation editing [SDK 3.1.0]
-            IsHidden = 1 << 4,          // parameter should be NOT displayed and cannot be changed from outside the plug-in 
-                                        // (implies that kCanAutomate is NOT set and kIsReadOnly is set) [SDK 3.7.0]
-
-            IsProgramChange = 1 << 15,  // parameter is a program change (unitId gives info about associated unit - see \ref vst3ProgramLists)
-            IsBypass = 1 << 16          // special bypass parameter (only one allowed): plug-in can handle bypass
-                                        // (highly recommended to export a bypass parameter for effect plug-in)
-        }
     }
 
     /// <summary>
@@ -208,8 +208,8 @@ namespace Jacobi.Vst3
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         TResult RequestBusActivation(
-            [MarshalAs(UnmanagedType.I4), In] MediaTypes type,
-            [MarshalAs(UnmanagedType.I4), In] BusDirections dir,
+            [MarshalAs(UnmanagedType.I4), In] MediaType type,
+            [MarshalAs(UnmanagedType.I4), In] BusDirection dir,
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
             [MarshalAs(UnmanagedType.I4), In] Boolean state);
     }

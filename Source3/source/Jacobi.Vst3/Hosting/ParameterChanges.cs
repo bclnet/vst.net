@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.TResult;
 using ParamID = System.UInt32;
 using ParamValue = System.Double;
 
-namespace Jacobi.Vst3.Hosting
+namespace Steinberg.Vst3.Hosting
 {
     /// <summary>
     /// Implementation's example of IParamValueQueue - not threadsave!.

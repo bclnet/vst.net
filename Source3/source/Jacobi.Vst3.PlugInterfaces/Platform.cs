@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     public unsafe static class Platform
     {
@@ -19,8 +19,6 @@ namespace Jacobi.Vst3
         [DllImport("msvcrt.dll", EntryPoint = "memset", CallingConvention = CallingConvention.Cdecl, SetLastError = false)] public static extern IntPtr Memset(IntPtr dest, int c, nint count);
         [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl, SetLastError = false)] public static extern IntPtr Memcpy(IntPtr dest, IntPtr src, nint count);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public static void Swap<T>(ref int a, ref int b) => (b, a) = (a, b);
 
         public static uint NumberOfSetBits(uint value)
         {
@@ -30,6 +28,7 @@ namespace Jacobi.Vst3
             return (value + (value >> 4) & 0x0F0F0F0F) * 0x01010101 >> 24;
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void ReleaseRcw<T>(ref T t)
         {
             t = default;
@@ -37,10 +36,12 @@ namespace Jacobi.Vst3
             GC.WaitForPendingFinalizers();
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Swap64(long* v)
         {
         }
 
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         public static void Swap32(int* v)
         {
         }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     /// <summary>
     /// Queue of changes for a specific parameter: Vst::IParamValueQueue

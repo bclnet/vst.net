@@ -1,9 +1,9 @@
-﻿namespace Jacobi.Vst3
+﻿namespace Steinberg.Vst3
 {
-    /// <summary>
-    /// Controller Numbers (MIDI)
-    /// </summary>
-    public enum ControllerNumbers : short
+	/// <summary>
+	/// Controller Numbers (MIDI)
+	/// </summary>
+	public enum ControllerNumbers : short
     {
 		CtrlBankSelectMSB = 0,		// Bank Select MSB
 		CtrlModWheel = 1,			// Modulation Wheel

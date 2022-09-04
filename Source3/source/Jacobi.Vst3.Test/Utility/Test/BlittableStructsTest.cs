@@ -1,7 +1,7 @@
-﻿using static Jacobi.Vst3.Utility.Testing;
+﻿using static Steinberg.Vst3.Utility.Testing;
 using System.Runtime.InteropServices;
 
-namespace Jacobi.Vst3.Utility
+namespace Steinberg.Vst3.Utility
 {
     /*
      * From: https://docs.microsoft.com/en-us/dotnet/standard/native-interop/best-practices

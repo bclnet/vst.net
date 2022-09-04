@@ -1,0 +1,10 @@
+﻿Min -> Math.Min()
+Max -> Math.Max()
+Abs -> Math.Abs()
+Sign -> ??
+Bound -> ??
+Swap -> FUtils.cs
+IsApproximateEqual -> FUtils.cs
+ToNormalized -> FUtils.cs
+FromNormalized -> FUtils.cs
+CCONST -> ??

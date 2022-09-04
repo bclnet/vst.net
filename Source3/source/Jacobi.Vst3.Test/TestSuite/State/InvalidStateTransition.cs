@@ -1,8 +1,8 @@
-﻿using Jacobi.Vst3;
-using Jacobi.Vst3.Hosting;
-using static Jacobi.Vst3.TResult;
+﻿using Steinberg.Vst3;
+using Steinberg.Vst3.Hosting;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.TestSuite
+namespace Steinberg.Vst3.TestSuite
 {
     public class InvalidStateTransitionTest : TestEnh
     {

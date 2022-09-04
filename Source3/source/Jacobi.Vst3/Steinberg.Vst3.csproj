@@ -26,12 +26,11 @@
   </PropertyGroup>
 
 	<ItemGroup>
-    <Folder Include="InterAppAudio\" />
     <Folder Include="Vst2Wrapper\" />
   </ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Jacobi.Vst3.PlugInterfaces\Jacobi.Vst3.PlugInterfaces.csproj" />
+	  <ProjectReference Include="..\Jacobi.Vst3.PlugInterfaces\Steinberg.Vst3.PlugInterfaces.csproj" />
 	</ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

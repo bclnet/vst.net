@@ -1,7 +1,7 @@
-﻿using Jacobi.Vst3;
-using Jacobi.Vst3.Hosting;
-using Jacobi.Vst3.TestSuite;
-using Jacobi.Vst3.Utility;
+﻿using Steinberg.Vst3;
+using Steinberg.Vst3.Hosting;
+using Steinberg.Vst3.TestSuite;
+using Steinberg.Vst3.Utility;
 using System;
 using System.Collections.Generic;
 using System.CommandLine;
@@ -10,8 +10,8 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
-using static Jacobi.Vst3.SpeakerArrangement;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.SpeakerArrangement;
+using static Steinberg.Vst3.TResult;
 
 namespace Steinberg.Vst
 {
@@ -371,9 +371,9 @@ namespace Steinberg.Vst
             RunTestSuite(testSuite, string.IsNullOrEmpty(config.testSuiteName) ? null : config.testSuiteName);
 
             if (plugCompatibility != null)
-                if (!PlugCompat.CheckPluginCompatibility(module, plugCompatibility, out var error))
+                if (!PlugCompat.CheckPluginCompatibility(module, plugCompatibility, errorStream))
                 {
-                    errorStream?.WriteLine(error);
+                    //errorStream?.WriteLine(error);
                     ++numTestsFailed;
                 }
 

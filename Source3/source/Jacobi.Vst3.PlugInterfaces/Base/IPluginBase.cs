@@ -2,7 +2,7 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     /// <summary>
     /// Basic interface to a plug-in component: IPluginBase

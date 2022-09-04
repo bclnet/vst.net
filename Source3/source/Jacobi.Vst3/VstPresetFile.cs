@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using static Jacobi.Vst3.PresetFile.ChunkType;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.PresetFile.ChunkType;
+using static Steinberg.Vst3.TResult;
 using ChunkID = System.Int32;
 using IOFileStream = System.IO.FileStream;
 using ProgramListID = System.Int32;
 using TSize = System.Int64;
 using UnitID = System.Int32;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     //------------------------------------------------------------------------
     /* 

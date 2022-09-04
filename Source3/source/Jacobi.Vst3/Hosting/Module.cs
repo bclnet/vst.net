@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
-using static Jacobi.Vst3.PFactoryInfo;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.PFactoryInfo;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.Hosting
+namespace Steinberg.Vst3.Hosting
 {
     public class FactoryInfo
     {

@@ -1,109 +1,167 @@
-﻿using Jacobi.Vst3;
-using System.Diagnostics;
-using static Jacobi.Vst3.TResult;
+﻿using Steinberg.Vst3.Utility;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.Plugin
+namespace Steinberg.Vst3
 {
-    public abstract class AudioEffect : Component, IAudioProcessor, IComponent //, IProcessContextRequirements
+    public abstract class AudioEffect : Component, IAudioProcessor, IComponent, IProcessContextRequirements
     {
-        public bool IsProcessing { get; set; }
+        protected ProcessSetup processSetup;
+        protected ProcessContextRequirements processContextRequirements;
 
-        public ProcessModes ProcessMode { get; set; }
+        public AudioEffect()
+        {
+            processSetup.MaxSamplesPerBlock = 1024;
+            processSetup.ProcessMode = ProcessModes.Realtime;
+            processSetup.SampleRate = 44100.0;
+            processSetup.SymbolicSampleSize = SymbolicSampleSizes.Sample32;
+        }
 
-        public SymbolicSampleSizes SampleSize { get; set; }
+        // Creates and adds a new Audio input bus with a given speaker arrangement, busType (kMain or kAux).
+        public AudioBus AddAudioInput(string name, SpeakerArrangement arr, BusType busType = BusType.Main, BusFlags flags = BusFlags.DefaultActive)
+        {
+            var newBus = new AudioBus(name, busType, flags, arr);
+            audioInputs.Add(newBus);
+            return newBus;
+        }
 
-        public int MaxSamplesPerBlock { get; set; }
+        // Creates and adds a new Audio output bus with a given speaker arrangement, busType (kMain or kAux).
+        public AudioBus AddAudioOutput(string name, SpeakerArrangement arr, BusType busType = BusType.Main, BusFlags flags = BusFlags.DefaultActive)
+        {
+            var newBus = new AudioBus(name, busType, flags, arr);
+            audioOutputs.Add(newBus);
+            return newBus;
+        }
 
-        public double SampleRate { get; set; }
+        // Retrieves an Audio Input Bus by index.
+        public AudioBus GetAudioInput(int index)
+        {
+            AudioBus bus = null;
+            if (index < audioInputs.Count)
+                bus = (AudioBus)audioInputs[index];
+            return bus;
+        }
 
-        #region IAudioProcessor Members
+        // Retrieves an Audio Output Bus by index.
+        public AudioBus GetAudioOutput(int index)
+        {
+            AudioBus bus = null;
+            if (index < audioOutputs.Count)
+                bus = (AudioBus)audioOutputs[index];
+            return bus;
+        }
+
+        // Creates and adds a new Event input bus with a given speaker arrangement, busType (kMain or kAux).
+        public EventBus AddEventInput(string name, int channels = 16, BusType busType = BusType.Main, BusFlags flags = BusFlags.DefaultActive)
+        {
+            var newBus = new EventBus(name, busType, flags, channels);
+            eventInputs.Add(newBus);
+            return newBus;
+        }
+
+        // Creates and adds a new Event output bus with a given speaker arrangement, busType (kMain or kAux).
+        public EventBus AddEventOutput(string name, int channels = 16, BusType busType = BusType.Main, BusFlags flags = BusFlags.DefaultActive)
+        {
+            var newBus = new EventBus(name, busType, flags, channels);
+            eventOutputs.Add(newBus);
+            return newBus;
+        }
+
+        // Retrieves an Event Input Bus by index.
+        public EventBus GetEventInput(int index)
+        {
+            EventBus bus = null;
+            if (index < eventInputs.Count)
+                bus = (EventBus)eventInputs[index];
+            return bus;
+        }
+
+        // Retrieves an Event Output Bus by index.
+        public EventBus GetEventOutput(int index)
+        {
+            EventBus bus = null;
+            if (index < eventOutputs.Count)
+                bus = (EventBus)eventOutputs[index];
+            return bus;
+        }
+
+        #region IAudioProcessor
 
         public virtual TResult SetBusArrangements(SpeakerArrangement[] inputs, int numIns, SpeakerArrangement[] outputs, int numOuts)
         {
-            Trace.WriteLine("IAudioProcessor.SetBusArrangements");
+            if (numIns < 0 || numOuts < 0)
+                return kInvalidArgument;
 
-            var index = 0;
-            var busses = GetBusCollection(MediaTypes.Audio, BusDirections.Input);
+            if (numIns > audioInputs.Count ||
+                numOuts > audioOutputs.Count)
+                return kResultFalse;
 
-            if (busses != null)
-                foreach (AudioBus bus in busses)
-                {
-                    if (index < numIns) bus.SpeakerArrangement = inputs[index];
-                    index++;
-                }
-
-            busses = GetBusCollection(MediaTypes.Audio, BusDirections.Output);
-
-            if (busses != null)
+            for (var index = 0; index < audioInputs.Count; ++index)
             {
-                index = 0;
-                foreach (AudioBus bus in busses)
-                {
-                    if (index < numOuts) bus.SpeakerArrangement = outputs[index];
-                    index++;
-                }
+                if (index >= numIns)
+                    break;
+                ((AudioBus)audioInputs[index]).Arrangement = inputs[index];
+            }
+
+            for (var index = 0; index < audioOutputs.Count; ++index)
+            {
+                if (index >= numOuts)
+                    break;
+                ((AudioBus)audioOutputs[index]).Arrangement = outputs[index];
             }
 
             return kResultOk;
         }
 
-        public virtual TResult GetBusArrangement(BusDirections dir, int index, out SpeakerArrangement arr)
+        public virtual TResult GetBusArrangement(BusDirection dir, int busIndex, out SpeakerArrangement arr)
         {
-            Trace.WriteLine($"IAudioProcessor.GetBusArrangement({dir}, {index})");
-
             arr = default;
-            var busses = GetBusCollection(MediaTypes.Audio, dir);
-            if (busses == null) return kNotImplemented;
-            if (index < 0 || index > busses.Count) return kInvalidArgument;
-
-            arr = ((AudioBus)busses[index]).SpeakerArrangement;
-
-            return kResultOk;
+            var busList = GetBusList(MediaType.Audio, dir);
+            if (busList == null || busIndex < 0 || busList.Count <= busIndex)
+                return kInvalidArgument;
+            var audioBus = (AudioBus)busList[busIndex];
+            if (audioBus != null)
+            {
+                arr = audioBus.Arrangement;
+                return kResultTrue;
+            }
+            return kResultFalse;
         }
-
-        public abstract TResult CanProcessSampleSize(SymbolicSampleSizes symbolicSampleSize);
 
         public virtual uint GetLatencySamples()
-        {
-            Trace.WriteLine("IAudioProcessor.CanProcessSampleSize");
-
-            return 0;
-        }
+            => 0;
 
         public virtual TResult SetupProcessing(ref ProcessSetup setup)
         {
-            Trace.WriteLine("IAudioProcessor.SetupProcessing");
+            processSetup.MaxSamplesPerBlock = setup.MaxSamplesPerBlock;
+            processSetup.ProcessMode = setup.ProcessMode;
+            processSetup.SampleRate = setup.SampleRate;
 
-            if (IsActive) return kNotInitialized;
-            if (!CanProcessSampleSize(setup.SymbolicSampleSize).IsTrue()) return kResultFalse;
+            if (CanProcessSampleSize(setup.SymbolicSampleSize) != kResultTrue)
+                return kResultFalse;
 
-            MaxSamplesPerBlock = setup.MaxSamplesPerBlock;
-            ProcessMode = setup.ProcessMode;
-            SampleRate = setup.SampleRate;
-            SampleSize = setup.SymbolicSampleSize;
-
-            return kResultTrue;
-        }
-
-        public virtual TResult SetProcessing(bool state)
-        {
-            Trace.WriteLine($"IAudioProcessor.SetProcessing({state})");
-
-            if (!IsActive) return kNotInitialized;
-
-            IsProcessing = state;
+            processSetup.SymbolicSampleSize = setup.SymbolicSampleSize;
 
             return kResultOk;
         }
 
-        public abstract TResult Process(ref ProcessData data);
+        public virtual TResult CanProcessSampleSize(SymbolicSampleSizes symbolicSampleSize)
+            => symbolicSampleSize == SymbolicSampleSizes.Sample32 ? kResultTrue : kResultFalse;
 
-        public uint GetTailSamples()
-        {
-            Trace.WriteLine("IAudioProcessor.GetTailSamples");
+        public virtual TResult SetProcessing(bool state)
+            => kNotImplemented;
 
-            return Constants.kNoTail;
-        }
+        public virtual TResult Process(ref ProcessData data)
+            => kNotImplemented;
+
+        public virtual uint GetTailSamples()
+            => Constants.kNoTail;
+
+        #endregion
+
+        #region IProcessContextRequirements
+
+        public uint GetProcessContextRequirements()
+            => (uint)processContextRequirements.flags;
 
         #endregion
     }

@@ -1,9 +1,9 @@
-﻿using Jacobi.Vst3;
-using Jacobi.Vst3.Hosting;
+﻿using Steinberg.Vst3;
+using Steinberg.Vst3.Hosting;
 using System.Collections.Generic;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.TestSuite
+namespace Steinberg.Vst3.TestSuite
 {
     /// <summary>
     /// Test Scan Parameters.
@@ -133,19 +133,19 @@ namespace Jacobi.Vst3.TestSuite
 
                 //---check for incompatible flags---------------------
                 // kCanAutomate and kIsReadOnly
-                if ((paramInfo.Flags & ParameterInfo.ParameterFlags.CanAutomate) != 0 && (paramInfo.Flags & ParameterInfo.ParameterFlags.IsReadOnly) != 0)
+                if ((paramInfo.Flags & ParameterFlags.CanAutomate) != 0 && (paramInfo.Flags & ParameterFlags.IsReadOnly) != 0)
                 {
                     testResult.AddErrorMessage($"=>Parameter {i,3} (id={paramId}) must not be kCanAutomate and kReadOnly at the same time.");
                     return false;
                 }
                 // kIsProgramChange and kIsReadOnly
-                if ((paramInfo.Flags & ParameterInfo.ParameterFlags.IsProgramChange) != 0 && (paramInfo.Flags & ParameterInfo.ParameterFlags.IsReadOnly) != 0)
+                if ((paramInfo.Flags & ParameterFlags.IsProgramChange) != 0 && (paramInfo.Flags & ParameterFlags.IsReadOnly) != 0)
                 {
                     testResult.AddErrorMessage($"=>Parameter {i,3} (id={paramId}) must not be kIsProgramChange and kReadOnly at the same time.");
                     return false;
                 }
                 // kIsBypass only or kIsBypass and kCanAutomate only
-                if ((paramInfo.Flags & ParameterInfo.ParameterFlags.IsBypass) != 0 && !(paramInfo.Flags == ParameterInfo.ParameterFlags.IsBypass || (paramInfo.Flags & ParameterInfo.ParameterFlags.CanAutomate) != 0))
+                if ((paramInfo.Flags & ParameterFlags.IsBypass) != 0 && !(paramInfo.Flags == ParameterFlags.IsBypass || (paramInfo.Flags & ParameterFlags.CanAutomate) != 0))
                 {
                     testResult.AddErrorMessage($"=>Parameter {i,3} (id={paramId}) is kIsBypass and could have only kCanAutomate as other flag at the same time.");
                     return false;
@@ -153,26 +153,26 @@ namespace Jacobi.Vst3.TestSuite
 
                 //---maybe wrong combination of flags-------------------
                 // kIsBypass but not kCanAutomate
-                if (paramInfo.Flags == ParameterInfo.ParameterFlags.IsBypass)
+                if (paramInfo.Flags == ParameterFlags.IsBypass)
                     testResult.AddMessage($"=>Parameter {i,3} (id={paramId}) is kIsBypass, but not kCanAutomate!");
                 // kIsHidden and (kCanAutomate or not kIsReadOnly)
-                if (paramInfo.Flags == ParameterInfo.ParameterFlags.IsHidden)
+                if (paramInfo.Flags == ParameterFlags.IsHidden)
                 {
-                    if ((paramInfo.Flags & ParameterInfo.ParameterFlags.CanAutomate) != 0)
+                    if ((paramInfo.Flags & ParameterFlags.CanAutomate) != 0)
                         testResult.AddMessage($"=>Parameter {i,3} (id={paramId}) is kIsHidden and kCanAutomate!");
-                    if ((paramInfo.Flags & ParameterInfo.ParameterFlags.IsReadOnly) == 0)
+                    if ((paramInfo.Flags & ParameterFlags.IsReadOnly) == 0)
                         testResult.AddMessage($"=>Parameter {i,3} (id={paramId}) is kIsHidden and NOT kIsReadOnly!");
                 }
 
                 // kIsProgramChange and not kIsList
-                if ((paramInfo.Flags & ParameterInfo.ParameterFlags.IsProgramChange) != 0 && (paramInfo.Flags & ParameterInfo.ParameterFlags.IsList) == 0)
+                if ((paramInfo.Flags & ParameterFlags.IsProgramChange) != 0 && (paramInfo.Flags & ParameterFlags.IsList) == 0)
                     testResult.AddMessage($"=>Parameter {i,3} (id={paramId}) is kIsProgramChange, but not a kIsList!");
                 // kIsReadOnly and kIsWrapAround
-                if ((paramInfo.Flags & ParameterInfo.ParameterFlags.IsReadOnly) != 0 && (paramInfo.Flags & ParameterInfo.ParameterFlags.IsWrapAround) != 0)
+                if ((paramInfo.Flags & ParameterFlags.IsReadOnly) != 0 && (paramInfo.Flags & ParameterFlags.IsWrapAround) != 0)
                     testResult.AddMessage($"=>Parameter {i,3} (id={paramId}) is kIsReadOnly, no need to be kIsWrapAround too!");
 
                 //---check bypass--------------------------------------
-                if ((paramInfo.Flags & ParameterInfo.ParameterFlags.IsBypass) != 0)
+                if ((paramInfo.Flags & ParameterFlags.IsBypass) != 0)
                 {
                     if (!foundBypass) foundBypass = true;
                     else

@@ -2,7 +2,7 @@
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     //public enum StreamSeekMode -> SeekOrigin
     //{

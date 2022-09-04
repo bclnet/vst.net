@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     /// <summary>
     /// Attribute list used in IMessage and IStreamAttributes: Vst::IAttributeList

@@ -1,22 +1,21 @@
-﻿using Jacobi.Vst3;
-using System;
+﻿using System;
 
-namespace Jacobi.Vst3.Plugin
+namespace Steinberg.Vst3
 {
     public unsafe class AudioBusAccessor
     {
         readonly SymbolicSampleSizes _sampleSize;
-        readonly BusDirections _busDir;
+        readonly BusDirection _busDir;
         readonly int _numSamples;
         AudioBusBuffers* _audioBuffers;
 
-        public AudioBusAccessor(ref ProcessData processData, BusDirections busDir, int busIndex)
+        public AudioBusAccessor(ref ProcessData processData, BusDirection busDir, int busIndex)
         {
             _busDir = busDir;
             _numSamples = processData.NumSamples;
             _sampleSize = processData.SymbolicSampleSize;
 
-            if (busDir == BusDirections.Input)
+            if (busDir == BusDirection.Input)
             {
                 Guard.ThrowIfOutOfRange(nameof(busIndex), busIndex, 0, processData.NumInputs);
                 _audioBuffers = &processData.InputsX[busIndex];
@@ -28,7 +27,7 @@ namespace Jacobi.Vst3.Plugin
             }
         }
 
-        public BusDirections BusDirection => _busDir;
+        public BusDirection BusDirection => _busDir;
 
         public SymbolicSampleSizes SampleSize => _sampleSize;
 
@@ -70,7 +69,7 @@ namespace Jacobi.Vst3.Plugin
 
         public int Write32(int channelIndex, float[] buffer, int length)
         {
-            if (_busDir == BusDirections.Input) return 0;
+            if (_busDir == BusDirection.Input) return 0;
             if (length > _numSamples) length = _numSamples;
             if (length > buffer.Length) length = buffer.Length;
 
@@ -101,7 +100,7 @@ namespace Jacobi.Vst3.Plugin
 
         public int Write64(int channelIndex, double[] buffer, int length)
         {
-            if (_busDir == BusDirections.Input) return 0;
+            if (_busDir == BusDirection.Input) return 0;
             if (length > _numSamples) length = _numSamples;
             if (length > buffer.Length) length = buffer.Length;
 

@@ -3,7 +3,7 @@
 #include <pluginterfaces/base/ipluginbase.h>
 
 using namespace System;
-using namespace Jacobi::Vst3;
+using namespace Steinberg::Vst3;
 
 bool PLUGIN_API InitDll() { return true; }
 bool PLUGIN_API ExitDll() { return true; }
@@ -20,7 +20,7 @@ IPluginFactory^ LoadPlugin()
 
 	Type^ pluginType = nullptr;
 	for each (auto type in pluginAssembly->GetTypes())
-		if (type->IsPublic && type->GetInterface("Jacobi.Vst3.IPluginFactory"))
+		if (type->IsPublic && type->GetInterface("Steinberg.Vst3.IPluginFactory"))
 		{
 			pluginType = type;
 			break;

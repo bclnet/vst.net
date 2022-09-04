@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     public static class Guard
     {

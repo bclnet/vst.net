@@ -1,8 +1,8 @@
-﻿using static Jacobi.Vst3.Utility.Testing;
-using static Jacobi.Vst3.TResult;
+﻿using static Steinberg.Vst3.Utility.Testing;
+using static Steinberg.Vst3.TResult;
 using System.Threading;
 
-namespace Jacobi.Vst3.Hosting.Test
+namespace Steinberg.Vst3.Hosting.Test
 {
     public static class ConnectionProxyTest
     {

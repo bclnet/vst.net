@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Linq;
 
-namespace Jacobi.Vst3.Utility
+namespace Steinberg.Vst3.Utility
 {
     public static class VersionX
     {

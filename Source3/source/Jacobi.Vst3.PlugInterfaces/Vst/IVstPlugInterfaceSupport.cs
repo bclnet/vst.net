@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     /// <summary>
     /// Host callback interface for an edit controller: Vst::IPlugInterfaceSupport

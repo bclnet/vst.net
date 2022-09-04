@@ -1,5 +1,5 @@
-﻿using Jacobi.Vst3;
-using Jacobi.Vst3.Hosting;
+﻿using Steinberg.Vst3;
+using Steinberg.Vst3.Hosting;
 using System;
 using System.Collections.Generic;
 using System.CommandLine;
@@ -63,11 +63,10 @@ namespace Steinberg.Vst
                 PrintUsage();
                 return null;
             }
-            var result = ModuleInfoLib.ParseCompatibilityJson(data, out var error);
+            var result = ModuleInfoLib.ParseCompatibilityJson(data, Console.Out);
             if (result == null)
             {
                 Console.Write($"Can not parse '{path}'\n");
-                Console.Write(error);
                 PrintUsage();
                 return null;
             }

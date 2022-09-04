@@ -1,7 +1,4 @@
-﻿using Jacobi.Vst3;
-using Jacobi.Vst3.Plugin;
-
-namespace Jacobi.Vst3.TestPlugin
+﻿namespace Steinberg.Vst3.TestPlugin
 {
     public class PluginFactory : PluginClassFactory
     {

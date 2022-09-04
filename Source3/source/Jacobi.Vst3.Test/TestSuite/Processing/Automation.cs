@@ -1,10 +1,10 @@
-﻿using Jacobi.Vst3;
+﻿using Steinberg.Vst3;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.TestSuite
+namespace Steinberg.Vst3.TestSuite
 {
     /// <summary>
     /// Test Automation.
@@ -50,14 +50,14 @@ namespace Jacobi.Vst3.TestSuite
                     paramChanges.Add(new ParamChanges());
                     var r = controller.GetParameterInfo(i, out var inf);
                     if (r != kResultTrue) return false;
-                    if ((inf.Flags & ParameterInfo.ParameterFlags.CanAutomate) != 0) paramChanges[i].Init(inf.Id, processSetup.MaxSamplesPerBlock);
+                    if ((inf.Flags & ParameterFlags.CanAutomate) != 0) paramChanges[i].Init(inf.Id, processSetup.MaxSamplesPerBlock);
                 }
 
                 for (var i = 0; i < controller.GetParameterCount(); ++i)
                 {
                     var r = controller.GetParameterInfo(i, out var inf);
                     if (r != kResultTrue) return false;
-                    if ((inf.Flags & ParameterInfo.ParameterFlags.IsBypass) != 0)
+                    if ((inf.Flags & ParameterFlags.IsBypass) != 0)
                     {
                         bypassId = inf.Id;
                         break;
@@ -213,19 +213,19 @@ namespace Jacobi.Vst3.TestSuite
             processData._.NumSamples = 0;
 
             // remember original processData config
-            Platform.Swap<int>(ref numInputs, ref processData._.NumInputs);
-            Platform.Swap<int>(ref numOutputs, ref processData._.NumOutputs);
-            if (processData._.Inputs != IntPtr.Zero) Platform.Swap<int>(ref numChannelsIn, ref processData._.InputsX[0].NumChannels);
-            if (processData._.Outputs != IntPtr.Zero) Platform.Swap<int>(ref numChannelsOut, ref processData._.OutputsX[0].NumChannels);
+            FUtils.Swap<int>(ref numInputs, ref processData._.NumInputs);
+            FUtils.Swap<int>(ref numOutputs, ref processData._.NumOutputs);
+            if (processData._.Inputs != IntPtr.Zero) FUtils.Swap<int>(ref numChannelsIn, ref processData._.InputsX[0].NumChannels);
+            if (processData._.Outputs != IntPtr.Zero) FUtils.Swap<int>(ref numChannelsOut, ref processData._.OutputsX[0].NumChannels);
         }
 
         public override bool Teardown()
         {
             // restore original processData config for correct deallocation
-            Platform.Swap<int>(ref numInputs, ref processData._.NumInputs);
-            Platform.Swap<int>(ref numOutputs, ref processData._.NumOutputs);
-            if (processData._.Inputs != IntPtr.Zero) Platform.Swap<int>(ref numChannelsIn, ref processData._.InputsX[0].NumChannels);
-            if (processData._.Outputs != IntPtr.Zero) Platform.Swap<int>(ref numChannelsOut, ref processData._.OutputsX[0].NumChannels);
+            FUtils.Swap<int>(ref numInputs, ref processData._.NumInputs);
+            FUtils.Swap<int>(ref numOutputs, ref processData._.NumOutputs);
+            if (processData._.Inputs != IntPtr.Zero) FUtils.Swap<int>(ref numChannelsIn, ref processData._.InputsX[0].NumChannels);
+            if (processData._.Outputs != IntPtr.Zero) FUtils.Swap<int>(ref numChannelsOut, ref processData._.OutputsX[0].NumChannels);
 
             return base.Teardown();
         }

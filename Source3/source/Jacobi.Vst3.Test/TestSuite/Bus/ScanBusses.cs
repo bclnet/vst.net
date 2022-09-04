@@ -1,8 +1,8 @@
-﻿using Jacobi.Vst3;
-using Jacobi.Vst3.Hosting;
-using static Jacobi.Vst3.TResult;
+﻿using Steinberg.Vst3;
+using Steinberg.Vst3.Hosting;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.TestSuite
+namespace Steinberg.Vst3.TestSuite
 {
     /// <summary>
     /// Test Scan Buses.
@@ -21,26 +21,26 @@ namespace Jacobi.Vst3.TestSuite
 
             var numBusses = 0;
 
-            for (var mediaType = MediaTypes.Audio; mediaType < MediaTypes.NumMediaTypes; mediaType++)
+            for (var mediaType = MediaType.Audio; mediaType < MediaType.NumMediaTypes; mediaType++)
             {
-                var numInputs = vstPlug.GetBusCount(mediaType, BusDirections.Input);
-                var numOutputs = vstPlug.GetBusCount(mediaType, BusDirections.Output);
+                var numInputs = vstPlug.GetBusCount(mediaType, BusDirection.Input);
+                var numOutputs = vstPlug.GetBusCount(mediaType, BusDirection.Output);
 
                 numBusses += numInputs + numOutputs;
 
-                if (mediaType == (MediaTypes.NumMediaTypes - 1) && numBusses == 0)
+                if (mediaType == (MediaType.NumMediaTypes - 1) && numBusses == 0)
                 {
                     testResult.AddErrorMessage("This component does not export any buses!!!");
                     return false;
                 }
 
                 testResult.AddMessage(string.Format("=> {0} Buses: [{1} In(s) => {2} Out(s)]",
-                    mediaType == MediaTypes.Audio ? "Audio" : "Event", numInputs, numOutputs));
+                    mediaType == MediaType.Audio ? "Audio" : "Event", numInputs, numOutputs));
 
                 for (var i = 0; i < numInputs + numOutputs; ++i)
                 {
-                    var busDirection = i < numInputs ? BusDirections.Input : BusDirections.Output;
-                    var busIndex = busDirection == BusDirections.Input ? i : i - numInputs;
+                    var busDirection = i < numInputs ? BusDirection.Input : BusDirection.Output;
+                    var busIndex = busDirection == BusDirection.Input ? i : i - numInputs;
 
                     if (vstPlug.GetBusInfo(mediaType, busDirection, busIndex, out var busInfo) == kResultTrue)
                     {
@@ -50,9 +50,9 @@ namespace Jacobi.Vst3.TestSuite
                             testResult.AddErrorMessage($"Bus {busIndex} has no name!!!");
                             return false;
                         }
-                        testResult.AddMessage(string.Format("     {0}[{1}]: \"{2}\" ({3}-{4}) ", busDirection == BusDirections.Input ? "In " : "Out",
-                            busIndex, busName, busInfo.BusType == BusTypes.Main ? "Main" : "Aux",
-                            (busInfo.Flags & BusInfo.BusFlags.DefaultActive) != 0 ? "Default Active" : "Default Inactive"));
+                        testResult.AddMessage(string.Format("     {0}[{1}]: \"{2}\" ({3}-{4}) ", busDirection == BusDirection.Input ? "In " : "Out",
+                            busIndex, busName, busInfo.BusType == BusType.Main ? "Main" : "Aux",
+                            (busInfo.Flags & BusFlags.DefaultActive) != 0 ? "Default Active" : "Default Inactive"));
                     }
                     else return false;
                 }

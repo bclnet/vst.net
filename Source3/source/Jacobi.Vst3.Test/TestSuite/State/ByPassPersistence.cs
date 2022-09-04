@@ -1,9 +1,9 @@
-﻿using Jacobi.Vst3;
+﻿using Steinberg.Vst3;
 using System;
 using System.IO;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.TestSuite
+namespace Steinberg.Vst3.TestSuite
 {
     public class BypassPersistenceTest : AutomationTest
     {

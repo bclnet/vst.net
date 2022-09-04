@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     /// <summary>
     /// NoteExpressionTypeIDs describes the type of the note expression.
@@ -86,6 +86,16 @@ namespace Jacobi.Vst3
         public static bool operator !=(NoteExpressionTextEvent _, NoteExpressionTextEvent o) => _ != o;
     }
 
+
+    [Flags]
+    public enum NoteExpressionTypeFlags
+    {
+        IsBipolar = 1 << 0,                     // event is bipolar (centered), otherwise unipolar
+        IsOneShot = 1 << 1,                     // event occurs only one time for its associated note (at begin of the noteOn)
+        IsAbsolute = 1 << 2,                    // This note expression will apply an absolute change to the sound (not relative (offset))
+        AssociatedParameterIDValid = 1 << 3,    // indicates that the associatedParameterID is valid and could be used
+    }
+
     /// <summary>
     /// NoteExpressionTypeInfo is the structure describing a note expression supported by the plug-in.
     /// This structure is used by the method \ref INoteExpressionController::getNoteExpressionInfo.
@@ -103,15 +113,6 @@ namespace Jacobi.Vst3
         [MarshalAs(UnmanagedType.Struct)] public NoteExpressionValueDescription ValueDesc;	// value description see \ref NoteExpressionValueDescription
         [MarshalAs(UnmanagedType.U4)] public UInt32 AssociatedParameterId;		// optional associated parameter ID (for mapping from note expression to global (using the parameter automation for example) and back). Only used when kAssociatedParameterIDValid is set in flags.
         [MarshalAs(UnmanagedType.I4)] public NoteExpressionTypeFlags Flags;		// NoteExpressionTypeFlags (see below)
-
-        [Flags]
-        public enum NoteExpressionTypeFlags
-        {
-            IsBipolar = 1 << 0,			            // event is bipolar (centered), otherwise unipolar
-            IsOneShot = 1 << 1,			            // event occurs only one time for its associated note (at begin of the noteOn)
-            IsAbsolute = 1 << 2,			        // This note expression will apply an absolute change to the sound (not relative (offset))
-            AssociatedParameterIDValid = 1 << 3,    // indicates that the associatedParameterID is valid and could be used
-        }
     }
 
     /// <summary>

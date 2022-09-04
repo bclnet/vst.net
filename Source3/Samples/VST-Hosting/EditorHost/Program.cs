@@ -1,5 +1,5 @@
-﻿using Jacobi.Vst3;
-using Jacobi.Vst3.Hosting;
+﻿using Steinberg.Vst3;
+using Steinberg.Vst3.Hosting;
 using System;
 using System.Linq;
 

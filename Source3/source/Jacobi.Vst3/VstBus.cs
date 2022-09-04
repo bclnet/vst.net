@@ -1,122 +1,155 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
-    public abstract class Bus
+    // Basic Bus object.
+    public class Bus
     {
-        protected Bus(string name, BusTypes busType, BusInfo.BusFlags flags)
-        {
-            Name = name;
-            BusType = busType;
-            Flags = flags;
+        protected string name;              // name
+        protected BusType busType;          // kMain or kAux, see \ref BusTypes
+        protected BusFlags flags;           // flags, see \ref BusInfo::BusFlags
+        protected bool active;			    // activation state
 
-            IsActive = (flags & BusInfo.BusFlags.DefaultActive) != 0;
+        public Bus(string name, BusType busType, BusFlags flags)
+        {
+            this.name = name;
+            this.busType = busType;
+            this.flags = flags;
+            this.active = false; // (flags & BusFlags.DefaultActive) != 0;
         }
 
-        public MediaTypes MediaType { get; set; }
+        /// <summary>
+        /// Gets or sets if bus is active.
+        /// </summary>
+        public bool Active
+        {
+            get => active;
+            set => active = value;
+        }
 
-        public string Name { get; set; }
+        /// <summary>
+        /// Sets a new name for this bus.
+        /// </summary>
+        public string Name
+        {
+            //protected internal get => name;
+            set => name = value;
+        }
 
-        public bool IsActive { get; set; }
+        /// <summary>
+        /// Sets a new busType for this bus.
+        /// </summary>
+        public BusType BusType
+        {
+            //protected get => busType;
+            set => busType = value;
+        }
 
-        public BusTypes BusType { get; set; }
+        /// <summary>
+        /// Sets a new flags for this bus.
+        /// </summary>
+        /// <param name="newFlags"></param>
+        public BusFlags Flags
+        {
+            //protected get => flags;
+            set => flags = value;
+        }
 
-        public BusInfo.BusFlags Flags { get; set; }
-
+        /// <summary>
+        /// Gets the BusInfo of this bus.
+        /// </summary>
+        /// <param name=""></param>
+        /// <returns></returns>
         public virtual bool GetInfo(ref BusInfo info)
         {
-            info.MediaType = MediaType;
-            info.BusType = BusType;
-            info.Flags = Flags;
-            info.Name = Name;
-
+            info.Name = name;
+            info.BusType = busType;
+            info.Flags = flags;
             return true;
         }
     }
 
+    /// <summary>
+    /// Description of an Event Bus.
+    /// </summary>
     public class EventBus : Bus
     {
-        public EventBus(string name, int channelCount)
-            : this(name, channelCount, BusTypes.Main, BusInfo.BusFlags.DefaultActive) { }
+        protected int channelCount;
 
-        public EventBus(string name, int channelCount, BusTypes busType)
-            : this(name, channelCount, busType, BusInfo.BusFlags.DefaultActive) { }
-
-        public EventBus(string name, int channelCount, BusTypes busType, BusInfo.BusFlags flags)
+        public EventBus(string name, BusType busType, BusFlags flags, int channelCount)
             : base(name, busType, flags)
-        {
-            MediaType = MediaTypes.Event;
-            ChannelCount = channelCount;
-        }
+            => this.channelCount = channelCount;
 
-        public int ChannelCount { get; private set; }
-
+        #region Bus
+        
+        /// <summary>
+        /// Gets the BusInfo associated to this Event bus.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public override bool GetInfo(ref BusInfo info)
         {
-            info.ChannelCount = ChannelCount;
+            info.ChannelCount = channelCount;
             return base.GetInfo(ref info);
         }
+
+        #endregion
     }
 
+    /// <summary>
+    /// Description of an Audio Bus.
+    /// </summary>
     public class AudioBus : Bus
     {
-        public AudioBus(string name, SpeakerArrangement speakerArr)
-            : this(name, speakerArr, BusTypes.Main, BusInfo.BusFlags.DefaultActive) { }
+        protected SpeakerArrangement speakerArr;
 
-        public AudioBus(string name, SpeakerArrangement speakerArr, BusTypes busType)
-            : this(name, speakerArr, busType, BusInfo.BusFlags.DefaultActive) { }
-
-        public AudioBus(string name, SpeakerArrangement speakerArr, BusTypes busType, BusInfo.BusFlags flags)
+        public AudioBus(string name, BusType busType, BusFlags flags, SpeakerArrangement speakerArr)
             : base(name, busType, flags)
+            => this.speakerArr = speakerArr;
+
+        // Gets or sets the speaker arrangement defining this Audio bus.
+        public SpeakerArrangement Arrangement
         {
-            MediaType = MediaTypes.Audio;
-            SpeakerArrangement = speakerArr;
+            get => speakerArr;
+            set => speakerArr = value;
         }
 
-        public SpeakerArrangement SpeakerArrangement { get; set; }
+        #region Bus
 
+        /// <summary>
+        /// Gets the BusInfo associated to this Audio bus.
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         public override bool GetInfo(ref BusInfo info)
         {
-            // current definition of SpeakerArrangement is within 32 bits
-            info.ChannelCount = (int)Platform.NumberOfSetBits((uint)SpeakerArrangement);
+            info.ChannelCount = speakerArr.GetChannelCount();
             return base.GetInfo(ref info);
         }
+
+        #endregion
     }
 
-    public class BusList : KeyedCollection<string, Bus>
+    public class BusList : List<Bus>
     {
-        public BusList(MediaTypes mediaType, BusDirections busDir)
+        protected MediaType type;
+        protected BusDirection direction;
+
+        public BusList(MediaType type, BusDirection dir)
         {
-            MediaType = mediaType;
-            BusDirection = busDir;
+            this.type = type;
+            this.direction = dir;
         }
 
-        public MediaTypes MediaType { get; private set; }
+        /// <summary>
+        /// Returns the BusList Type.
+        /// </summary>
+        public MediaType Type => type;
 
-        public BusDirections BusDirection { get; private set; }
-
-        protected override string GetKeyForItem(Bus item)
-        {
-            if (item == null) return null;
-            return item.Name;
-        }
-
-        protected override void InsertItem(int index, Bus item)
-        {
-            ThrowIfNotOfMediaType(item);
-            base.InsertItem(index, item);
-        }
-
-        protected override void SetItem(int index, Bus item)
-        {
-            ThrowIfNotOfMediaType(item);
-            base.SetItem(index, item);
-        }
-
-        void ThrowIfNotOfMediaType(Bus item)
-        {
-            if (item != null && item.MediaType != MediaType) throw new ArgumentException("The MediaType for the item does not match the collection.", nameof(item));
-        }
+        /// <summary>
+        /// Returns the BusList direction.
+        /// </summary>
+        public BusDirection Direction => direction;
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     [StructLayout(LayoutKind.Explicit, CharSet = Platform.CharacterSet)]
     public struct FVariant

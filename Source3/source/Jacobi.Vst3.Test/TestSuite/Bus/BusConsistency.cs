@@ -1,8 +1,8 @@
-﻿using Jacobi.Vst3;
-using Jacobi.Vst3.Hosting;
+﻿using Steinberg.Vst3;
+using Steinberg.Vst3.Hosting;
 using System;
 
-namespace Jacobi.Vst3.TestSuite
+namespace Steinberg.Vst3.TestSuite
 {
     /// <summary>
     /// Test Bus Consistency.
@@ -23,8 +23,8 @@ namespace Jacobi.Vst3.TestSuite
             var numFalseDescQueries = 0;
 
             var rand = new Random((int)DateTime.Now.Ticks);
-            for (var mediaType = MediaTypes.Audio; mediaType < MediaTypes.NumMediaTypes; mediaType++)
-                for (var dir = BusDirections.Input; dir <= BusDirections.Output; dir++)
+            for (var mediaType = MediaType.Audio; mediaType < MediaType.NumMediaTypes; mediaType++)
+                for (var dir = BusDirection.Input; dir <= BusDirection.Output; dir++)
                 {
                     var numBusses = vstPlug.GetBusCount(mediaType, dir);
                     if (numBusses > 0)

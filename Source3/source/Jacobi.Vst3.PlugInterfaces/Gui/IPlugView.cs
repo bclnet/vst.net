@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     [StructLayout(LayoutKind.Sequential, CharSet = Platform.CharacterSet, Pack = Platform.StructurePack)]
     public struct ViewRect
@@ -60,7 +60,7 @@ namespace Jacobi.Vst3
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         TResult GetSize(
-            [MarshalAs(UnmanagedType.Struct), In, Out] ref ViewRect size);
+            [MarshalAs(UnmanagedType.Struct), Out] out ViewRect size);
 
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]

@@ -1,10 +1,8 @@
-﻿using Jacobi.Vst3;
-
-namespace Jacobi.Vst3.Utility
+﻿namespace Steinberg.Vst3.Utility
 {
     public class ProcessContextRequirements
     {
-        IProcessContextRequirements.Flags flags;
+        internal IProcessContextRequirements.Flags flags;
 
         public ProcessContextRequirements(uint inFlags = 0) => flags = (IProcessContextRequirements.Flags)inFlags;
 

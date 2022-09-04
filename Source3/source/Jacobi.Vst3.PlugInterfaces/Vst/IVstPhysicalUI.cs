@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     /// <summary>
     /// PhysicalUITypeIDs describes the type of Physical UI (PUI) which could be associated to a note expression.
     /// </summary>
     [Flags]
-    public enum PhysicalUITypeIDs : ulong
+    public enum PhysicalUITypeIDs : uint
     {
         PUIXMovement = 0,                   // absolute X position when touching keys of PUIs. Range [0=left, 0.5=middle, 1=right]
         PUIYMovement,                       // absolute Y position when touching keys of PUIs. Range [0=bottom/near, 0.5=center, 1=top/far]

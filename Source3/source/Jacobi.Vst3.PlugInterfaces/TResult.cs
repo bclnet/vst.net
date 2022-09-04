@@ -1,7 +1,7 @@
 ﻿using System;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     // success (positive) and error (negative) codes 
     public enum TResult : int

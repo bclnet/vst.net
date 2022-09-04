@@ -1,11 +1,10 @@
-﻿using Jacobi.Vst3;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.Hosting
+namespace Steinberg.Vst3.Hosting
 {
     /// <summary>
     /// Implementation's example of IHostApplication.

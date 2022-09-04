@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     /// <summary>
     /// Reserved note identifier (noteId) range for a plug-in. Guaranteed not used by the host. */
@@ -193,14 +193,14 @@ namespace Jacobi.Vst3
             );
         public static bool operator !=(Event _, Event o) => _ != o;
 
-        public enum EventFlags
+        public enum EventFlags : ushort
         {
             IsLive = 1 << 0,			    // indicates that the event is played live (directly from keyboard)
             UserReserved1 = 1 << 14,	    // reserved for user (for internal use)
             UserReserved2 = 1 << 15	        // reserved for user (for internal use)
         }
 
-        public enum EventTypes
+        public enum EventTypes : ushort
         {
             NoteOnEvent = 0,                // is \ref NoteOnEvent
             NoteOffEvent = 1,               // is \ref NoteOffEvent

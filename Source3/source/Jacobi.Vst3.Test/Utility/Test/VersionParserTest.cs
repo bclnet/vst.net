@@ -1,6 +1,6 @@
-﻿using static Jacobi.Vst3.Utility.Testing;
+﻿using static Steinberg.Vst3.Utility.Testing;
 
-namespace Jacobi.Vst3.Utility
+namespace Steinberg.Vst3.Utility
 {
     public static class VersionParserTest
     {

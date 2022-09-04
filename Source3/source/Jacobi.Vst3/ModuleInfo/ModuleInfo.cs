@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     public class ModuleInfo
     {

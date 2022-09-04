@@ -3,7 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Runtime.InteropServices;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     static partial class Constants
     {
@@ -296,7 +296,7 @@ namespace Jacobi.Vst3
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         TResult GetBusArrangement(
-            [MarshalAs(UnmanagedType.I4), In] BusDirections dir,
+            [MarshalAs(UnmanagedType.I4), In] BusDirection dir,
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
             [MarshalAs(UnmanagedType.U8), Out] out SpeakerArrangement arr);
 
@@ -414,7 +414,7 @@ namespace Jacobi.Vst3
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         TResult SetAudioPresentationLatencySamples(
-            [MarshalAs(UnmanagedType.I4), In] BusDirections dir,
+            [MarshalAs(UnmanagedType.I4), In] BusDirection dir,
             [MarshalAs(UnmanagedType.I4), In] Int32 busIndex,
             [MarshalAs(UnmanagedType.U4), In] UInt32 latencyInSamples);
     }
@@ -444,7 +444,7 @@ namespace Jacobi.Vst3
         [PreserveSig]
         UInt32 GetProcessContextRequirements();
 
-        public enum Flags
+        public enum Flags : uint
         {
             NeedSystemTime = 1 << 0, // kSystemTimeValid
             NeedContinousTimeSamples = 1 << 1, // kContTimeValid

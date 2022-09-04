@@ -1,7 +1,7 @@
 ﻿using System.Runtime.CompilerServices;
-using static Jacobi.Vst3.GeoConstants;
+using static Steinberg.Vst3.GeoConstants;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     public static class GeoConstants
     {

@@ -1,9 +1,9 @@
-﻿using Jacobi.Vst3;
+﻿using Steinberg.Vst3;
 using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace Jacobi.Vst3.Plugin
+namespace Steinberg.Vst3
 {
     [Flags]
     public enum StreamAccessMode

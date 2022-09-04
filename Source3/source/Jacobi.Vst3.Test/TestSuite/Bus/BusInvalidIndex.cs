@@ -1,8 +1,8 @@
-﻿using Jacobi.Vst3;
-using Jacobi.Vst3.Hosting;
+﻿using Steinberg.Vst3;
+using Steinberg.Vst3.Hosting;
 using System;
 
-namespace Jacobi.Vst3.TestSuite
+namespace Steinberg.Vst3.TestSuite
 {
     /// <summary>
     /// Test Bus Invalid Index.
@@ -23,10 +23,10 @@ namespace Jacobi.Vst3.TestSuite
             var numInvalidDesc = 0;
 
             var rand = new Random((int)DateTime.Now.Ticks);
-            for (var mediaType = MediaTypes.Audio; mediaType < MediaTypes.NumMediaTypes; mediaType++)
+            for (var mediaType = MediaType.Audio; mediaType < MediaType.NumMediaTypes; mediaType++)
             {
-                var numBusses = vstPlug.GetBusCount(mediaType, BusDirections.Input) + vstPlug.GetBusCount(mediaType, BusDirections.Output);
-                for (var dir = BusDirections.Input; dir <= BusDirections.Output; dir++)
+                var numBusses = vstPlug.GetBusCount(mediaType, BusDirection.Input) + vstPlug.GetBusCount(mediaType, BusDirection.Output);
+                for (var dir = BusDirection.Input; dir <= BusDirection.Output; dir++)
                 {
                     var descBefore = new BusInfo();
                     var descAfter = new BusInfo();

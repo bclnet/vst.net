@@ -1,209 +1,486 @@
-﻿using Jacobi.Vst3;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using ParamID = System.UInt32;
+using ParamValue = System.Double;
+using UnitID = System.Int32;
 
-namespace Jacobi.Vst3.Plugin
+namespace Steinberg.Vst3
 {
+    // Description of a Parameter.
     public class Parameter : ObservableObject
     {
+        protected ParameterInfo info;
+        protected ParamValue valueNormalized;
+        protected int precision = 4;
+
         protected Parameter() { }
-
-        public Parameter(ParameterValueInfo paramValueInfo)
+        public Parameter(ParameterInfo info)
         {
-            ValueInfo = paramValueInfo;
+            this.info = info;
+            this.valueNormalized = info.DefaultNormalizedValue;
+        }
+        public Parameter(string title, ParamID tag, string units,
+            ParamValue defaultValueNormalized, int stepCount, ParameterFlags flags,
+            UnitID unitID, string shortTitle)
+        {
+            info.Title = title;
+            if (units != null)
+                info.Units = units;
+            if (shortTitle != null)
+                info.ShortTitle = shortTitle;
 
-            SetValue(ValueInfo.ParameterInfo.DefaultNormalizedValue, null, false);
+            info.StepCount = stepCount;
+            info.DefaultNormalizedValue = valueNormalized = defaultValueNormalized;
+            info.Flags = flags;
+            info.Id = tag;
+            info.UnitId = unitID;
         }
 
-        public ParameterValueInfo ValueInfo { get; protected set; }
+        /// <summary>
+        /// Gets the info.
+        /// </summary>
+        public virtual ParameterInfo Info => info;
 
-        public uint Id => ValueInfo.ParameterInfo.Id;
-
-        public bool IsReadOnly { get; set; }
-
-        public bool ResetToDefaultValue() => SetValue(ValueInfo.ParameterInfo.DefaultNormalizedValue, null, true);
-
-        protected bool SetValue(double? normValue, double? plainValue, bool notify)
+        /// <summary>
+        /// Gets or sets its associated UnitId.
+        /// </summary>
+        public virtual UnitID UnitID
         {
-            if (IsReadOnly) return false;
-
-            var normChanged = false;
-            var plainChanged = false;
-
-            if (normValue.HasValue)
-            {
-                normChanged = SetNormalizedValue(normValue.Value);
-                plainChanged = SetPlainValue(ToPlain(normValue.Value));
-            }
-
-            if (plainValue.HasValue)
-            {
-                normChanged = SetNormalizedValue(ToNormalized(plainValue.Value));
-                plainChanged = SetPlainValue(plainValue.Value);
-            }
-
-            if (normChanged && notify) OnPropertyChanged(nameof(NormalizedValue));
-            if (plainChanged && notify) OnPropertyChanged(nameof(PlainValue));
-
-            return normChanged || plainChanged;
+            get => info.UnitId;
+            set => info.UnitId = value;
         }
 
-        double _normalizedValue;
+        /// <summary>
+        /// Gets its normalized value [0.0, 1.0].
+        /// </summary>
+        public ParamValue Normalized
+            => valueNormalized;
 
-        public double NormalizedValue
+        /// Sets its normalized value [0.0, 1.0].
+        public virtual bool SetNormalized(ParamValue v)
         {
-            get => _normalizedValue;
-            set => SetValue(value, null, true);
-        }
+            if (v > 1.0)
+                v = 1.0;
+            else if (v < 0.0)
+                v = 0.0;
 
-        bool SetNormalizedValue(double value)
-        {
-            value = value.Clamp(0.0, 1.0);
-
-            if (_normalizedValue != value)
+            if (v != valueNormalized)
             {
-                _normalizedValue = value;
+                valueNormalized = v;
+                OnPropertyChanged(nameof(Normalized));
                 return true;
             }
-
             return false;
         }
 
-        double _plainValue;
-
-        public double PlainValue
+        /// <summary>
+        /// Converts a normalized value to a string.
+        /// </summary>
+        /// <param name="normValue"></param>
+        /// <returns></returns>
+        public virtual string ToString(ParamValue normValue)
         {
-            get => _plainValue;
-            set => SetValue(null, value, true);
+            if (info.StepCount == 1)
+                return normValue > 0.5
+                    ? "On"
+                    : "Off";
+            else
+                return normValue.ToString($"0.{new string('#', precision)}");
         }
 
-        bool SetPlainValue(double value)
+        /// <summary>
+        /// Converts a string to a normalized value.
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="normValue"></param>
+        /// <returns></returns>
+        public virtual bool FromString(string str, out ParamValue normValue)
+            => ParamValue.TryParse(str, out normValue);
+
+        /// <summary>
+        /// Converts a normalized value to plain value (e.g. 0.5 to 10000.0Hz).
+        /// </summary>
+        /// <param name="valueNormalized"></param>
+        /// <returns></returns>
+        public virtual ParamValue ToPlain(ParamValue valueNormalized)
+            => valueNormalized;
+
+        /// <summary>
+        /// Converts a plain value to a normalized value (e.g. 10000 to 0.5).
+        /// </summary>
+        /// <param name="plainValue"></param>
+        /// <returns></returns>
+        public virtual ParamValue ToNormalized(ParamValue plainValue)
+            => plainValue;
+
+        /// <summary>
+        /// Gets or sets the current precision (used for string representation of float), (for example 4.34 with 2 as precision).
+        /// </summary>
+        /// <returns></returns>
+        public int Precision
         {
-            value = value.Clamp(ValueInfo.MinValue, ValueInfo.MaxValue);
-
-            if (_plainValue != value)
-            {
-                _plainValue = value;
-                return true;
-            }
-
-            return false;
+            get => precision;
+            set => precision = value;
         }
-
-        public virtual double ToNormalized(double plainValue)
-        {
-            plainValue = plainValue.Clamp(ValueInfo.MinValue, ValueInfo.MaxValue);
-
-            var scale = ValueInfo.MaxValue - ValueInfo.MinValue;
-            var offset = -ValueInfo.MinValue;
-
-            return (plainValue + offset) / scale;
-        }
-
-        public virtual double ToPlain(double normValue)
-        {
-            normValue = normValue.Clamp(0.0, 1.0);
-
-            var scale = ValueInfo.MaxValue - ValueInfo.MinValue;
-            var offset = -ValueInfo.MinValue;
-
-            return (normValue * scale) - offset;
-        }
-
-        public virtual string ToString(double normValue)
-        {
-            if (ValueInfo.ParameterInfo.StepCount == 1)
-                return normValue >= 0.5 ? "On" : "Off";
-
-            var value = ToPlain(normValue);
-
-            if (ValueInfo.Precision > 0)
-            {
-                var format = new string('#', ValueInfo.Precision);
-                return value.ToString("0." + format);
-            }
-
-            return value.ToString();
-        }
-
-        public virtual bool TryParse(string displayValue, out double normValue)
-            => double.TryParse(displayValue, out normValue);
     }
 
+    /// <summary>
+    /// Description of a RangeParameter.
+    /// </summary>
     public class RangeParameter : Parameter
     {
-        public RangeParameter(ParameterValueInfo paramValueInfo)
-            : base(paramValueInfo) { }
+        protected ParamValue minPlain;
+        protected ParamValue maxPlain;
 
-        public override double ToNormalized(double plainValue)
-            => ValueInfo.ParameterInfo.StepCount > 1
-                ? (plainValue - ValueInfo.MinValue) / ValueInfo.ParameterInfo.StepCount
-                : base.ToNormalized(plainValue);
-
-        public override double ToPlain(double normValue)
-            => ValueInfo.ParameterInfo.StepCount > 1
-                ? Math.Min(ValueInfo.ParameterInfo.StepCount, (normValue * (ValueInfo.ParameterInfo.StepCount + 1)) + ValueInfo.MinValue)
-                : base.ToPlain(normValue);
-    }
-
-    public class ListParameter<T> : Parameter
-    {
-        public ListParameter(ParameterValueInfo paramValueInfo)
-            : base(paramValueInfo)
+        public RangeParameter(ParameterInfo paramInfo, ParamValue min, ParamValue max)
+            : base(paramInfo)
         {
-            if ((paramValueInfo.ParameterInfo.Flags & ParameterInfo.ParameterFlags.IsList) == 0)
-                throw new ArgumentException("The specified ParameterInfo has no IsList flag.", nameof(paramValueInfo));
-            Values = new List<T>();
+            minPlain = min;
+            maxPlain = max;
         }
 
-        public List<T> Values { get; protected set; }
-
-        public override string ToString(double normValue)
+        public RangeParameter(string title, ParamID tag, string units = null,
+            ParamValue minPlain = 0.0, ParamValue maxPlain = 1.0,
+            ParamValue defaultValuePlain = 0.0, int stepCount = 0,
+            ParameterFlags flags = ParameterFlags.CanAutomate, UnitID unitID = UnitInfo.RootUnitId,
+            string shortTitle = null)
+        : base()
         {
-            var index = (int)ToPlain(normValue);
-            return index >= 0 && index < Values.Count
-                ? ConvertToString(Values[index])
-                : String.Empty;
+            info.Title = title;
+            if (units != null)
+                info.Units = units;
+            if (shortTitle != null)
+                info.ShortTitle = shortTitle;
+
+            info.StepCount = stepCount;
+            info.DefaultNormalizedValue = valueNormalized = ToNormalized(defaultValuePlain);
+            info.Flags = flags;
+            info.Id = tag;
+            info.UnitId = unitID;
         }
 
-        protected virtual string ConvertToString(T value)
-            => value.ToString();
-
-        public override bool TryParse(string displayValue, out double normValue)
+        /// <summary>
+        /// Gets or sets the minimum plain value, same as toPlain (0).
+        /// </summary>
+        public virtual ParamValue Min
         {
-            var index = 0;
+            get => minPlain;
+            set => minPlain = value;
+        }
 
-            foreach (var val in Values)
+        /// <summary>
+        /// Gets or sets the maximum plain value, same as toPlain (1).
+        /// </summary>
+        /// <returns></returns>
+        public virtual ParamValue Max
+        {
+            get => maxPlain;
+            set => maxPlain = value;
+        }
+
+        /// <summary>
+        /// Converts a normalized value to a string.
+        /// </summary>
+        /// <param name="_valueNormalized"></param>
+        /// <param name=""></param>
+        /// <param name=""></param>
+        public override string ToString(ParamValue valueNormalized)
+        {
+            if (info.StepCount > 1)
             {
-                var str = ConvertToString(val);
+                var plain = (long)ToPlain(valueNormalized);
+                return plain.ToString();
+            }
+            else
+                return base.ToString(ToPlain(valueNormalized));
+        }
 
-                if (displayValue.Equals(str, StringComparison.OrdinalIgnoreCase))
+        /// <summary>
+        /// Converts a string to a normalized value.
+        /// </summary>
+        /// <returns></returns>
+        public override bool FromString(string str, out ParamValue valueNormalized)
+        {
+            if (info.StepCount > 1)
+            {
+                if (long.TryParse(str, out var plainValue))
                 {
-                    normValue = ToNormalized(index);
+                    valueNormalized = ToNormalized((ParamValue)plainValue);
                     return true;
                 }
-
-                index++;
+                valueNormalized = default;
+                return false;
             }
-
-            normValue = 0.0;
+            if (double.TryParse(str, out valueNormalized))
+            {
+                if (valueNormalized < Min)
+                    valueNormalized = Min;
+                else if (valueNormalized > Max)
+                    valueNormalized = Max;
+                valueNormalized = ToNormalized(valueNormalized);
+                return true;
+            }
+            valueNormalized = default;
             return false;
+        }
+
+        /// <summary>
+        /// Converts a normalized value to plain value (e.g. 0.5 to 10000.0Hz).
+        /// </summary>
+        /// <param name="_valueNormalized"></param>
+        /// <returns></returns>
+        public override ParamValue ToPlain(ParamValue valueNormalized)
+        {
+            if (info.StepCount > 1)
+                return FUtils.FromNormalized<ParamValue>(valueNormalized, info.StepCount) + Min;
+            return valueNormalized * (Max - Min) + Min;
+        }
+
+        /// <summary>
+        /// Converts a plain value to a normalized value (e.g. 10000 to 0.5).
+        /// </summary>
+        /// <param name="plainValue"></param>
+        /// <returns></returns>
+        public override ParamValue ToNormalized(ParamValue plainValue)
+        {
+            if (info.StepCount > 1)
+                return FUtils.ToNormalized<ParamValue>(plainValue - Min, info.StepCount);
+            return (plainValue - Min) / (Max - Min);
         }
     }
 
-    public class ParameterCollection : KeyedCollection<UInt32, Parameter>
+    /// <summary>
+    /// Description of a StringListParameter.
+    /// </summary>
+    public class StringListParameter : Parameter
     {
-        public Parameter GetAt(int index)
+        protected List<string> strings = new();
+
+        public StringListParameter(ParameterInfo paramInfo)
+            : base(paramInfo) { }
+
+        public StringListParameter(string title, ParamID tag, string units = null,
+            ParameterFlags flags = ParameterFlags.CanAutomate | ParameterFlags.IsList,
+            UnitID unitID = UnitInfo.RootUnitId, string shortTitle = null)
         {
-            var baseThis = (Collection<Parameter>)this;
-            return baseThis[index];
+            info.Title = title;
+            if (units != null)
+                info.Units = units;
+            if (shortTitle != null)
+                info.ShortTitle = shortTitle;
+
+            info.StepCount = -1;
+            info.DefaultNormalizedValue = 0;
+            info.Flags = flags;
+            info.Id = tag;
+            info.UnitId = unitID;
         }
 
-        protected override uint GetKeyForItem(Parameter item)
+        /// <summary>
+        /// Appends a string and increases the stepCount.
+        /// </summary>
+        public virtual void AppendString(string str)
         {
-            if (item == null) return 0;
-            return item.Id;
+            strings.Add(str);
+            info.StepCount++;
+        }
+
+        /// <summary>
+        /// Replaces the string at index. Index must be between 0 and stepCount+1
+        /// </summary>
+        /// <param name="index"></param>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public virtual bool ReplaceString(int index, string str)
+        {
+            var str2 = strings[index];
+            if (str2 == null)
+                return false;
+
+            strings[index] = str;
+            return true;
+        }
+
+        /// <summary>
+        /// Converts a normalized value to a string.
+        /// </summary>
+        /// <param name="valueNormalized"></param>
+        /// <param name="str"></param>
+        public override string ToString(ParamValue valueNormalized)
+        {
+            var index = (int)ToPlain(valueNormalized);
+            var valueString = strings[index];
+            return valueString ?? string.Empty;
+        }
+
+        /// <summary>
+        /// Converts a string to a normalized value.
+        /// </summary>
+        /// <returns></returns>
+        public override bool FromString(string str, out ParamValue valueNormalized)
+        {
+            var index = 0;
+            foreach (var it in strings)
+            {
+                if (it == str)
+                {
+                    valueNormalized = ToNormalized((ParamValue)index);
+                    return true;
+                }
+                ++index;
+            }
+            valueNormalized = default;
+            return false;
+        }
+
+        /// <summary>
+        /// Converts a normalized value to plain value (e.g. 0.5 to 10000.0Hz).
+        /// </summary>
+        /// <param name="valueNormalized"></param>
+        /// <returns></returns>
+        public override ParamValue ToPlain(ParamValue valueNormalized)
+            => info.StepCount <= 0
+                ? 0
+                : FUtils.FromNormalized<ParamValue>(valueNormalized, info.StepCount);
+
+        /// <summary>
+        /// Converts a plain value to a normalized value (e.g. 10000 to 0.5).
+        /// </summary>
+        /// <param name="plainValue"></param>
+        /// <returns></returns>
+        public override ParamValue ToNormalized(ParamValue plainValue)
+            => info.StepCount <= 0
+                ? 0
+                : FUtils.ToNormalized<ParamValue>(plainValue, info.StepCount);
+    }
+
+    /// <summary>
+    /// Collection of parameters.
+    /// </summary>
+    public class ParameterContainer
+    {
+        protected List<Parameter> parms;
+        protected Dictionary<ParamID, int> id2index = new();
+
+        /// <summary>
+        /// Init param array.
+        /// </summary>
+        /// <param name="initialSize"></param>
+        /// <param name="resizeDelta"></param>
+        public void Init(int initialSize = 10, int resizeDelta = 100)
+        {
+            if (parms != null)
+            {
+                parms = new List<Parameter>();
+                if (initialSize > 0)
+                    parms.Capacity = initialSize;
+            }
+        }
+
+        /// <summary>
+        /// Adds a given parameter.
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        public Parameter AddParameter(Parameter p)
+        {
+            if (parms == null)
+                Init();
+            id2index[p.Info.Id] = parms.Count;
+            parms.Add(p);
+            return p;
+        }
+
+        /// <summary>
+        /// Creates and adds a new parameter from a ParameterInfo.
+        /// </summary>
+        /// <returns></returns>
+        public Parameter AddParameter(ref ParameterInfo info)
+        {
+            if (parms == null)
+                Init();
+            var p = new Parameter(info);
+            return AddParameter(p) != null ? p : null;
+        }
+
+        /// <summary>
+        /// Gets parameter by ID.
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns></returns>
+        public Parameter GetParameter(ParamID tag)
+        {
+            if (parms != null)
+                if (id2index.TryGetValue(tag, out var it))
+                    return parms[it];
+            return null;
+        }
+
+        /// <summary>
+        /// Returns the count of parameters.
+        /// </summary>
+        /// <returns></returns>
+        public int ParameterCount => parms != null ? parms.Count : 0;
+
+        /// <summary>
+        /// Gets parameter by index.
+        /// </summary>
+        /// <param name="index"></param>
+        /// <returns></returns>
+        public Parameter GetParameterByIndex(int index) => parms != null ? parms[index] : null;
+
+        /// Removes all parameters.
+        public void RemoveAll()
+        {
+            if (parms != null)
+                parms.Clear();
+            id2index.Clear();
+        }
+
+        /// <summary>
+        /// Remove a specific parameter by ID.
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns></returns>
+        public bool RemoveParameter(ParamID tag)
+        {
+            if (parms == null)
+                return false;
+
+            if (id2index.TryGetValue(tag, out var it))
+            {
+                parms.RemoveAt(it);
+                id2index.Remove(tag);
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// Creates and adds a new parameter with given properties.
+        /// </summary>
+        /// <returns></returns>
+        public Parameter AddParameter(string title, string units = null, int stepCount = 0,
+            ParamValue defaultValueNormalized = 0.0,
+            ParameterFlags flags = ParameterFlags.CanAutomate, int tag = -1,
+            UnitID unitID = UnitInfo.RootUnitId, string shortTitle = null)
+        {
+            if (title == null)
+                return null;
+
+            ParameterInfo info = new();
+
+            info.Title = title;
+            if (units != null)
+                info.Units = units;
+            if (shortTitle != null)
+                info.ShortTitle = shortTitle;
+
+            info.StepCount = stepCount;
+            info.DefaultNormalizedValue = defaultValueNormalized;
+            info.Flags = flags;
+            info.Id = (ParamID)(tag >= 0 ? tag : ParameterCount);
+            info.UnitId = unitID;
+
+            return AddParameter(ref info);
         }
     }
 }

@@ -1,10 +1,9 @@
-﻿using Jacobi.Vst3;
-using System;
+﻿using System;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.Hosting
+namespace Steinberg.Vst3.Hosting
 {
     public unsafe class HostProcessData
     {
@@ -25,8 +24,8 @@ namespace Jacobi.Vst3.Hosting
                 _.SymbolicSampleSize = symbolicSampleSize;
                 channelBufferOwner = bufferSamples > 0;
 
-                _.NumInputs = CreateBuffers(component, ref _.Inputs, BusDirections.Input, bufferSamples);
-                _.NumOutputs = CreateBuffers(component, ref _.Outputs, BusDirections.Output, bufferSamples);
+                _.NumInputs = CreateBuffers(component, ref _.Inputs, BusDirection.Input, bufferSamples);
+                _.NumOutputs = CreateBuffers(component, ref _.Outputs, BusDirection.Output, bufferSamples);
             }
             else
             {
@@ -52,47 +51,47 @@ namespace Jacobi.Vst3.Hosting
 
         // Sets one sample buffer for all channels inside a bus.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool SetChannelBuffers(BusDirections dir, int busIndex, Single* sampleBuffer)
+        public bool SetChannelBuffers(BusDirection dir, int busIndex, Single* sampleBuffer)
         {
             if (channelBufferOwner || _.SymbolicSampleSize != SymbolicSampleSizes.Sample32) return false;
             if (!IsValidBus(dir, busIndex)) return false;
 
-            var busBuffers = dir == BusDirections.Input ? _.InputsX[busIndex] : _.OutputsX[busIndex];
+            var busBuffers = dir == BusDirection.Input ? _.InputsX[busIndex] : _.OutputsX[busIndex];
             for (var i = 0; i < busBuffers.NumChannels; i++) busBuffers.ChannelBuffers32X[i] = sampleBuffer;
             return true;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool SetChannelBuffers64(BusDirections dir, int busIndex, Double* sampleBuffer)
+        public bool SetChannelBuffers64(BusDirection dir, int busIndex, Double* sampleBuffer)
         {
             if (channelBufferOwner || _.SymbolicSampleSize != SymbolicSampleSizes.Sample64) return false;
             if (!IsValidBus(dir, busIndex)) return false;
 
-            var busBuffers = dir == BusDirections.Input ? _.InputsX[busIndex] : _.OutputsX[busIndex];
+            var busBuffers = dir == BusDirection.Input ? _.InputsX[busIndex] : _.OutputsX[busIndex];
             for (var i = 0; i < busBuffers.NumChannels; i++) busBuffers.ChannelBuffers64X[i] = sampleBuffer;
             return true;
         }
 
         // Sets individual sample buffers per channel inside a bus.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool SetChannelBuffers(BusDirections dir, int busIndex, Single*[] sampleBuffers, int bufferCount)
+        public bool SetChannelBuffers(BusDirection dir, int busIndex, Single*[] sampleBuffers, int bufferCount)
         {
             if (channelBufferOwner || _.SymbolicSampleSize != SymbolicSampleSizes.Sample32) return false;
             if (!IsValidBus(dir, busIndex)) return false;
 
-            var busBuffers = dir == BusDirections.Input ? _.InputsX[busIndex] : _.OutputsX[busIndex];
+            var busBuffers = dir == BusDirection.Input ? _.InputsX[busIndex] : _.OutputsX[busIndex];
             var count = bufferCount < busBuffers.NumChannels ? bufferCount : busBuffers.NumChannels;
             for (var i = 0; i < count; i++) busBuffers.ChannelBuffers32X[i] = sampleBuffers != null ? sampleBuffers[i] : null;
             return true;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool SetChannelBuffers64(BusDirections dir, int busIndex, Double*[] sampleBuffers, int bufferCount)
+        public bool SetChannelBuffers64(BusDirection dir, int busIndex, Double*[] sampleBuffers, int bufferCount)
         {
             if (channelBufferOwner || _.SymbolicSampleSize != SymbolicSampleSizes.Sample64) return false;
             if (!IsValidBus(dir, busIndex)) return false;
 
-            var busBuffers = dir == BusDirections.Input ? _.InputsX[busIndex] : _.OutputsX[busIndex];
+            var busBuffers = dir == BusDirection.Input ? _.InputsX[busIndex] : _.OutputsX[busIndex];
             var count = bufferCount < busBuffers.NumChannels ? bufferCount : busBuffers.NumChannels;
             for (var i = 0; i < count; i++) ((Double**)busBuffers.ChannelBuffers64)[i] = sampleBuffers != null ? sampleBuffers[i] : null;
             return true;
@@ -100,24 +99,24 @@ namespace Jacobi.Vst3.Hosting
 
         // Sets one sample buffer for a given channel inside a bus.
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool SetChannelBuffer(BusDirections dir, int busIndex, int channelIndex, Single* sampleBuffer)
+        public bool SetChannelBuffer(BusDirection dir, int busIndex, int channelIndex, Single* sampleBuffer)
         {
             if (_.SymbolicSampleSize != SymbolicSampleSizes.Sample32) return false;
             if (!IsValidBus(dir, busIndex)) return false;
 
-            var busBuffers = dir == BusDirections.Input ? _.InputsX[busIndex] : _.OutputsX[busIndex];
+            var busBuffers = dir == BusDirection.Input ? _.InputsX[busIndex] : _.OutputsX[busIndex];
             if (channelIndex >= busBuffers.NumChannels) return false;
             busBuffers.ChannelBuffers32X[channelIndex] = sampleBuffer;
             return true;
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public bool SetChannelBuffer64(BusDirections dir, int busIndex, int channelIndex, Double* sampleBuffer)
+        public bool SetChannelBuffer64(BusDirection dir, int busIndex, int channelIndex, Double* sampleBuffer)
         {
             if (_.SymbolicSampleSize != SymbolicSampleSizes.Sample64) return false;
             if (!IsValidBus(dir, busIndex)) return false;
 
-            var busBuffers = dir == BusDirections.Input ? _.InputsX[busIndex] : _.OutputsX[busIndex];
+            var busBuffers = dir == BusDirection.Input ? _.InputsX[busIndex] : _.OutputsX[busIndex];
             if (channelIndex >= busBuffers.NumChannels) return false;
             busBuffers.ChannelBuffers64X[channelIndex] = sampleBuffer;
             return true;
@@ -137,40 +136,40 @@ namespace Jacobi.Vst3.Hosting
             if (_.SymbolicSampleSize != symbolicSampleSize)
                 return true;
 
-            var inBusCount = component.GetBusCount(MediaTypes.Audio, BusDirections.Input);
+            var inBusCount = component.GetBusCount(MediaType.Audio, BusDirection.Input);
             if (inBusCount != _.NumInputs)
                 return true;
 
-            var outBusCount = component.GetBusCount(MediaTypes.Audio, BusDirections.Output);
+            var outBusCount = component.GetBusCount(MediaType.Audio, BusDirection.Output);
             if (outBusCount != _.NumOutputs)
                 return true;
 
             for (var i = 0; i < inBusCount; i++)
             {
-                if (component.GetBusInfo(MediaTypes.Audio, BusDirections.Input, i, out var busInfo) == kResultTrue)
+                if (component.GetBusInfo(MediaType.Audio, BusDirection.Input, i, out var busInfo) == kResultTrue)
                     if (_.InputsX[i].NumChannels != busInfo.ChannelCount)
                         return true;
             }
             for (var i = 0; i < outBusCount; i++)
             {
-                if (component.GetBusInfo(MediaTypes.Audio, BusDirections.Output, i, out var busInfo) == kResultTrue)
+                if (component.GetBusInfo(MediaType.Audio, BusDirection.Output, i, out var busInfo) == kResultTrue)
                     if (_.OutputsX[i].NumChannels != busInfo.ChannelCount)
                         return true;
             }
             return false;
         }
 
-        protected int CreateBuffers(IComponent component, ref IntPtr buffers2, BusDirections dir, int bufferSamples)
+        protected int CreateBuffers(IComponent component, ref IntPtr buffers2, BusDirection dir, int bufferSamples)
         {
             var buffers = (AudioBusBuffers*)buffers2;
-            var busCount = component.GetBusCount(MediaTypes.Audio, dir);
+            var busCount = component.GetBusCount(MediaType.Audio, dir);
             if (busCount > 0)
             {
                 buffers = (AudioBusBuffers*)Marshal.AllocHGlobal(AudioBusBuffers.Size * busCount);
                 buffers2 = (IntPtr)buffers;
 
                 for (var i = 0; i < busCount; i++)
-                    if (component.GetBusInfo(MediaTypes.Audio, dir, i, out var busInfo) == kResultTrue)
+                    if (component.GetBusInfo(MediaType.Audio, dir, i, out var busInfo) == kResultTrue)
                     {
                         buffers[i].NumChannels = busInfo.ChannelCount;
 
@@ -236,10 +235,10 @@ namespace Jacobi.Vst3.Hosting
         }
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        protected bool IsValidBus(BusDirections dir, int busIndex)
+        protected bool IsValidBus(BusDirection dir, int busIndex)
         {
-            if (dir == BusDirections.Input && (_.Inputs == IntPtr.Zero || busIndex >= _.NumInputs)) return false;
-            if (dir == BusDirections.Output && (_.Outputs == IntPtr.Zero || busIndex >= _.NumOutputs)) return false;
+            if (dir == BusDirection.Input && (_.Inputs == IntPtr.Zero || busIndex >= _.NumInputs)) return false;
+            if (dir == BusDirection.Output && (_.Outputs == IntPtr.Zero || busIndex >= _.NumOutputs)) return false;
             return true;
         }
     }

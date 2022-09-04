@@ -1,10 +1,10 @@
-﻿using Jacobi.Vst3;
-using Jacobi.Vst3.Hosting;
+﻿using Steinberg.Vst3;
+using Steinberg.Vst3.Hosting;
 using System;
 using System.Runtime.InteropServices;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.TestSuite
+namespace Steinberg.Vst3.TestSuite
 {
     /// <summary>
     /// Test Process Test.
@@ -103,13 +103,13 @@ namespace Jacobi.Vst3.TestSuite
             {
                 processData.Prepare(vstPlug, 0, processSetup.SymbolicSampleSize);
 
-                for (var dir = BusDirections.Input; dir <= BusDirections.Output; dir++)
+                for (var dir = BusDirection.Input; dir <= BusDirection.Output; dir++)
                 {
-                    var numBusses = vstPlug.GetBusCount(MediaTypes.Audio, dir);
-                    var audioBuffers = dir == BusDirections.Input ? processData._.Inputs : processData._.Outputs;
+                    var numBusses = vstPlug.GetBusCount(MediaType.Audio, dir);
+                    var audioBuffers = dir == BusDirection.Input ? processData._.Inputs : processData._.Outputs;
                     if (!SetupBuffers(numBusses, audioBuffers, dir)) return false;
 
-                    if (dir == BusDirections.Input)
+                    if (dir == BusDirection.Input)
                     {
                         processData._.NumInputs = numBusses;
                         processData._.Inputs = audioBuffers;
@@ -125,18 +125,18 @@ namespace Jacobi.Vst3.TestSuite
             return false;
         }
 
-        protected bool SetupBuffers(int numBusses, IntPtr audioBuffers, BusDirections dir)
+        protected bool SetupBuffers(int numBusses, IntPtr audioBuffers, BusDirection dir)
         {
             if ((numBusses > 0 && audioBuffers == IntPtr.Zero) || vstPlug == null) return false;
 
             var audioBuffers2 = (AudioBusBuffers*)audioBuffers;
             for (var busIndex = 0; busIndex < numBusses; busIndex++) // buses
             {
-                if (vstPlug.GetBusInfo(MediaTypes.Audio, dir, busIndex, out var busInfo) == kResultTrue)
+                if (vstPlug.GetBusInfo(MediaType.Audio, dir, busIndex, out var busInfo) == kResultTrue)
                 {
                     if (!SetupBuffers(ref audioBuffers2[busIndex])) return false;
 
-                    if ((busInfo.Flags & BusInfo.BusFlags.DefaultActive) != 0)
+                    if ((busInfo.Flags & BusFlags.DefaultActive) != 0)
                         for (var chIdx = 0; chIdx < busInfo.ChannelCount; chIdx++) // channels per bus
                             audioBuffers2[busIndex].SilenceFlags |= TestDefaults.Instance.ChannelIsSilent << chIdx;
                 }

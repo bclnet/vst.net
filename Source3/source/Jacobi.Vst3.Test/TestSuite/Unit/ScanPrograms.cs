@@ -1,8 +1,8 @@
-﻿using Jacobi.Vst3;
+﻿using Steinberg.Vst3;
 using System.Text;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.TestSuite
+namespace Steinberg.Vst3.TestSuite
 {
     public class ProgramInfoTest : TestBase
     {
@@ -122,7 +122,7 @@ namespace Jacobi.Vst3.TestSuite
                 for (var i = 0; i < controller.GetParameterCount(); ++i)
                 {
                     if (controller.GetParameterInfo(i, out var paramInfo) != kResultOk)
-                        if ((paramInfo.Flags & ParameterInfo.ParameterFlags.IsProgramChange) != 0) numPrgChanges++;
+                        if ((paramInfo.Flags & ParameterFlags.IsProgramChange) != 0) numPrgChanges++;
                 }
                 if (numPrgChanges > 1) testResult.AddErrorMessage($"More than 1 programChange Parameter ({numPrgChanges}) without support of IUnitInfo!!!");
             }

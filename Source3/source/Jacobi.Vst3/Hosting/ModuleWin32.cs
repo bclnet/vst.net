@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using IOPath = System.IO.Path;
 
-namespace Jacobi.Vst3.Hosting
+namespace Steinberg.Vst3.Hosting
 {
     public class ModuleWin32 : Module
     {

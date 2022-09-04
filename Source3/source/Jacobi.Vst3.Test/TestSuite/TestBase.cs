@@ -1,8 +1,8 @@
-﻿using Jacobi.Vst3;
+﻿using Steinberg.Vst3;
 using System;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.TestSuite
+namespace Steinberg.Vst3.TestSuite
 {
     public class TestingPluginContext
     {
@@ -64,8 +64,8 @@ namespace Jacobi.Vst3.TestSuite
         {
             if (vstPlug != null)
             {
-                if (vstPlug.GetBusCount(MediaTypes.Audio, BusDirections.Input) > 0) vstPlug.ActivateBus(MediaTypes.Audio, BusDirections.Input, 0, val);
-                if (vstPlug.GetBusCount(MediaTypes.Audio, BusDirections.Output) > 0) vstPlug.ActivateBus(MediaTypes.Audio, BusDirections.Output, 0, val);
+                if (vstPlug.GetBusCount(MediaType.Audio, BusDirection.Input) > 0) vstPlug.ActivateBus(MediaType.Audio, BusDirection.Input, 0, val);
+                if (vstPlug.GetBusCount(MediaType.Audio, BusDirection.Output) > 0) vstPlug.ActivateBus(MediaType.Audio, BusDirection.Output, 0, val);
                 return true;
             }
             return false;

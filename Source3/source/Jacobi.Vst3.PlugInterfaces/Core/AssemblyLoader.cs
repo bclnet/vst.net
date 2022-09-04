@@ -3,7 +3,7 @@ using System.IO;
 using System.Reflection;
 using System.Runtime.Loader;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     public sealed class AssemblyLoader : IDisposable
     {

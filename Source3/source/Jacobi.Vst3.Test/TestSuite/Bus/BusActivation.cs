@@ -1,7 +1,7 @@
-﻿using Jacobi.Vst3;
-using static Jacobi.Vst3.TResult;
+﻿using Steinberg.Vst3;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.TestSuite
+namespace Steinberg.Vst3.TestSuite
 {
     /// <summary>
     /// Test Bus Activation.
@@ -21,17 +21,17 @@ namespace Jacobi.Vst3.TestSuite
             var numTotalBusses = 0;
             var numFailedActivations = 0;
 
-            for (var type = MediaTypes.Audio; type < MediaTypes.NumMediaTypes; type++)
+            for (var type = MediaType.Audio; type < MediaType.NumMediaTypes; type++)
             {
-                var numInputs = vstPlug.GetBusCount(type, BusDirections.Input);
-                var numOutputs = vstPlug.GetBusCount(type, BusDirections.Output);
+                var numInputs = vstPlug.GetBusCount(type, BusDirection.Input);
+                var numOutputs = vstPlug.GetBusCount(type, BusDirection.Output);
 
                 numTotalBusses += numInputs + numOutputs;
 
                 for (var i = 0; i < numInputs + numOutputs; ++i)
                 {
-                    var busDirection = i < numInputs ? BusDirections.Input : BusDirections.Output;
-                    var busIndex = busDirection == BusDirections.Input ? i : i - numInputs;
+                    var busDirection = i < numInputs ? BusDirection.Input : BusDirection.Output;
+                    var busIndex = busDirection == BusDirection.Input ? i : i - numInputs;
 
                     if (vstPlug.GetBusInfo(type, busDirection, busIndex, out var busInfo) != kResultTrue)
                     {
@@ -40,16 +40,16 @@ namespace Jacobi.Vst3.TestSuite
                     }
 
                     testResult.AddMessage(string.Format("   Bus Activation: {0} {1} Bus ({2}) ({3})",
-                        busDirection == BusDirections.Input ? "Input" : "Output",
-                        type == MediaTypes.Audio ? "Audio" : "Event", busIndex,
-                        busInfo.BusType == BusTypes.Main ? "kMain" : "kAux"));
+                        busDirection == BusDirection.Input ? "Input" : "Output",
+                        type == MediaType.Audio ? "Audio" : "Event", busIndex,
+                        busInfo.BusType == BusType.Main ? "kMain" : "kAux"));
 
-                    if ((busInfo.Flags & BusInfo.BusFlags.DefaultActive) == 0)
+                    if ((busInfo.Flags & BusFlags.DefaultActive) == 0)
                     {
                         if (vstPlug.ActivateBus(type, busDirection, busIndex, true) != kResultOk) numFailedActivations++;
                         if (vstPlug.ActivateBus(type, busDirection, busIndex, false) != kResultOk) numFailedActivations++;
                     }
-                    else if ((busInfo.Flags & BusInfo.BusFlags.DefaultActive) != 0)
+                    else if ((busInfo.Flags & BusFlags.DefaultActive) != 0)
                     {
                         if (vstPlug.ActivateBus(type, busDirection, busIndex, false) != kResultOk) numFailedActivations++;
                         if (vstPlug.ActivateBus(type, busDirection, busIndex, true) != kResultOk) numFailedActivations++;

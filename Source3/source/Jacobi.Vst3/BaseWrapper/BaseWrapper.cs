@@ -14,7 +14,7 @@
 
 //namespace Jacobi.Vst3.Plugin
 //{
-//    partial class Constants
+//    partial class Constants2
 //    {
 //        const int kMaxEvents = 2048;
 //    }
@@ -66,7 +66,7 @@
 //        ConnectionProxy mProcessorConnection;
 //        ConnectionProxy mControllerConnection;
 
-//        SymbolicSampleSizes mVst3SampleSize =  SymbolicSampleSizes.Sample32;
+//        SymbolicSampleSizes mVst3SampleSize = SymbolicSampleSizes.Sample32;
 //        ProcessModes mVst3processMode = ProcessModes.Realtime;
 
 //        string mName;
@@ -153,9 +153,9 @@
 //        public virtual void SetNumOutputs(uint outputs) => mNumOutputs = outputs;
 //        public abstract bool SizeWindow(int width, int height);
 //        public virtual int GetChunk(out byte[] data, bool isPreset) => throw new NotImplementedException();
-//        public virtual int SetChunk(byte[] data, int byteSize, bool isPreset)=> throw new NotImplementedException();
+//        public virtual int SetChunk(byte[] data, int byteSize, bool isPreset) => throw new NotImplementedException();
 
-//        public virtual bool GetEditorSize(out int width, out int height)=> throw new NotImplementedException();
+//        public virtual bool GetEditorSize(out int width, out int height) => throw new NotImplementedException();
 
 //        public bool IsActive() => mActive;
 //        public uint GetNumInputs() => mNumInputs;

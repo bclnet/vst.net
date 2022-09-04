@@ -1,11 +1,11 @@
-﻿using Jacobi.Vst3.Hosting;
+﻿using Steinberg.Vst3.Hosting;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
 
 //: ref https://docs.microsoft.com/en-us/dotnet/standard/serialization/system-text-json-use-dom-utf8jsonreader-utf8jsonwriter?pivots=dotnet-6-0
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     public partial class ModuleInfoLib
     {

@@ -1,12 +1,12 @@
-﻿using Jacobi.Vst3.Plugin;
+﻿using Steinberg.Vst3.Utility;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.InteropServices;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     [ClassInterface(ClassInterfaceType.None)]
     public class PluginClassFactory : IPluginFactory, IPluginFactory2, IPluginFactory3, IServiceContainerSite, IDisposable

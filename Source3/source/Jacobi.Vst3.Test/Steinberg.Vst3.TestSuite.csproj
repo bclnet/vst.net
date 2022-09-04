@@ -30,7 +30,7 @@
   </Target>
 
   <ItemGroup>
-    <ProjectReference Include="..\Jacobi.Vst3\Jacobi.Vst3.csproj" />
+    <ProjectReference Include="..\Jacobi.Vst3\Steinberg.Vst3.csproj" />
   </ItemGroup>
 
 </Project>

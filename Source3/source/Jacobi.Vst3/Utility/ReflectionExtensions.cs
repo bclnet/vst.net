@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 
-namespace Jacobi.Vst3.Plugin
+namespace Steinberg.Vst3.Utility
 {
     internal static class ReflectionExtensions
     {

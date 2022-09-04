@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
-using static Jacobi.Vst3.Speaker;
-using static Jacobi.Vst3.SpeakerArrangement;
-using static Jacobi.Vst3.SpeakerArrangementString;
+using static Steinberg.Vst3.Speaker;
+using static Steinberg.Vst3.SpeakerArrangement;
+using static Steinberg.Vst3.SpeakerArrangementString;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     [Flags]
     public enum Speaker : ulong
@@ -677,7 +677,7 @@ namespace Jacobi.Vst3
         public const string kStringAmbi3rdOrderS = "0 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15";
     }
 
-    public static class SpeakerArrangementExtensions
+    public static class SpeakerArrExtensions
     {
         /// <summary>
         /// Returns number of channels used in speaker arrangement. ingroup speakerArrangements

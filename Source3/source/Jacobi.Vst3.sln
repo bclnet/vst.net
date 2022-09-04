@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32112.339
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacobi.Vst3", "Jacobi.Vst3\Jacobi.Vst3.csproj", "{56FB1E03-B0C4-4074-9A93-7787E07B58BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steinberg.Vst3", "Jacobi.Vst3\Steinberg.Vst3.csproj", "{56FB1E03-B0C4-4074-9A93-7787E07B58BC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacobi.Vst3.TestPlugin", "Jacobi.Vst3.TestPlugin\Jacobi.Vst3.TestPlugin.csproj", "{8A9C27CB-88AC-400F-A7E1-50488D5722F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steinberg.Vst3.TestPlugin", "Jacobi.Vst3.TestPlugin\Steinberg.Vst3.TestPlugin.csproj", "{8A9C27CB-88AC-400F-A7E1-50488D5722F5}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Bootstrap", "Bootstrap\Bootstrap.vcxproj", "{761DDFE4-5A7E-425F-8729-1DD7644CDC0E}"
 EndProject
@@ -26,13 +26,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "inspectorapp", "..\samples\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "validator", "..\samples\vst-hosting\validator\validator.csproj", "{65B374D8-BD3D-4CF4-9399-554CF0B30B6E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacobi.Vst3.TestSuite", "Jacobi.Vst3.Test\Jacobi.Vst3.TestSuite.csproj", "{88D0DB6A-6274-4533-8567-30FCEC7BDB22}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steinberg.Vst3.TestSuite", "Jacobi.Vst3.Test\Steinberg.Vst3.TestSuite.csproj", "{88D0DB6A-6274-4533-8567-30FCEC7BDB22}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vst-utilities", "vst-utilities", "{AB96F627-94E3-47CA-ACBD-D627DA53EE6B}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "moduleinfotool", "..\samples\vst-utilities\moduleinfotool\moduleinfotool.csproj", "{BF7EC0CC-7686-44EB-AEE4-030127A74E81}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jacobi.Vst3.PlugInterfaces", "Jacobi.Vst3.PlugInterfaces\Jacobi.Vst3.PlugInterfaces.csproj", "{C72D4B49-6C10-4BFC-91A8-3C5DAFBF7E32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Steinberg.Vst3.PlugInterfaces", "Jacobi.Vst3.PlugInterfaces\Steinberg.Vst3.PlugInterfaces.csproj", "{C72D4B49-6C10-4BFC-91A8-3C5DAFBF7E32}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "vst", "vst", "{ABF8BFC8-2986-49DA-99D2-9DC8D857D79C}"
 EndProject

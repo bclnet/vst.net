@@ -1,8 +1,8 @@
-﻿using Jacobi.Vst3;
-using static Jacobi.Vst3.SpeakerArrangement;
-using static Jacobi.Vst3.TResult;
+﻿using Steinberg.Vst3;
+using static Steinberg.Vst3.SpeakerArrangement;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.TestSuite
+namespace Steinberg.Vst3.TestSuite
 {
     /// <summary>
     /// Test Speaker Arrangement.
@@ -82,19 +82,19 @@ namespace Jacobi.Vst3.TestSuite
             if (vstPlug == null || audioEffect == null) return false;
 
             var ret = true;
-            var is_ = vstPlug.GetBusCount(MediaTypes.Audio, BusDirections.Input);
+            var is_ = vstPlug.GetBusCount(MediaType.Audio, BusDirection.Input);
             var inSpArrs = new SpeakerArrangement[is_];
             for (var i = 0; i < is_; ++i) inSpArrs[i] = inSpArr;
 
-            var os = vstPlug.GetBusCount(MediaTypes.Audio, BusDirections.Output);
+            var os = vstPlug.GetBusCount(MediaType.Audio, BusDirection.Output);
             var outSpArrs = new SpeakerArrangement[os];
             for (var o = 0; o < os; o++) outSpArrs[o] = outSpArr;
 
             if (audioEffect.SetBusArrangements(inSpArrs, is_, outSpArrs, os) != kResultTrue) ret = false;
 
             // activate only the extra IO (index > 0), the main ones (index 0) were already activated in TestBase::setup ()
-            for (var i = 1; i < is_; i++) vstPlug.ActivateBus(MediaTypes.Audio, BusDirections.Input, i, true);
-            for (var i = 1; i < os; i++) vstPlug.ActivateBus(MediaTypes.Audio, BusDirections.Output, i, true);
+            for (var i = 1; i < is_; i++) vstPlug.ActivateBus(MediaType.Audio, BusDirection.Input, i, true);
+            for (var i = 1; i < os; i++) vstPlug.ActivateBus(MediaType.Audio, BusDirection.Output, i, true);
 
             ret &= base.PrepareProcessing();
 
@@ -112,14 +112,14 @@ namespace Jacobi.Vst3.TestSuite
 
             var spArr = kEmpty;
             var compareSpArr = kEmpty;
-            var bd = BusDirections.Input;
+            var bd = BusDirection.Input;
             var busInfo = new BusInfo();
             var count = 0;
             do
             {
                 count++;
                 var numBusses = 0;
-                if (bd == BusDirections.Input) { numBusses = processData._.NumInputs; compareSpArr = inSpArr; }
+                if (bd == BusDirection.Input) { numBusses = processData._.NumInputs; compareSpArr = inSpArr; }
                 else { numBusses = processData._.NumOutputs; compareSpArr = outSpArr; }
                 for (var i = 0; i < numBusses; ++i)
                 {
@@ -129,8 +129,8 @@ namespace Jacobi.Vst3.TestSuite
                         return false;
                     }
                     if (spArr != compareSpArr)
-                        testResult.AddMessage($"    {GetSpeakerArrangementName(compareSpArr)} {(bd == BusDirections.Input ? "Input-" : "Output-")}SpeakerArrangement is not supported. Plug-in suggests: {GetSpeakerArrangementName(spArr)}.");
-                    if (vstPlug.GetBusInfo(MediaTypes.Audio, bd, i, out busInfo) != kResultTrue)
+                        testResult.AddMessage($"    {GetSpeakerArrangementName(compareSpArr)} {(bd == BusDirection.Input ? "Input-" : "Output-")}SpeakerArrangement is not supported. Plug-in suggests: {GetSpeakerArrangementName(spArr)}.");
+                    if (vstPlug.GetBusInfo(MediaType.Audio, bd, i, out busInfo) != kResultTrue)
                     {
                         testResult.AddErrorMessage("IComponent::getBusInfo (..) failed.");
                         return false;
@@ -141,7 +141,7 @@ namespace Jacobi.Vst3.TestSuite
                         return false;
                     }
                 }
-                bd = BusDirections.Output;
+                bd = BusDirection.Output;
             } while (count < 2);
 
             var ret = true;

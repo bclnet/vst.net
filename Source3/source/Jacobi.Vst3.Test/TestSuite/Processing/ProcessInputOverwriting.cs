@@ -1,7 +1,7 @@
-﻿using Jacobi.Vst3;
+﻿using Steinberg.Vst3;
 using System;
 
-namespace Jacobi.Vst3.TestSuite
+namespace Steinberg.Vst3.TestSuite
 {
     /// <summary>
     /// Test Input Overwriting

@@ -1,8 +1,8 @@
-﻿using Jacobi.Vst3;
-using Jacobi.Vst3.Hosting;
-using static Jacobi.Vst3.TResult;
+﻿using Steinberg.Vst3;
+using Steinberg.Vst3.Hosting;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.TestSuite
+namespace Steinberg.Vst3.TestSuite
 {
     /// <summary>
     /// Test SideChain Arrangement.
@@ -29,33 +29,33 @@ namespace Jacobi.Vst3.TestSuite
 
             // check if Audio sideChain is supported
             var hasInputSideChain = false;
-            var numInBusses = vstPlug.GetBusCount(MediaTypes.Audio, BusDirections.Input);
+            var numInBusses = vstPlug.GetBusCount(MediaType.Audio, BusDirection.Input);
             if (numInBusses < 2)
                 return true;
 
             for (var busIndex = 0; busIndex < numInBusses; busIndex++)
             {
-                if (vstPlug.GetBusInfo(MediaTypes.Audio, BusDirections.Input, busIndex, out var info) != kResultTrue)
+                if (vstPlug.GetBusInfo(MediaType.Audio, BusDirection.Input, busIndex, out var info) != kResultTrue)
                 {
                     testResult.AddErrorMessage("IComponent::getBusInfo (..) failed.");
                     continue;
                 }
-                if (info.BusType == BusTypes.Aux) hasInputSideChain = true;
+                if (info.BusType == BusType.Aux) hasInputSideChain = true;
             }
             if (!hasInputSideChain) return true;
 
             var inputArrArray = new SpeakerArrangement[numInBusses];
             for (var busIndex = 0; busIndex < numInBusses; busIndex++)
-                if (audioEffect.GetBusArrangement(BusDirections.Input, busIndex, out inputArrArray[busIndex]) != kResultTrue)
+                if (audioEffect.GetBusArrangement(BusDirection.Input, busIndex, out inputArrArray[busIndex]) != kResultTrue)
                     testResult.AddErrorMessage("IComponent::getBusArrangement (..) failed.");
 
-            var numOutBusses = vstPlug.GetBusCount(MediaTypes.Audio, BusDirections.Output);
+            var numOutBusses = vstPlug.GetBusCount(MediaType.Audio, BusDirection.Output);
             SpeakerArrangement[] outputArrArray = null;
             if (numOutBusses > 0)
             {
                 outputArrArray = new SpeakerArrangement[numOutBusses];
                 for (var busIndex = 0; busIndex < numOutBusses; busIndex++)
-                    if (audioEffect.GetBusArrangement(BusDirections.Output, busIndex, out outputArrArray[busIndex]) != kResultTrue)
+                    if (audioEffect.GetBusArrangement(BusDirection.Output, busIndex, out outputArrArray[busIndex]) != kResultTrue)
                         testResult.AddErrorMessage("IComponent::getBusArrangement (..) failed.");
                 outputArrArray[0] = SpeakerArrangement.kMono;
             }
@@ -65,7 +65,7 @@ namespace Jacobi.Vst3.TestSuite
             {
                 for (var busIndex = 0; busIndex < numInBusses; busIndex++)
                 {
-                    if (audioEffect.GetBusArrangement(BusDirections.Input, busIndex, out var tmp) == kResultTrue)
+                    if (audioEffect.GetBusArrangement(BusDirection.Input, busIndex, out var tmp) == kResultTrue)
                         if (tmp != inputArrArray[busIndex])
                         {
                             testResult.AddErrorMessage($"Input {busIndex}: setBusArrangements was returning kResultTrue but getBusArrangement returns different arrangement!");
@@ -74,7 +74,7 @@ namespace Jacobi.Vst3.TestSuite
                 }
                 for (var busIndex = 0; busIndex < numOutBusses; busIndex++)
                 {
-                    if (audioEffect.GetBusArrangement(BusDirections.Output, busIndex, out var tmp) != kResultTrue)
+                    if (audioEffect.GetBusArrangement(BusDirection.Output, busIndex, out var tmp) != kResultTrue)
                         if (tmp != outputArrArray[busIndex])
                         {
                             testResult.AddErrorMessage($"Output {busIndex}: setBusArrangements was returning kResultTrue but getBusArrangement returns different arrangement!");

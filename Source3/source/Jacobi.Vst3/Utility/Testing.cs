@@ -1,11 +1,10 @@
-﻿using Jacobi.Vst3;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
-using static Jacobi.Vst3.TResult;
-using TestFunc = System.Func<Jacobi.Vst3.ITestResult, bool>;
-using TestFuncWithContext = System.Func<object, Jacobi.Vst3.ITestResult, bool>;
+using static Steinberg.Vst3.TResult;
+using TestFunc = System.Func<Steinberg.Vst3.ITestResult, bool>;
+using TestFuncWithContext = System.Func<object, Steinberg.Vst3.ITestResult, bool>;
 
-namespace Jacobi.Vst3.Utility
+namespace Steinberg.Vst3.Utility
 {
     public static class Testing
     {

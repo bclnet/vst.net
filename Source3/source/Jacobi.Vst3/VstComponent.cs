@@ -1,114 +1,176 @@
-﻿using Jacobi.Vst3.Plugin;
-using System;
-using System.Diagnostics;
-using static Jacobi.Vst3.TResult;
+﻿using System;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
-    public abstract class Component : ConnectionPoint, IComponent
+    public abstract class Component : ComponentBase, IComponent
     {
-        protected abstract BusList GetBusCollection(MediaTypes mediaType, BusDirections busDir);
+        protected Guid controllerClass;
+        protected BusList audioInputs = new(MediaType.Audio, BusDirection.Input);
+        protected BusList audioOutputs = new(MediaType.Audio, BusDirection.Output);
+        protected BusList eventInputs = new(MediaType.Event, BusDirection.Input);
+        protected BusList eventOutputs = new(MediaType.Event, BusDirection.Output);
 
-        public Guid ControlledClassId { get; protected set; }
+        #region ComponentBase
 
-        public bool IsActive { get; protected set; }
+        public override TResult Initialize(object context)
+            => base.Initialize(context);
 
-        #region IComponent Members
-
-        public virtual TResult GetControllerClassId(out Guid controllerClassId)
+        public override TResult Terminate()
         {
-            Trace.WriteLine("IComponent.GetControllerClassId");
+            // remove all busses
+            RemoveAllBusses();
 
-            controllerClassId = ControlledClassId;
-
-            return ControlledClassId == Guid.Empty ? kNotImplemented : kResultOk;
+            return base.Terminate();
         }
 
-        public virtual TResult SetIoMode(IoModes mode)
-        {
-            Trace.WriteLine($"IComponent.SetIoMode({mode})");
+        #endregion
 
-            return kNotImplemented;
-        }
-
-        // retval NOT a TResult
-        public virtual int GetBusCount(MediaTypes type, BusDirections dir)
-        {
-            Trace.WriteLine($"IComponent.GetBusCount({type}, {dir})");
-
-            var busses = GetBusCollection(type, dir);
-
-            return busses != null ? busses.Count : 0;
-        }
-
-        public virtual TResult GetBusInfo(MediaTypes type, BusDirections dir, int index, out BusInfo bus)
-        {
-            Trace.WriteLine($"IComponent.GetBusInfo({type}, {dir}, {index})");
-
-            var busses = GetBusCollection(type, dir);
-
-            bus = default;
-            if (busses != null)
+        protected BusList GetBusList(MediaType type, BusDirection dir)
+            => type switch
             {
-                if (index < 0 || index >= busses.Count) return kInvalidArgument;
+                MediaType.Audio => dir == BusDirection.Input ? audioInputs : audioOutputs,
+                MediaType.Event => dir == BusDirection.Input ? eventInputs : eventOutputs,
+                _ => null,
+            };
 
-                busses[index].GetInfo(ref bus);
-
-                return kResultOk;
-            }
-
-            return kNotInitialized;
+        // Sets the controller Class ID associated to its component.
+        public Guid ControlledClass
+        {
+            //protected get => controllerClass;
+            set => controllerClass = value;
         }
 
-        public virtual TResult GetRoutingInfo(ref RoutingInfo inInfo, out RoutingInfo outInfo)
+        /// <summary>
+        /// Removes all Audio Busses.
+        /// </summary>
+        /// <returns></returns>
+        protected TResult RemoveAudioBusses()
         {
-            Trace.WriteLine("IComponent.GetRoutingInfo");
-
-            outInfo = default;
-            return kNotImplemented;
-        }
-
-        public virtual TResult ActivateBus(MediaTypes type, BusDirections dir, int index, bool state)
-        {
-            Trace.WriteLine($"IComponent.ActivateBus({type}, {dir}, {index}, {state})");
-
-            var busses = GetBusCollection(type, dir);
-
-            if (busses != null)
-            {
-                if (index < 0 || index >= busses.Count) return kInvalidArgument;
-
-                busses[index].IsActive = state;
-
-                return kResultOk;
-            }
-
-            return kNotInitialized;
-        }
-
-        public virtual TResult SetActive(bool state)
-        {
-            Trace.WriteLine($"IComponent.SetActive({state})");
-
-            IsActive = state;
+            audioInputs.Clear();
+            audioOutputs.Clear();
 
             return kResultOk;
         }
 
-        public virtual TResult SetState(IBStream state)
+        public TResult RemoveEventBusses()
         {
-            Trace.WriteLine("IComponent.SetState");
+            eventInputs.Clear();
+            eventOutputs.Clear();
 
+            return kResultOk;
+        }
+
+        protected TResult RemoveAllBusses()
+        {
+            RemoveAudioBusses();
+            RemoveEventBusses();
+
+            return kResultOk;
+        }
+
+        #region IComponent
+
+        public virtual TResult GetControllerClassId(out Guid classID)
+        {
+            if (controllerClass == Guid.Empty)
+            {
+                classID = controllerClass;
+                return kResultTrue;
+            }
+            classID = default;
+            return kResultFalse;
+        }
+
+        public virtual TResult SetIoMode(IoMode mode)
+            => kNotImplemented;
+
+        public virtual int GetBusCount(MediaType type, BusDirection dir)
+        {
+            var busList = GetBusList(type, dir);
+            return busList != null ? busList.Count : 0;
+        }
+
+        public virtual TResult GetBusInfo(MediaType type, BusDirection dir, int index, out BusInfo info)
+        {
+            info = default;
+            if (index < 0)
+                return kInvalidArgument;
+            var busList = GetBusList(type, dir);
+            if (busList == null)
+                return kInvalidArgument;
+            if (index >= busList.Count)
+                return kInvalidArgument;
+
+            var bus = busList[index];
+            info.MediaType = type;
+            info.Direction = dir;
+            if (bus.GetInfo(ref info))
+                return kResultTrue;
+            return kResultFalse;
+        }
+
+        public virtual TResult GetRoutingInfo(ref RoutingInfo inInfo, out RoutingInfo outInfo)
+        {
+            outInfo = default;
             return kNotImplemented;
         }
+
+        public virtual TResult ActivateBus(MediaType type, BusDirection dir, int index, bool state)
+        {
+            if (index < 0)
+                return kInvalidArgument;
+            var busList = GetBusList(type, dir);
+            if (busList == null)
+                return kInvalidArgument;
+            if (index >= busList.Count)
+                return kInvalidArgument;
+
+            var bus = busList[index];
+            bus.Active = state;
+            return kResultTrue;
+        }
+
+        public virtual TResult SetActive(bool state)
+            => kResultOk;
+
+        public virtual TResult SetState(IBStream state)
+            => kNotImplemented;
 
         public virtual TResult GetState(IBStream state)
-        {
-            Trace.WriteLine("IComponent.GetState");
-
-            return kNotImplemented;
-        }
+            => kNotImplemented;
 
         #endregion
+
+        /// <summary>
+        /// Renames a specific bus. Do not forget to inform the host about this (see \ref IComponentHandler::restartComponent (kIoTitlesChanged)).
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="dir"></param>
+        /// <param name="index"></param>
+        /// <param name=""></param>
+        /// <returns></returns>
+        public TResult RenameBus(MediaType type, BusDirection dir, int index, string newName)
+        {
+            if (index < 0)
+                return kInvalidArgument;
+            var busList = GetBusList(type, dir);
+            if (busList == null)
+                return kInvalidArgument;
+            if (index >= busList.Count)
+                return kInvalidArgument;
+
+            var bus = busList[index];
+            bus.Name = newName;
+            return kResultTrue;
+        }
+
+        // Gets the channel index of a given speaker in a arrangement, returns kResultFalse if speaker not
+        // part of the arrangement else returns kResultTrue.
+        public static TResult GetSpeakerChannelIndex(SpeakerArrangement arrangement, Speaker speaker, out int channel)
+        {
+            channel = SpeakerArrExtensions.GetSpeakerIndex(speaker, arrangement);
+            return channel < 0 ? kResultFalse : kResultTrue;
+        }
     }
 }

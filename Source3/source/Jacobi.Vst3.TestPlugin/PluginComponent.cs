@@ -1,42 +1,33 @@
-﻿using Jacobi.Vst3;
-using Jacobi.Vst3.Plugin;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.TestPlugin
+namespace Steinberg.Vst3.TestPlugin
 {
     [DisplayName("My Plugin Component"), Guid("599B4AD4-932E-4B35-B8A7-E01508FD1AAB"), ClassInterface(ClassInterfaceType.None)]
     unsafe class PluginComponent : AudioEffect
     {
-        readonly BusList _audioInputs = new(MediaTypes.Audio, BusDirections.Input);
-        readonly BusList _audioOutputs = new(MediaTypes.Audio, BusDirections.Output);
-        readonly BusList _eventInputs = new(MediaTypes.Event, BusDirections.Input);
-        readonly BusList _eventOutputs = new(MediaTypes.Event, BusDirections.Output);
-
         public PluginComponent()
         {
-            ControlledClassId = typeof(MyEditController).GUID;
+            ControlledClass = typeof(MyEditController).GUID;
 
-            _audioInputs.Add(new AudioBus("Main Input", SpeakerArrangement.kStereo));
-            _audioOutputs.Add(new AudioBus("Main Output", SpeakerArrangement.kStereo));
-            _eventInputs.Add(new EventBus("Input Events", 1));
-            _eventOutputs.Add(new EventBus("Output Events", 1));
+            audioInputs.Add(new AudioBus("Main Input", BusType.Main, 0, SpeakerArrangement.kStereo));
+            audioOutputs.Add(new AudioBus("Main Output", BusType.Main, 0, SpeakerArrangement.kStereo));
+            eventInputs.Add(new EventBus("Input Events", BusType.Main, 0, 1));
+            eventOutputs.Add(new EventBus("Output Events", BusType.Main, 0, 1));
         }
 
-        public override TResult CanProcessSampleSize(SymbolicSampleSizes symbolicSampleSize)
-        {
-            Trace.WriteLine($"IAudioProcessor.CanProcessSampleSize({symbolicSampleSize})");
-
-            return symbolicSampleSize == SymbolicSampleSizes.Sample32 ? kResultTrue : kResultFalse;
-        }
+        //public override TResult CanProcessSampleSize(SymbolicSampleSizes symbolicSampleSize)
+        //{
+        //    Trace.WriteLine($"IAudioProcessor.CanProcessSampleSize({symbolicSampleSize})");
+        //    return symbolicSampleSize == SymbolicSampleSizes.Sample32 ? kResultTrue : kResultFalse;
+        //}
 
         public override TResult Process(ref ProcessData data)
         {
             //Trace.WriteLine($"IAudioProcessor.Process: numSamples={data.NumSamples}");
-
             var result = ProcessInParameters(ref data);
             if (result.Failed())
                 return result;
@@ -78,18 +69,18 @@ namespace Jacobi.Vst3.TestPlugin
             if (data.NumInputs == 0 || data.NumOutputs == 0 || data.NumSamples == 0)
                 return kResultOk;
 
-            if (data.NumInputs != _audioInputs.Count || data.NumOutputs != _audioOutputs.Count)
+            if (data.NumInputs != audioInputs.Count || data.NumOutputs != audioOutputs.Count)
                 return kNotInitialized;
 
-            var inputBusInfo = _audioInputs[0];
-            var outputBusInfo = _audioOutputs[0];
+            var inputBusInfo = audioInputs[0];
+            var outputBusInfo = audioOutputs[0];
 
-            if (!inputBusInfo.IsActive || !outputBusInfo.IsActive)
+            if (!inputBusInfo.Active || !outputBusInfo.Active)
                 return kResultFalse;
 
             // hard-coded on one stereo input and one stereo output bus (see ctor)
-            var inputBus = new AudioBusAccessor(ref data, BusDirections.Input, 0);
-            var outputBus = new AudioBusAccessor(ref data, BusDirections.Output, 0);
+            var inputBus = new AudioBusAccessor(ref data, BusDirection.Input, 0);
+            var outputBus = new AudioBusAccessor(ref data, BusDirection.Output, 0);
 
             for (var c = 0; c < inputBus.ChannelCount; c++)
             {
@@ -123,12 +114,12 @@ namespace Jacobi.Vst3.TestPlugin
             return kResultOk;
         }
 
-        protected override BusList GetBusCollection(MediaTypes mediaType, BusDirections busDir)
-            => mediaType switch
-            {
-                MediaTypes.Audio => busDir == BusDirections.Input ? _audioInputs : _audioOutputs,
-                MediaTypes.Event => busDir == BusDirections.Input ? _eventInputs : _eventOutputs,
-                _ => null
-            };
+        //protected virtual BusList GetBusList(MediaType type, BusDirection dir)
+        //    => type switch
+        //    {
+        //        MediaType.Audio => dir == BusDirection.Input ? audioInputs : audioOutputs,
+        //        MediaType.Event => dir == BusDirection.Input ? eventInputs : eventOutputs,
+        //        _ => null
+        //    };
     }
 }

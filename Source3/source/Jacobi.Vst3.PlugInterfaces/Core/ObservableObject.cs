@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     public abstract class ObservableObject : INotifyPropertyChanged
     {

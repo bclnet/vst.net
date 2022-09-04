@@ -1,6 +1,6 @@
-﻿using static Jacobi.Vst3.TResult;
+﻿using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.Hosting
+namespace Steinberg.Vst3.Hosting
 {
     /// <summary>
     /// Example implementation of IEventList.

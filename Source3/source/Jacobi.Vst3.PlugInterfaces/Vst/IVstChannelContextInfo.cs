@@ -1,10 +1,10 @@
 ﻿using System;
-using System.Runtime.InteropServices;
-using ColorSpec = System.UInt32;
-using ColorComponent = System.Byte;
 using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using ColorComponent = System.Byte;
+using ColorSpec = System.UInt32;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     /// <summary>
     /// Channel context interface: Vst::IInfoListener

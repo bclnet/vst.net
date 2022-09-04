@@ -1,31 +1,50 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using static Jacobi.Vst3.PFactoryInfo;
+using static Steinberg.Vst3.PFactoryInfo;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     static partial class Constants
     {
         public const FactoryFlags DefaultFactoryFlags = FactoryFlags.Unicode;                       // no programs are used in the unit.
     }
 
-    public enum MediaTypes
+    public enum MediaType
     {
         Audio = 0,		// audio
         Event,			// events
         NumMediaTypes
     }
 
-    public enum BusDirections : int
+    public enum BusDirection : int
     {
         Input = 0,		// input bus
         Output			// output bus
     }
 
-    public enum BusTypes : int
+    public enum BusType : int
     {
         Main = 0,		// main bus
         Aux			    // auxilliary bus (sidechain)
+    }
+
+    [Flags]
+    public enum BusFlags : int
+    {
+        //None = 0,
+        /// <summary>
+        /// The bus should be activated by the host per default on instantiation (activateBus call is requested).
+        /// By default a bus is inactive.
+        /// </summary>
+        DefaultActive = 1 << 0,
+        /// <summary>
+        /// The bus does not contain ordinary audio data, but data used for control changes at sample rate.
+        /// The data is in the same format as the audio data [-1..1].
+        /// A host has to prevent unintended routing to speakers to prevent damage.
+        /// Only valid for audio media type busses.
+        /// [released: 3.7.0]
+        /// </summary>
+        IsControlVoltage = 1 << 1,
     }
 
     /// <summary>
@@ -37,31 +56,12 @@ namespace Jacobi.Vst3
     {
         public static readonly int Size = Marshal.SizeOf<BusInfo>();
 
-        [MarshalAs(UnmanagedType.I4)] public MediaTypes MediaType;		    // Media type - has to be a value of \ref MediaTypes
-        [MarshalAs(UnmanagedType.I4)] public BusDirections Direction;	    // input or output \ref BusDirections
+        [MarshalAs(UnmanagedType.I4)] public MediaType MediaType;		    // Media type - has to be a value of \ref MediaTypes
+        [MarshalAs(UnmanagedType.I4)] public BusDirection Direction;	    // input or output \ref BusDirections
         [MarshalAs(UnmanagedType.I4)] public Int32 ChannelCount;		    // number of channels (if used then need to be recheck after \ref IAudioProcessor::setBusArrangements is called)
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = Platform.Fixed128)] public String Name; // name of the bus
-        [MarshalAs(UnmanagedType.I4)] public BusTypes BusType;			    // main or aux - has to be a value of \ref BusTypes
+        [MarshalAs(UnmanagedType.I4)] public BusType BusType;			    // main or aux - has to be a value of \ref BusTypes
         [MarshalAs(UnmanagedType.I4)] public BusFlags Flags;                // flags - a combination of \ref BusFlags
-
-        [Flags]
-        public enum BusFlags
-        {
-            //None = 0,
-            /// <summary>
-            /// The bus should be activated by the host per default on instantiation (activateBus call is requested).
- 		 	/// By default a bus is inactive.
-            /// </summary>
-            DefaultActive = 1 << 0,
-            /// <summary>
-            /// The bus does not contain ordinary audio data, but data used for control changes at sample rate.
-            /// The data is in the same format as the audio data [-1..1].
-            /// A host has to prevent unintended routing to speakers to prevent damage.
-            /// Only valid for audio media type busses.
-            /// [released: 3.7.0]
-            /// </summary>
-            IsControlVoltage = 1 << 1,
-        }
 
         public void Clear()
         {
@@ -83,7 +83,7 @@ namespace Jacobi.Vst3
     /// <summary>
     /// I/O modes 
     /// </summary>
-    public enum IoModes : int
+    public enum IoMode : int
     {
         Simple = 0,		    // 1:1 Input / Output. Only used for Instruments. See \ref vst3IoMode
         Advanced,			// n:m Input / Output. Only used for Instruments. 
@@ -101,7 +101,7 @@ namespace Jacobi.Vst3
     {
         public static readonly int Size = Marshal.SizeOf<RoutingInfo>();
 
-        [MarshalAs(UnmanagedType.I4)] public MediaTypes MediaType;	// media type see \ref MediaTypes
+        [MarshalAs(UnmanagedType.I4)] public MediaType MediaType;	// media type see \ref MediaTypes
         [MarshalAs(UnmanagedType.I4)] public Int32 BusIndex;		// bus index
         [MarshalAs(UnmanagedType.I4)] public Int32 Channel;			// channel (-1 for all channels)
     }
@@ -145,7 +145,7 @@ namespace Jacobi.Vst3
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         TResult SetIoMode(
-            [MarshalAs(UnmanagedType.I4), In] IoModes mode);
+            [MarshalAs(UnmanagedType.I4), In] IoMode mode);
 
         /// <summary>
         /// Called after the plug-in is initialized. See \ref MediaTypes, BusDirections
@@ -156,8 +156,8 @@ namespace Jacobi.Vst3
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.I4)]
         Int32 GetBusCount(
-            [MarshalAs(UnmanagedType.I4), In] MediaTypes type,
-            [MarshalAs(UnmanagedType.I4), In] BusDirections dir);
+            [MarshalAs(UnmanagedType.I4), In] MediaType type,
+            [MarshalAs(UnmanagedType.I4), In] BusDirection dir);
 
         /// <summary>
         /// Called after the plug-in is initialized. See \ref MediaTypes, BusDirections
@@ -170,8 +170,8 @@ namespace Jacobi.Vst3
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         TResult GetBusInfo(
-            [MarshalAs(UnmanagedType.I4), In] MediaTypes type,
-            [MarshalAs(UnmanagedType.I4), In] BusDirections dir, Int32 index,
+            [MarshalAs(UnmanagedType.I4), In] MediaType type,
+            [MarshalAs(UnmanagedType.I4), In] BusDirection dir, Int32 index,
             [MarshalAs(UnmanagedType.Struct), Out] out BusInfo bus);
 
         /// <summary>
@@ -201,8 +201,8 @@ namespace Jacobi.Vst3
         [PreserveSig]
         [return: MarshalAs(UnmanagedType.Error)]
         TResult ActivateBus(
-            [MarshalAs(UnmanagedType.I4), In] MediaTypes type,
-            [MarshalAs(UnmanagedType.I4), In] BusDirections dir,
+            [MarshalAs(UnmanagedType.I4), In] MediaType type,
+            [MarshalAs(UnmanagedType.I4), In] BusDirection dir,
             [MarshalAs(UnmanagedType.I4), In] Int32 index,
             [MarshalAs(UnmanagedType.U1), In] Boolean state);
 

@@ -2,7 +2,7 @@
 using System.Linq;
 using ModuleInitFunction = System.Action;
 
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     public struct ModuleInit
     {

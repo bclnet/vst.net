@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.Json;
 
 //: ref https://docs.microsoft.com/en-us/dotnet/api/system.text.json.jsondocument.parse?view=net-6.0
-namespace Jacobi.Vst3
+namespace Steinberg.Vst3
 {
     public partial class ModuleInfoLib
     {
@@ -308,7 +308,7 @@ namespace Jacobi.Vst3
             }
         }
 
-        public static List<ModuleInfo.CompatibilityX> ParseCompatibilityJson(string jsonData, out string optErrorOutput)
+        public static List<ModuleInfo.CompatibilityX> ParseCompatibilityJson(string jsonData, TextWriter optErrorOutput)
         {
             var docVar = JsonDocument.Parse(jsonData);
             var doc = docVar.RootElement;
@@ -321,7 +321,7 @@ namespace Jacobi.Vst3
             }
             catch (Exception ex)
             {
-                optErrorOutput = ex.Message;
+                optErrorOutput.Write(ex.Message);
                 return null;
             }
         }

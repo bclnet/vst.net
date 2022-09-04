@@ -1,9 +1,6 @@
-﻿using Jacobi.Vst3;
-using Jacobi.Vst3.Hosting;
-using Jacobi.Vst3.Plugin;
-using static Jacobi.Vst3.TResult;
+﻿using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.TestSuite
+namespace Steinberg.Vst3.TestSuite
 {
     /// <summary>
     /// Test Check Audio Bus Arrangement.
@@ -20,20 +17,20 @@ namespace Jacobi.Vst3.TestSuite
 
             PrintTestHeader(testResult);
 
-            var numInputs = vstPlug.GetBusCount(MediaTypes.Audio, BusDirections.Input);
-            var numOutputs = vstPlug.GetBusCount(MediaTypes.Audio, BusDirections.Output);
+            var numInputs = vstPlug.GetBusCount(MediaType.Audio, BusDirection.Input);
+            var numOutputs = vstPlug.GetBusCount(MediaType.Audio, BusDirection.Output);
             var arrangementMismatchs = 0;
 
             if (vstPlug is IAudioProcessor audioEffect)
                 for (var i = 0; i < numInputs + numOutputs; ++i)
                 {
-                    var dir = i < numInputs ? BusDirections.Input : BusDirections.Output;
-                    var busIndex = dir == BusDirections.Input ? i : i - numInputs;
+                    var dir = i < numInputs ? BusDirection.Input : BusDirection.Output;
+                    var busIndex = dir == BusDirection.Input ? i : i - numInputs;
 
                     testResult.AddMessage(string.Format("   Check {0} Audio Bus Arrangement ({1})",
-                        dir == BusDirections.Input ? "Input" : "Output", busIndex));
+                        dir == BusDirection.Input ? "Input" : "Output", busIndex));
 
-                    if (vstPlug.GetBusInfo(MediaTypes.Audio, dir, busIndex, out var busInfo) == kResultTrue)
+                    if (vstPlug.GetBusInfo(MediaType.Audio, dir, busIndex, out var busInfo) == kResultTrue)
                     {
                         if (audioEffect.GetBusArrangement(dir, busIndex, out var arrangement) == kResultTrue)
                         {

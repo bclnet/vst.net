@@ -1,9 +1,9 @@
-﻿using Jacobi.Vst3;
-using Jacobi.Vst3.Hosting;
+﻿using Steinberg.Vst3;
+using Steinberg.Vst3.Hosting;
 using System.Collections.Generic;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.TestSuite
+namespace Steinberg.Vst3.TestSuite
 {
     /// <summary>
     /// Test MIDI Mapping.
@@ -33,7 +33,7 @@ namespace Jacobi.Vst3.TestSuite
             }
 
             var numParameters = controller.GetParameterCount();
-            var eventBusCount = vstPlug.GetBusCount(MediaTypes.Event, BusDirections.Input);
+            var eventBusCount = vstPlug.GetBusCount(MediaType.Event, BusDirection.Input);
             var interruptProcess = false;
 
             var parameterIds = new HashSet<uint>();
@@ -45,7 +45,7 @@ namespace Jacobi.Vst3.TestSuite
             {
                 if (interruptProcess) break;
 
-                if (vstPlug.GetBusInfo(MediaTypes.Event, BusDirections.Input, bus, out var info) == kResultTrue)
+                if (vstPlug.GetBusInfo(MediaType.Event, BusDirection.Input, bus, out var info) == kResultTrue)
                 {
                     if (bus >= eventBusCount)
                     {

@@ -1,6 +1,6 @@
-﻿using Jacobi.Vst3.Utility;
+﻿using Steinberg.Vst3.Utility;
 using System.Threading.Tasks;
-using static Jacobi.Vst3.ModuleInit;
+using static Steinberg.Vst3.ModuleInit;
 
 namespace Steinberg.Vst
 {

@@ -1,7 +1,7 @@
 ﻿using System;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.Hosting
+namespace Steinberg.Vst3.Hosting
 {
     public class PlugProvider : ITestPlugProvider2
     {

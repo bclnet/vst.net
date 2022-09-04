@@ -1,10 +1,10 @@
-﻿using Jacobi.Vst3;
-using static Jacobi.Vst3.Utility.Testing;
+﻿using Steinberg.Vst3;
+using static Steinberg.Vst3.Utility.Testing;
 using ParamID = System.UInt32;
 using ParamValue = System.Double;
-using static Jacobi.Vst3.TResult;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.Hosting.Test
+namespace Steinberg.Vst3.Hosting.Test
 {
     public static class ParameterChangesTest
     {

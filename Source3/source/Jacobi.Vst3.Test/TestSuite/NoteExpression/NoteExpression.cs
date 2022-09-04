@@ -1,8 +1,8 @@
-﻿using Jacobi.Vst3;
-using Jacobi.Vst3.Hosting;
-using static Jacobi.Vst3.TResult;
+﻿using Steinberg.Vst3;
+using Steinberg.Vst3.Hosting;
+using static Steinberg.Vst3.TResult;
 
-namespace Jacobi.Vst3.TestSuite
+namespace Steinberg.Vst3.TestSuite
 {
     /// <summary>
     /// Test Note Expression.
@@ -37,7 +37,7 @@ namespace Jacobi.Vst3.TestSuite
                 return true;
             }
 
-            var eventBusCount = vstPlug.GetBusCount(MediaTypes.Event, BusDirections.Input);
+            var eventBusCount = vstPlug.GetBusCount(MediaType.Event, BusDirection.Input);
             var maxPUI = (uint)PhysicalUITypeIDs.PUITypeCount;
             var puiArray = stackalloc PhysicalUIMap[(int)maxPUI];
             var puiMap = new PhysicalUIMapList
@@ -49,7 +49,7 @@ namespace Jacobi.Vst3.TestSuite
 
             for (var bus = 0; bus < eventBusCount; bus++)
             {
-                vstPlug.GetBusInfo(MediaTypes.Event, BusDirections.Input, bus, out var busInfo);
+                vstPlug.GetBusInfo(MediaType.Event, BusDirection.Input, bus, out var busInfo);
 
                 for (short channel = 0; channel < busInfo.ChannelCount; channel++)
                 {
