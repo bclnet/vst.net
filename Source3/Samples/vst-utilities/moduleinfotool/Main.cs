@@ -7,7 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace Steinberg.Vst
+namespace Steinberg
 {
     internal class ModuleInfoTool
     {

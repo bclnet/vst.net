@@ -1,6 +1,7 @@
-﻿using static Jacobi.Vst3.Utility.Testing;
+﻿using Steinberg.Vst3;
+using static Steinberg.Vst3.Utility.Testing;
 
-namespace Jacobi.Vst3
+namespace Steinberg
 {
     public static class ExampleTest
     {
@@ -10,8 +11,7 @@ namespace Jacobi.Vst3
         {
             RegisterTest("ExampleTest", null, (object context, ITestResult testResult) =>
             {
-                var plugProvider = context as ITestPlugProvider;
-                if (plugProvider != null)
+                if (context is ITestPlugProvider plugProvider)
                 {
                     var controller = plugProvider.GetController();
                     var testController = controller as IDelayTestController;

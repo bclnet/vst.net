@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using static Steinberg.Vst3.TResult;
 
-namespace Steinberg.Vst
+namespace Steinberg
 {
     public class TestSuite : ITestSuite
     {

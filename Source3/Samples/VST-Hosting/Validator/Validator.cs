@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 using static Steinberg.Vst3.SpeakerArrangement;
 using static Steinberg.Vst3.TResult;
 
-namespace Steinberg.Vst
+namespace Steinberg
 {
     internal class Validator : ITestResult, IHostApplication
     {

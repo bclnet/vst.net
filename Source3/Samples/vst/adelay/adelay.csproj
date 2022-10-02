@@ -7,11 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\source\Jacobi.Vst3\Jacobi.Vst3.csproj" />
+    <ProjectReference Include="..\..\..\source\Steinberg.Vst3\Steinberg.Vst3.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Jacobi.Vst3.TestPlugin.runtimeconfig.json">
+    <None Update="Steinberg.Vst3.TestPlugin.runtimeconfig.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

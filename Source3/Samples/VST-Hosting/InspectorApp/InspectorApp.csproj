@@ -10,9 +10,9 @@
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.WindowsDesktop.App" />
 	</ItemGroup>
-	
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\source\Jacobi.Vst3\Steinberg.Vst3.csproj" />
-  </ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\source\Steinberg.Vst3\Steinberg.Vst3.csproj" />
+	</ItemGroup>
 
 </Project>

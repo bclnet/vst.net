@@ -1,17 +1,17 @@
-﻿namespace Jacobi.Vst3
+﻿namespace Steinberg
 {
-    public partial class Factory : PluginClassFactory
-    {
-        public Factory()
-            : base(stringCompanyName, stringCompanyWeb, stringCompanyEmail, (PFactoryInfo.FactoryFlags)3)
-            => RegisterClasses();
+    //public partial class Factory : PluginClassFactory
+    //{
+    //    public Factory()
+    //        : base(stringCompanyName, stringCompanyWeb, stringCompanyEmail, (PFactoryInfo.FactoryFlags)3)
+    //        => RegisterClasses();
 
-        void RegisterClasses()
-        {
-            //var reg = Register(typeof(ADelayIds), ClassRegistration.ObjectClasses.AudioModuleClass);
-            //reg.Categories = new PlugType(PlugType.Fx);
+    //    void RegisterClasses()
+    //    {
+    //        //var reg = Register(typeof(ADelayIds), ClassRegistration.ObjectClasses.AudioModuleClass);
+    //        //reg.Categories = new PlugType(PlugType.Fx);
 
-            //Register(typeof(MyEditController), ClassRegistration.ObjectClasses.ComponentControllerClass);
-        }
-    }
+    //        //Register(typeof(MyEditController), ClassRegistration.ObjectClasses.ComponentControllerClass);
+    //    }
+    //}
 }

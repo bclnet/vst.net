@@ -3,7 +3,7 @@ using Steinberg.Vst3.Hosting;
 using System;
 using System.Linq;
 
-namespace AudioHost
+namespace Steinberg
 {
     internal class Program
     {

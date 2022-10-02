@@ -15,9 +15,9 @@
     <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\source\Jacobi.Vst3\Steinberg.Vst3.csproj" />
-    <ProjectReference Include="..\..\..\source\Jacobi.Vst3.Test\Steinberg.Vst3.TestSuite.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\source\Steinberg.Vst3.TestSuite\Steinberg.Vst3.TestSuite.csproj" />
+	  <ProjectReference Include="..\..\..\source\Steinberg.Vst3\Steinberg.Vst3.csproj" />
+	</ItemGroup>
 
 </Project>

@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using static Steinberg.Vst3.ModuleInit;
 
-namespace Steinberg.Vst
+namespace Steinberg
 {
     internal class MainX
     {

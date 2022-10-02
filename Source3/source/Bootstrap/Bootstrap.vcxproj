@@ -21,7 +21,7 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{761ddfe4-5a7e-425f-8729-1dd7644cdc0e}</ProjectGuid>
+    <ProjectGuid>{FDD99CAB-E478-4F8C-803C-97E525591D75}</ProjectGuid>
     <RootNamespace>JacobiVstInterop</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <TargetFramework>net6.0</TargetFramework>
@@ -208,7 +208,7 @@
     <Xml Include="manifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Jacobi.Vst3.PlugInterfaces\Jacobi.Vst3.PlugInterfaces.csproj">
+    <ProjectReference Include="..\Steinberg.Vst3.PlugInterfaces\Steinberg.Vst3.PlugInterfaces.csproj">
       <Project>{c72d4b49-6c10-4bfc-91a8-3c5dafbf7e32}</Project>
     </ProjectReference>
   </ItemGroup>
